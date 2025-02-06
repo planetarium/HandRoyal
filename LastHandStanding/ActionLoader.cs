@@ -1,9 +1,9 @@
 ﻿using Bencodex.Types;
-using HandRoyal.Actions;
+using LastHandStanding.Actions;
 using Libplanet.Action;
 using Libplanet.Action.Loader;
 
-namespace HandRoyal;
+namespace LastHandStanding;
 
 public class ActionLoader : IActionLoader
 {

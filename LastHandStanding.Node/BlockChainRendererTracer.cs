@@ -1,6 +1,6 @@
 ﻿using Libplanet.Node.Services;
 
-namespace HandRoyal.Node;
+namespace LastHandStanding.Node;
 
 internal sealed class BlockChainRendererTracer(
     IRendererService rendererService, ILogger<BlockChainRendererTracer> logger)

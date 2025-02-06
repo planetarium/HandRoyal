@@ -3,7 +3,7 @@ using Bencodex.Types;
 using Libplanet.Action;
 using Libplanet.Action.State;
 
-namespace HandRoyal.Actions;
+namespace LastHandStanding.Actions;
 
 public abstract class ActionBase : IAction
 {
