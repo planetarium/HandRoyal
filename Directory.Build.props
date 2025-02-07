@@ -1,0 +1,8 @@
+<Project>
+
+  <PropertyGroup>
+    <LibplanetDirectory>$(MSBuildThisFileDirectory)Libplanet\</LibplanetDirectory>
+    <LibplanetVersion>6.0.0-dev.20250117091335</LibplanetVersion>
+  </PropertyGroup>
+
+</Project>
