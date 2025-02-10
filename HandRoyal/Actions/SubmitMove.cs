@@ -1,5 +1,4 @@
-﻿using System;
-using Bencodex.Types;
+﻿using Bencodex.Types;
 using HandRoyal.States;
 using Libplanet.Action;
 using Libplanet.Action.State;
@@ -14,7 +13,7 @@ public sealed class SubmitMove : ActionBase
     {
     }
 
-    public SubmitMove(Address sessionId, int move)
+    public SubmitMove(Address sessionId, MoveType move)
     {
         SessionId = sessionId;
         Move = move;
@@ -22,11 +21,11 @@ public sealed class SubmitMove : ActionBase
 
     public Address SessionId { get; set; }
 
-    public int Move { get; set; }
+    public MoveType Move { get; set; }
 
     protected override IValue PlainValueInternal => new List(
         SessionId.Bencoded,
-        (Integer)Move);
+        (Integer)(int)Move);
 
     public override IWorld Execute(IActionContext context)
     {
@@ -57,6 +56,6 @@ public sealed class SubmitMove : ActionBase
     {
         var list = (List)plainValueInternal;
         SessionId = new Address(list[0]);
-        Move = (int)(Integer)list[1];
+        Move = (MoveType)(int)(Integer)list[1];
     }
 }

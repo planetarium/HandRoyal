@@ -81,7 +81,7 @@ public sealed record class Session : IBencodable
 
         var indexes = Enumerable.Range(0, Players.Length).ToArray();
         var playerIndexes = random.Shuffle(indexes).ToArray();
-        var maches = Match.Create(playerIndexes, 2);
+        var maches = Match.Create(playerIndexes);
         var round = new Round
         {
             Height = height,
@@ -131,7 +131,7 @@ public sealed record class Session : IBencodable
             {
                 Height = height,
                 Index = Rounds.Length,
-                Matches = Match.Create(playerIndexes, 2),
+                Matches = Match.Create(playerIndexes),
             };
             return this with
             {

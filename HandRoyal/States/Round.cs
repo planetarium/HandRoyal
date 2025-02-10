@@ -36,7 +36,7 @@ public sealed record class Round : IBencodable
     public int[] GetWiners()
     {
         var matches = Matches;
-        var capacity = matches.Aggregate(0, (n, i) => n + i.Players.Length);
+        var capacity = Matches.Length * 2;
         var winerList = new List<int>(capacity);
         for (var i = 0; i < matches.Length; i++)
         {
@@ -48,15 +48,20 @@ public sealed record class Round : IBencodable
         return [.. winerList];
     }
 
-    public Round Submit(int playerIndex, int move)
+    public Round Submit(int playerIndex, MoveType move)
     {
         var matches = Matches;
         for (var i = 0; i < matches.Length; i++)
         {
             var match = matches[i];
-            if (match.Players.Contains(playerIndex))
+            if (match.Move1.PlayerIndex == playerIndex)
             {
-                match = match.Submit(playerIndex, move);
+                match = match with { Move1 = match.Move1 with { Type = move } };
+                return this with { Matches = matches.SetItem(i, match) };
+            }
+            else if (match.Move2 is not null && match.Move2.PlayerIndex == playerIndex)
+            {
+                match = match with { Move2 = match.Move2 with { Type = move } };
                 return this with { Matches = matches.SetItem(i, match) };
             }
         }
