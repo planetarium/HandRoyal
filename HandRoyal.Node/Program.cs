@@ -1,3 +1,4 @@
+using GraphQL.AspNet.Configuration;
 using HandRoyal.Node;
 using Libplanet.Node.Extensions;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
@@ -21,6 +22,7 @@ if (builder.Environment.IsDevelopment())
     builder.Services.AddAuthentication("Bearer").AddJwtBearer();
 }
 
+builder.Services.AddGraphQL();
 builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
 builder.Services.AddLibplanetNode(builder.Configuration);
@@ -40,6 +42,9 @@ if (builder.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Use GraphQL middleware
+app.UseGraphQL();
 
 app.MapSchemaBuilder("/v1/schema");
 app.MapGet("/schema", context => Task.Run(() => context.Response.Redirect("/v1/schema")));
