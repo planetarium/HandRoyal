@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
 using HandRoyal.Actions;
@@ -11,9 +12,9 @@ namespace HandRoyal.Node.Explorer;
 public class BakeryController(IBlockChainService blockChainService) : GraphController
 {
     [QueryRoot("IsValidSessionId")]
-    public bool IsValidSessionId(string sessionId)
+    public bool IsValidSessionId(Address sessionId)
     {
-        var address = new Address(sessionId);
+        var address = sessionId;
         var blockChain = blockChainService.BlockChain;
 
         var worldState = blockChain.GetWorldState();
@@ -31,6 +32,24 @@ public class BakeryController(IBlockChainService blockChainService) : GraphContr
 
         return true;
     }
+
+    [QueryRoot("StateQuery/Session")]
+    public string GetSession(string sessionId)
+    {
+        var sessionAddress = new Address(sessionId);
+        // Implement your logic here using sessionAddress
+        return "Wow1 response";
+    }
+
+    // [QueryRoot("StateQuery/User")]
+    // public User GetUser(string userId)
+    // {
+    //     var blockChain = blockChainService.BlockChain;
+    //     var userAddress = new Address(userId);
+    //     // var usersAccount = blockChain.getu
+    //     // Implement your logic here using sessionAddress
+    //     return new User(userAddress);
+    // }
 
     [MutationRoot("CreateUser")]
     public string CreateUser(string privateKey)

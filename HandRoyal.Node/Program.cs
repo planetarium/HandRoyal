@@ -1,5 +1,7 @@
+using GraphQL.AspNet;
 using GraphQL.AspNet.Configuration;
 using HandRoyal.Node;
+using HandRoyal.Node.Explorer.Types;
 using Libplanet.Node.Extensions;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
@@ -31,6 +33,7 @@ builder.Services.AddCors(options =>
         .AllowAnyHeader()
         .Build());
 });
+GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(AddressScalarType));
 builder.Services.AddGraphQL();
 builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
