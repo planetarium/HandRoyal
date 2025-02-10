@@ -8,21 +8,15 @@ using Libplanet.Crypto;
 namespace LastHandStanding.Actions;
 
 [ActionType("JoinSession")]
-public class JoinSession : ActionBase
+public sealed class JoinSession(Address sessionId, Address glove) : ActionBase
 {
-    public JoinSession(Address sessionId, Address glove)
-    {
-        SessionId = sessionId;
-        Glove = glove;
-    }
-    
     protected override void LoadPlainValueInternal(IValue plainValueInternal)
     {
         if (plainValueInternal is not List list)
         {
             throw new CreateSessionException("Given plainValue for CreateSession is not list");
         }
-        
+
         SessionId = new Address(list[0]);
         Glove = new Address(list[1]);
     }
@@ -37,7 +31,8 @@ public class JoinSession : ActionBase
         }
 
         var session = new Session(rawSession);
-        if (session.State != Session.SessionState.Ready)
+        var sessionMetadata = session.Metadata;
+        if (session.State != SessionState.Ready)
         {
             var errMsg =
                 $"State of the session of id {SessionId} is not READY. " +
@@ -45,11 +40,11 @@ public class JoinSession : ActionBase
             throw new JoinSessionException(errMsg);
         }
 
-        if (session.Players.Count >= Session.MaxUser)
+        if (session.Players.Length >= sessionMetadata.MaximumUser)
         {
             var errMsg =
                 $"Participant registration of session of id {SessionId} is closed " +
-                $"since max user count {Session.MaxUser} has reached.";
+                $"since max user count {sessionMetadata.MinimumUser} has reached.";
             throw new JoinSessionException(errMsg);
         }
 
@@ -58,7 +53,7 @@ public class JoinSession : ActionBase
             var errMsg = $"Duplicated participation is prohibited. ({context.Signer})";
             throw new JoinSessionException(errMsg);
         }
-        
+
         var usersAccount = world.GetAccount(Addresses.Users);
         if (usersAccount.GetState(context.Signer) is not { } rawUser)
         {
@@ -82,7 +77,9 @@ public class JoinSession : ActionBase
             throw new JoinSessionException(errMsg);
         }
 
-        session.Players.Add(new Player(user.Id, Glove));
+        var players = session.Players;
+        var player = new Player(context.Signer, Glove);
+        session = session with { Players = players.Add(player) };
         sessionsAccount = sessionsAccount.SetState(SessionId, session.Bencoded);
         return world.SetAccount(Addresses.Sessions, sessionsAccount);
     }
@@ -91,7 +88,7 @@ public class JoinSession : ActionBase
         .Add(SessionId.Bencoded)
         .Add(Glove.Bencoded);
 
-    public Address SessionId { get; private set; }
-    
-    public Address Glove { get; private set; }
+    public Address SessionId { get; private set; } = sessionId;
+
+    public Address Glove { get; private set; } = glove;
 }

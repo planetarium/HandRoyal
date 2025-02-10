@@ -8,14 +8,13 @@ using Libplanet.Crypto;
 namespace LastHandStanding.Actions;
 
 [ActionType("RegisterGlove")]
-public class RegisterGlove : ActionBase
+public class RegisterGlove(Address id) : ActionBase
 {
-    
-    public RegisterGlove(Address id)
+    public RegisterGlove()
+        : this(default)
     {
-        Id = id;
     }
-    
+
     protected override void LoadPlainValueInternal(IValue plainValueInternal)
     {
         Id = new Address(plainValueInternal);
@@ -29,7 +28,7 @@ public class RegisterGlove : ActionBase
         {
             throw new RegisterGloveException($"Glove of given id {Id} is already exists.");
         }
-        
+
         var glove = new Glove(Id, context.Signer);
         gloveAccount = gloveAccount.SetState(Id, glove.Bencoded);
         return world.SetAccount(Addresses.Gloves, gloveAccount);
@@ -37,5 +36,5 @@ public class RegisterGlove : ActionBase
 
     protected override IValue PlainValueInternal => Id.Bencoded;
 
-    public Address Id { get; private set; }
+    public Address Id { get; private set; } = id;
 }

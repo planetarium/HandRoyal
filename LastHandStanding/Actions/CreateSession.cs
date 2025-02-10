@@ -10,19 +10,23 @@ namespace LastHandStanding.Actions;
 [ActionType("CreateSession")]
 public class CreateSession : ActionBase
 {
+    public CreateSession()
+    {
+    }
+
     public CreateSession(Address sessionId, Address prize)
     {
         SessionId = sessionId;
         Prize = prize;
     }
-    
+
     protected override void LoadPlainValueInternal(IValue plainValueInternal)
     {
         if (plainValueInternal is not List list)
         {
             throw new CreateSessionException("Given plainValue for CreateSession is not list");
         }
-        
+
         SessionId = new Address(list[0]);
         Prize = new Address(list[1]);
     }
@@ -49,9 +53,9 @@ public class CreateSession : ActionBase
             throw new CreateSessionException(
                 $"Organizer for session id {SessionId} is not author of the prize {Prize}.");
         }
-        
-        var session = new Session(SessionId, context.Signer, Prize);
 
+        var sessionMetadata = new SessionMetadata(SessionId, context.Signer, Prize);
+        var session = new Session(sessionMetadata);
         sessionAccount = sessionAccount.SetState(SessionId, session.Bencoded);
         return world.SetAccount(Addresses.Sessions, sessionAccount);
     }

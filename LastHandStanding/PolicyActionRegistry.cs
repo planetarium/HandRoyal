@@ -8,7 +8,7 @@ public class PolicyActionRegistry : IPolicyActionsRegistry
 {
     public ImmutableArray<IAction> BeginBlockActions { get; } =
     [
-        new SessionAction(),
+        new ProcessSession(),
     ];
 
     public ImmutableArray<IAction> EndBlockActions { get; } = [];
