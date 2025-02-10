@@ -27,11 +27,9 @@ public sealed record class Player : IBencodable
     }
 
     public IValue Bencoded => new List(
-    [
         Id.Bencoded,
         Glove.Bencoded,
-        (Integer)(int)State,
-    ]);
+        (Integer)(int)State);
 
     public Address Id { get; }
 
@@ -39,7 +37,8 @@ public sealed record class Player : IBencodable
 
     public PlayerState State { get; set; }
 
-    public static ImmutableArray<Player> SetStateAsDead(ImmutableArray<Player> players, int[] winers)
+    public static ImmutableArray<Player> SetStateAsDead(
+        ImmutableArray<Player> players, int[] winers)
     {
         for (var i = 0; i < players.Length; i++)
         {

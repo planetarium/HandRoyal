@@ -20,14 +20,13 @@ public class Glove
 
         Id = new Address(list[0]);
         Author = new Address(list[1]);
-
     }
 
     public IValue Bencoded => List.Empty
         .Add(Id.Bencoded)
         .Add(Author.Bencoded);
-    
+
     public Address Id { get; }
-    
+
     public Address Author { get; }
 }

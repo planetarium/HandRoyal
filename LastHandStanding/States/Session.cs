@@ -30,14 +30,12 @@ public sealed record class Session : IBencodable
     }
 
     public IValue Bencoded => new List(
-    [
         Metadata.Bencoded,
         (Integer)(int)State,
         new List(Players.Select(item => item.Bencoded)),
         new List(Rounds.Select(item => item.Bencoded)),
         (Integer)CreationHeight,
-        (Integer)StartHeight
-    ]);
+        (Integer)StartHeight);
 
     public SessionMetadata Metadata { get; }
 
@@ -103,7 +101,6 @@ public sealed record class Session : IBencodable
             Players = [.. Players.Select(SetStateAsPlaying)],
             Rounds = Rounds.Add(round),
         };
-
     }
 
     private Session PlayRound(long height, IRandom random)

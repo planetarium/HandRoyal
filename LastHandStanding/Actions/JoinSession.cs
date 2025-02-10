@@ -10,16 +10,13 @@ namespace LastHandStanding.Actions;
 [ActionType("JoinSession")]
 public sealed class JoinSession(Address sessionId, Address glove) : ActionBase
 {
-    protected override void LoadPlainValueInternal(IValue plainValueInternal)
-    {
-        if (plainValueInternal is not List list)
-        {
-            throw new CreateSessionException("Given plainValue for CreateSession is not list");
-        }
+    public Address SessionId { get; private set; } = sessionId;
 
-        SessionId = new Address(list[0]);
-        Glove = new Address(list[1]);
-    }
+    public Address Glove { get; private set; } = glove;
+
+    protected override IValue PlainValueInternal => List.Empty
+        .Add(SessionId.Bencoded)
+        .Add(Glove.Bencoded);
 
     public override IWorld Execute(IActionContext context)
     {
@@ -84,11 +81,14 @@ public sealed class JoinSession(Address sessionId, Address glove) : ActionBase
         return world.SetAccount(Addresses.Sessions, sessionsAccount);
     }
 
-    protected override IValue PlainValueInternal => List.Empty
-        .Add(SessionId.Bencoded)
-        .Add(Glove.Bencoded);
+    protected override void LoadPlainValueInternal(IValue plainValueInternal)
+    {
+        if (plainValueInternal is not List list)
+        {
+            throw new CreateSessionException("Given plainValue for CreateSession is not list");
+        }
 
-    public Address SessionId { get; private set; } = sessionId;
-
-    public Address Glove { get; private set; } = glove;
+        SessionId = new Address(list[0]);
+        Glove = new Address(list[1]);
+    }
 }

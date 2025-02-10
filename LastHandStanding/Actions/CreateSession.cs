@@ -20,16 +20,11 @@ public class CreateSession : ActionBase
         Prize = prize;
     }
 
-    protected override void LoadPlainValueInternal(IValue plainValueInternal)
-    {
-        if (plainValueInternal is not List list)
-        {
-            throw new CreateSessionException("Given plainValue for CreateSession is not list");
-        }
+    public Address SessionId { get; private set; }
 
-        SessionId = new Address(list[0]);
-        Prize = new Address(list[1]);
-    }
+    public Address Prize { get; private set; }
+
+    protected override IValue PlainValueInternal => SessionId.Bencoded;
 
     public override IWorld Execute(IActionContext context)
     {
@@ -60,9 +55,14 @@ public class CreateSession : ActionBase
         return world.SetAccount(Addresses.Sessions, sessionAccount);
     }
 
-    protected override IValue PlainValueInternal => SessionId.Bencoded;
+    protected override void LoadPlainValueInternal(IValue plainValueInternal)
+    {
+        if (plainValueInternal is not List list)
+        {
+            throw new CreateSessionException("Given plainValue for CreateSession is not list");
+        }
 
-    public Address SessionId { get; private set; }
-
-    public Address Prize { get; private set; }
+        SessionId = new Address(list[0]);
+        Prize = new Address(list[1]);
+    }
 }

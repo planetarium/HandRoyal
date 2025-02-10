@@ -32,12 +32,14 @@ internal sealed class ProcessSession : BlockActionBase
             {
                 currentSessionAccount = currentSessionAccount.RemoveState(sesstionAddress);
                 var archivedSessionsAccount = world.GetAccount(Addresses.ArchivedSessions);
-                archivedSessionsAccount = archivedSessionsAccount.SetState(sesstionAddress, session.Bencoded);
+                archivedSessionsAccount = archivedSessionsAccount.SetState(
+                    sesstionAddress, session.Bencoded);
                 world = world.SetAccount(Addresses.ArchivedSessions, archivedSessionsAccount);
             }
             else
             {
-                currentSessionAccount = currentSessionAccount.SetState(sesstionAddress, session.Bencoded);
+                currentSessionAccount = currentSessionAccount.SetState(
+                    sesstionAddress, session.Bencoded);
             }
         }
 

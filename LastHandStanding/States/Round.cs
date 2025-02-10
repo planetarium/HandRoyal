@@ -29,11 +29,9 @@ public sealed record class Round : IBencodable
     public ImmutableArray<Match> Matches { get; set; } = [];
 
     public IValue Bencoded => new List(
-    [
         (Integer)Height,
         (Integer)Index,
-        new List(Matches.Select(p => p.Bencoded))
-    ]);
+        new List(Matches.Select(p => p.Bencoded)));
 
     public int[] GetWiners()
     {

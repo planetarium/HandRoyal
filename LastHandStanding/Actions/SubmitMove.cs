@@ -24,12 +24,9 @@ public sealed class SubmitMove : ActionBase
 
     public int Value { get; set; }
 
-    protected override void LoadPlainValueInternal(IValue plainValueInternal)
-    {
-        var list = (List)plainValueInternal;
-        SessionId = new Address(list[0]);
-        Value = (int)(Integer)list[1];
-    }
+    protected override IValue PlainValueInternal => new List(
+        SessionId.Bencoded,
+        (Integer)Value);
 
     public override IWorld Execute(IActionContext context)
     {
@@ -56,9 +53,10 @@ public sealed class SubmitMove : ActionBase
         return world;
     }
 
-    protected override IValue PlainValueInternal => new List(
-    [
-        SessionId.Bencoded,
-        (Integer)Value
-    ]);
+    protected override void LoadPlainValueInternal(IValue plainValueInternal)
+    {
+        var list = (List)plainValueInternal;
+        SessionId = new Address(list[0]);
+        Value = (int)(Integer)list[1];
+    }
 }

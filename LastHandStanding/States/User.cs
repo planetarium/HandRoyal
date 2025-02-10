@@ -19,7 +19,7 @@ public class User
         }
 
         Id = new Address(list[0]);
-        
+
         if (list[1] is not List gloves)
         {
             throw new ArgumentException($"Given value {value} is not a list", nameof(value));
@@ -31,8 +31,8 @@ public class User
     public IValue Bencoded => List.Empty
         .Add(Id.Bencoded)
         .Add(new List(Gloves.Select(glove => glove.Bencoded)));
-    
+
     public Address Id { get; }
-    
+
     public List<Address> Gloves { get; }
 }

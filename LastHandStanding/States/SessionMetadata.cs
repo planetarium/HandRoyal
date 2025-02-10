@@ -29,14 +29,12 @@ public sealed record class SessionMetadata : IBencodable
     }
 
     public IValue Bencoded => new List(
-    [
         Id.Bencoded,
         Organizer.Bencoded,
         Prize.Bencoded,
         (Integer)MaximumUser,
         (Integer)MinimumUser,
-        (Integer)RemainingUser,
-    ]);
+        (Integer)RemainingUser);
 
     public Address Id { get; }
 

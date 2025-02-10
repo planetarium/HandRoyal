@@ -15,10 +15,9 @@ public class RegisterGlove(Address id) : ActionBase
     {
     }
 
-    protected override void LoadPlainValueInternal(IValue plainValueInternal)
-    {
-        Id = new Address(plainValueInternal);
-    }
+    public Address Id { get; private set; } = id;
+
+    protected override IValue PlainValueInternal => Id.Bencoded;
 
     public override IWorld Execute(IActionContext context)
     {
@@ -34,7 +33,8 @@ public class RegisterGlove(Address id) : ActionBase
         return world.SetAccount(Addresses.Gloves, gloveAccount);
     }
 
-    protected override IValue PlainValueInternal => Id.Bencoded;
-
-    public Address Id { get; private set; } = id;
+    protected override void LoadPlainValueInternal(IValue plainValueInternal)
+    {
+        Id = new Address(plainValueInternal);
+    }
 }

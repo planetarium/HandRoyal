@@ -7,6 +7,19 @@ namespace LastHandStanding.Actions;
 
 public abstract class ActionBase : IAction
 {
+    public IValue PlainValue =>
+        Dictionary.Empty
+            .Add("type_id", TypeId)
+            .Add("values", PlainValueInternal);
+
+    protected abstract IValue PlainValueInternal { get; }
+
+    private IValue TypeId =>
+        GetType().GetCustomAttribute<ActionTypeAttribute>() is { } attribute
+            ? attribute.TypeIdentifier
+            : throw new InvalidOperationException(
+                $"Type is missing {nameof(ActionTypeAttribute)}: {GetType()}");
+
     public void LoadPlainValue(IValue plainValue)
     {
         if (plainValue is not Dictionary dict)
@@ -37,24 +50,11 @@ public abstract class ActionBase : IAction
                 $"Given {nameof(plainValue)} is missing values: {plainValue}",
                 nameof(plainValue));
         }
-        
+
         LoadPlainValueInternal(values);
     }
 
-    protected abstract void LoadPlainValueInternal(IValue plainValueInternal);
-
     public abstract IWorld Execute(IActionContext context);
 
-    protected abstract IValue PlainValueInternal { get; }
-
-    public IValue PlainValue => 
-        Dictionary.Empty
-            .Add("type_id", TypeId)
-            .Add("values", PlainValueInternal);
-
-    private IValue TypeId =>
-        GetType().GetCustomAttribute<ActionTypeAttribute>() is { } attribute
-            ? attribute.TypeIdentifier
-            : throw new NullReferenceException(
-                $"Type is missing {nameof(ActionTypeAttribute)}: {GetType()}");
+    protected abstract void LoadPlainValueInternal(IValue plainValueInternal);
 }

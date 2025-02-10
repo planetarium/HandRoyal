@@ -26,10 +26,8 @@ public sealed record class Match : IBencodable
     public ImmutableArray<int> Moves { get; set; } = [];
 
     public IValue Bencoded => new List(
-    [
         new List(Players.Select(p => (Integer)p)),
-        new List(Moves.Select(s => (Integer)s)),
-    ]);
+        new List(Moves.Select(s => (Integer)s)));
 
     public static ImmutableArray<Match> Create(int[] players, int segmentation)
     {
@@ -67,9 +65,9 @@ public sealed record class Match : IBencodable
                 }
 
                 // Determine if the current player loses to any other player
-                if ((Moves[i] == 0 && Moves[j] == 1) || // 0 vs 1
-                    (Moves[i] == 1 && Moves[j] == 2) || // 1 vs 2
-                    (Moves[i] == 2 && Moves[j] == 0))   // 2 vs 0
+                if ((Moves[i] == 0 && Moves[j] == 1)
+                    || (Moves[i] == 1 && Moves[j] == 2)
+                    || (Moves[i] == 2 && Moves[j] == 0))
                 {
                     isWinner = false;
                     break;
@@ -89,22 +87,27 @@ public sealed record class Match : IBencodable
     {
         if (index < 0 || index >= Players.Length)
         {
-            throw new ArgumentOutOfRangeException(nameof(index), "Index must be greater than or equal to 0 and less than the number of players.");
+            const string message = "Index must be greater than or equal to 0 and less than the " +
+                                   "number of players.";
+            throw new ArgumentOutOfRangeException(nameof(index), message);
         }
 
         if (move < 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(move), "Move must be greater than or equal to 0.");
+            const string message = "Move must be greater than or equal to 0.";
+            throw new ArgumentOutOfRangeException(nameof(move), message);
         }
 
         if (move > Players.Length)
         {
-            throw new ArgumentOutOfRangeException(nameof(move), "Move must be less than the number of players.");
+            const string message = "Move must be less than the number of players.";
+            throw new ArgumentOutOfRangeException(nameof(move), message);
         }
 
         if (Moves.Contains(move))
         {
-            throw new InvalidOperationException($"Move {move} has already been used by another player.");
+            const string message = "Move has already been used by another player.";
+            throw new InvalidOperationException(message);
         }
 
         return this with { Moves = Moves.SetItem(index, move) };
