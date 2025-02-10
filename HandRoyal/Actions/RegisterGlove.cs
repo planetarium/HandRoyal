@@ -22,13 +22,14 @@ public class RegisterGlove(Address id) : ActionBase
     public override IWorld Execute(IActionContext context)
     {
         var world = context.PreviousState;
+        var signer = context.Signer;
         var gloveAccount = world.GetAccount(Addresses.Gloves);
         if (gloveAccount.GetState(Id) is not null)
         {
             throw new RegisterGloveException($"Glove of given id {Id} is already exists.");
         }
 
-        var glove = new Glove(Id, context.Signer);
+        var glove = new Glove(Id, signer);
         gloveAccount = gloveAccount.SetState(Id, glove.Bencoded);
         return world.SetAccount(Addresses.Gloves, gloveAccount);
     }

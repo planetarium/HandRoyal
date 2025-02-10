@@ -1,14 +1,21 @@
-﻿using Bencodex.Types;
+﻿using System.Collections.Immutable;
+using Bencodex;
+using Bencodex.Types;
 using Libplanet.Crypto;
 
 namespace HandRoyal.States;
 
-public class User
+public sealed record class User : IBencodable
 {
-    public User(Address id, List<Address> gloves)
+    public User(Address id)
+        : this(id, [])
+    {
+    }
+
+    public User(Address id, ImmutableArray<Address> gloves)
     {
         Id = id;
-        Gloves = gloves.ToList();
+        Gloves = gloves;
     }
 
     public User(IValue value)
@@ -25,14 +32,14 @@ public class User
             throw new ArgumentException($"Given value {value} is not a list", nameof(value));
         }
 
-        Gloves = gloves.Select(v => new Address(v)).ToList();
+        Gloves = [.. gloves.Select(v => new Address(v))];
     }
 
-    public IValue Bencoded => List.Empty
-        .Add(Id.Bencoded)
-        .Add(new List(Gloves.Select(glove => glove.Bencoded)));
+    public IValue Bencoded => new List(
+        Id.Bencoded,
+        new List(Gloves.Select(glove => glove.Bencoded)));
 
     public Address Id { get; }
 
-    public List<Address> Gloves { get; }
+    public ImmutableArray<Address> Gloves { get; set; }
 }

@@ -3,7 +3,7 @@ using Libplanet.Crypto;
 
 namespace HandRoyal.States;
 
-public class Glove
+public sealed record class Glove
 {
     public Glove(Address id, Address author)
     {
@@ -22,9 +22,9 @@ public class Glove
         Author = new Address(list[1]);
     }
 
-    public IValue Bencoded => List.Empty
-        .Add(Id.Bencoded)
-        .Add(Author.Bencoded);
+    public IValue Bencoded => new List(
+        Id.Bencoded,
+        Author.Bencoded);
 
     public Address Id { get; }
 

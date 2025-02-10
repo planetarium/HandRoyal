@@ -14,19 +14,19 @@ public sealed class SubmitMove : ActionBase
     {
     }
 
-    public SubmitMove(Address sessionId, int value)
+    public SubmitMove(Address sessionId, int move)
     {
         SessionId = sessionId;
-        Value = value;
+        Move = move;
     }
 
     public Address SessionId { get; set; }
 
-    public int Value { get; set; }
+    public int Move { get; set; }
 
     protected override IValue PlainValueInternal => new List(
         SessionId.Bencoded,
-        (Integer)Value);
+        (Integer)Move);
 
     public override IWorld Execute(IActionContext context)
     {
@@ -46,7 +46,7 @@ public sealed class SubmitMove : ActionBase
 
         var rounds = session.Rounds;
         var round = rounds[^1];
-        round = round.Submit(playerIndex, Value);
+        round = round.Submit(playerIndex, Move);
         session = session with { Rounds = rounds.SetItem(rounds.Length - 1, round) };
         sessionAccount = sessionAccount.SetState(SessionId, session.Bencoded);
         world = world.SetAccount(Addresses.CurrentSession, sessionAccount);
@@ -57,6 +57,6 @@ public sealed class SubmitMove : ActionBase
     {
         var list = (List)plainValueInternal;
         SessionId = new Address(list[0]);
-        Value = (int)(Integer)list[1];
+        Move = (int)(Integer)list[1];
     }
 }
