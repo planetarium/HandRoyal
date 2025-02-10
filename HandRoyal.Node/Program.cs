@@ -1,6 +1,7 @@
 using GraphQL.AspNet.Configuration;
 using HandRoyal.Node;
 using Libplanet.Node.Extensions;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,11 +23,20 @@ if (builder.Environment.IsDevelopment())
     builder.Services.AddAuthentication("Bearer").AddJwtBearer();
 }
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", new CorsPolicyBuilder()
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .Build());
+});
 builder.Services.AddGraphQL();
 builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
 builder.Services.AddLibplanetNode(builder.Configuration);
 builder.Services.AddHostedService<BlockChainRendererTracer>();
+
 
 var handlerMessage = """
     Communication with gRPC endpoints must be made through a gRPC client. To learn how to
@@ -44,6 +54,7 @@ if (builder.Environment.IsDevelopment())
 }
 
 // Use GraphQL middleware
+app.UseCors("AllowAll");
 app.UseGraphQL();
 
 app.MapSchemaBuilder("/v1/schema");
