@@ -1,10 +1,12 @@
 using GraphQL.AspNet;
 using GraphQL.AspNet.Configuration;
 using HandRoyal.Node;
+using HandRoyal.Node.Explorer.Publishers;
 using HandRoyal.Node.Explorer.Types;
 using Libplanet.Node.Extensions;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.AspNetCore.WebSockets;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.AddConsole();
@@ -38,7 +40,12 @@ GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(TxIdScalarType));
 GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(PublicKeyScalarType));
 GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(PrivateKeyScalarType));
 GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(HexValueScalarType));
-builder.Services.AddGraphQL();
+builder.Services.AddWebSockets(options =>
+{
+});
+builder.Services.AddGraphQL()
+    .AddSubscriptions();
+builder.Services.AddHostedService<BlockChainRendererEventPublisher>();
 builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
 builder.Services.AddLibplanetNode(builder.Configuration);
@@ -61,6 +68,7 @@ if (builder.Environment.IsDevelopment())
 
 // Use GraphQL middleware
 app.UseCors("AllowAll");
+app.UseWebSockets();
 app.UseGraphQL();
 
 app.MapSchemaBuilder("/v1/schema");

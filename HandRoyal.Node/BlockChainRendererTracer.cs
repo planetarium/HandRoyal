@@ -10,7 +10,7 @@ internal sealed class BlockChainRendererTracer(
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        rendererService.RenderBlockEnd.Subscribe(
+        _observer = rendererService.RenderBlockEnd.Subscribe(
             info => logger.LogInformation(
                 "-Pattern2- #{Height} Block end: {Hash}",
                 info.NewTip.Index,
