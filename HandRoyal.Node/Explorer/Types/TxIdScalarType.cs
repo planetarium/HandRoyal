@@ -1,11 +1,11 @@
 using GraphQL.AspNet.Common;
 using GraphQL.AspNet.Schemas.TypeSystem.Scalars;
-using Libplanet.Crypto;
+using Libplanet.Types.Tx;
 
 namespace HandRoyal.Node.Explorer.Types;
 
-public sealed class AddressScalarType()
-    : ScalarGraphTypeBase("Address", typeof(Address))
+public sealed class TxIdScalarType()
+    : ScalarGraphTypeBase("TxId", typeof(TxId))
 {
     public override ScalarValueType ValueType => ScalarValueType.String;
 
@@ -14,11 +14,11 @@ public sealed class AddressScalarType()
     public override object Resolve(ReadOnlySpan<char> data)
     {
         var text = GraphQLStrings.UnescapeAndTrimDelimiters(data);
-        return new Address(text);
+        return TxId.FromHex(text);
     }
 
     public override object Serialize(object item)
-        => item is Address address ? address.ToHex() : base.Serialize(item);
+        => item is TxId txId ? txId.ToHex() : base.Serialize(item);
 
-    public override bool ValidateObject(object item) => item is Address;
+    public override bool ValidateObject(object item) => item is TxId;
 }

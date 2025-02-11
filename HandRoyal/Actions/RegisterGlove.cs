@@ -8,7 +8,7 @@ using Libplanet.Crypto;
 namespace HandRoyal.Actions;
 
 [ActionType("RegisterGlove")]
-public class RegisterGlove(Address id) : ActionBase
+public sealed class RegisterGlove(Address id) : ActionBase
 {
     public RegisterGlove()
         : this(default)
@@ -23,15 +23,15 @@ public class RegisterGlove(Address id) : ActionBase
     {
         var world = context.PreviousState;
         var signer = context.Signer;
-        var gloveAccount = world.GetAccount(Addresses.Gloves);
-        if (gloveAccount.GetState(Id) is not null)
+        var glovesAccount = world.GetAccount(Addresses.Gloves);
+        if (glovesAccount.GetState(Id) is not null)
         {
             throw new RegisterGloveException($"Glove of given id {Id} is already exists.");
         }
 
         var glove = new Glove(Id, signer);
-        gloveAccount = gloveAccount.SetState(Id, glove.Bencoded);
-        return world.SetAccount(Addresses.Gloves, gloveAccount);
+        glovesAccount = glovesAccount.SetState(Id, glove.Bencoded);
+        return world.SetAccount(Addresses.Gloves, glovesAccount);
     }
 
     protected override void LoadPlainValueInternal(IValue plainValueInternal)

@@ -43,13 +43,13 @@ public sealed record class SessionMetadata : IBencodable
 
     public Address Prize { get; }
 
-    public int MaximumUser { get; set; } = 100;
+    public int MaximumUser { get; set; } = 8;
 
-    public int MinimumUser { get; set; } = 10;
+    public int MinimumUser { get; set; } = 2;
 
-    public int RemainingUser { get; set; } = 10;
+    public int RemainingUser { get; set; } = 1;
 
-    public long RoundInterval { get; set; } = 10;
+    public long RoundInterval { get; set; } = 5;
 
     public long WaitingInterval { get; set; } = 10;
 }

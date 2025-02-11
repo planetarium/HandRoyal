@@ -30,8 +30,8 @@ public sealed class SubmitMove : ActionBase
     public override IWorld Execute(IActionContext context)
     {
         var world = context.PreviousState;
-        var sessionAccount = world.GetAccount(Addresses.Sessions);
-        if (sessionAccount.GetState(SessionId) is not { } sessionState)
+        var sessionsAccount = world.GetAccount(Addresses.Sessions);
+        if (sessionsAccount.GetState(SessionId) is not { } sessionState)
         {
             throw new InvalidOperationException($"Session {SessionId} does not exist.");
         }
@@ -47,8 +47,8 @@ public sealed class SubmitMove : ActionBase
         var round = rounds[^1];
         round = round.Submit(playerIndex, Move);
         session = session with { Rounds = rounds.SetItem(rounds.Length - 1, round) };
-        sessionAccount = sessionAccount.SetState(SessionId, session.Bencoded);
-        world = world.SetAccount(Addresses.CurrentSession, sessionAccount);
+        sessionsAccount = sessionsAccount.SetState(SessionId, session.Bencoded);
+        world = world.SetAccount(Addresses.Sessions, sessionsAccount);
         return world;
     }
 

@@ -4,11 +4,12 @@ using HandRoyal.States;
 using Libplanet.Action;
 using Libplanet.Action.State;
 using Libplanet.Crypto;
+using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.Actions;
 
 [ActionType("CreateSession")]
-public class CreateSession : ActionBase
+public sealed class CreateSession : ActionBase
 {
     public CreateSession()
     {
@@ -24,25 +25,27 @@ public class CreateSession : ActionBase
 
     public Address Prize { get; private set; }
 
-    protected override IValue PlainValueInternal => SessionId.Bencoded;
+    protected override IValue PlainValueInternal => new List(
+        ToValue(SessionId),
+        ToValue(Prize));
 
     public override IWorld Execute(IActionContext context)
     {
         var world = context.PreviousState;
-        var sessionAccount = world.GetAccount(Addresses.Sessions);
-        if (sessionAccount.GetState(SessionId) is not null)
+        var sessionsAccount = world.GetAccount(Addresses.Sessions);
+        if (sessionsAccount.GetState(SessionId) is not null)
         {
             throw new CreateSessionException($"Session of id {SessionId} already exists.");
         }
 
-        var gloveAccount = world.GetAccount(Addresses.Gloves);
-        if (gloveAccount.GetState(Prize) is not { } rawGloveState)
+        var glovesAccount = world.GetAccount(Addresses.Gloves);
+        if (glovesAccount.GetState(Prize) is not { } gloveState)
         {
             throw new CreateSessionException(
                 $"Given glove prize {Prize} for session id {SessionId} does not exist.");
         }
 
-        var glove = new Glove(rawGloveState);
+        var glove = new Glove(gloveState);
         if (!glove.Author.Equals(context.Signer))
         {
             throw new CreateSessionException(
@@ -51,8 +54,12 @@ public class CreateSession : ActionBase
 
         var sessionMetadata = new SessionMetadata(SessionId, context.Signer, Prize);
         var session = new Session(sessionMetadata);
-        sessionAccount = sessionAccount.SetState(SessionId, session.Bencoded);
-        return world.SetAccount(Addresses.Sessions, sessionAccount);
+        var sessionAddresses = sessionsAccount.GetState(Addresses.SessionAddresses) is IValue value
+            ? (List)value : [];
+        sessionAddresses = sessionAddresses.Add(SessionId.Bencoded);
+        sessionsAccount = sessionsAccount.SetState(Addresses.SessionAddresses, sessionAddresses);
+        sessionsAccount = sessionsAccount.SetState(SessionId, session.Bencoded);
+        return world.SetAccount(Addresses.Sessions, sessionsAccount);
     }
 
     protected override void LoadPlainValueInternal(IValue plainValueInternal)
@@ -62,7 +69,7 @@ public class CreateSession : ActionBase
             throw new CreateSessionException("Given plainValue for CreateSession is not list");
         }
 
-        SessionId = new Address(list[0]);
-        Prize = new Address(list[1]);
+        SessionId = ToAddress(list, 0);
+        Prize = ToAddress(list, 1);
     }
 }

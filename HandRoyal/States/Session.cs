@@ -68,19 +68,25 @@ public sealed record class Session : IBencodable
         SessionState.None => this with { State = SessionState.Ready, CreationHeight = height },
         SessionState.Ready => StartSession(height, random),
         SessionState.Active => PlayRound(height, random),
-        SessionState.Ended => EndSession(),
+        SessionState.Ended => this,
         _ => throw new InvalidOperationException($"Invalid session state: {State}"),
     };
 
     private Session StartSession(long height, IRandom random)
     {
         var waitingInterval = Metadata.WaitingInterval;
+        var minimumUser = Metadata.MinimumUser;
         if (height < CreationHeight + waitingInterval)
         {
             return this;
         }
 
         var indexes = Enumerable.Range(0, Players.Length).ToArray();
+        if (indexes.Length < minimumUser)
+        {
+            return this with { State = SessionState.Ended };
+        }
+
         var playerIndexes = random.Shuffle(indexes).ToArray();
         var maches = Match.Create(playerIndexes);
         var round = new Round
@@ -140,10 +146,5 @@ public sealed record class Session : IBencodable
                 Rounds = Rounds.Add(nextRound),
             };
         }
-    }
-
-    private Session EndSession()
-    {
-        return this with { State = SessionState.Ended };
     }
 }

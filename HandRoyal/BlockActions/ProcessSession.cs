@@ -12,8 +12,8 @@ internal sealed class ProcessSession : BlockActionBase
     {
         var world = context.PreviousState;
         var height = context.BlockIndex;
-        var currentSessionAccount = world.GetAccount(Addresses.CurrentSession);
-        if (currentSessionAccount.GetState(Addresses.SessionsList) is not List sessionAddresses)
+        var sessionsAccount = world.GetAccount(Addresses.Sessions);
+        if (sessionsAccount.GetState(Addresses.SessionAddresses) is not List sessionAddresses)
         {
             return world;
         }
@@ -21,7 +21,7 @@ internal sealed class ProcessSession : BlockActionBase
         for (var i = 0; i < sessionAddresses.Count; i++)
         {
             var sesstionAddress = new Address(sessionAddresses[i]);
-            if (currentSessionAccount.GetState(sesstionAddress) is not { } sessionState)
+            if (sessionsAccount.GetState(sesstionAddress) is not { } sessionState)
             {
                 continue;
             }
@@ -30,7 +30,7 @@ internal sealed class ProcessSession : BlockActionBase
             session = session.ProcessRound(height, context.GetRandom());
             if (session.State == SessionState.Ended)
             {
-                currentSessionAccount = currentSessionAccount.RemoveState(sesstionAddress);
+                sessionsAccount = sessionsAccount.RemoveState(sesstionAddress);
                 var archivedSessionsAccount = world.GetAccount(Addresses.ArchivedSessions);
                 archivedSessionsAccount = archivedSessionsAccount.SetState(
                     sesstionAddress, session.Bencoded);
@@ -38,12 +38,12 @@ internal sealed class ProcessSession : BlockActionBase
             }
             else
             {
-                currentSessionAccount = currentSessionAccount.SetState(
+                sessionsAccount = sessionsAccount.SetState(
                     sesstionAddress, session.Bencoded);
             }
         }
 
-        world = world.SetAccount(Addresses.CurrentSession, currentSessionAccount);
+        world = world.SetAccount(Addresses.Sessions, sessionsAccount);
         return world;
     }
 }

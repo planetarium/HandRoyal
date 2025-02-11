@@ -3,6 +3,7 @@ using GraphQL.AspNet.Configuration;
 using HandRoyal.Node;
 using HandRoyal.Node.Explorer.Types;
 using Libplanet.Node.Extensions;
+using Libplanet.Types.Tx;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 
@@ -34,12 +35,15 @@ builder.Services.AddCors(options =>
         .Build());
 });
 GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(AddressScalarType));
+GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(TxIdScalarType));
+GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(PublicKeyScalarType));
+GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(PrivateKeyScalarType));
+GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(HexValueScalarType));
 builder.Services.AddGraphQL();
 builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
 builder.Services.AddLibplanetNode(builder.Configuration);
 builder.Services.AddHostedService<BlockChainRendererTracer>();
-
 
 var handlerMessage = """
     Communication with gRPC endpoints must be made through a gRPC client. To learn how to

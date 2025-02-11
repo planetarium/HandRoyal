@@ -6,7 +6,7 @@ using Libplanet.Action.State;
 namespace HandRoyal.Actions;
 
 [ActionType("CreateUser")]
-public class CreateUser : ActionBase
+public sealed class CreateUser : ActionBase
 {
     public CreateUser()
     {

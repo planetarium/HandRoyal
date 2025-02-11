@@ -4,8 +4,8 @@ using Libplanet.Crypto;
 
 namespace HandRoyal.Node.Explorer.Types;
 
-public sealed class AddressScalarType()
-    : ScalarGraphTypeBase("Address", typeof(Address))
+public sealed class PublicKeyScalarType()
+    : ScalarGraphTypeBase("PublicKey", typeof(PublicKey))
 {
     public override ScalarValueType ValueType => ScalarValueType.String;
 
@@ -14,11 +14,11 @@ public sealed class AddressScalarType()
     public override object Resolve(ReadOnlySpan<char> data)
     {
         var text = GraphQLStrings.UnescapeAndTrimDelimiters(data);
-        return new Address(text);
+        return PublicKey.FromHex(text);
     }
 
     public override object Serialize(object item)
-        => item is Address address ? address.ToHex() : base.Serialize(item);
+        => item is PublicKey publicKey ? publicKey.ToHex(compress: false) : base.Serialize(item);
 
-    public override bool ValidateObject(object item) => item is Address;
+    public override bool ValidateObject(object item) => item is PublicKey;
 }
