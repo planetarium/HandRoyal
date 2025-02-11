@@ -1,5 +1,6 @@
 ﻿using Bencodex;
 using Bencodex.Types;
+using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.States;
 
@@ -16,8 +17,8 @@ public sealed record class Move : IBencodable
             throw new ArgumentException($"Given value {value} is not a list.");
         }
 
-        PlayerIndex = (Integer)list[0];
-        Type = (MoveType)(int)(Integer)list[1];
+        PlayerIndex = ToInt32(list, 0);
+        Type = ToEnum<MoveType>(list, 1);
     }
 
     public int PlayerIndex { get; set; }
@@ -25,6 +26,6 @@ public sealed record class Move : IBencodable
     public MoveType Type { get; set; }
 
     public IValue Bencoded => new List(
-        (Integer)PlayerIndex,
-        (Integer)(int)Type);
+        ToValue(PlayerIndex),
+        ToValue(Type));
 }

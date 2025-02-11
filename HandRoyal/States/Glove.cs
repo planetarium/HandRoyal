@@ -1,5 +1,6 @@
 ﻿using Bencodex.Types;
 using Libplanet.Crypto;
+using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.States;
 
@@ -18,13 +19,13 @@ public sealed record class Glove
             throw new ArgumentException($"Given value {value} is not a list.");
         }
 
-        Id = new Address(list[0]);
-        Author = new Address(list[1]);
+        Id = ToAddress(list, 0);
+        Author = ToAddress(list, 1);
     }
 
     public IValue Bencoded => new List(
-        Id.Bencoded,
-        Author.Bencoded);
+        ToValue(Id),
+        ToValue(Author));
 
     public Address Id { get; }
 

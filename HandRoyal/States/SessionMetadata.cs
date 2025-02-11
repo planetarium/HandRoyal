@@ -1,6 +1,7 @@
 ﻿using Bencodex;
 using Bencodex.Types;
 using Libplanet.Crypto;
+using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.States;
 
@@ -20,21 +21,21 @@ public sealed record class SessionMetadata : IBencodable
             throw new ArgumentException($"Given value {value} is not a list.");
         }
 
-        Id = new Address(list[0]);
-        Organizer = new Address(list[1]);
-        Prize = new Address(list[2]);
-        MaximumUser = (int)(Integer)list[4];
-        MinimumUser = (int)(Integer)list[5];
-        RemainingUser = (int)(Integer)list[6];
+        Id = ToAddress(list, 0);
+        Organizer = ToAddress(list, 1);
+        Prize = ToAddress(list, 2);
+        MaximumUser = ToInt32(list, 3);
+        MinimumUser = ToInt32(list, 4);
+        RemainingUser = ToInt32(list, 5);
     }
 
     public IValue Bencoded => new List(
-        Id.Bencoded,
-        Organizer.Bencoded,
-        Prize.Bencoded,
-        (Integer)MaximumUser,
-        (Integer)MinimumUser,
-        (Integer)RemainingUser);
+        ToValue(Id),
+        ToValue(Organizer),
+        ToValue(Prize),
+        ToValue(MaximumUser),
+        ToValue(MinimumUser),
+        ToValue(RemainingUser));
 
     public Address Id { get; }
 

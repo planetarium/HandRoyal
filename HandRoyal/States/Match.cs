@@ -1,6 +1,7 @@
 ﻿using System.Collections.Immutable;
 using Bencodex;
 using Bencodex.Types;
+using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.States;
 
@@ -17,8 +18,8 @@ public sealed record class Match : IBencodable
             throw new ArgumentException($"Given value {value} is not a list.");
         }
 
-        Move1 = new Move(list[0]);
-        Move2 = new Move(list[1]);
+        Move1 = ToObject<Move>(list, 0);
+        Move2 = ToObject<Move>(list, 1);
     }
 
     public Move Move1 { get; set; } = new();
@@ -26,8 +27,8 @@ public sealed record class Match : IBencodable
     public Move Move2 { get; set; } = new();
 
     public IValue Bencoded => new List(
-        Move1.Bencoded,
-        Move2 is not null ? Move2.Bencoded : Null.Value);
+        ToValue(Move1),
+        ToValue(Move2));
 
     public static ImmutableArray<Match> Create(int[] players)
     {

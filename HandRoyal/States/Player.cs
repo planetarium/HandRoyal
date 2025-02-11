@@ -2,6 +2,7 @@
 using Bencodex;
 using Bencodex.Types;
 using Libplanet.Crypto;
+using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.States;
 
@@ -21,15 +22,15 @@ public sealed record class Player : IBencodable
             throw new ArgumentException($"Given value {value} is not a list.");
         }
 
-        Id = new Address(list[0]);
-        Glove = new Address(list[1]);
-        State = (PlayerState)(int)(Integer)list[2];
+        Id = ToAddress(list, 0);
+        Glove = ToAddress(list, 1);
+        State = ToEnum<PlayerState>(list, 2);
     }
 
     public IValue Bencoded => new List(
-        Id.Bencoded,
-        Glove.Bencoded,
-        (Integer)(int)State);
+        ToValue(Id),
+        ToValue(Glove),
+        ToValue(State));
 
     public Address Id { get; }
 

@@ -4,6 +4,7 @@ using Bencodex.Types;
 using HandRoyal.Extensions;
 using Libplanet.Action;
 using Libplanet.Crypto;
+using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.States;
 
@@ -21,21 +22,21 @@ public sealed record class Session : IBencodable
             throw new ArgumentException($"Given value {value} is not a list.");
         }
 
-        Metadata = new SessionMetadata(list[0]);
-        State = (SessionState)(int)(Integer)list[1];
-        Players = [.. ((List)list[2]).Select(v => new Player(v))];
-        Rounds = [.. ((List)list[3]).Select(v => new Round(v))];
-        CreationHeight = (long)(Integer)list[4];
-        StartHeight = (long)(Integer)list[5];
+        Metadata = ToObject<SessionMetadata>(list, 0);
+        State = ToEnum<SessionState>(list, 1);
+        Players = ToObjects<Player>(list, 2);
+        Rounds = ToObjects<Round>(list, 3);
+        CreationHeight = ToInt64(list, 4);
+        StartHeight = ToInt64(list, 5);
     }
 
     public IValue Bencoded => new List(
-        Metadata.Bencoded,
-        (Integer)(int)State,
-        new List(Players.Select(item => item.Bencoded)),
-        new List(Rounds.Select(item => item.Bencoded)),
-        (Integer)CreationHeight,
-        (Integer)StartHeight);
+        ToValue(Metadata),
+        ToValue(State),
+        ToValue(Players),
+        ToValue(Rounds),
+        ToValue(CreationHeight),
+        ToValue(StartHeight));
 
     public SessionMetadata Metadata { get; }
 

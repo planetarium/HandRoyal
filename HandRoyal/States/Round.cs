@@ -1,6 +1,7 @@
 ﻿using System.Collections.Immutable;
 using Bencodex;
 using Bencodex.Types;
+using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.States;
 
@@ -17,9 +18,9 @@ public sealed record class Round : IBencodable
             throw new ArgumentException($"Given value {value} is not a list.");
         }
 
-        Height = (long)(Integer)list[0];
-        Index = (int)(Integer)list[1];
-        Matches = [.. ((List)list[2]).Select(v => new Match(v))];
+        Height = ToInt64(list, 0);
+        Index = ToInt32(list, 1);
+        Matches = ToObjects<Match>(list, 2);
     }
 
     public long Height { get; set; }
@@ -29,9 +30,9 @@ public sealed record class Round : IBencodable
     public ImmutableArray<Match> Matches { get; set; } = [];
 
     public IValue Bencoded => new List(
-        (Integer)Height,
-        (Integer)Index,
-        new List(Matches.Select(p => p.Bencoded)));
+        ToValue(Height),
+        ToValue(Index),
+        ToValue(Matches));
 
     public int[] GetWiners()
     {
