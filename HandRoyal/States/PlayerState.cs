@@ -6,5 +6,7 @@ public enum PlayerState
 
     Playing,
 
-    Dead,
+    Won,
+
+    Lose,
 }

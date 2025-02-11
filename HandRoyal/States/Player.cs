@@ -38,15 +38,15 @@ public sealed record class Player : IBencodable
 
     public PlayerState State { get; set; }
 
-    public static ImmutableArray<Player> SetStateAsDead(
-        ImmutableArray<Player> players, int[] winers)
+    public static ImmutableArray<Player> SetState(
+        ImmutableArray<Player> players, int[] winers, PlayerState playerState)
     {
         for (var i = 0; i < players.Length; i++)
         {
             var player = players[i];
-            if (!winers.Contains(i))
+            if (winers.Contains(i))
             {
-                players = players.SetItem(i, player with { State = PlayerState.Dead });
+                players = players.SetItem(i, player with { State = playerState });
             }
         }
 

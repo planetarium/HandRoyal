@@ -35,6 +35,25 @@ internal sealed class ProcessSession : BlockActionBase
                 archivedSessionsAccount = archivedSessionsAccount.SetState(
                     sesstionAddress, session.Bencoded);
                 world = world.SetAccount(Addresses.ArchivedSessions, archivedSessionsAccount);
+
+                var winerIds = session.Players.Where(item => item.State == PlayerState.Won)
+                    .Select(item => item.Id)
+                    .ToArray();
+                var prize = session.Metadata.Prize;
+                var usersAccount = world.GetAccount(Addresses.Users);
+                foreach (var winnerId in winerIds)
+                {
+                    if (usersAccount.GetState(winnerId) is not { } userState)
+                    {
+                        continue;
+                    }
+
+                    var user = new User(userState);
+                    user = user with { Gloves = user.Gloves.Add(prize) };
+                    usersAccount = usersAccount.SetState(winnerId, user.Bencoded);
+                }
+
+                world = world.SetAccount(Addresses.Users, usersAccount);
             }
             else
             {

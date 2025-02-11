@@ -1,6 +1,7 @@
 ﻿using System.Collections.Immutable;
 using Bencodex;
 using Bencodex.Types;
+using Libplanet.Action;
 using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.States;
@@ -40,7 +41,7 @@ public sealed record class Match : IBencodable
             var start = i * segmentation;
             var end = Math.Min((i + 1) * segmentation, players.Length);
             var playerIndex1 = players[start];
-            var playerIndex2 = players[end - start] != 2 ? players[end - start] : -1;
+            var playerIndex2 = end - start == segmentation ? players[start + 1] : -1;
             var match = new Match
             {
                 Move1 = new Move { PlayerIndex = playerIndex1 },
@@ -52,13 +53,15 @@ public sealed record class Match : IBencodable
         return [.. matchList];
     }
 
-    public int[] GetWiners()
+    public int[] GetWiners(IRandom random)
     {
         var move1 = Move1;
         var move2 = Move2;
         if (move1.Type == move2.Type)
         {
-            return [];
+            return random.Next(2) == 0
+                ? [move1.PlayerIndex]
+                : [move2.PlayerIndex];
         }
 
         if (move1.Type == MoveType.None)

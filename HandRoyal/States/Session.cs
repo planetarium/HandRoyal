@@ -96,16 +96,11 @@ public sealed record class Session : IBencodable
             Matches = maches,
         };
 
-        static Player SetStateAsPlaying(Player player) => player with
-        {
-            State = PlayerState.Playing,
-        };
-
         return this with
         {
             State = SessionState.Active,
             StartHeight = height,
-            Players = [.. Players.Select(SetStateAsPlaying)],
+            Players = Player.SetState(Players, playerIndexes, PlayerState.Playing),
             Rounds = Rounds.Add(round),
         };
     }
@@ -121,13 +116,15 @@ public sealed record class Session : IBencodable
         }
 
         var round = Rounds[^1];
-        var winers = round.GetWiners();
+        var winers = round.GetWiners(random);
+        var losers = Enumerable.Range(0, Players.Length).Except(winers).ToArray();
+        var players = Player.SetState(Players, losers, PlayerState.Lose);
 
         if (winers.Length <= remainingUser)
         {
             return this with
             {
-                Players = Player.SetStateAsDead(Players, winers),
+                Players = Player.SetState(players, winers, PlayerState.Won),
                 State = SessionState.Ended,
             };
         }
@@ -142,7 +139,7 @@ public sealed record class Session : IBencodable
             };
             return this with
             {
-                Players = Player.SetStateAsDead(Players, winers),
+                Players = players,
                 Rounds = Rounds.Add(nextRound),
             };
         }

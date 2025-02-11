@@ -1,6 +1,7 @@
 ﻿using System.Collections.Immutable;
 using Bencodex;
 using Bencodex.Types;
+using Libplanet.Action;
 using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.States;
@@ -34,7 +35,7 @@ public sealed record class Round : IBencodable
         ToValue(Index),
         ToValue(Matches));
 
-    public int[] GetWiners()
+    public int[] GetWiners(IRandom random)
     {
         var matches = Matches;
         var capacity = Matches.Length * 2;
@@ -42,7 +43,7 @@ public sealed record class Round : IBencodable
         for (var i = 0; i < matches.Length; i++)
         {
             var match = matches[i];
-            var winers = match.GetWiners();
+            var winers = match.GetWiners(random);
             winerList.AddRange(winers);
         }
 
