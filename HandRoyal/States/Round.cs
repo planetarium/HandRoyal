@@ -20,19 +20,15 @@ public sealed record class Round : IBencodable
         }
 
         Height = ToInt64(list, 0);
-        Index = ToInt32(list, 1);
-        Matches = ToObjects<Match>(list, 2);
+        Matches = ToObjects<Match>(list, 1);
     }
 
     public long Height { get; set; }
-
-    public int Index { get; set; }
 
     public ImmutableArray<Match> Matches { get; set; } = [];
 
     public IValue Bencoded => new List(
         ToValue(Height),
-        ToValue(Index),
         ToValue(Matches));
 
     public int[] GetWiners(IRandom random)

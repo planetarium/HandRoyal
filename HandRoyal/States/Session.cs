@@ -92,7 +92,6 @@ public sealed record class Session : IBencodable
         var round = new Round
         {
             Height = height,
-            Index = Rounds.Length,
             Matches = maches,
         };
 
@@ -134,7 +133,6 @@ public sealed record class Session : IBencodable
             var nextRound = new Round
             {
                 Height = height,
-                Index = Rounds.Length,
                 Matches = Match.Create(playerIndexes),
             };
             return this with
