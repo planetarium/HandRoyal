@@ -13,9 +13,8 @@ public sealed class StateQueryController(IBlockChainService blockChainService) :
     {
         var blockChain = blockChainService.BlockChain;
         var worldState = blockChain.GetWorldState();
-
-        var currentSessionAccount = worldState.GetAccountState(Addresses.Sessions);
-        if (currentSessionAccount.GetState(sessionId) is { } currentSessionState)
+        var sessionsAccount = worldState.GetAccountState(Addresses.Sessions);
+        if (sessionsAccount.GetState(sessionId) is { } currentSessionState)
         {
             return new Session(currentSessionState);
         }
@@ -30,14 +29,28 @@ public sealed class StateQueryController(IBlockChainService blockChainService) :
     }
 
     [QueryRoot("StateQuery/User")]
-    public User? GetUser(Address userAddress)
+    public User? GetUser(Address userId)
     {
         var blockChain = blockChainService.BlockChain;
         var worldState = blockChain.GetWorldState();
-        var userAccount = worldState.GetAccountState(Addresses.Users);
-        if (userAccount.GetState(userAddress) is { } userState)
+        var usersAccount = worldState.GetAccountState(Addresses.Users);
+        if (usersAccount.GetState(userId) is { } userState)
         {
             return new User(userState);
+        }
+
+        return null;
+    }
+
+    [QueryRoot("StateQuery/Glove")]
+    public Glove? GetGlove(Address gloveId)
+    {
+        var blockChain = blockChainService.BlockChain;
+        var worldState = blockChain.GetWorldState();
+        var glovesAccount = worldState.GetAccountState(Addresses.Gloves);
+        if (glovesAccount.GetState(gloveId) is { } gloveState)
+        {
+            return new Glove(gloveState);
         }
 
         return null;
