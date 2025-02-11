@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.Numerics;
 using Libplanet.Crypto;
 
 namespace HandRoyal.Node.Explorer.Types;

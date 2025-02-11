@@ -1,7 +1,6 @@
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
 using HandRoyal.Node.Explorer.Types;
-using Libplanet.Common;
 using Libplanet.Crypto;
 using Libplanet.Node.Services;
 using Libplanet.Types.Tx;
@@ -13,13 +12,6 @@ public sealed class TransactionContoller(
     IActionService actionService,
     IStoreService storeService) : GraphController
 {
-    [QueryRoot("NextTxNonce")]
-    public long NextTxNonce(Address address)
-    {
-        var blockChain = blockChainService.BlockChain;
-        return blockChain.GetNextTxNonce(address);
-    }
-
     [QueryRoot("Transaction/UnsignedTransaction")]
     public HexValue UnsignedTransaction(
         PublicKey publicKey, HexValue plainValue, long nonce, FavValue? maxGasPrice)

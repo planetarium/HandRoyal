@@ -28,4 +28,11 @@ public sealed class QueryController(IBlockChainService blockChainService) : Grap
 
         return true;
     }
+
+    [QueryRoot("NextTxNonce")]
+    public long NextTxNonce(Address address)
+    {
+        var blockChain = blockChainService.BlockChain;
+        return blockChain.GetNextTxNonce(address);
+    }
 }

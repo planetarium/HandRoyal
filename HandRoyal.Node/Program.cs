@@ -3,7 +3,6 @@ using GraphQL.AspNet.Configuration;
 using HandRoyal.Node;
 using HandRoyal.Node.Explorer.Types;
 using Libplanet.Node.Extensions;
-using Libplanet.Types.Tx;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 

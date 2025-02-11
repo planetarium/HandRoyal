@@ -63,11 +63,11 @@ public sealed class MutationController(IBlockChainService blockChainService) : G
     }
 
     [MutationRoot("JoinSession")]
-    public TxId JoinSession(PrivateKey privateKey, Address sessionId, Address? glove)
+    public TxId JoinSession(PrivateKey privateKey, Address sessionId, Address? gloveId)
     {
         var address = privateKey.Address;
         var blockChain = blockChainService.BlockChain;
-        var joinSession = new JoinSession(sessionId, glove);
+        var joinSession = new JoinSession(sessionId, gloveId);
         var nonce = blockChain.GetNextTxNonce(address);
         var tx = Transaction.Create(
             nonce: nonce,
