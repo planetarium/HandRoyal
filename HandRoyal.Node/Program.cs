@@ -40,6 +40,7 @@ GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(TxIdScalarType));
 GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(PublicKeyScalarType));
 GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(PrivateKeyScalarType));
 GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(HexValueScalarType));
+GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(BlockHashScalarType));
 builder.Services.AddWebSockets(options =>
 {
 });
