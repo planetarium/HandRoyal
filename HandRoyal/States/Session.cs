@@ -65,7 +65,12 @@ public sealed record class Session : IBencodable
 
     public Session ProcessRound(long height, IRandom random) => State switch
     {
-        SessionState.None => this with { State = SessionState.Ready, CreationHeight = height },
+        SessionState.None => this with
+        {
+            State = SessionState.Ready,
+            CreationHeight = height,
+            StartHeight = Metadata.WaitingInterval + height,
+        },
         SessionState.Ready => StartSession(height, random),
         SessionState.Active => PlayRound(height, random),
         SessionState.Ended => this,
