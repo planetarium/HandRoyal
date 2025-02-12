@@ -20,12 +20,6 @@ public sealed class QueryController(IBlockChainService blockChainService) : Grap
             return false;
         }
 
-        var archivedSessionsAccount = worldState.GetAccountState(Addresses.ArchivedSessions);
-        if (archivedSessionsAccount.GetState(address) is not null)
-        {
-            return false;
-        }
-
         return true;
     }
 

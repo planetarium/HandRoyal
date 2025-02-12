@@ -54,10 +54,11 @@ public sealed class CreateSession : ActionBase
 
         var sessionMetadata = new SessionMetadata(SessionId, context.Signer, Prize);
         var session = new Session(sessionMetadata);
-        var sessionAddresses = sessionsAccount.GetState(Addresses.SessionAddresses) is IValue value
-            ? (List)value : [];
-        sessionAddresses = sessionAddresses.Add(SessionId.Bencoded);
-        sessionsAccount = sessionsAccount.SetState(Addresses.SessionAddresses, sessionAddresses);
+        var activeSessionAddresses = sessionsAccount.GetState(Addresses.ActiveSessionAddresses)
+            is IValue value ? (List)value : [];
+        activeSessionAddresses = activeSessionAddresses.Add(SessionId.Bencoded);
+        sessionsAccount = sessionsAccount.SetState(
+            Addresses.ActiveSessionAddresses, activeSessionAddresses);
         sessionsAccount = sessionsAccount.SetState(SessionId, session.Bencoded);
         return world.SetAccount(Addresses.Sessions, sessionsAccount);
     }
