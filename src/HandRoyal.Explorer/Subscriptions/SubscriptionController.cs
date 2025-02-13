@@ -1,12 +1,12 @@
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
 using GraphQL.AspNet.Interfaces.Controllers;
-using HandRoyal.Node.Explorer.Types;
+using HandRoyal.Explorer.Types;
 using Libplanet.Crypto;
 
-namespace HandRoyal.Node.Explorer.Subscriptions;
+namespace HandRoyal.Explorer.Subscriptions;
 
-public sealed class SubscriptionController : GraphController
+internal sealed class SubscriptionController : GraphController
 {
     public const string TipChangedEventName = "TIP_CHANGED";
     public const string MoveChangedEventName = "SESSION_CHANGED";

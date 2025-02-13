@@ -2,9 +2,9 @@ using GraphQL.AspNet.Common;
 using GraphQL.AspNet.Schemas.TypeSystem.Scalars;
 using Libplanet.Crypto;
 
-namespace HandRoyal.Node.Explorer.ScalarTypes;
+namespace HandRoyal.Explorer.ScalarTypes;
 
-public sealed class AddressScalarType()
+internal sealed class AddressScalarType()
     : ScalarGraphTypeBase("Address", typeof(Address))
 {
     public override ScalarValueType ValueType => ScalarValueType.String;

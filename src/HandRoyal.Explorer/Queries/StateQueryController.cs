@@ -5,9 +5,9 @@ using HandRoyal.States;
 using Libplanet.Crypto;
 using Libplanet.Node.Services;
 
-namespace HandRoyal.Node.Explorer.Queries;
+namespace HandRoyal.Explorer.Queries;
 
-public sealed class StateQueryController(IBlockChainService blockChainService) : GraphController
+internal sealed class StateQueryController(IBlockChainService blockChainService) : GraphController
 {
     [Query("Sessions")]
     public List<Session> GetSessions()

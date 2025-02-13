@@ -1,9 +1,9 @@
 using System.Collections.Immutable;
 using Libplanet.Common;
 
-namespace HandRoyal.Node.Explorer.Types;
+namespace HandRoyal.Explorer.Types;
 
-public sealed class HexValue(byte[] bytes)
+internal sealed class HexValue(byte[] bytes)
 {
     private readonly byte[] _bytes = bytes;
 

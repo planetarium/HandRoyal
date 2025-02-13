@@ -2,11 +2,12 @@
 using GraphQL.AspNet.Interfaces.Subscriptions;
 using GraphQL.AspNet.Schemas;
 using HandRoyal.Actions;
-using HandRoyal.Node.Explorer.Subscriptions;
-using HandRoyal.Node.Explorer.Types;
+using HandRoyal.Explorer.Subscriptions;
+using HandRoyal.Explorer.Types;
 using Libplanet.Node.Services;
+using Microsoft.Extensions.Hosting;
 
-namespace HandRoyal.Node.Explorer.Publishers;
+namespace HandRoyal.Explorer.Publishers;
 
 internal sealed class SubmitMoveRendererEventPublisher(
     IRendererService rendererService,

@@ -2,9 +2,9 @@ using GraphQL.AspNet.Common;
 using GraphQL.AspNet.Schemas.TypeSystem.Scalars;
 using Libplanet.Crypto;
 
-namespace HandRoyal.Node.Explorer.ScalarTypes;
+namespace HandRoyal.Explorer.ScalarTypes;
 
-public sealed class PrivateKeyScalarType()
+internal sealed class PrivateKeyScalarType()
     : ScalarGraphTypeBase("PrivateKey", typeof(PrivateKey))
 {
     public override ScalarValueType ValueType => ScalarValueType.String;

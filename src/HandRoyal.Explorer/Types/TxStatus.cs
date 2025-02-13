@@ -1,6 +1,6 @@
-namespace HandRoyal.Node.Explorer.Types;
+namespace HandRoyal.Explorer.Types;
 
-public enum TxStatus
+internal enum TxStatus
 {
     Invalid,
 

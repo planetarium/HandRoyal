@@ -1,15 +1,15 @@
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
 using HandRoyal.Actions;
-using HandRoyal.Node.Explorer.Types;
+using HandRoyal.Explorer.Types;
 using HandRoyal.States;
 using Libplanet.Crypto;
 using Libplanet.Node.Services;
 using Libplanet.Types.Tx;
 
-namespace HandRoyal.Node.Explorer.Mutations;
+namespace HandRoyal.Explorer.Mutations;
 
-public sealed class MutationController(IBlockChainService blockChainService) : GraphController
+internal sealed class MutationController(IBlockChainService blockChainService) : GraphController
 {
     [MutationRoot("CreateUser")]
     public TxId CreateUser(PrivateKey privateKey)

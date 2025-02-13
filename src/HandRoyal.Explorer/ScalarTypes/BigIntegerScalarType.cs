@@ -3,9 +3,9 @@ using System.Numerics;
 using GraphQL.AspNet.Common;
 using GraphQL.AspNet.Schemas.TypeSystem.Scalars;
 
-namespace HandRoyal.Node.Explorer.ScalarTypes;
+namespace HandRoyal.Explorer.ScalarTypes;
 
-public sealed class BigIntegerScalarType()
+internal sealed class BigIntegerScalarType()
     : ScalarGraphTypeBase("BigInteter", typeof(BigInteger))
 {
     public override ScalarValueType ValueType => ScalarValueType.String;

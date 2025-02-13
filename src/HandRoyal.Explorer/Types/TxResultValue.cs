@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace HandRoyal.Node.Explorer.Types;
+namespace HandRoyal.Explorer.Types;
 
-public sealed record class TxResultValue
+internal sealed record class TxResultValue
 {
     [Required]
     public required TxStatus TxStatus { get; init; }

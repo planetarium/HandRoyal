@@ -1,13 +1,13 @@
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
-using HandRoyal.Node.Explorer.Types;
+using HandRoyal.Explorer.Types;
 using Libplanet.Crypto;
 using Libplanet.Node.Services;
 using Libplanet.Types.Tx;
 
-namespace HandRoyal.Node.Explorer.Queries;
+namespace HandRoyal.Explorer.Queries;
 
-public sealed class TransactionController(
+internal sealed class TransactionController(
     IBlockChainService blockChainService,
     IActionService actionService,
     IStoreService storeService) : GraphController

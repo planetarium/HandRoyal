@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using Libplanet.Crypto;
 
-namespace HandRoyal.Node.Explorer.Types;
+namespace HandRoyal.Explorer.Types;
 
-public sealed record class FavValue
+internal sealed record class FavValue
 {
     [Required]
     public required decimal Quantity { get; init; }

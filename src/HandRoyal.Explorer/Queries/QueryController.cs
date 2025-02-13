@@ -3,9 +3,9 @@ using GraphQL.AspNet.Controllers;
 using Libplanet.Crypto;
 using Libplanet.Node.Services;
 
-namespace HandRoyal.Node.Explorer.Queries;
+namespace HandRoyal.Explorer.Queries;
 
-public sealed class QueryController(IBlockChainService blockChainService) : GraphController
+internal sealed class QueryController(IBlockChainService blockChainService) : GraphController
 {
     [QueryRoot("IsValidSessionId")]
     public bool IsValidSessionId(Address sessionId)

@@ -1,11 +1,11 @@
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
-using HandRoyal.Node.Explorer.Types;
+using HandRoyal.Explorer.Types;
 using Libplanet.Node.Services;
 
-namespace HandRoyal.Node.Explorer.Queries;
+namespace HandRoyal.Explorer.Queries;
 
-public sealed class NodeStatusController(IBlockChainService blockChainService) : GraphController
+internal sealed class NodeStatusController(IBlockChainService blockChainService) : GraphController
 {
     [Query("Tip")]
     public BlockHeaderValue GetTip()

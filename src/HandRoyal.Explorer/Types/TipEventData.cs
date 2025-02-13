@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using Libplanet.Types.Blocks;
 
-namespace HandRoyal.Node.Explorer.Types;
+namespace HandRoyal.Explorer.Types;
 
-public sealed record class TipEventData
+internal sealed record class TipEventData
 {
     [Required]
     public required long Height { get; init; }

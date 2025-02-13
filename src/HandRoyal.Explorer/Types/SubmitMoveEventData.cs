@@ -1,9 +1,9 @@
 using HandRoyal.States;
 using Libplanet.Crypto;
 
-namespace HandRoyal.Node.Explorer.Types;
+namespace HandRoyal.Explorer.Types;
 
-public sealed record class SubmitMoveEventData
+internal sealed record class SubmitMoveEventData
 {
     public Address SessionId { get; init; }
 

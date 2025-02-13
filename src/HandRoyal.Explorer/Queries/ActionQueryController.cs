@@ -2,13 +2,13 @@ using Bencodex;
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
 using HandRoyal.Actions;
-using HandRoyal.Node.Explorer.Types;
+using HandRoyal.Explorer.Types;
 using HandRoyal.States;
 using Libplanet.Crypto;
 
-namespace HandRoyal.Node.Explorer.Queries;
+namespace HandRoyal.Explorer.Queries;
 
-public sealed class ActionQueryController : GraphController
+internal sealed class ActionQueryController : GraphController
 {
     private static readonly Codec _codec = new();
 

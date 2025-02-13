@@ -1,11 +1,11 @@
 using GraphQL.AspNet.Common;
 using GraphQL.AspNet.Schemas.TypeSystem.Scalars;
-using HandRoyal.Node.Explorer.Types;
+using Libplanet.Types.Blocks;
 
-namespace HandRoyal.Node.Explorer.ScalarTypes;
+namespace HandRoyal.Explorer.ScalarTypes;
 
-public sealed class HexValueScalarType()
-    : ScalarGraphTypeBase("Hex", typeof(HexValue))
+internal sealed class BlockHashScalarType()
+    : ScalarGraphTypeBase("BlockHash", typeof(BlockHash))
 {
     public override ScalarValueType ValueType => ScalarValueType.String;
 
@@ -14,11 +14,11 @@ public sealed class HexValueScalarType()
     public override object Resolve(ReadOnlySpan<char> data)
     {
         var text = GraphQLStrings.UnescapeAndTrimDelimiters(data);
-        return HexValue.Parse(text);
+        return BlockHash.FromString(text);
     }
 
     public override object Serialize(object item)
-        => item is HexValue hexValue ? hexValue.ToString() : base.Serialize(item);
+        => item is BlockHash blockHash ? blockHash.ToString() : base.Serialize(item);
 
-    public override bool ValidateObject(object item) => item is HexValue;
+    public override bool ValidateObject(object item) => item is BlockHash;
 }

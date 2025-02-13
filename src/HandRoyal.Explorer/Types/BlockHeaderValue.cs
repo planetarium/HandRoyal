@@ -1,9 +1,9 @@
 using Libplanet.Crypto;
 using Libplanet.Types.Blocks;
 
-namespace HandRoyal.Node.Explorer.Types;
+namespace HandRoyal.Explorer.Types;
 
-public sealed class BlockHeaderValue(Block block)
+internal sealed class BlockHeaderValue(Block block)
 {
     public long Height => block.Index;
 

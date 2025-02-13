@@ -1,13 +1,8 @@
-using GraphQL.AspNet;
-using GraphQL.AspNet.Configuration;
+using HandRoyal.Explorer;
 using HandRoyal.Node;
-using HandRoyal.Node.Explorer.Publishers;
-using HandRoyal.Node.Explorer.ScalarTypes;
-using HandRoyal.Node.Explorer.Types;
 using Libplanet.Node.Extensions;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.AspNetCore.WebSockets;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.AddConsole();
@@ -23,7 +18,6 @@ if (builder.Environment.IsDevelopment())
     });
 
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
     builder.Services.AddAuthorization();
     builder.Services.AddAuthentication("Bearer").AddJwtBearer();
 }
@@ -36,23 +30,11 @@ builder.Services.AddCors(options =>
         .AllowAnyHeader()
         .Build());
 });
-GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(AddressScalarType));
-GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(TxIdScalarType));
-GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(PublicKeyScalarType));
-GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(PrivateKeyScalarType));
-GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(HexValueScalarType));
-GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(BlockHashScalarType));
-GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(BigIntegerScalarType));
-builder.Services.AddWebSockets(options =>
-{
-});
-builder.Services.AddGraphQL()
-    .AddSubscriptions();
-builder.Services.AddHostedService<BlockChainRendererEventPublisher>();
-builder.Services.AddHostedService<SubmitMoveRendererEventPublisher>();
+
 builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
 builder.Services.AddLibplanetNode(builder.Configuration);
+builder.Services.AddExplorer();
 builder.Services.AddHostedService<BlockChainRendererTracer>();
 
 var handlerMessage = """
@@ -65,15 +47,11 @@ app.MapGet("/", () => handlerMessage);
 if (builder.Environment.IsDevelopment())
 {
     app.MapGrpcReflectionService().AllowAnonymous();
-
-    app.UseSwagger();
-    app.UseSwaggerUI();
 }
 
 // Use GraphQL middleware
 app.UseCors("AllowAll");
-app.UseWebSockets();
-app.UseGraphQL();
+app.UseExplorer();
 
 app.MapSchemaBuilder("/v1/schema");
 app.MapGet("/schema", context => Task.Run(() => context.Response.Redirect("/v1/schema")));
