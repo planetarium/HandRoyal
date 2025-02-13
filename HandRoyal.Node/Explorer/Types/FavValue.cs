@@ -6,7 +6,7 @@ namespace HandRoyal.Node.Explorer.Types;
 public sealed record class FavValue
 {
     [Required]
-    public required string Quantity { get; init; }
+    public required decimal Quantity { get; init; }
 
     [Required]
     public required string Ticker { get; init; }

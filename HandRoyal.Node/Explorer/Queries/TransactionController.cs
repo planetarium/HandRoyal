@@ -5,14 +5,14 @@ using Libplanet.Crypto;
 using Libplanet.Node.Services;
 using Libplanet.Types.Tx;
 
-namespace HandRoyal.Node.Explorer;
+namespace HandRoyal.Node.Explorer.Queries;
 
 public sealed class TransactionController(
     IBlockChainService blockChainService,
     IActionService actionService,
     IStoreService storeService) : GraphController
 {
-    [QueryRoot("Transaction/UnsignedTransaction")]
+    [Query("UnsignedTransaction")]
     public HexValue UnsignedTransaction(
         PublicKey publicKey, HexValue plainValue, long nonce, FavValue? maxGasPrice)
     {
@@ -31,7 +31,7 @@ public sealed class TransactionController(
         return unsignedTransaction.SerializeUnsignedTx().ToArray();
     }
 
-    [QueryRoot("Transaction/SignTransaction")]
+    [Query("SignTransaction")]
     public HexValue SignTransaction(HexValue unsignedTransaction, HexValue signature)
     {
         var unsignedTx = TxMarshaler.DeserializeUnsignedTx(unsignedTransaction);
@@ -39,39 +39,39 @@ public sealed class TransactionController(
         return signedTransaction.Serialize();
     }
 
-    [QueryRoot("Transaction/TransactionResult")]
-    public TxResult TransactionResult(TxId txId)
+    [Query("TransactionResult")]
+    public TxResultValue TransactionResult(TxId txId)
     {
         var blockChain = blockChainService.BlockChain;
         var store = storeService.Store;
 
         try
         {
-            var blockHashCandidates = store
+            var blockHashes = store
                 .IterateTxIdBlockHashIndex(txId)
-                .Where(bhc => blockChain.ContainsBlock(bhc))
-                .ToList();
-            var blockContainingTx = blockHashCandidates.Count != 0
-                ? blockChain[blockHashCandidates.First()]
+                .Where(blockChain.ContainsBlock)
+                .ToArray();
+            var block = blockHashes.Length != 0
+                ? blockChain[blockHashes[0]]
                 : null;
 
-            if (blockContainingTx is { } block)
+            if (block is not null)
             {
                 if (blockChain.GetTxExecution(block.Hash, txId) is { } execution)
                 {
-                    return new TxResult
+                    return new TxResultValue
                     {
-                        TxStatus = execution.Fail ? TxStatus.FAILURE : TxStatus.SUCCESS,
+                        TxStatus = execution.Fail ? TxStatus.Failure : TxStatus.Success,
                         BlockIndex = block.Index,
                         ExceptionNames = execution.ExceptionNames is { } exceptionNames
-                            ? exceptionNames.ToArray() : null,
+                            ? [.. exceptionNames] : null,
                     };
                 }
                 else
                 {
-                    return new TxResult
+                    return new TxResultValue
                     {
-                        TxStatus = TxStatus.INCLUDED,
+                        TxStatus = TxStatus.Included,
                         BlockIndex = block.Index,
                     };
                 }
@@ -79,13 +79,13 @@ public sealed class TransactionController(
             else
             {
                 return blockChain.GetStagedTransactionIds().Contains(txId)
-                    ? new TxResult { TxStatus = TxStatus.STAGING }
-                    : new TxResult { TxStatus = TxStatus.INVALID };
+                    ? new TxResultValue { TxStatus = TxStatus.Staging }
+                    : new TxResultValue { TxStatus = TxStatus.Invalid };
             }
         }
         catch (Exception)
         {
-            return new TxResult { TxStatus = TxStatus.INVALID };
+            return new TxResultValue { TxStatus = TxStatus.Invalid };
         }
     }
 }

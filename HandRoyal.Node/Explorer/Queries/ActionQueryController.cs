@@ -6,20 +6,20 @@ using HandRoyal.Node.Explorer.Types;
 using HandRoyal.States;
 using Libplanet.Crypto;
 
-namespace HandRoyal.Node.Explorer;
+namespace HandRoyal.Node.Explorer.Queries;
 
 public sealed class ActionQueryController : GraphController
 {
     private static readonly Codec _codec = new();
 
-    [QueryRoot("ActionQuery/CreateUser")]
+    [Query("CreateUser")]
     public HexValue CreateUser()
     {
         var createUser = new CreateUser();
         return _codec.Encode(createUser.PlainValue);
     }
 
-    [QueryRoot("ActionQuery/CreateSession")]
+    [Query("CreateSession")]
     public HexValue CreateSession(Address sessionId, Address prize)
     {
         var createSession = new CreateSession(
@@ -28,21 +28,21 @@ public sealed class ActionQueryController : GraphController
         return _codec.Encode(createSession.PlainValue);
     }
 
-    [QueryRoot("ActionQuery/JoinSession")]
+    [Query("JoinSession")]
     public HexValue JoinSession(Address sessionId, Address? gloveId)
     {
         var joinSession = new JoinSession(sessionId, gloveId);
         return _codec.Encode(joinSession.PlainValue);
     }
 
-    [QueryRoot("ActionQuery/RegisterGlove")]
+    [Query("RegisterGlove")]
     public HexValue RegisterGlove(Address gloveId)
     {
         var registerGlove = new RegisterGlove(gloveId);
         return _codec.Encode(registerGlove.PlainValue);
     }
 
-    [QueryRoot("ActionQuery/SubmitMove")]
+    [Query("SubmitMove")]
     public HexValue SubmitMove(Address sessionId, MoveType move)
     {
         var submitMove = new SubmitMove(sessionId, move);

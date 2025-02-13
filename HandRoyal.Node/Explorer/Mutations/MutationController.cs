@@ -7,7 +7,7 @@ using Libplanet.Crypto;
 using Libplanet.Node.Services;
 using Libplanet.Types.Tx;
 
-namespace HandRoyal.Node.Explorer;
+namespace HandRoyal.Node.Explorer.Mutations;
 
 public sealed class MutationController(IBlockChainService blockChainService) : GraphController
 {

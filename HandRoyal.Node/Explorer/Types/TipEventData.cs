@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Libplanet.Types.Blocks;
 
 namespace HandRoyal.Node.Explorer.Types;
 
@@ -8,5 +9,5 @@ public sealed record class TipEventData
     public required long Height { get; init; }
 
     [Required]
-    public required string Hash { get; init; }
+    public required BlockHash Hash { get; init; }
 }

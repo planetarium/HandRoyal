@@ -3,7 +3,7 @@ using GraphQL.AspNet.Controllers;
 using GraphQL.AspNet.Interfaces.Controllers;
 using HandRoyal.Node.Explorer.Types;
 
-namespace HandRoyal.Node.Explorer;
+namespace HandRoyal.Node.Explorer.Subscriptions;
 
 public sealed class SubscriptionController : GraphController
 {

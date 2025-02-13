@@ -2,13 +2,13 @@ namespace HandRoyal.Node.Explorer.Types;
 
 public enum TxStatus
 {
-    INVALID,
+    Invalid,
 
-    STAGING,
+    Staging,
 
-    SUCCESS,
+    Success,
 
-    FAILURE,
+    Failure,
 
-    INCLUDED,
+    Included,
 }

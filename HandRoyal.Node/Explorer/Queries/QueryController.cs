@@ -3,7 +3,7 @@ using GraphQL.AspNet.Controllers;
 using Libplanet.Crypto;
 using Libplanet.Node.Services;
 
-namespace HandRoyal.Node.Explorer;
+namespace HandRoyal.Node.Explorer.Queries;
 
 public sealed class QueryController(IBlockChainService blockChainService) : GraphController
 {

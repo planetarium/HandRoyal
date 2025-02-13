@@ -4,13 +4,12 @@ using GraphQL.AspNet.Controllers;
 using HandRoyal.States;
 using Libplanet.Crypto;
 using Libplanet.Node.Services;
-using Libplanet.Store.Trie;
 
-namespace HandRoyal.Node.Explorer;
+namespace HandRoyal.Node.Explorer.Queries;
 
 public sealed class StateQueryController(IBlockChainService blockChainService) : GraphController
 {
-    [QueryRoot("StateQuery/Sessions")]
+    [Query("Sessions")]
     public List<Session> GetSessions()
     {
         var blockChain = blockChainService.BlockChain;
@@ -30,7 +29,7 @@ public sealed class StateQueryController(IBlockChainService blockChainService) :
             .ToList();
     }
 
-    [QueryRoot("StateQuery/Session")]
+    [Query("Session")]
     public Session? GetSession(Address sessionId)
     {
         var blockChain = blockChainService.BlockChain;
@@ -44,7 +43,7 @@ public sealed class StateQueryController(IBlockChainService blockChainService) :
         return null;
     }
 
-    [QueryRoot("StateQuery/User")]
+    [Query("User")]
     public User? GetUser(Address userId)
     {
         var blockChain = blockChainService.BlockChain;
@@ -58,7 +57,7 @@ public sealed class StateQueryController(IBlockChainService blockChainService) :
         return null;
     }
 
-    [QueryRoot("StateQuery/Glove")]
+    [Query("Glove")]
     public Glove? GetGlove(Address gloveId)
     {
         var blockChain = blockChainService.BlockChain;

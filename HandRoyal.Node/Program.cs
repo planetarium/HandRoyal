@@ -2,6 +2,7 @@ using GraphQL.AspNet;
 using GraphQL.AspNet.Configuration;
 using HandRoyal.Node;
 using HandRoyal.Node.Explorer.Publishers;
+using HandRoyal.Node.Explorer.ScalarTypes;
 using HandRoyal.Node.Explorer.Types;
 using Libplanet.Node.Extensions;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -41,6 +42,7 @@ GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(PublicKeyScalarType)
 GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(PrivateKeyScalarType));
 GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(HexValueScalarType));
 GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(BlockHashScalarType));
+GraphQLProviders.ScalarProvider.RegisterCustomScalar(typeof(BigIntegerScalarType));
 builder.Services.AddWebSockets(options =>
 {
 });
