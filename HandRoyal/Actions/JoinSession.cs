@@ -75,7 +75,7 @@ public sealed class JoinSession : ActionBase
         }
         catch (Exception e)
         {
-            throw new JoinSessionException("Exception occured during JoinSession.", e);
+            throw new JoinSessionException("Exception occurred during JoinSession.", e);
         }
 
         if (Glove != default && !user.Gloves.Contains(Glove))

@@ -93,11 +93,11 @@ public sealed record class Session : IBencodable
         }
 
         var playerIndexes = random.Shuffle(indexes).ToArray();
-        var maches = Match.Create(playerIndexes);
+        var matches = Match.Create(playerIndexes);
         var round = new Round
         {
             Height = height,
-            Matches = maches,
+            Matches = matches,
         };
 
         return this with
