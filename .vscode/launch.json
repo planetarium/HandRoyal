@@ -8,7 +8,7 @@
       "name": "C#: Node",
       "type": "dotnet",
       "request": "launch",
-      "projectPath": "${workspaceFolder}/HandRoyal.Node/HandRoyal.Node.csproj"
+      "projectPath": "${workspaceFolder}/src/HandRoyal.Node/HandRoyal.Node.csproj"
     }
   ]
 }
