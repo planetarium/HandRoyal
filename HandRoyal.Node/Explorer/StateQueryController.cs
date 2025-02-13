@@ -1,13 +1,35 @@
+using Bencodex.Types;
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
 using HandRoyal.States;
 using Libplanet.Crypto;
 using Libplanet.Node.Services;
+using Libplanet.Store.Trie;
 
 namespace HandRoyal.Node.Explorer;
 
 public sealed class StateQueryController(IBlockChainService blockChainService) : GraphController
 {
+    [QueryRoot("StateQuery/Sessions")]
+    public List<Session> GetSessions()
+    {
+        var blockChain = blockChainService.BlockChain;
+        var worldState = blockChain.GetWorldState();
+
+        var currentSessionAccount = worldState.GetAccountState(Addresses.Sessions);
+        if (currentSessionAccount.GetState(Addresses.ActiveSessionAddresses)
+            is not List activeSessionAddresses)
+        {
+            return [];
+        }
+
+        return activeSessionAddresses
+            .Select(address => currentSessionAccount.GetState(new Address(address)))
+            .Where(state => state is not null)
+            .Select(state => new Session(state!))
+            .ToList();
+    }
+
     [QueryRoot("StateQuery/Session")]
     public Session? GetSession(Address sessionId)
     {
@@ -17,12 +39,6 @@ public sealed class StateQueryController(IBlockChainService blockChainService) :
         if (sessionsAccount.GetState(sessionId) is { } currentSessionState)
         {
             return new Session(currentSessionState);
-        }
-
-        var archivedSessionsAccount = worldState.GetAccountState(Addresses.ArchivedSessions);
-        if (archivedSessionsAccount.GetState(sessionId) is { } archivedSessionState)
-        {
-            return new Session(archivedSessionState);
         }
 
         return null;

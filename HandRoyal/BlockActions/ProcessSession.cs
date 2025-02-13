@@ -13,15 +13,17 @@ internal sealed class ProcessSession : BlockActionBase
         var world = context.PreviousState;
         var height = context.BlockIndex;
         var sessionsAccount = world.GetAccount(Addresses.Sessions);
-        if (sessionsAccount.GetState(Addresses.SessionAddresses) is not List sessionAddresses)
+        if (sessionsAccount.GetState(Addresses.ActiveSessionAddresses)
+            is not List activeSessionAddresses)
         {
             return world;
         }
 
-        for (var i = 0; i < sessionAddresses.Count; i++)
+        List<IValue> endedSessionAddresses = [];
+        for (var i = 0; i < activeSessionAddresses.Count; i++)
         {
-            var sesstionAddress = new Address(sessionAddresses[i]);
-            if (sessionsAccount.GetState(sesstionAddress) is not { } sessionState)
+            var sessionAddress = new Address(activeSessionAddresses[i]);
+            if (sessionsAccount.GetState(sessionAddress) is not { } sessionState)
             {
                 continue;
             }
@@ -30,12 +32,7 @@ internal sealed class ProcessSession : BlockActionBase
             session = session.ProcessRound(height, context.GetRandom());
             if (session.State == SessionState.Ended)
             {
-                sessionsAccount = sessionsAccount.RemoveState(sesstionAddress);
-                var archivedSessionsAccount = world.GetAccount(Addresses.ArchivedSessions);
-                archivedSessionsAccount = archivedSessionsAccount.SetState(
-                    sesstionAddress, session.Bencoded);
-                world = world.SetAccount(Addresses.ArchivedSessions, archivedSessionsAccount);
-
+                endedSessionAddresses.Add(sessionAddress.Bencoded);
                 var winerIds = session.Players.Where(item => item.State == PlayerState.Won)
                     .Select(item => item.Id)
                     .ToArray();
@@ -55,12 +52,14 @@ internal sealed class ProcessSession : BlockActionBase
 
                 world = world.SetAccount(Addresses.Users, usersAccount);
             }
-            else
-            {
-                sessionsAccount = sessionsAccount.SetState(
-                    sesstionAddress, session.Bencoded);
-            }
+
+            sessionsAccount = sessionsAccount.SetState(sessionAddress, session.Bencoded);
         }
+
+        var updatedActiveSessionAddresses = activeSessionAddresses.Except(endedSessionAddresses);
+        sessionsAccount = sessionsAccount.SetState(
+            Addresses.ActiveSessionAddresses,
+            new List(updatedActiveSessionAddresses));
 
         world = world.SetAccount(Addresses.Sessions, sessionsAccount);
         return world;
