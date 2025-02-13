@@ -7,7 +7,7 @@ using Libplanet.Types.Tx;
 
 namespace HandRoyal.Node.Explorer;
 
-public sealed class TransactionContoller(
+public sealed class TransactionController(
     IBlockChainService blockChainService,
     IActionService actionService,
     IStoreService storeService) : GraphController
