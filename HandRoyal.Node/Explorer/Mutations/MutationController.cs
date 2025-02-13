@@ -7,11 +7,11 @@ using Libplanet.Crypto;
 using Libplanet.Node.Services;
 using Libplanet.Types.Tx;
 
-namespace HandRoyal.Node.Explorer;
+namespace HandRoyal.Node.Explorer.Mutations;
 
 public sealed class MutationController(IBlockChainService blockChainService) : GraphController
 {
-    [MutationRoot("CreateUser")]
+    [Mutation("CreateUser")]
     public TxId CreateUser(PrivateKey privateKey)
     {
         var address = privateKey.Address;
@@ -28,7 +28,7 @@ public sealed class MutationController(IBlockChainService blockChainService) : G
         return tx.Id;
     }
 
-    [MutationRoot("CreateSession")]
+    [Mutation("CreateSession")]
     public TxId CreateSession(PrivateKey privateKey, Address sessionId, Address prize)
     {
         var address = privateKey.Address;
@@ -45,7 +45,7 @@ public sealed class MutationController(IBlockChainService blockChainService) : G
         return tx.Id;
     }
 
-    [MutationRoot("RegisterGlove")]
+    [Mutation("RegisterGlove")]
     public TxId RegisterGlove(PrivateKey privateKey, Address gloveId)
     {
         var address = privateKey.Address;
@@ -62,7 +62,7 @@ public sealed class MutationController(IBlockChainService blockChainService) : G
         return tx.Id;
     }
 
-    [MutationRoot("JoinSession")]
+    [Mutation("JoinSession")]
     public TxId JoinSession(PrivateKey privateKey, Address sessionId, Address? gloveId)
     {
         var address = privateKey.Address;
@@ -79,7 +79,7 @@ public sealed class MutationController(IBlockChainService blockChainService) : G
         return tx.Id;
     }
 
-    [MutationRoot("SubmitMove")]
+    [Mutation("SubmitMove")]
     public TxId SubmitMove(PrivateKey privateKey, Address sessionId, MoveType move)
     {
         var address = privateKey.Address;
@@ -96,7 +96,7 @@ public sealed class MutationController(IBlockChainService blockChainService) : G
         return tx.Id;
     }
 
-    [MutationRoot("StageTransaction")]
+    [Mutation("StageTransaction")]
     public TxId StageTransaction(HexValue payload)
     {
         var blockChain = blockChainService.BlockChain;

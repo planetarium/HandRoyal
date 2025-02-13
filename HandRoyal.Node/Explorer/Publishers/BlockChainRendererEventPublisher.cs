@@ -1,5 +1,6 @@
 ﻿using GraphQL.AspNet.Interfaces.Subscriptions;
 using GraphQL.AspNet.Schemas;
+using HandRoyal.Node.Explorer.Subscriptions;
 using HandRoyal.Node.Explorer.Types;
 using Libplanet.Node.Services;
 

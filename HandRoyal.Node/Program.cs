@@ -2,6 +2,7 @@ using GraphQL.AspNet;
 using GraphQL.AspNet.Configuration;
 using HandRoyal.Node;
 using HandRoyal.Node.Explorer.Publishers;
+using HandRoyal.Node.Explorer.ScalarTypes;
 using HandRoyal.Node.Explorer.Types;
 using Libplanet.Node.Extensions;
 using Microsoft.AspNetCore.Cors.Infrastructure;

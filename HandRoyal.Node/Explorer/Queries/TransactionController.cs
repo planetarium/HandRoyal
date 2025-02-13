@@ -5,14 +5,14 @@ using Libplanet.Crypto;
 using Libplanet.Node.Services;
 using Libplanet.Types.Tx;
 
-namespace HandRoyal.Node.Explorer;
+namespace HandRoyal.Node.Explorer.Queries;
 
 public sealed class TransactionController(
     IBlockChainService blockChainService,
     IActionService actionService,
     IStoreService storeService) : GraphController
 {
-    [QueryRoot("Transaction/UnsignedTransaction")]
+    [Query("UnsignedTransaction")]
     public HexValue UnsignedTransaction(
         PublicKey publicKey, HexValue plainValue, long nonce, FavValue? maxGasPrice)
     {
@@ -31,7 +31,7 @@ public sealed class TransactionController(
         return unsignedTransaction.SerializeUnsignedTx().ToArray();
     }
 
-    [QueryRoot("Transaction/SignTransaction")]
+    [Query("SignTransaction")]
     public HexValue SignTransaction(HexValue unsignedTransaction, HexValue signature)
     {
         var unsignedTx = TxMarshaler.DeserializeUnsignedTx(unsignedTransaction);
@@ -39,7 +39,7 @@ public sealed class TransactionController(
         return signedTransaction.Serialize();
     }
 
-    [QueryRoot("Transaction/TransactionResult")]
+    [Query("TransactionResult")]
     public TxResult TransactionResult(TxId txId)
     {
         var blockChain = blockChainService.BlockChain;

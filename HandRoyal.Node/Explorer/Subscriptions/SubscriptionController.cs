@@ -3,13 +3,13 @@ using GraphQL.AspNet.Controllers;
 using GraphQL.AspNet.Interfaces.Controllers;
 using HandRoyal.Node.Explorer.Types;
 
-namespace HandRoyal.Node.Explorer;
+namespace HandRoyal.Node.Explorer.Subscriptions;
 
 public sealed class SubscriptionController : GraphController
 {
     public const string TipChangedEventName = "TIP_CHANGED";
 
-    [SubscriptionRoot("onTipChanged", typeof(TipEventData), EventName = TipChangedEventName)]
+    [Subscription("onTipChanged", typeof(TipEventData), EventName = TipChangedEventName)]
     public IGraphActionResult OnTipChanged(TipEventData eventData)
     {
         return Ok(eventData);

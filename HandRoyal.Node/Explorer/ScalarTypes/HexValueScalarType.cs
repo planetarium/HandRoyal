@@ -1,11 +1,11 @@
 using GraphQL.AspNet.Common;
 using GraphQL.AspNet.Schemas.TypeSystem.Scalars;
-using Libplanet.Crypto;
+using HandRoyal.Node.Explorer.Types;
 
-namespace HandRoyal.Node.Explorer.Types;
+namespace HandRoyal.Node.Explorer.ScalarTypes;
 
-public sealed class PublicKeyScalarType()
-    : ScalarGraphTypeBase("PublicKey", typeof(PublicKey))
+public sealed class HexValueScalarType()
+    : ScalarGraphTypeBase("Hex", typeof(HexValue))
 {
     public override ScalarValueType ValueType => ScalarValueType.String;
 
@@ -14,11 +14,11 @@ public sealed class PublicKeyScalarType()
     public override object Resolve(ReadOnlySpan<char> data)
     {
         var text = GraphQLStrings.UnescapeAndTrimDelimiters(data);
-        return PublicKey.FromHex(text);
+        return HexValue.Parse(text);
     }
 
     public override object Serialize(object item)
-        => item is PublicKey publicKey ? publicKey.ToHex(compress: false) : base.Serialize(item);
+        => item is HexValue hexValue ? hexValue.ToString() : base.Serialize(item);
 
-    public override bool ValidateObject(object item) => item is PublicKey;
+    public override bool ValidateObject(object item) => item is HexValue;
 }

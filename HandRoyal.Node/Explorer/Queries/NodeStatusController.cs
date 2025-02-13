@@ -3,7 +3,7 @@ using GraphQL.AspNet.Controllers;
 using HandRoyal.Node.Explorer.Types;
 using Libplanet.Node.Services;
 
-namespace HandRoyal.Node.Explorer;
+namespace HandRoyal.Node.Explorer.Queries;
 
 public sealed class NodeStatusController(IBlockChainService blockChainService) : GraphController
 {
