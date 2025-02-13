@@ -9,7 +9,7 @@ public sealed class SubscriptionController : GraphController
 {
     public const string TipChangedEventName = "TIP_CHANGED";
 
-    [Subscription("onTipChanged", typeof(TipEventData), EventName = TipChangedEventName)]
+    [SubscriptionRoot("onTipChanged", typeof(TipEventData), EventName = TipChangedEventName)]
     public IGraphActionResult OnTipChanged(TipEventData eventData)
     {
         return Ok(eventData);

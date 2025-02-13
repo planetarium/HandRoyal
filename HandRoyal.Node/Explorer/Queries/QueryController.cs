@@ -7,7 +7,7 @@ namespace HandRoyal.Node.Explorer.Queries;
 
 public sealed class QueryController(IBlockChainService blockChainService) : GraphController
 {
-    [Query("IsValidSessionId")]
+    [QueryRoot("IsValidSessionId")]
     public bool IsValidSessionId(Address sessionId)
     {
         var address = sessionId;
@@ -23,7 +23,7 @@ public sealed class QueryController(IBlockChainService blockChainService) : Grap
         return true;
     }
 
-    [Query("NextTxNonce")]
+    [QueryRoot("NextTxNonce")]
     public long NextTxNonce(Address address)
     {
         var blockChain = blockChainService.BlockChain;

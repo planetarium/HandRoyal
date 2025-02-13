@@ -40,38 +40,38 @@ public sealed class TransactionController(
     }
 
     [Query("TransactionResult")]
-    public TxResult TransactionResult(TxId txId)
+    public TxResultValue TransactionResult(TxId txId)
     {
         var blockChain = blockChainService.BlockChain;
         var store = storeService.Store;
 
         try
         {
-            var blockHashCandidates = store
+            var blockHashes = store
                 .IterateTxIdBlockHashIndex(txId)
-                .Where(bhc => blockChain.ContainsBlock(bhc))
-                .ToList();
-            var blockContainingTx = blockHashCandidates.Count != 0
-                ? blockChain[blockHashCandidates.First()]
+                .Where(blockChain.ContainsBlock)
+                .ToArray();
+            var block = blockHashes.Length != 0
+                ? blockChain[blockHashes[0]]
                 : null;
 
-            if (blockContainingTx is { } block)
+            if (block is not null)
             {
                 if (blockChain.GetTxExecution(block.Hash, txId) is { } execution)
                 {
-                    return new TxResult
+                    return new TxResultValue
                     {
-                        TxStatus = execution.Fail ? TxStatus.FAILURE : TxStatus.SUCCESS,
+                        TxStatus = execution.Fail ? TxStatus.Failure : TxStatus.Success,
                         BlockIndex = block.Index,
                         ExceptionNames = execution.ExceptionNames is { } exceptionNames
-                            ? exceptionNames.ToArray() : null,
+                            ? [.. exceptionNames] : null,
                     };
                 }
                 else
                 {
-                    return new TxResult
+                    return new TxResultValue
                     {
-                        TxStatus = TxStatus.INCLUDED,
+                        TxStatus = TxStatus.Included,
                         BlockIndex = block.Index,
                     };
                 }
@@ -79,13 +79,13 @@ public sealed class TransactionController(
             else
             {
                 return blockChain.GetStagedTransactionIds().Contains(txId)
-                    ? new TxResult { TxStatus = TxStatus.STAGING }
-                    : new TxResult { TxStatus = TxStatus.INVALID };
+                    ? new TxResultValue { TxStatus = TxStatus.Staging }
+                    : new TxResultValue { TxStatus = TxStatus.Invalid };
             }
         }
         catch (Exception)
         {
-            return new TxResult { TxStatus = TxStatus.INVALID };
+            return new TxResultValue { TxStatus = TxStatus.Invalid };
         }
     }
 }

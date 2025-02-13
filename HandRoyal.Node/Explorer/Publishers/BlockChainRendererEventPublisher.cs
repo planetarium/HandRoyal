@@ -29,7 +29,10 @@ internal sealed class BlockChainRendererEventPublisher(
     private void RenderBlockEnd(RenderBlockInfo info)
     {
         var eventData = new TipEventData
-            { Height = info.NewTip.Index, Hash = info.NewTip.Hash.ToString() };
+        {
+            Height = info.NewTip.Index,
+            Hash = info.NewTip.Hash,
+        };
         var subscriptionEvent = new GraphQL.AspNet.SubscriptionServer.SubscriptionEvent
         {
             Id = Guid.NewGuid().ToString(),

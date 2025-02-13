@@ -11,7 +11,7 @@ namespace HandRoyal.Node.Explorer.Mutations;
 
 public sealed class MutationController(IBlockChainService blockChainService) : GraphController
 {
-    [Mutation("CreateUser")]
+    [MutationRoot("CreateUser")]
     public TxId CreateUser(PrivateKey privateKey)
     {
         var address = privateKey.Address;
@@ -28,7 +28,7 @@ public sealed class MutationController(IBlockChainService blockChainService) : G
         return tx.Id;
     }
 
-    [Mutation("CreateSession")]
+    [MutationRoot("CreateSession")]
     public TxId CreateSession(PrivateKey privateKey, Address sessionId, Address prize)
     {
         var address = privateKey.Address;
@@ -45,7 +45,7 @@ public sealed class MutationController(IBlockChainService blockChainService) : G
         return tx.Id;
     }
 
-    [Mutation("RegisterGlove")]
+    [MutationRoot("RegisterGlove")]
     public TxId RegisterGlove(PrivateKey privateKey, Address gloveId)
     {
         var address = privateKey.Address;
@@ -62,7 +62,7 @@ public sealed class MutationController(IBlockChainService blockChainService) : G
         return tx.Id;
     }
 
-    [Mutation("JoinSession")]
+    [MutationRoot("JoinSession")]
     public TxId JoinSession(PrivateKey privateKey, Address sessionId, Address? gloveId)
     {
         var address = privateKey.Address;
@@ -79,7 +79,7 @@ public sealed class MutationController(IBlockChainService blockChainService) : G
         return tx.Id;
     }
 
-    [Mutation("SubmitMove")]
+    [MutationRoot("SubmitMove")]
     public TxId SubmitMove(PrivateKey privateKey, Address sessionId, MoveType move)
     {
         var address = privateKey.Address;
@@ -96,7 +96,7 @@ public sealed class MutationController(IBlockChainService blockChainService) : G
         return tx.Id;
     }
 
-    [Mutation("StageTransaction")]
+    [MutationRoot("StageTransaction")]
     public TxId StageTransaction(HexValue payload)
     {
         var blockChain = blockChainService.BlockChain;

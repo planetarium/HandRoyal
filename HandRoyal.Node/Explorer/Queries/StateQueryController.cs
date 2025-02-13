@@ -9,7 +9,7 @@ namespace HandRoyal.Node.Explorer.Queries;
 
 public sealed class StateQueryController(IBlockChainService blockChainService) : GraphController
 {
-    [QueryRoot("StateQuery/Sessions")]
+    [Query("Sessions")]
     public List<Session> GetSessions()
     {
         var blockChain = blockChainService.BlockChain;
@@ -29,7 +29,7 @@ public sealed class StateQueryController(IBlockChainService blockChainService) :
             .ToList();
     }
 
-    [QueryRoot("StateQuery/Session")]
+    [Query("Session")]
     public Session? GetSession(Address sessionId)
     {
         var blockChain = blockChainService.BlockChain;
