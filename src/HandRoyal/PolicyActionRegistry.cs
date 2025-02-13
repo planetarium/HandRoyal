@@ -13,7 +13,14 @@ public class PolicyActionRegistry : IPolicyActionsRegistry
 
     public ImmutableArray<IAction> EndBlockActions { get; } = [];
 
-    public ImmutableArray<IAction> BeginTxActions { get; } = [];
+    public ImmutableArray<IAction> BeginTxActions { get; } =
+    [
+        new MortgageGas(),
+    ];
 
-    public ImmutableArray<IAction> EndTxActions { get; } = [];
+    public ImmutableArray<IAction> EndTxActions { get; } =
+    [
+        new RewardGas(),
+        new RefundGas(),
+    ];
 }

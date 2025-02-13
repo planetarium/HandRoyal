@@ -14,4 +14,10 @@ public static class Addresses
     // Session Addresses
     public static readonly Address ActiveSessionAddresses
         = new("0000000000000000000000000000000000000000");
+
+    public static readonly Address MortgagePool
+        = new("0000000000000000000000000000000000000100");
+
+    public static readonly Address GasPool
+        = new("0000000000000000000000000000000000000200");
 }
