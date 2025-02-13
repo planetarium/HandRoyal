@@ -49,6 +49,7 @@ builder.Services.AddWebSockets(options =>
 builder.Services.AddGraphQL()
     .AddSubscriptions();
 builder.Services.AddHostedService<BlockChainRendererEventPublisher>();
+builder.Services.AddHostedService<SubmitMoveRendererEventPublisher>();
 builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
 builder.Services.AddLibplanetNode(builder.Configuration);
