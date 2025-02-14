@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <LibplanetDirectory>$(MSBuildThisFileDirectory)Libplanet\</LibplanetDirectory>
+    <LibplanetDirectory>$(MSBuildThisFileDirectory).submodules\Libplanet\</LibplanetDirectory>
     <LibplanetVersion>6.0.0-dev.20250117091335</LibplanetVersion>
   </PropertyGroup>
 

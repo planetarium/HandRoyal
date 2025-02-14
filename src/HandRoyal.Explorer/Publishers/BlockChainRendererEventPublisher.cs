@@ -1,0 +1,47 @@
+﻿using GraphQL.AspNet.Interfaces.Subscriptions;
+using GraphQL.AspNet.Schemas;
+using HandRoyal.Explorer.Subscriptions;
+using HandRoyal.Explorer.Types;
+using Libplanet.Node.Services;
+using Microsoft.Extensions.Hosting;
+
+namespace HandRoyal.Explorer.Publishers;
+
+internal sealed class BlockChainRendererEventPublisher(
+    IRendererService rendererService,
+    ISubscriptionEventRouter router)
+    : IHostedService
+{
+    private IDisposable? _observer;
+
+    public Task StartAsync(CancellationToken cancellationToken)
+    {
+        _observer = rendererService.RenderBlockEnd.Subscribe(RenderBlockEnd);
+        return Task.CompletedTask;
+    }
+
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        _observer?.Dispose();
+        _observer = null;
+        return Task.CompletedTask;
+    }
+
+    private void RenderBlockEnd(RenderBlockInfo info)
+    {
+        var eventData = new TipEventData
+        {
+            Height = info.NewTip.Index,
+            Hash = info.NewTip.Hash,
+        };
+        var subscriptionEvent = new GraphQL.AspNet.SubscriptionServer.SubscriptionEvent
+        {
+            Id = Guid.NewGuid().ToString(),
+            EventName = SubscriptionController.TipChangedEventName,
+            Data = eventData,
+            SchemaTypeName = typeof(GraphSchema).AssemblyQualifiedName,
+            DataTypeName = typeof(TipEventData).AssemblyQualifiedName,
+        };
+        router.RaisePublishedEvent(subscriptionEvent);
+    }
+}
