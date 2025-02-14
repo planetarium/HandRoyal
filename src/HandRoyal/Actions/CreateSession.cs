@@ -60,29 +60,32 @@ public sealed class CreateSession : ActionBase
     {
         var world = context.PreviousState;
         var sessionsAccount = world.GetAccount(Addresses.Sessions);
+        var sessionId = SessionId;
 
-        if (SessionId == default)
+        if (sessionId == default)
         {
             throw new CreateSessionException("Session id is not set.");
         }
 
         if (sessionsAccount.GetState(SessionId) is not null)
         {
-            throw new CreateSessionException($"Session of id {SessionId} already exists.");
+            throw new CreateSessionException($"Session of id {sessionId} already exists.");
         }
 
+        var prize = Prize;
         var glovesAccount = world.GetAccount(Addresses.Gloves);
-        if (glovesAccount.GetState(Prize) is not { } gloveState)
+        if (glovesAccount.GetState(prize) is not { } gloveState)
         {
             throw new CreateSessionException(
-                $"Given glove prize {Prize} for session id {SessionId} does not exist.");
+                $"Given glove prize {prize} for session id {sessionId} does not exist.");
         }
 
+        var signer = context.Signer;
         var glove = new Glove(gloveState);
-        if (!glove.Author.Equals(context.Signer))
+        if (!glove.Author.Equals(signer))
         {
             throw new CreateSessionException(
-                $"Organizer for session id {SessionId} is not author of the prize {Prize}.");
+                $"Organizer for session id {sessionId} is not author of the prize {prize}.");
         }
 
         var sessionMetadata = new SessionMetadata(
@@ -95,12 +98,11 @@ public sealed class CreateSession : ActionBase
             RoundInterval,
             WaitingInterval);
         var session = new Session(sessionMetadata);
-        var activeSessionAddresses = sessionsAccount.GetState(Addresses.ActiveSessionAddresses)
+        var sessionAddresses = sessionsAccount.GetState(Addresses.Sessions)
             is IValue value ? (List)value : [];
-        activeSessionAddresses = activeSessionAddresses.Add(SessionId.Bencoded);
-        sessionsAccount = sessionsAccount.SetState(
-            Addresses.ActiveSessionAddresses, activeSessionAddresses);
-        sessionsAccount = sessionsAccount.SetState(SessionId, session.Bencoded);
+        sessionAddresses = sessionAddresses.Add(sessionId.Bencoded);
+        sessionsAccount = sessionsAccount.SetState(Addresses.Sessions, sessionAddresses);
+        sessionsAccount = sessionsAccount.SetState(sessionId, session.Bencoded);
         return world.SetAccount(Addresses.Sessions, sessionsAccount);
     }
 

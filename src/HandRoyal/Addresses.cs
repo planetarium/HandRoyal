@@ -11,10 +11,10 @@ public static class Addresses
 
     public static readonly Address Sessions = new("0000000000000000000000000000000000000010");
 
-    // Session Addresses
-    public static readonly Address ActiveSessionAddresses
-        = new("0000000000000000000000000000000000000000");
+    public static readonly Address ArchivedSessions
+        = new("0000000000000000000000000000000000000020");
 
+    // Session Addresses
     public static readonly Address MortgagePool
         = new("0000000000000000000000000000000000000100");
 

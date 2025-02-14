@@ -16,7 +16,7 @@ internal sealed class StateQueryController(IBlockChainService blockChainService)
         var worldState = blockChain.GetWorldState();
 
         var currentSessionAccount = worldState.GetAccountState(Addresses.Sessions);
-        if (currentSessionAccount.GetState(Addresses.ActiveSessionAddresses)
+        if (currentSessionAccount.GetState(Addresses.Sessions)
             is not List activeSessionAddresses)
         {
             return [];
@@ -38,6 +38,12 @@ internal sealed class StateQueryController(IBlockChainService blockChainService)
         if (sessionsAccount.GetState(sessionId) is { } currentSessionState)
         {
             return new Session(currentSessionState);
+        }
+
+        var archivedSessionsAccount = worldState.GetAccountState(Addresses.ArchivedSessions);
+        if (archivedSessionsAccount.GetState(sessionId) is { } archivedSessionState)
+        {
+            return new Session(archivedSessionState);
         }
 
         return null;

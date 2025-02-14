@@ -7,7 +7,8 @@ namespace HandRoyal.BlockActions;
 
 public abstract class BlockActionBase : IAction
 {
-    IValue IAction.PlainValue => Dictionary.Empty;
+    IValue IAction.PlainValue => new List(
+        (Text)GetType().Name);
 
     void IAction.LoadPlainValue(IValue plainValue)
     {

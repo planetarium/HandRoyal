@@ -4,6 +4,9 @@ using GraphQL.AspNet.Schemas;
 using HandRoyal.Actions;
 using HandRoyal.Explorer.Subscriptions;
 using HandRoyal.Explorer.Types;
+using HandRoyal.States;
+using Libplanet.Action;
+using Libplanet.Action.State;
 using Libplanet.Node.Services;
 using Microsoft.Extensions.Hosting;
 
@@ -11,6 +14,7 @@ namespace HandRoyal.Explorer.Publishers;
 
 internal sealed class SubmitMoveRendererEventPublisher(
     IRendererService rendererService,
+    IStoreService storeService,
     ISubscriptionEventRouter router)
     : IHostedService
 {
@@ -18,7 +22,7 @@ internal sealed class SubmitMoveRendererEventPublisher(
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        rendererService.RenderAction.Subscribe(RenderAction);
+        _observer = rendererService.RenderAction.Subscribe(RenderAction);
         return Task.CompletedTask;
     }
 
@@ -49,31 +53,73 @@ internal sealed class SubmitMoveRendererEventPublisher(
         return typeIdText;
     }
 
+    private static T CreateAction<T>(IValue value)
+        where T : IAction
+    {
+        var action = Activator.CreateInstance<T>();
+        action.LoadPlainValue(value);
+        return action;
+    }
+
     private void RenderAction(RenderActionInfo info)
     {
-        var typeId = GetTypeId(info.Action);
-
-        if (typeId == "SubmitMove")
+        if (info.Action is List list)
         {
-            var submitMove = new SubmitMove();
-            var signer = info.Context.Signer;
-            submitMove.LoadPlainValue(info.Action);
-
-            var eventData = new SubmitMoveEventData
+            if (list.Count == 1)
             {
-                SessionId = submitMove.SessionId,
-                Move = submitMove.Move,
-                UserId = signer,
-            };
-            var subscriptionEvent = new GraphQL.AspNet.SubscriptionServer.SubscriptionEvent
-            {
-                Id = Guid.NewGuid().ToString(),
-                EventName = SubscriptionController.MoveChangedEventName,
-                Data = eventData,
-                SchemaTypeName = typeof(GraphSchema).AssemblyQualifiedName,
-                DataTypeName = typeof(SubmitMoveEventData).AssemblyQualifiedName,
-            };
-            router.RaisePublishedEvent(subscriptionEvent);
+                var name = (string)(Text)list[0];
+                if (name == "ProcessSession")
+                {
+                    var stateStore = storeService.StateStore;
+                    var trie = stateStore.GetStateRoot(info.NextState);
+                    var world = new WorldBaseState(trie, stateStore);
+                    var sessions = Session.GetSessions(world);
+                    var height = info.Context.BlockIndex;
+                    foreach (var session in sessions)
+                    {
+                        if (session.Height == height)
+                        {
+                            var eventData = new SessionEventData(session);
+                            var eventName = SubscriptionController.SessionChangedEventName;
+                            RaisePublishedEvent(eventData, eventName);
+                        }
+                    }
+                }
+            }
         }
+        else
+        {
+            var typeId = GetTypeId(info.Action);
+            var stateStore = storeService.StateStore;
+            var trie = stateStore.GetStateRoot(info.NextState);
+            var world = new WorldBaseState(trie, stateStore);
+            if (typeId == "SubmitMove")
+            {
+                var submitMove = CreateAction<SubmitMove>(info.Action);
+                var session = Session.FromState(world, submitMove.SessionId);
+                var eventData = new SessionEventData(session);
+                RaisePublishedEvent(eventData, SubscriptionController.SessionChangedEventName);
+            }
+            else if (typeId == "CreateSession")
+            {
+                var createSession = CreateAction<CreateSession>(info.Action);
+                var session = Session.FromState(world, createSession.SessionId);
+                var eventData = new SessionEventData(session);
+                RaisePublishedEvent(eventData, SubscriptionController.SessionChangedEventName);
+            }
+        }
+    }
+
+    private void RaisePublishedEvent<T>(T eventData, string eventName)
+    {
+        var subscriptionEvent = new GraphQL.AspNet.SubscriptionServer.SubscriptionEvent
+        {
+            Id = Guid.NewGuid().ToString(),
+            EventName = eventName,
+            Data = eventData,
+            SchemaTypeName = typeof(GraphSchema).AssemblyQualifiedName,
+            DataTypeName = typeof(T).AssemblyQualifiedName,
+        };
+        router.RaisePublishedEvent(subscriptionEvent);
     }
 }

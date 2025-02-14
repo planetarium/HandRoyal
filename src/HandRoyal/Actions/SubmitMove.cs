@@ -46,7 +46,11 @@ public sealed class SubmitMove : ActionBase
         var rounds = session.Rounds;
         var round = rounds[^1];
         round = round.Submit(playerIndex, Move);
-        session = session with { Rounds = rounds.SetItem(rounds.Length - 1, round) };
+        session = session with
+        {
+            Rounds = rounds.SetItem(rounds.Length - 1, round),
+            Height = context.BlockIndex,
+        };
         sessionsAccount = sessionsAccount.SetState(SessionId, session.Bencoded);
         world = world.SetAccount(Addresses.Sessions, sessionsAccount);
         return world;
