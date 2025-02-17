@@ -1,6 +1,4 @@
 ﻿using Bencodex.Types;
-using GraphQL.AspNet.Interfaces.Subscriptions;
-using GraphQL.AspNet.Schemas;
 using HandRoyal.Actions;
 using HandRoyal.Explorer.Subscriptions;
 using HandRoyal.Explorer.Types;
@@ -8,60 +6,14 @@ using HandRoyal.States;
 using Libplanet.Action;
 using Libplanet.Action.State;
 using Libplanet.Node.Services;
-using Microsoft.Extensions.Hosting;
 
 namespace HandRoyal.Explorer.Publishers;
 
-internal sealed class SubmitMoveRendererEventPublisher(
-    IRendererService rendererService,
-    IStoreService storeService,
-    ISubscriptionEventRouter router)
-    : IHostedService
+internal sealed class SessionEventPublisher(
+    IServiceProvider serviceProvider, IStoreService storeService)
+    : RenderActionEventPublisherBase<SessionEventData>(serviceProvider)
 {
-    private IDisposable? _observer;
-
-    public Task StartAsync(CancellationToken cancellationToken)
-    {
-        _observer = rendererService.RenderAction.Subscribe(RenderAction);
-        return Task.CompletedTask;
-    }
-
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        _observer?.Dispose();
-        _observer = null;
-        return Task.CompletedTask;
-    }
-
-    private static string GetTypeId(IValue value)
-    {
-        if (value is not Dictionary dictionary)
-        {
-            return string.Empty;
-        }
-
-        if (!dictionary.TryGetValue((Text)"type_id", out var typeIdValue))
-        {
-            return string.Empty;
-        }
-
-        if (typeIdValue is not Text typeIdText)
-        {
-            return string.Empty;
-        }
-
-        return typeIdText;
-    }
-
-    private static T CreateAction<T>(IValue value)
-        where T : IAction
-    {
-        var action = Activator.CreateInstance<T>();
-        action.LoadPlainValue(value);
-        return action;
-    }
-
-    private void RenderAction(RenderActionInfo info)
+    protected override void OnRenderAction(RenderActionInfo info)
     {
         if (info.Action is List list)
         {
@@ -110,16 +62,31 @@ internal sealed class SubmitMoveRendererEventPublisher(
         }
     }
 
-    private void RaisePublishedEvent<T>(T eventData, string eventName)
+    private static string GetTypeId(IValue value)
     {
-        var subscriptionEvent = new GraphQL.AspNet.SubscriptionServer.SubscriptionEvent
+        if (value is not Dictionary dictionary)
         {
-            Id = Guid.NewGuid().ToString(),
-            EventName = eventName,
-            Data = eventData,
-            SchemaTypeName = typeof(GraphSchema).AssemblyQualifiedName,
-            DataTypeName = typeof(T).AssemblyQualifiedName,
-        };
-        router.RaisePublishedEvent(subscriptionEvent);
+            return string.Empty;
+        }
+
+        if (!dictionary.TryGetValue((Text)"type_id", out var typeIdValue))
+        {
+            return string.Empty;
+        }
+
+        if (typeIdValue is not Text typeIdText)
+        {
+            return string.Empty;
+        }
+
+        return typeIdText;
+    }
+
+    private static T CreateAction<T>(IValue value)
+        where T : IAction
+    {
+        var action = Activator.CreateInstance<T>();
+        action.LoadPlainValue(value);
+        return action;
     }
 }

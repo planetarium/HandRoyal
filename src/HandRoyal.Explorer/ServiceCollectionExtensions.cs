@@ -26,8 +26,9 @@ public static class ServiceCollectionExtensions
             options.AddAssembly(typeof(ServiceCollectionExtensions).Assembly);
         }).AddSubscriptions();
 
-        @this.AddHostedService<BlockChainRendererEventPublisher>();
-        @this.AddHostedService<SubmitMoveRendererEventPublisher>();
+        @this.AddHostedService<TipEventPublisher>();
+        @this.AddHostedService<SessionEventPublisher>();
+        @this.AddHostedService<TransactionEventPublisher>();
 
         return @this;
     }

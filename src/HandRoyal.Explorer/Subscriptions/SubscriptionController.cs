@@ -5,14 +5,17 @@ using GraphQL.AspNet.Interfaces.Controllers;
 using HandRoyal.Explorer.Types;
 using HandRoyal.States;
 using Libplanet.Crypto;
+using Libplanet.Node.Services;
+using Libplanet.Types.Tx;
 
 namespace HandRoyal.Explorer.Subscriptions;
 
-internal sealed class SubscriptionController : GraphController
+internal sealed class SubscriptionController(IBlockChainService blockChainService) : GraphController
 {
     public const string TipChangedEventName = "TIP_CHANGED";
     public const string MoveChangedEventName = "MOVE_CHANGED";
     public const string SessionChangedEventName = "SESSION_CHANGED";
+    public const string TransactionChangedEventName = "TRANSACTION_CHANGED";
 
     [SubscriptionRoot("onTipChanged", typeof(TipEventData), EventName = TipChangedEventName)]
     public IGraphActionResult OnTipChanged(TipEventData eventData)
@@ -50,6 +53,35 @@ internal sealed class SubscriptionController : GraphController
         }
 
         return this.SkipSubscriptionEvent();
+    }
+
+    [SubscriptionRoot(
+        "onTransactionChanged",
+        typeof(TransactionEventData),
+        EventName = TransactionChangedEventName)]
+    public IGraphActionResult OnTransactionChanged(TransactionEventData eventData, TxId txId)
+    {
+        var blockChain = blockChainService.BlockChain;
+        var blockHash = eventData.BlockHash;
+        if (blockChain.GetTxExecution(blockHash, txId) is { } execution)
+        {
+            eventData.TxId = txId;
+            eventData.Status = execution.Fail ? TxStatus.Failure : TxStatus.Success;
+            eventData.BlockHash = execution.BlockHash;
+            eventData.BlockHeight = blockChain[blockHash].Index;
+            return this.OkAndComplete(eventData);
+        }
+
+        if (!blockChain.GetStagedTransactionIds().Contains(txId))
+        {
+            eventData.TxId = txId;
+            eventData.Status = TxStatus.Invalid;
+            return this.OkAndComplete(eventData);
+        }
+
+        eventData.TxId = txId;
+        eventData.Status = TxStatus.Staging;
+        return this.OkAndComplete(eventData);
     }
 
     private static bool TryGetMatch(
