@@ -38,16 +38,23 @@ internal sealed class ProcessSession : BlockActionBase
                     .ToArray();
                 var prize = session.Metadata.Prize;
                 var usersAccount = world.GetAccount(Addresses.Users);
-                foreach (var winnerId in winerIds)
+                var userIds = session.Players.Select(player => player.Id).ToArray();
+
+                foreach (var userId in userIds)
                 {
-                    if (usersAccount.GetState(winnerId) is not { } userState)
+                    if (usersAccount.GetState(userId) is not { } userState)
                     {
                         continue;
                     }
 
                     var user = new User(userState);
-                    user = user with { Gloves = user.Gloves.Add(prize) };
-                    usersAccount = usersAccount.SetState(winnerId, user.Bencoded);
+                    var gloves = winerIds.Contains(userId) ? user.Gloves.Add(prize) : user.Gloves;
+                    user = user with
+                    {
+                        Gloves = gloves,
+                        SessionId = default,
+                    };
+                    usersAccount = usersAccount.SetState(userId, user.Bencoded);
                 }
 
                 world = world.SetAccount(Addresses.Users, usersAccount);

@@ -78,6 +78,11 @@ public sealed class JoinSession : ActionBase
             throw new JoinSessionException("Exception occurred during JoinSession.", e);
         }
 
+        if (user.SessionId != default)
+        {
+            throw new JoinSessionException("User is already in a session.");
+        }
+
         if (Glove != default && !user.Gloves.Contains(Glove))
         {
             var errMsg = $"Cannot join session with invalid glove {Glove}.";
@@ -88,7 +93,11 @@ public sealed class JoinSession : ActionBase
         var player = new Player(context.Signer, Glove);
         session = session with { Players = players.Add(player) };
         sessionsAccount = sessionsAccount.SetState(SessionId, session.Bencoded);
-        return world.SetAccount(Addresses.Sessions, sessionsAccount);
+        world = world.SetAccount(Addresses.Sessions, sessionsAccount);
+        user = user with { SessionId = SessionId };
+        usersAccount = usersAccount.SetState(context.Signer, user.Bencoded);
+        world = world.SetAccount(Addresses.Users, usersAccount);
+        return world;
     }
 
     protected override void LoadPlainValueInternal(IValue plainValueInternal)

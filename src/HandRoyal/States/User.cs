@@ -28,13 +28,17 @@ public sealed record class User : IBencodable
 
         Id = ToAddress(list, 0);
         Gloves = ToAddresses(list, 1);
+        SessionId = ToAddress(list, 2);
     }
 
     public IValue Bencoded => new List(
         ToValue(Id),
-        ToValue(Gloves));
+        ToValue(Gloves),
+        ToValue(SessionId));
 
     public Address Id { get; }
 
     public ImmutableArray<Address> Gloves { get; set; }
+
+    public Address SessionId { get; set; }
 }
