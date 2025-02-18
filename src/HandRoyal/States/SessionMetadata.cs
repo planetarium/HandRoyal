@@ -1,4 +1,5 @@
-﻿using Bencodex;
+﻿using System.ComponentModel.DataAnnotations;
+using Bencodex;
 using Bencodex.Types;
 using Libplanet.Crypto;
 using static HandRoyal.BencodexUtility;
@@ -7,31 +8,15 @@ namespace HandRoyal.States;
 
 public sealed record class SessionMetadata : IBencodable
 {
-    public SessionMetadata(
-        Address id,
-        Address organizer,
-        Address prize,
-        int maximumUser = 8,
-        int minimumUser = 2,
-        int remainingUser = 1,
-        long roundInterval = 5,
-        long waitingInterval = 10)
+    public SessionMetadata()
     {
-        Id = id;
-        Organizer = organizer;
-        Prize = prize;
-        MaximumUser = maximumUser;
-        MinimumUser = minimumUser;
-        RemainingUser = remainingUser;
-        RoundInterval = roundInterval;
-        WaitingInterval = waitingInterval;
     }
 
     public SessionMetadata(IValue value)
     {
         if (value is not List list)
         {
-            throw new ArgumentException($"Given value {value} is not a list.");
+            throw new ArgumentException($"Given value {value} is not a list.", nameof(value));
         }
 
         Id = ToAddress(list, 0);
@@ -54,19 +39,29 @@ public sealed record class SessionMetadata : IBencodable
         ToValue(RoundInterval),
         ToValue(WaitingInterval));
 
-    public Address Id { get; }
+    public static SessionMetadata Default { get; } = new SessionMetadata
+    {
+        Id = default,
+        Organizer = default,
+        Prize = default,
+    };
 
-    public Address Organizer { get; }
+    [Required]
+    public required Address Id { get; init; }
 
-    public Address Prize { get; }
+    [Required]
+    public required Address Organizer { get; init; }
 
-    public int MaximumUser { get; }
+    [Required]
+    public required Address Prize { get; init; }
 
-    public int MinimumUser { get; }
+    public int MaximumUser { get; set; } = 8;
 
-    public int RemainingUser { get; }
+    public int MinimumUser { get; set; } = 2;
 
-    public long RoundInterval { get; }
+    public int RemainingUser { get; set; } = 1;
 
-    public long WaitingInterval { get; }
+    public long RoundInterval { get; set; } = 5;
+
+    public long WaitingInterval { get; set; } = 10;
 }

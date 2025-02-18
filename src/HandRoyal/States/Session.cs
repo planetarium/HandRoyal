@@ -20,7 +20,7 @@ public sealed record class Session : IBencodable
     {
         if (value is not List list)
         {
-            throw new ArgumentException($"Given value {value} is not a list.");
+            throw new ArgumentException($"Given value {value} is not a list.", nameof(value));
         }
 
         Metadata = ToObject<SessionMetadata>(list, 0);
@@ -44,6 +44,8 @@ public sealed record class Session : IBencodable
     public SessionMetadata Metadata { get; }
 
     public SessionState State { get; set; }
+
+    public Address Organizer { get; set; }
 
     public ImmutableArray<Player> Players { get; set; } = [];
 

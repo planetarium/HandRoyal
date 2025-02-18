@@ -3,31 +3,37 @@ using HandRoyal.States;
 using Libplanet.Action;
 using Libplanet.Action.State;
 using Libplanet.Crypto;
+using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.Actions;
 
 [ActionType("SubmitMove")]
-public sealed class SubmitMove : ActionBase
+public sealed record class SubmitMove : ActionBase
 {
     public SubmitMove()
     {
     }
 
-    public SubmitMove(Address sessionId, MoveType move)
+    public SubmitMove(IValue value)
     {
-        SessionId = sessionId;
-        Move = move;
+        if (value is not List list)
+        {
+            throw new ArgumentException($"Given value {value} is not a list.", nameof(value));
+        }
+
+        SessionId = ToAddress(list, 0);
+        Move = ToEnum<MoveType>(list, 1);
     }
 
-    public Address SessionId { get; set; }
+    public required Address SessionId { get; init; }
 
-    public MoveType Move { get; set; }
+    public required MoveType Move { get; init; }
 
-    protected override IValue PlainValueInternal => new List(
-        SessionId.Bencoded,
-        (Integer)(int)Move);
+    protected override IValue PlainValue => new List(
+        ToValue(SessionId),
+        ToValue(Move));
 
-    public override IWorld Execute(IActionContext context)
+    protected override IWorld OnExecute(IActionContext context)
     {
         var world = context.PreviousState;
         var sessionsAccount = world.GetAccount(Addresses.Sessions);
@@ -54,12 +60,5 @@ public sealed class SubmitMove : ActionBase
         sessionsAccount = sessionsAccount.SetState(SessionId, session.Bencoded);
         world = world.SetAccount(Addresses.Sessions, sessionsAccount);
         return world;
-    }
-
-    protected override void LoadPlainValueInternal(IValue plainValueInternal)
-    {
-        var list = (List)plainValueInternal;
-        SessionId = new Address(list[0]);
-        Move = (MoveType)(int)(Integer)list[1];
     }
 }

@@ -8,18 +8,19 @@ using Libplanet.Crypto;
 namespace HandRoyal.Actions;
 
 [ActionType("RegisterGlove")]
-public sealed class RegisterGlove(Address id) : ActionBase
+public sealed record class RegisterGlove : ActionBase
 {
     public RegisterGlove()
-        : this(default)
     {
     }
 
-    public Address Id { get; private set; } = id;
+    public RegisterGlove(IValue value) => Id = new Address(value);
 
-    protected override IValue PlainValueInternal => Id.Bencoded;
+    public required Address Id { get; init; }
 
-    public override IWorld Execute(IActionContext context)
+    protected override IValue PlainValue => Id.Bencoded;
+
+    protected override IWorld OnExecute(IActionContext context)
     {
         var world = context.PreviousState;
         var signer = context.Signer;
@@ -32,10 +33,5 @@ public sealed class RegisterGlove(Address id) : ActionBase
         var glove = new Glove(Id, signer);
         glovesAccount = glovesAccount.SetState(Id, glove.Bencoded);
         return world.SetAccount(Addresses.Gloves, glovesAccount);
-    }
-
-    protected override void LoadPlainValueInternal(IValue plainValueInternal)
-    {
-        Id = new Address(plainValueInternal);
     }
 }

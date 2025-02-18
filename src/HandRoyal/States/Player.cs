@@ -19,7 +19,7 @@ public sealed record class Player : IBencodable
     {
         if (value is not List list)
         {
-            throw new ArgumentException($"Given value {value} is not a list.");
+            throw new ArgumentException($"Given value {value} is not a list.", nameof(value));
         }
 
         Id = ToAddress(list, 0);

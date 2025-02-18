@@ -7,13 +7,10 @@ namespace HandRoyal.BlockActions;
 
 public abstract class BlockActionBase : IAction
 {
-    IValue IAction.PlainValue => new List(
-        (Text)GetType().Name);
+    IValue IAction.PlainValue => Null.Value;
 
     void IAction.LoadPlainValue(IValue plainValue)
-    {
-        throw new UnreachableException("This method should not be called.");
-    }
+        => throw new UnreachableException("This method should not be called.");
 
     IWorld IAction.Execute(IActionContext context) => OnExecute(context);
 

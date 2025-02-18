@@ -1,18 +1,26 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using Bencodex.Types;
 using Libplanet.Action;
 using Libplanet.Action.State;
 
 namespace HandRoyal.Actions;
 
-public abstract class ActionBase : IAction
+public abstract record class ActionBase : IAction
 {
-    public IValue PlainValue =>
-        Dictionary.Empty
-            .Add("type_id", TypeId)
-            .Add("values", PlainValueInternal);
+    protected ActionBase()
+    {
+    }
 
-    protected abstract IValue PlainValueInternal { get; }
+    protected ActionBase(IValue value)
+    {
+    }
+
+    IValue IAction.PlainValue => new List(
+        TypeId,
+        PlainValue);
+
+    protected abstract IValue PlainValue { get; }
 
     private IValue TypeId =>
         GetType().GetCustomAttribute<ActionTypeAttribute>() is { } attribute
@@ -20,41 +28,10 @@ public abstract class ActionBase : IAction
             : throw new InvalidOperationException(
                 $"Type is missing {nameof(ActionTypeAttribute)}: {GetType()}");
 
-    public void LoadPlainValue(IValue plainValue)
-    {
-        if (plainValue is not Dictionary dict)
-        {
-            throw new ArgumentException(
-                $"Given {nameof(plainValue)} must be a {nameof(Dictionary)}: " +
-                $"{plainValue.GetType()}",
-                nameof(plainValue));
-        }
+    void IAction.LoadPlainValue(IValue plainValue)
+        => throw new UnreachableException("This method should not be called.");
 
-        if (!dict.TryGetValue((Text)"type_id", out IValue typeId))
-        {
-            throw new ArgumentException(
-                $"Given {nameof(plainValue)} is missing type id: {plainValue}",
-                nameof(plainValue));
-        }
+    IWorld IAction.Execute(IActionContext context) => OnExecute(context);
 
-        if (!typeId.Equals(TypeId))
-        {
-            throw new ArgumentException(
-                $"Given {nameof(plainValue)} has invalid type id: {plainValue}",
-                nameof(plainValue));
-        }
-
-        if (!dict.TryGetValue((Text)"values", out IValue values))
-        {
-            throw new ArgumentException(
-                $"Given {nameof(plainValue)} is missing values: {plainValue}",
-                nameof(plainValue));
-        }
-
-        LoadPlainValueInternal(values);
-    }
-
-    public abstract IWorld Execute(IActionContext context);
-
-    protected abstract void LoadPlainValueInternal(IValue plainValueInternal);
+    protected abstract IWorld OnExecute(IActionContext context);
 }

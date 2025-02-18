@@ -16,7 +16,7 @@ public sealed record class Match : IBencodable
     {
         if (value is not List list)
         {
-            throw new ArgumentException($"Given value {value} is not a list.");
+            throw new ArgumentException($"Given value {value} is not a list.", nameof(value));
         }
 
         Move1 = ToObject<Move>(list, 0);

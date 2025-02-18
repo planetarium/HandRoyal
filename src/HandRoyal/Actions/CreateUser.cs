@@ -6,15 +6,20 @@ using Libplanet.Action.State;
 namespace HandRoyal.Actions;
 
 [ActionType("CreateUser")]
-public sealed class CreateUser : ActionBase
+public sealed record class CreateUser : ActionBase
 {
     public CreateUser()
     {
     }
 
-    protected override IValue PlainValueInternal => Null.Value;
+    public CreateUser(IValue value)
+        : base(value)
+    {
+    }
 
-    public override IWorld Execute(IActionContext context)
+    protected override IValue PlainValue => Null.Value;
+
+    protected override IWorld OnExecute(IActionContext context)
     {
         var world = context.PreviousState;
         var signer = context.Signer;
@@ -27,9 +32,5 @@ public sealed class CreateUser : ActionBase
         var user = new User(signer);
         usersAccount = usersAccount.SetState(signer, user.Bencoded);
         return world.SetAccount(Addresses.Users, usersAccount);
-    }
-
-    protected override void LoadPlainValueInternal(IValue plainValueInternal)
-    {
     }
 }

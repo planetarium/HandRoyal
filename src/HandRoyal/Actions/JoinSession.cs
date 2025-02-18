@@ -4,31 +4,37 @@ using HandRoyal.States;
 using Libplanet.Action;
 using Libplanet.Action.State;
 using Libplanet.Crypto;
+using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.Actions;
 
 [ActionType("JoinSession")]
-public sealed class JoinSession : ActionBase
+public sealed record class JoinSession : ActionBase
 {
     public JoinSession()
     {
     }
 
-    public JoinSession(Address sessionId, Address? glove)
+    public JoinSession(IValue value)
     {
-        SessionId = sessionId;
-        Glove = glove ?? default;
+        if (value is not List list)
+        {
+            throw new ArgumentException($"Given value {value} is not a list.", nameof(value));
+        }
+
+        SessionId = ToAddress(list, 0);
+        Glove = ToAddress(list, 1);
     }
 
-    public Address SessionId { get; private set; }
+    public required Address SessionId { get; init; }
 
-    public Address Glove { get; private set; }
+    public required Address Glove { get; init; }
 
-    protected override IValue PlainValueInternal => List.Empty
-        .Add(SessionId.Bencoded)
-        .Add(Glove.Bencoded);
+    protected override IValue PlainValue => new List(
+        ToValue(SessionId),
+        ToValue(Glove));
 
-    public override IWorld Execute(IActionContext context)
+    protected override IWorld OnExecute(IActionContext context)
     {
         var world = context.PreviousState;
         var sessionsAccount = world.GetAccount(Addresses.Sessions);
@@ -98,16 +104,5 @@ public sealed class JoinSession : ActionBase
         usersAccount = usersAccount.SetState(context.Signer, user.Bencoded);
         world = world.SetAccount(Addresses.Users, usersAccount);
         return world;
-    }
-
-    protected override void LoadPlainValueInternal(IValue plainValueInternal)
-    {
-        if (plainValueInternal is not List list)
-        {
-            throw new CreateSessionException("Given plainValue for CreateSession is not list");
-        }
-
-        SessionId = new Address(list[0]);
-        Glove = new Address(list[1]);
     }
 }

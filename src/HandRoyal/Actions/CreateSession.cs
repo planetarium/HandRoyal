@@ -9,45 +9,43 @@ using static HandRoyal.BencodexUtility;
 namespace HandRoyal.Actions;
 
 [ActionType("CreateSession")]
-public sealed class CreateSession : ActionBase
+public sealed record class CreateSession : ActionBase
 {
     public CreateSession()
     {
     }
 
-    public CreateSession(
-        Address sessionId,
-        Address prize,
-        int maximumUser,
-        int minimumUser,
-        int remainingUser,
-        long roundInterval,
-        long waitingInterval)
+    public CreateSession(IValue value)
     {
-        SessionId = sessionId;
-        Prize = prize;
-        MaximumUser = maximumUser;
-        MinimumUser = minimumUser;
-        RemainingUser = remainingUser;
-        RoundInterval = roundInterval;
-        WaitingInterval = waitingInterval;
+        if (value is not List list)
+        {
+            throw new ArgumentException($"Given value {value} is not a list.", nameof(value));
+        }
+
+        SessionId = ToAddress(list, 0);
+        Prize = ToAddress(list, 1);
+        MaximumUser = ToInt32(list, 2);
+        MinimumUser = ToInt32(list, 3);
+        RemainingUser = ToInt32(list, 4);
+        RoundInterval = ToInt64(list, 5);
+        WaitingInterval = ToInt64(list, 6);
     }
 
-    public Address SessionId { get; private set; }
+    public required Address SessionId { get; init; }
 
-    public Address Prize { get; private set; }
+    public required Address Prize { get; init; }
 
-    public int MaximumUser { get; private set; }
+    public int MaximumUser { get; init; } = SessionMetadata.Default.MaximumUser;
 
-    public int MinimumUser { get; private set; }
+    public int MinimumUser { get; init; } = SessionMetadata.Default.MinimumUser;
 
-    public int RemainingUser { get; private set; }
+    public int RemainingUser { get; init; } = SessionMetadata.Default.MaximumUser;
 
-    public long RoundInterval { get; private set; }
+    public long RoundInterval { get; init; } = SessionMetadata.Default.RoundInterval;
 
-    public long WaitingInterval { get; private set; }
+    public long WaitingInterval { get; init; } = SessionMetadata.Default.WaitingInterval;
 
-    protected override IValue PlainValueInternal => new List(
+    protected override IValue PlainValue => new List(
         ToValue(SessionId),
         ToValue(Prize),
         ToValue(MaximumUser),
@@ -56,7 +54,7 @@ public sealed class CreateSession : ActionBase
         ToValue(RoundInterval),
         ToValue(WaitingInterval));
 
-    public override IWorld Execute(IActionContext context)
+    protected override IWorld OnExecute(IActionContext context)
     {
         var world = context.PreviousState;
         var sessionsAccount = world.GetAccount(Addresses.Sessions);
@@ -88,15 +86,17 @@ public sealed class CreateSession : ActionBase
                 $"Organizer for session id {sessionId} is not author of the prize {prize}.");
         }
 
-        var sessionMetadata = new SessionMetadata(
-            SessionId,
-            context.Signer,
-            Prize,
-            MaximumUser,
-            MinimumUser,
-            RemainingUser,
-            RoundInterval,
-            WaitingInterval);
+        var sessionMetadata = new SessionMetadata
+        {
+            Id = SessionId,
+            Organizer = context.Signer,
+            Prize = Prize,
+            MaximumUser = MaximumUser,
+            MinimumUser = MinimumUser,
+            RemainingUser = RemainingUser,
+            RoundInterval = RoundInterval,
+            WaitingInterval = WaitingInterval,
+        };
         var session = new Session(sessionMetadata);
         var sessionAddresses = sessionsAccount.GetState(Addresses.Sessions)
             is IValue value ? (List)value : [];
@@ -104,21 +104,5 @@ public sealed class CreateSession : ActionBase
         sessionsAccount = sessionsAccount.SetState(Addresses.Sessions, sessionAddresses);
         sessionsAccount = sessionsAccount.SetState(sessionId, session.Bencoded);
         return world.SetAccount(Addresses.Sessions, sessionsAccount);
-    }
-
-    protected override void LoadPlainValueInternal(IValue plainValueInternal)
-    {
-        if (plainValueInternal is not List list)
-        {
-            throw new CreateSessionException("Given plainValue for CreateSession is not list");
-        }
-
-        SessionId = ToAddress(list, 0);
-        Prize = ToAddress(list, 1);
-        MaximumUser = ToInt32(list, 2);
-        MinimumUser = ToInt32(list, 3);
-        RemainingUser = ToInt32(list, 4);
-        RoundInterval = ToInt64(list, 5);
-        WaitingInterval = ToInt64(list, 6);
     }
 }
