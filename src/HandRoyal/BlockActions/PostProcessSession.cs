@@ -8,10 +8,9 @@ namespace HandRoyal.BlockActions;
 
 internal sealed class PostProcessSession : BlockActionBase
 {
-    protected override IWorld OnExecute(IActionContext context)
+    protected override void OnExecute(IWorldContext world, IActionContext context)
     {
-        var world = context.PreviousState;
-        var sessionsAccount = world.GetAccount(Addresses.Sessions);
+        var sessionsAccount = world[Addresses.Sessions];
         var archivedSessionsAccount = world.GetAccount(Addresses.ArchivedSessions);
         var sessionList = Session.GetSessions(world).ToList();
         for (var i = sessionList.Count - 1; i >= 0; i--)
@@ -43,19 +42,21 @@ internal sealed class PostProcessSession : BlockActionBase
                     Gloves = gloves,
                     SessionId = default,
                 };
-                usersAccount = usersAccount.SetState(userId, user.Bencoded);
+                usersAccount[userId] = user.Bencoded;
             }
 
-            world = world.SetAccount(Addresses.Users, usersAccount);
-            sessionsAccount = sessionsAccount.RemoveState(sessionId);
-            archivedSessionsAccount = archivedSessionsAccount.SetState(sessionId, session.Bencoded);
+            // world = world.SetAccount(Addresses.Users, usersAccount);
+            sessionsAccount.Remove(sessionId);
+            // sessionsAccount = sessionsAccount.RemoveState(sessionId);
+            archivedSessionsAccount[sessionId] = session.Bencoded;
+            // archivedSessionsAccount = archivedSessionsAccount.SetState(sessionId, session.Bencoded);
             sessionList.RemoveAt(i);
         }
 
-        sessionsAccount = sessionsAccount.SetState(
-            Addresses.Sessions, new List(sessionList.Select(s => s.Metadata.Id.Bencoded)));
-        world = world.SetAccount(Addresses.Sessions, sessionsAccount);
-        world = world.SetAccount(Addresses.ArchivedSessions, archivedSessionsAccount);
-        return world;
+        sessionsAccount[Addresses.Sessions] = new List(sessionList.Select(s => s.Metadata.Id.Bencoded));
+        // sessionsAccount = sessionsAccount.SetState(
+        //     Addresses.Sessions, );
+        // world = world.SetAccount(Addresses.Sessions, sessionsAccount);
+        // world = world.SetAccount(Addresses.ArchivedSessions, archivedSessionsAccount);
     }
 }

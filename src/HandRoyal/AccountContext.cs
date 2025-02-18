@@ -6,25 +6,30 @@ using Libplanet.Crypto;
 
 namespace HandRoyal;
 
-public sealed class AccountContext(IAccount account, Action<IAccount> setter)
+internal sealed class AccountContext(
+    IAccount account, Address address, Action<AccountContext> setter) : IAccountContext
 {
     private IAccount _account = account;
 
-    public IValue this[Address stateAddress]
+    public Address Address { get; } = address;
+
+    public IAccount Account => _account;
+
+    public IValue this[Address address]
     {
-        get => _account.GetState(stateAddress) ?? throw new KeyNotFoundException(
-            $"No state found at {stateAddress}");
+        get => _account.GetState(address) ?? throw new KeyNotFoundException(
+            $"No state found at {address}");
         set
         {
-            _account = _account.SetState(stateAddress, value);
-            setter(_account);
+            _account = _account.SetState(address, value);
+            setter(this);
         }
     }
 
-    public bool TryGetObject<T>(Address stateAddress, [MaybeNullWhen(false)] out T value)
+    public bool TryGetObject<T>(Address address, [MaybeNullWhen(false)] out T value)
         where T : IBencodable
     {
-        if (_account.GetState(stateAddress) is { } state
+        if (_account.GetState(address) is { } state
             && Activator.CreateInstance(typeof(T), args: [state]) is T obj)
         {
             value = obj;
@@ -35,10 +40,10 @@ public sealed class AccountContext(IAccount account, Action<IAccount> setter)
         return false;
     }
 
-    public bool TryGetState<T>(Address stateAddress, [MaybeNullWhen(false)] out T value)
+    public bool TryGetState<T>(Address address, [MaybeNullWhen(false)] out T value)
         where T : IValue
     {
-        if (_account.GetState(stateAddress) is T state)
+        if (_account.GetState(address) is T state)
         {
             value = state;
             return true;
@@ -48,10 +53,10 @@ public sealed class AccountContext(IAccount account, Action<IAccount> setter)
         return false;
     }
 
-    public T GetState<T>(Address stateAddress, T fallback)
+    public T GetState<T>(Address address, T fallback)
         where T : IValue
     {
-        if (TryGetState<T>(stateAddress, out var value))
+        if (TryGetState<T>(address, out var value))
         {
             return value;
         }
@@ -59,5 +64,11 @@ public sealed class AccountContext(IAccount account, Action<IAccount> setter)
         return fallback;
     }
 
-    public bool Contains(Address stateAddress) => _account.GetState(stateAddress) is not null;
+    public bool Contains(Address address) => _account.GetState(address) is not null;
+
+    public bool Remove(Address address)
+    {
+        _account.RemoveState(address);
+        return true;
+    }
 }

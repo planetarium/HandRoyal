@@ -12,7 +12,12 @@ public abstract class BlockActionBase : IAction
     void IAction.LoadPlainValue(IValue plainValue)
         => throw new UnreachableException("This method should not be called.");
 
-    IWorld IAction.Execute(IActionContext context) => OnExecute(context);
+    IWorld IAction.Execute(IActionContext context)
+    {
+        using var worldContext = new WorldContext(context);
+        OnExecute(worldContext, context);
+        return worldContext.Flush();
+    }
 
-    protected abstract IWorld OnExecute(IActionContext context);
+    protected abstract void OnExecute(IWorldContext world, IActionContext context);
 }

@@ -19,7 +19,7 @@ public sealed record class RegisterGlove : ActionBase
 
     protected override IValue PlainValue => Id.Bencoded;
 
-    protected override void OnExecute(WorldContext world, IActionContext context)
+    protected override void OnExecute(IWorldContext world, IActionContext context)
     {
         var signer = context.Signer;
         var glovesAccount = world[Addresses.Gloves];

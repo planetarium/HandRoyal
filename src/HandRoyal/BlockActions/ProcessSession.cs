@@ -1,16 +1,16 @@
 ﻿using HandRoyal.States;
 using Libplanet.Action;
 using Libplanet.Action.State;
+using Libplanet.Crypto;
 
 namespace HandRoyal.BlockActions;
 
 internal sealed class ProcessSession : BlockActionBase
 {
-    protected override IWorld OnExecute(IActionContext context)
+    protected override void OnExecute(IWorldContext world, IActionContext context)
     {
-        var world = context.PreviousState;
         var height = context.BlockIndex;
-        var sessionsAccount = world.GetAccount(Addresses.Sessions);
+        var sessionsAccount = world[Addresses.Sessions];
         var sessions = Session.GetSessions(world);
         for (var i = 0; i < sessions.Length; i++)
         {

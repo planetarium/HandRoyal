@@ -1,21 +1,19 @@
 ﻿using Libplanet.Action;
-using Libplanet.Action.State;
 
 namespace HandRoyal.BlockActions;
 
 public sealed class RewardGas : BlockActionBase
 {
-    protected override IWorld OnExecute(IActionContext context)
+    protected override void OnExecute(IWorldContext world, IActionContext context)
     {
-        var world = context.PreviousState;
         if (context.MaxGasPrice is not { Sign: > 0 } realGasPrice)
         {
-            return world;
+            return;
         }
 
         if (GasTracer.GasUsed <= 0)
         {
-            return world;
+            return;
         }
 
         var gasMortgaged = world.GetBalance(Addresses.MortgagePool, realGasPrice.Currency);
@@ -24,10 +22,9 @@ public sealed class RewardGas : BlockActionBase
 
         if (gasToTransfer.Sign <= 0)
         {
-            return world;
+            return;
         }
 
-        return world.TransferAsset(
-                context, Addresses.MortgagePool, Addresses.GasPool, gasToTransfer);
+        world.TransferAsset(Addresses.MortgagePool, Addresses.GasPool, gasToTransfer);
     }
 }

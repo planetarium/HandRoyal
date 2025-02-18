@@ -54,7 +54,7 @@ public sealed record class CreateSession : ActionBase
         ToValue(RoundInterval),
         ToValue(WaitingInterval));
 
-    protected override void OnExecute(WorldContext world, IActionContext context)
+    protected override void OnExecute(IWorldContext world, IActionContext context)
     {
         var sessionsAccount = world[Addresses.Sessions];
         var sessionId = SessionId;

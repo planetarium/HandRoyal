@@ -32,7 +32,7 @@ public sealed record class SubmitMove : ActionBase
         ToValue(SessionId),
         ToValue(Move));
 
-    protected override void OnExecute(WorldContext world, IActionContext context)
+    protected override void OnExecute(IWorldContext world, IActionContext context)
     {
         var sessionsAccount = world[Addresses.Sessions];
         if (!sessionsAccount.TryGetObject<Session>(SessionId, out var session))

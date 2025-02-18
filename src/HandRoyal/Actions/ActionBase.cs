@@ -33,10 +33,10 @@ public abstract record class ActionBase : IAction
 
     IWorld IAction.Execute(IActionContext context)
     {
-        using var worldContext = new WorldContext(context.PreviousState);
+        using var worldContext = new WorldContext(context);
         OnExecute(worldContext, context);
-        return worldContext.World;
+        return worldContext.Flush();
     }
 
-    protected abstract void OnExecute(WorldContext world, IActionContext context);
+    protected abstract void OnExecute(IWorldContext world, IActionContext context);
 }
