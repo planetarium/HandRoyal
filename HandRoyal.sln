@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# 
+#
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandRoyal", "src\HandRoyal\HandRoyal.csproj", "{4E138EA4-3674-45B9-936A-753542AD4E87}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandRoyal.Node", "src\HandRoyal.Node\HandRoyal.Node.csproj", "{40FC9D31-2716-4DEF-8A9E-2B31424722E1}"
@@ -10,6 +10,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FCD8BD0E-93EA-43C8-BE5B-E91A8D606627}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandRoyal.Explorer", "src\HandRoyal.Explorer\HandRoyal.Explorer.csproj", "{FCD84238-CAB0-4C81-82C9-3D7ACA8F11A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C0B63ED2-F6D7-47F2-A6E3-012C088F54DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,5 +38,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FCD84238-CAB0-4C81-82C9-3D7ACA8F11A2} = {FCD8BD0E-93EA-43C8-BE5B-E91A8D606627}
+		{4E138EA4-3674-45B9-936A-753542AD4E87} = {FCD8BD0E-93EA-43C8-BE5B-E91A8D606627}
+		{40FC9D31-2716-4DEF-8A9E-2B31424722E1} = {FCD8BD0E-93EA-43C8-BE5B-E91A8D606627}
+		{CDAD3E17-AA76-4239-8A95-96CFD23720FA} = {C0B63ED2-F6D7-47F2-A6E3-012C088F54DD}
 	EndGlobalSection
 EndGlobal
