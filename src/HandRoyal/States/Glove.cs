@@ -1,10 +1,11 @@
-﻿using Bencodex.Types;
+﻿using Bencodex;
+using Bencodex.Types;
 using Libplanet.Crypto;
 using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.States;
 
-public sealed record class Glove
+public sealed record class Glove : IBencodable
 {
     public Glove(Address id, Address author)
     {

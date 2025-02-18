@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Bencodex.Types;
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;

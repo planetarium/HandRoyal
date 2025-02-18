@@ -1,7 +1,6 @@
 ﻿using Bencodex.Types;
 using HandRoyal.States;
 using Libplanet.Action;
-using Libplanet.Action.State;
 using Libplanet.Crypto;
 using static HandRoyal.BencodexUtility;
 
@@ -33,16 +32,14 @@ public sealed record class SubmitMove : ActionBase
         ToValue(SessionId),
         ToValue(Move));
 
-    protected override IWorld OnExecute(IActionContext context)
+    protected override void OnExecute(WorldContext world, IActionContext context)
     {
-        var world = context.PreviousState;
-        var sessionsAccount = world.GetAccount(Addresses.Sessions);
-        if (sessionsAccount.GetState(SessionId) is not { } sessionState)
+        var sessionsAccount = world[Addresses.Sessions];
+        if (!sessionsAccount.TryGetObject<Session>(SessionId, out var session))
         {
             throw new InvalidOperationException($"Session {SessionId} does not exist.");
         }
 
-        var session = new Session(sessionState);
         var playerIndex = session.FindPlayer(context.Signer);
         if (playerIndex == -1)
         {
@@ -57,8 +54,6 @@ public sealed record class SubmitMove : ActionBase
             Rounds = rounds.SetItem(rounds.Length - 1, round),
             Height = context.BlockIndex,
         };
-        sessionsAccount = sessionsAccount.SetState(SessionId, session.Bencoded);
-        world = world.SetAccount(Addresses.Sessions, sessionsAccount);
-        return world;
+        sessionsAccount[SessionId] = session.Bencoded;
     }
 }

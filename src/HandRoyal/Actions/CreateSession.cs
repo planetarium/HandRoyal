@@ -1,8 +1,8 @@
 ﻿using Bencodex.Types;
 using HandRoyal.Exceptions;
+using HandRoyal.Extensions;
 using HandRoyal.States;
 using Libplanet.Action;
-using Libplanet.Action.State;
 using Libplanet.Crypto;
 using static HandRoyal.BencodexUtility;
 
@@ -54,10 +54,9 @@ public sealed record class CreateSession : ActionBase
         ToValue(RoundInterval),
         ToValue(WaitingInterval));
 
-    protected override IWorld OnExecute(IActionContext context)
+    protected override void OnExecute(WorldContext world, IActionContext context)
     {
-        var world = context.PreviousState;
-        var sessionsAccount = world.GetAccount(Addresses.Sessions);
+        var sessionsAccount = world[Addresses.Sessions];
         var sessionId = SessionId;
 
         if (sessionId == default)
@@ -65,21 +64,20 @@ public sealed record class CreateSession : ActionBase
             throw new CreateSessionException("Session id is not set.");
         }
 
-        if (sessionsAccount.GetState(SessionId) is not null)
+        if (sessionsAccount.Contains(SessionId))
         {
             throw new CreateSessionException($"Session of id {sessionId} already exists.");
         }
 
         var prize = Prize;
-        var glovesAccount = world.GetAccount(Addresses.Gloves);
-        if (glovesAccount.GetState(prize) is not { } gloveState)
+        var glovesAccount = world[Addresses.Gloves];
+        if (!glovesAccount.TryGetObject<Glove>(prize, out var glove))
         {
             throw new CreateSessionException(
                 $"Given glove prize {prize} for session id {sessionId} does not exist.");
         }
 
         var signer = context.Signer;
-        var glove = new Glove(gloveState);
         if (!glove.Author.Equals(signer))
         {
             throw new CreateSessionException(
@@ -98,11 +96,10 @@ public sealed record class CreateSession : ActionBase
             WaitingInterval = WaitingInterval,
         };
         var session = new Session(sessionMetadata);
-        var sessionAddresses = sessionsAccount.GetState(Addresses.Sessions)
-            is IValue value ? (List)value : [];
-        sessionAddresses = sessionAddresses.Add(sessionId.Bencoded);
-        sessionsAccount = sessionsAccount.SetState(Addresses.Sessions, sessionAddresses);
-        sessionsAccount = sessionsAccount.SetState(sessionId, session.Bencoded);
-        return world.SetAccount(Addresses.Sessions, sessionsAccount);
+        var sessionList = sessionsAccount.GetState(
+            Addresses.Sessions, fallback: List.Empty);
+        sessionList = sessionList.Add(SessionId);
+        sessionsAccount[Addresses.Sessions] = sessionList;
+        sessionsAccount[SessionId] = session.Bencoded;
     }
 }

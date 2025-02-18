@@ -1,7 +1,6 @@
 ﻿using Bencodex.Types;
 using HandRoyal.States;
 using Libplanet.Action;
-using Libplanet.Action.State;
 
 namespace HandRoyal.Actions;
 
@@ -19,18 +18,16 @@ public sealed record class CreateUser : ActionBase
 
     protected override IValue PlainValue => Null.Value;
 
-    protected override IWorld OnExecute(IActionContext context)
+    protected override void OnExecute(WorldContext world, IActionContext context)
     {
-        var world = context.PreviousState;
         var signer = context.Signer;
-        var usersAccount = world.GetAccount(Addresses.Users);
-        if (usersAccount.GetState(signer) is not null)
+        var usersAccount = world[Addresses.Users];
+        if (usersAccount.Contains(signer))
         {
             throw new InvalidOperationException("User already exists.");
         }
 
         var user = new User(signer);
-        usersAccount = usersAccount.SetState(signer, user.Bencoded);
-        return world.SetAccount(Addresses.Users, usersAccount);
+        usersAccount[signer] = user.Bencoded;
     }
 }

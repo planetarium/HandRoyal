@@ -2,7 +2,6 @@
 using HandRoyal.Exceptions;
 using HandRoyal.States;
 using Libplanet.Action;
-using Libplanet.Action.State;
 using Libplanet.Crypto;
 using static HandRoyal.BencodexUtility;
 
@@ -34,16 +33,14 @@ public sealed record class JoinSession : ActionBase
         ToValue(SessionId),
         ToValue(Glove));
 
-    protected override IWorld OnExecute(IActionContext context)
+    protected override void OnExecute(WorldContext world, IActionContext context)
     {
-        var world = context.PreviousState;
-        var sessionsAccount = world.GetAccount(Addresses.Sessions);
-        if (sessionsAccount.GetState(SessionId) is not { } sessionState)
+        var sessionsAccount = world[Addresses.Sessions];
+        if (!sessionsAccount.TryGetObject<Session>(SessionId, out var session))
         {
             throw new JoinSessionException($"Session of id {SessionId} does not exists.");
         }
 
-        var session = new Session(sessionState);
         var sessionMetadata = session.Metadata;
         if (session.State != SessionState.Ready)
         {
@@ -67,21 +64,11 @@ public sealed record class JoinSession : ActionBase
             throw new JoinSessionException(message);
         }
 
-        var usersAccount = world.GetAccount(Addresses.Users);
-        if (usersAccount.GetState(context.Signer) is not { } userState)
+        var usersAccount = world[Addresses.Users];
+        if (!usersAccount.TryGetObject<User>(context.Signer, out var user))
         {
             var message = $"User does not exists. ({context.Signer})";
             throw new JoinSessionException(message);
-        }
-
-        User user;
-        try
-        {
-            user = new User(userState);
-        }
-        catch (Exception e)
-        {
-            throw new JoinSessionException("Exception occurred during JoinSession.", e);
         }
 
         if (user.SessionId != default)
@@ -98,11 +85,8 @@ public sealed record class JoinSession : ActionBase
         var players = session.Players;
         var player = new Player(context.Signer, Glove);
         session = session with { Players = players.Add(player) };
-        sessionsAccount = sessionsAccount.SetState(SessionId, session.Bencoded);
-        world = world.SetAccount(Addresses.Sessions, sessionsAccount);
         user = user with { SessionId = SessionId };
-        usersAccount = usersAccount.SetState(context.Signer, user.Bencoded);
-        world = world.SetAccount(Addresses.Users, usersAccount);
-        return world;
+        sessionsAccount[SessionId] = session.Bencoded;
+        usersAccount[context.Signer] = user.Bencoded;
     }
 }

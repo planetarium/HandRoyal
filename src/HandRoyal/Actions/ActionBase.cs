@@ -31,7 +31,12 @@ public abstract record class ActionBase : IAction
     void IAction.LoadPlainValue(IValue plainValue)
         => throw new UnreachableException("This method should not be called.");
 
-    IWorld IAction.Execute(IActionContext context) => OnExecute(context);
+    IWorld IAction.Execute(IActionContext context)
+    {
+        using var worldContext = new WorldContext(context.PreviousState);
+        OnExecute(worldContext, context);
+        return worldContext.World;
+    }
 
-    protected abstract IWorld OnExecute(IActionContext context);
+    protected abstract void OnExecute(WorldContext world, IActionContext context);
 }
