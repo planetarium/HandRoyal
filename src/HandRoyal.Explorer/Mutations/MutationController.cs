@@ -29,11 +29,26 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
     }
 
     [MutationRoot("CreateSession")]
-    public TxId CreateSession(PrivateKey privateKey, Address sessionId, Address prize)
+    public TxId CreateSession(
+        PrivateKey privateKey,
+        Address sessionId,
+        Address prize,
+        int maximumUser,
+        int minimumUser,
+        int remainingUser,
+        long roundInterval,
+        long waitingInterval)
     {
         var address = privateKey.Address;
         var blockChain = blockChainService.BlockChain;
-        var createSession = new CreateSession(sessionId, prize);
+        var createSession = new CreateSession(
+            sessionId: sessionId,
+            prize: prize,
+            maximumUser: maximumUser,
+            minimumUser: minimumUser,
+            remainingUser: remainingUser,
+            roundInterval: roundInterval,
+            waitingInterval: waitingInterval);
         var nonce = blockChain.GetNextTxNonce(address);
         var tx = Transaction.Create(
             nonce: nonce,

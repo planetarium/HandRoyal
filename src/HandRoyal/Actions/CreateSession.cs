@@ -15,19 +15,46 @@ public sealed class CreateSession : ActionBase
     {
     }
 
-    public CreateSession(Address sessionId, Address prize)
+    public CreateSession(
+        Address sessionId,
+        Address prize,
+        int maximumUser,
+        int minimumUser,
+        int remainingUser,
+        long roundInterval,
+        long waitingInterval)
     {
         SessionId = sessionId;
         Prize = prize;
+        MaximumUser = maximumUser;
+        MinimumUser = minimumUser;
+        RemainingUser = remainingUser;
+        RoundInterval = roundInterval;
+        WaitingInterval = waitingInterval;
     }
 
     public Address SessionId { get; private set; }
 
     public Address Prize { get; private set; }
 
+    public int MaximumUser { get; private set; }
+
+    public int MinimumUser { get; private set; }
+
+    public int RemainingUser { get; private set; }
+
+    public long RoundInterval { get; private set; }
+
+    public long WaitingInterval { get; private set; }
+
     protected override IValue PlainValueInternal => new List(
         ToValue(SessionId),
-        ToValue(Prize));
+        ToValue(Prize),
+        ToValue(MaximumUser),
+        ToValue(MinimumUser),
+        ToValue(RemainingUser),
+        ToValue(RoundInterval),
+        ToValue(WaitingInterval));
 
     public override IWorld Execute(IActionContext context)
     {
@@ -52,7 +79,15 @@ public sealed class CreateSession : ActionBase
                 $"Organizer for session id {SessionId} is not author of the prize {Prize}.");
         }
 
-        var sessionMetadata = new SessionMetadata(SessionId, context.Signer, Prize);
+        var sessionMetadata = new SessionMetadata(
+            SessionId,
+            context.Signer,
+            Prize,
+            MaximumUser,
+            MinimumUser,
+            RemainingUser,
+            RoundInterval,
+            WaitingInterval);
         var session = new Session(sessionMetadata);
         var activeSessionAddresses = sessionsAccount.GetState(Addresses.ActiveSessionAddresses)
             is IValue value ? (List)value : [];
@@ -72,5 +107,10 @@ public sealed class CreateSession : ActionBase
 
         SessionId = ToAddress(list, 0);
         Prize = ToAddress(list, 1);
+        MaximumUser = ToInt32(list, 2);
+        MinimumUser = ToInt32(list, 3);
+        RemainingUser = ToInt32(list, 4);
+        RoundInterval = ToInt64(list, 5);
+        WaitingInterval = ToInt64(list, 6);
     }
 }
