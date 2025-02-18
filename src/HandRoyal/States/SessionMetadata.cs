@@ -7,11 +7,24 @@ namespace HandRoyal.States;
 
 public sealed record class SessionMetadata : IBencodable
 {
-    public SessionMetadata(Address id, Address organizer, Address prize)
+    public SessionMetadata(
+        Address id,
+        Address organizer,
+        Address prize,
+        int maximumUser = 8,
+        int minimumUser = 2,
+        int remainingUser = 1,
+        long roundInterval = 5,
+        long waitingInterval = 10)
     {
         Id = id;
         Organizer = organizer;
         Prize = prize;
+        MaximumUser = maximumUser;
+        MinimumUser = minimumUser;
+        RemainingUser = remainingUser;
+        RoundInterval = roundInterval;
+        WaitingInterval = waitingInterval;
     }
 
     public SessionMetadata(IValue value)
@@ -27,6 +40,8 @@ public sealed record class SessionMetadata : IBencodable
         MaximumUser = ToInt32(list, 3);
         MinimumUser = ToInt32(list, 4);
         RemainingUser = ToInt32(list, 5);
+        RoundInterval = ToInt64(list, 6);
+        WaitingInterval = ToInt64(list, 7);
     }
 
     public IValue Bencoded => new List(
@@ -35,7 +50,9 @@ public sealed record class SessionMetadata : IBencodable
         ToValue(Prize),
         ToValue(MaximumUser),
         ToValue(MinimumUser),
-        ToValue(RemainingUser));
+        ToValue(RemainingUser),
+        ToValue(RoundInterval),
+        ToValue(WaitingInterval));
 
     public Address Id { get; }
 
@@ -43,13 +60,13 @@ public sealed record class SessionMetadata : IBencodable
 
     public Address Prize { get; }
 
-    public int MaximumUser { get; set; } = 8;
+    public int MaximumUser { get; }
 
-    public int MinimumUser { get; set; } = 2;
+    public int MinimumUser { get; }
 
-    public int RemainingUser { get; set; } = 1;
+    public int RemainingUser { get; }
 
-    public long RoundInterval { get; set; } = 5;
+    public long RoundInterval { get; }
 
-    public long WaitingInterval { get; set; } = 10;
+    public long WaitingInterval { get; }
 }

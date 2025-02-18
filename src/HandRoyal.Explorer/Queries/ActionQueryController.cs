@@ -20,11 +20,23 @@ internal sealed class ActionQueryController : GraphController
     }
 
     [Query("CreateSession")]
-    public HexValue CreateSession(Address sessionId, Address prize)
+    public HexValue CreateSession(
+        Address sessionId,
+        Address prize,
+        int maximumUser,
+        int minimumUser,
+        int remainingUser,
+        long roundInterval,
+        long waitingInterval)
     {
         var createSession = new CreateSession(
             sessionId: sessionId,
-            prize: prize);
+            prize: prize,
+            maximumUser: maximumUser,
+            minimumUser: minimumUser,
+            remainingUser: remainingUser,
+            roundInterval: roundInterval,
+            waitingInterval: waitingInterval);
         return _codec.Encode(createSession.PlainValue);
     }
 
