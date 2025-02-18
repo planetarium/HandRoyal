@@ -60,6 +60,12 @@ public sealed class CreateSession : ActionBase
     {
         var world = context.PreviousState;
         var sessionsAccount = world.GetAccount(Addresses.Sessions);
+
+        if (SessionId == default)
+        {
+            throw new CreateSessionException("Session id is not set.");
+        }
+
         if (sessionsAccount.GetState(SessionId) is not null)
         {
             throw new CreateSessionException($"Session of id {SessionId} already exists.");
