@@ -3,6 +3,7 @@ using Bencodex;
 using Bencodex.Types;
 using HandRoyal.Extensions;
 using Libplanet.Action;
+using Libplanet.Action.State;
 using Libplanet.Crypto;
 using static HandRoyal.BencodexUtility;
 
@@ -28,6 +29,7 @@ public sealed record class Session : IBencodable
         Rounds = ToObjects<Round>(list, 3);
         CreationHeight = ToInt64(list, 4);
         StartHeight = ToInt64(list, 5);
+        Height = ToInt64(list, 6);
     }
 
     public IValue Bencoded => new List(
@@ -36,7 +38,8 @@ public sealed record class Session : IBencodable
         ToValue(Players),
         ToValue(Rounds),
         ToValue(CreationHeight),
-        ToValue(StartHeight));
+        ToValue(StartHeight),
+        ToValue(Height));
 
     public SessionMetadata Metadata { get; }
 
@@ -49,6 +52,8 @@ public sealed record class Session : IBencodable
     public long CreationHeight { get; set; }
 
     public long StartHeight { get; set; }
+
+    public long Height { get; set; }
 
     public int FindPlayer(Address address)
     {
@@ -63,33 +68,73 @@ public sealed record class Session : IBencodable
         return -1;
     }
 
-    public Session ProcessRound(long height, IRandom random) => State switch
+    public Session? ProcessRound(long height, IRandom random) => State switch
     {
         SessionState.None => this with
         {
             State = SessionState.Ready,
             CreationHeight = height,
             StartHeight = Metadata.WaitingInterval + height,
+            Height = height,
         },
         SessionState.Ready => StartSession(height, random),
         SessionState.Active => PlayRound(height, random),
-        SessionState.Ended => this,
+        SessionState.Ended => null,
         _ => throw new InvalidOperationException($"Invalid session state: {State}"),
     };
 
-    private Session StartSession(long height, IRandom random)
+    public static Session FromState(IWorldState worldState, Address sessionId)
+    {
+        var sessionsAccount = worldState.GetAccountState(Addresses.Sessions);
+        if (sessionsAccount.GetState(sessionId) is not { } sessionState)
+        {
+            var message = $"Session of id {sessionId} does not exist.";
+            throw new ArgumentException(message, nameof(sessionId));
+        }
+
+        return new Session(sessionState);
+    }
+
+    public static Session[] GetSessions(IWorldState worldState)
+    {
+        var sessionsAccount = worldState.GetAccountState(Addresses.Sessions);
+        if (sessionsAccount.GetState(Addresses.Sessions) is not List addressList)
+        {
+            return [];
+        }
+
+        var sessions = new List<Session>(addressList.Count);
+        for (var i = 0; i < addressList.Count; i++)
+        {
+            var sessionAddress = new Address(addressList[i]);
+            if (sessionsAccount.GetState(sessionAddress) is not { } sessionState)
+            {
+                continue;
+            }
+
+            sessions.Add(new Session(sessionState));
+        }
+
+        return [.. sessions];
+    }
+
+    private Session? StartSession(long height, IRandom random)
     {
         var waitingInterval = Metadata.WaitingInterval;
         var minimumUser = Metadata.MinimumUser;
         if (height < CreationHeight + waitingInterval)
         {
-            return this;
+            return null;
         }
 
         var indexes = Enumerable.Range(0, Players.Length).ToArray();
         if (indexes.Length < minimumUser)
         {
-            return this with { State = SessionState.Ended };
+            return this with
+            {
+                State = SessionState.Ended,
+                Height = height,
+            };
         }
 
         var playerIndexes = random.Shuffle(indexes).ToArray();
@@ -104,19 +149,20 @@ public sealed record class Session : IBencodable
         {
             State = SessionState.Active,
             StartHeight = height,
+            Height = height,
             Players = Player.SetState(Players, playerIndexes, PlayerState.Playing),
             Rounds = Rounds.Add(round),
         };
     }
 
-    private Session PlayRound(long height, IRandom random)
+    private Session? PlayRound(long height, IRandom random)
     {
         var roundInterval = Metadata.RoundInterval;
         var remainingUser = Metadata.RemainingUser;
         var nextHeight = Rounds[^1].Height + roundInterval;
         if (height < nextHeight)
         {
-            return this;
+            return null;
         }
 
         var round = Rounds[^1];
@@ -130,6 +176,7 @@ public sealed record class Session : IBencodable
             {
                 Players = Player.SetState(players, winers, PlayerState.Won),
                 State = SessionState.Ended,
+                Height = height,
             };
         }
         else
@@ -144,6 +191,7 @@ public sealed record class Session : IBencodable
             {
                 Players = players,
                 Rounds = Rounds.Add(nextRound),
+                Height = height,
             };
         }
     }
