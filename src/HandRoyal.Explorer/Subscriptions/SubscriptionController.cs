@@ -15,6 +15,7 @@ internal sealed class SubscriptionController(IBlockChainService blockChainServic
     public const string TipChangedEventName = "TIP_CHANGED";
     public const string MoveChangedEventName = "MOVE_CHANGED";
     public const string SessionChangedEventName = "SESSION_CHANGED";
+    public const string UserChangedEventName = "USER_CHANGED";
     public const string TransactionChangedEventName = "TRANSACTION_CHANGED";
 
     [SubscriptionRoot("onTipChanged", typeof(TipEventData), EventName = TipChangedEventName)]
@@ -49,6 +50,19 @@ internal sealed class SubscriptionController(IBlockChainService blockChainServic
                 eventData.Match = match;
             }
 
+            return Ok(eventData);
+        }
+
+        return this.SkipSubscriptionEvent();
+    }
+
+    [SubscriptionRoot(
+        "onUserChanged", typeof(UserEventData), EventName = UserChangedEventName)]
+    public IGraphActionResult OnUserChanged(UserEventData eventData, Address userId)
+    {
+        var user = eventData.User;
+        if (user.Id == userId)
+        {
             return Ok(eventData);
         }
 

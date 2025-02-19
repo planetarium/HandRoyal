@@ -28,6 +28,7 @@ public static class ServiceCollectionExtensions
 
         @this.AddHostedService<TipEventPublisher>();
         @this.AddHostedService<SessionEventPublisher>();
+        @this.AddHostedService<UserEventPublisher>();
         @this.AddHostedService<TransactionEventPublisher>();
 
         return @this;
