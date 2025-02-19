@@ -1,10 +1,8 @@
-using Bencodex.Types;
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
 using HandRoyal.Actions;
 using HandRoyal.Explorer.Types;
 using HandRoyal.States;
-using Libplanet.Action;
 using Libplanet.Crypto;
 using Libplanet.Node.Services;
 using Libplanet.Types.Tx;
@@ -16,18 +14,13 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
     [MutationRoot("CreateUser")]
     public TxId CreateUser(PrivateKey privateKey)
     {
-        var address = privateKey.Address;
-        var blockChain = blockChainService.BlockChain;
         var createUser = new CreateUser();
-        var nonce = blockChain.GetNextTxNonce(address);
-        var tx = Transaction.Create(
-            nonce: nonce,
-            privateKey: privateKey,
-            genesisHash: blockChain.Genesis.Hash,
-            actions: GetActionValues(createUser));
-        blockChain.StageTransaction(tx);
-
-        return tx.Id;
+        var txSettings = new TxSettings
+        {
+            PrivateKey = privateKey,
+            Actions = [createUser],
+        };
+        return txSettings.StageTo(blockChainService.BlockChain);
     }
 
     [MutationRoot("CreateSession")]
@@ -41,8 +34,6 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
         long roundInterval,
         long waitingInterval)
     {
-        var address = privateKey.Address;
-        var blockChain = blockChainService.BlockChain;
         var createSession = new CreateSession
         {
             SessionId = sessionId,
@@ -53,77 +44,59 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
             RoundInterval = roundInterval,
             WaitingInterval = waitingInterval,
         };
-        var nonce = blockChain.GetNextTxNonce(address);
-        var tx = Transaction.Create(
-            nonce: nonce,
-            privateKey: privateKey,
-            genesisHash: blockChain.Genesis.Hash,
-            actions: GetActionValues(createSession));
-        blockChain.StageTransaction(tx);
-
-        return tx.Id;
+        var txSettings = new TxSettings
+        {
+            PrivateKey = privateKey,
+            Actions = [createSession],
+        };
+        return txSettings.StageTo(blockChainService.BlockChain);
     }
 
     [MutationRoot("RegisterGlove")]
     public TxId RegisterGlove(PrivateKey privateKey, Address gloveId)
     {
-        var address = privateKey.Address;
-        var blockChain = blockChainService.BlockChain;
         var registerGlove = new RegisterGlove
         {
             Id = gloveId,
         };
-        var nonce = blockChain.GetNextTxNonce(address);
-        var tx = Transaction.Create(
-            nonce: nonce,
-            privateKey: privateKey,
-            genesisHash: blockChain.Genesis.Hash,
-            actions: GetActionValues(registerGlove));
-        blockChain.StageTransaction(tx);
-
-        return tx.Id;
+        var txSettings = new TxSettings
+        {
+            PrivateKey = privateKey,
+            Actions = [registerGlove],
+        };
+        return txSettings.StageTo(blockChainService.BlockChain);
     }
 
     [MutationRoot("JoinSession")]
     public TxId JoinSession(PrivateKey privateKey, Address sessionId, Address? gloveId)
     {
-        var address = privateKey.Address;
-        var blockChain = blockChainService.BlockChain;
         var joinSession = new JoinSession
         {
             SessionId = sessionId,
             Glove = gloveId ?? default,
         };
-        var nonce = blockChain.GetNextTxNonce(address);
-        var tx = Transaction.Create(
-            nonce: nonce,
-            privateKey: privateKey,
-            genesisHash: blockChain.Genesis.Hash,
-            actions: GetActionValues(joinSession));
-        blockChain.StageTransaction(tx);
-
-        return tx.Id;
+        var txSettings = new TxSettings
+        {
+            PrivateKey = privateKey,
+            Actions = [joinSession],
+        };
+        return txSettings.StageTo(blockChainService.BlockChain);
     }
 
     [MutationRoot("SubmitMove")]
     public TxId SubmitMove(PrivateKey privateKey, Address sessionId, MoveType move)
     {
-        var address = privateKey.Address;
-        var blockChain = blockChainService.BlockChain;
         var submitMove = new SubmitMove
         {
             SessionId = sessionId,
             Move = move,
         };
-        var nonce = blockChain.GetNextTxNonce(address);
-        var tx = Transaction.Create(
-            nonce: nonce,
-            privateKey: privateKey,
-            genesisHash: blockChain.Genesis.Hash,
-            actions: GetActionValues(submitMove));
-        blockChain.StageTransaction(tx);
-
-        return tx.Id;
+        var txSettings = new TxSettings
+        {
+            PrivateKey = privateKey,
+            Actions = [submitMove],
+        };
+        return txSettings.StageTo(blockChainService.BlockChain);
     }
 
     [MutationRoot("StageTransaction")]
@@ -138,7 +111,4 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
 
         return tx.Id;
     }
-
-    private static IValue[] GetActionValues(params IAction[] actions)
-        => [.. actions.Select(action => action.PlainValue)];
 }
