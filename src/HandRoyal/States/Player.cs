@@ -8,10 +8,8 @@ namespace HandRoyal.States;
 
 public sealed record class Player : IBencodable
 {
-    public Player(Address id, Address glove)
+    public Player()
     {
-        Id = id;
-        Glove = glove;
         State = 0;
     }
 
@@ -32,9 +30,9 @@ public sealed record class Player : IBencodable
         ToValue(Glove),
         ToValue(State));
 
-    public Address Id { get; }
+    public required Address Id { get; init; }
 
-    public Address Glove { get; }
+    public Address Glove { get; init; }
 
     public PlayerState State { get; set; }
 

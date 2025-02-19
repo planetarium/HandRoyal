@@ -27,6 +27,6 @@ public sealed record class CreateUser : ActionBase
             throw new InvalidOperationException("User already exists.");
         }
 
-        usersAccount[signer] = new User(signer);
+        usersAccount[signer] = new User { Id = signer };
     }
 }

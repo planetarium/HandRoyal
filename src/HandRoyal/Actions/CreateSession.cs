@@ -95,6 +95,6 @@ public sealed record class CreateSession : ActionBase
         };
         var sessionList = sessionsAccount.GetState(Addresses.Sessions, fallback: List.Empty);
         sessionsAccount[Addresses.Sessions] = sessionList.Add(SessionId);
-        sessionsAccount[SessionId] = new Session(sessionMetadata);
+        sessionsAccount[SessionId] = new Session { Metadata = sessionMetadata };
     }
 }

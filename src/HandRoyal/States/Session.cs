@@ -10,9 +10,8 @@ namespace HandRoyal.States;
 
 public sealed record class Session : IBencodable
 {
-    public Session(SessionMetadata metadata)
+    public Session()
     {
-        Metadata = metadata;
     }
 
     public Session(IValue value)
@@ -40,19 +39,19 @@ public sealed record class Session : IBencodable
         ToValue(StartHeight),
         ToValue(Height));
 
-    public SessionMetadata Metadata { get; }
+    public required SessionMetadata Metadata { get; init; }
 
-    public SessionState State { get; set; }
+    public SessionState State { get; init; }
 
-    public ImmutableArray<Player> Players { get; set; } = [];
+    public ImmutableArray<Player> Players { get; init; } = [];
 
-    public ImmutableArray<Round> Rounds { get; set; } = [];
+    public ImmutableArray<Round> Rounds { get; init; } = [];
 
-    public long CreationHeight { get; set; }
+    public long CreationHeight { get; init; }
 
-    public long StartHeight { get; set; }
+    public long StartHeight { get; init; }
 
-    public long Height { get; set; }
+    public long Height { get; init; }
 
     public int FindPlayer(Address useId)
     {

@@ -83,7 +83,7 @@ public sealed record class JoinSession : ActionBase
             throw new JoinSessionException(errMsg);
         }
 
-        var player = new Player(signer, Glove);
+        var player = new Player { Id = signer, Glove = Glove };
         var players = session.Players.Add(player);
         sessionsAccount[SessionId] = session with { Players = players };
         usersAccount[signer] = user with { SessionId = SessionId };

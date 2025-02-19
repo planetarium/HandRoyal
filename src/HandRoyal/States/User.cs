@@ -8,15 +8,8 @@ namespace HandRoyal.States;
 
 public sealed record class User : IBencodable
 {
-    public User(Address id)
-        : this(id, [])
+    public User()
     {
-    }
-
-    public User(Address id, ImmutableArray<Address> gloves)
-    {
-        Id = id;
-        Gloves = gloves;
     }
 
     public User(IValue value)
@@ -36,11 +29,11 @@ public sealed record class User : IBencodable
         ToValue(Gloves),
         ToValue(SessionId));
 
-    public Address Id { get; }
+    public required Address Id { get; init; }
 
-    public ImmutableArray<Address> Gloves { get; set; }
+    public ImmutableArray<Address> Gloves { get; init; } = [];
 
-    public Address SessionId { get; set; }
+    public Address SessionId { get; init; }
 
     public static User FromState(IWorldContext world, Address userId)
     {
