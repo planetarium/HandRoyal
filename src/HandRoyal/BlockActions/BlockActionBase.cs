@@ -7,7 +7,7 @@ namespace HandRoyal.BlockActions;
 
 public abstract class BlockActionBase : IAction
 {
-    IValue IAction.PlainValue => Null.Value;
+    IValue IAction.PlainValue => new Text(GetType().Name);
 
     void IAction.LoadPlainValue(IValue plainValue)
         => throw new UnreachableException("This method should not be called.");

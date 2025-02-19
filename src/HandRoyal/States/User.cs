@@ -1,7 +1,6 @@
 ﻿using System.Collections.Immutable;
 using Bencodex;
 using Bencodex.Types;
-using Libplanet.Action.State;
 using Libplanet.Crypto;
 using static HandRoyal.BencodexUtility;
 
@@ -43,15 +42,15 @@ public sealed record class User : IBencodable
 
     public Address SessionId { get; set; }
 
-    public static User FromState(IWorldState worldState, Address userId)
+    public static User FromState(IWorldContext world, Address userId)
     {
-        var userAccount = worldState.GetAccountState(Addresses.Users);
-        if (userAccount.GetState(userId) is not { } userState)
+        var usersAccount = world[Addresses.Users];
+        if (!usersAccount.TryGetObject<User>(userId, out var user))
         {
             var message = $"User of id {userId} does not exist.";
             throw new ArgumentException(message, nameof(userId));
         }
 
-        return new User(userState);
+        return user;
     }
 }

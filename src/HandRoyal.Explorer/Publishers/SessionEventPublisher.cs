@@ -4,37 +4,35 @@ using HandRoyal.Explorer.Subscriptions;
 using HandRoyal.Explorer.Types;
 using HandRoyal.States;
 using Libplanet.Action;
-using Libplanet.Action.State;
 using Libplanet.Node.Services;
 
 namespace HandRoyal.Explorer.Publishers;
 
 internal sealed class SessionEventPublisher(
-    IServiceProvider serviceProvider, IStoreService storeService)
+    IServiceProvider serviceProvider,
+    IActionService actionService,
+    IStoreService storeService)
     : RenderActionEventPublisherBase<SessionEventData>(serviceProvider)
 {
     protected override void OnRenderAction(RenderActionInfo info)
     {
-        if (info.Action is List list)
+        if (info.Action is Text typeIdText)
         {
-            if (list.Count == 1)
+            var name = typeIdText.Value;
+            if (name == "ProcessSession")
             {
-                var name = (string)(Text)list[0];
-                if (name == "ProcessSession")
+                var stateStore = storeService.StateStore;
+                var trie = stateStore.GetStateRoot(info.NextState);
+                var world = new WorldStateContext(trie, stateStore);
+                var sessions = Session.GetSessions(world);
+                var height = info.Context.BlockIndex;
+                foreach (var session in sessions)
                 {
-                    var stateStore = storeService.StateStore;
-                    var trie = stateStore.GetStateRoot(info.NextState);
-                    var world = new WorldStateContext(trie, stateStore);
-                    var sessions = Session.GetSessions(world);
-                    var height = info.Context.BlockIndex;
-                    foreach (var session in sessions)
+                    if (session.Height == height)
                     {
-                        if (session.Height == height)
-                        {
-                            var eventData = new SessionEventData(session);
-                            var eventName = SubscriptionController.SessionChangedEventName;
-                            RaisePublishedEvent(eventData, eventName);
-                        }
+                        var eventData = new SessionEventData(session);
+                        var eventName = SubscriptionController.SessionChangedEventName;
+                        RaisePublishedEvent(eventData, eventName);
                     }
                 }
             }
@@ -64,29 +62,18 @@ internal sealed class SessionEventPublisher(
 
     private static string GetTypeId(IValue value)
     {
-        if (value is not Dictionary dictionary)
+        if (value is List list && list.Count == 2 && list[0] is Text typeIdText)
         {
-            return string.Empty;
+            return typeIdText.Value;
         }
 
-        if (!dictionary.TryGetValue((Text)"type_id", out var typeIdValue))
-        {
-            return string.Empty;
-        }
-
-        if (typeIdValue is not Text typeIdText)
-        {
-            return string.Empty;
-        }
-
-        return typeIdText;
+        return string.Empty;
     }
 
-    private static T CreateAction<T>(IValue value)
+    private T CreateAction<T>(IValue value)
         where T : IAction
     {
-        var action = Activator.CreateInstance<T>();
-        action.LoadPlainValue(value);
-        return action;
+        var actionLoader = actionService.ActionLoader;
+        return (T)actionLoader.LoadAction(0, value);
     }
 }

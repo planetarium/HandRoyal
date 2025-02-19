@@ -2,7 +2,6 @@ using Bencodex.Types;
 using HandRoyal.Explorer.Subscriptions;
 using HandRoyal.Explorer.Types;
 using HandRoyal.States;
-using Libplanet.Action;
 using Libplanet.Action.State;
 using Libplanet.Node.Services;
 
@@ -17,7 +16,7 @@ internal sealed class UserEventPublisher(
         var typeId = GetTypeId(info.Action);
         var stateStore = storeService.StateStore;
         var trie = stateStore.GetStateRoot(info.NextState);
-        var world = new WorldBaseState(trie, stateStore);
+        var world = new WorldStateContext(trie, stateStore);
         if (typeId == "CreateUser")
         {
             var user = User.FromState(world, info.Context.Signer);
@@ -28,21 +27,11 @@ internal sealed class UserEventPublisher(
 
     private static string GetTypeId(IValue value)
     {
-        if (value is not Dictionary dictionary)
+        if (value is List list && list.Count == 2 && list[0] is Text typeIdText)
         {
-            return string.Empty;
+            return typeIdText.Value;
         }
 
-        if (!dictionary.TryGetValue((Text)"type_id", out var typeIdValue))
-        {
-            return string.Empty;
-        }
-
-        if (typeIdValue is not Text typeIdText)
-        {
-            return string.Empty;
-        }
-
-        return typeIdText;
+        return string.Empty;
     }
 }
