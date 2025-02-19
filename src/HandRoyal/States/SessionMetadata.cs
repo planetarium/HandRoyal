@@ -29,7 +29,7 @@ public sealed record class SessionMetadata : IBencodable
         WaitingInterval = ToInt64(list, 7);
     }
 
-    public IValue Bencoded => new List(
+    IValue IBencodable.Bencoded => new List(
         ToValue(Id),
         ToValue(Organizer),
         ToValue(Prize),

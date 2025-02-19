@@ -12,6 +12,8 @@ internal sealed class WorldContext(IActionContext context) : IDisposable, IWorld
     private IWorld _world = context.PreviousState;
     private bool _disposed;
 
+    public bool IsReadOnly => false;
+
     public AccountContext this[Address address]
     {
         get

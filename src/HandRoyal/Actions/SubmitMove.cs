@@ -49,11 +49,10 @@ public sealed record class SubmitMove : ActionBase
         var rounds = session.Rounds;
         var round = rounds[^1];
         round = round.Submit(playerIndex, Move);
-        session = session with
+        sessionsAccount[SessionId] = session with
         {
             Rounds = rounds.SetItem(rounds.Length - 1, round),
             Height = context.BlockIndex,
         };
-        sessionsAccount[SessionId] = session.Bencoded;
     }
 }

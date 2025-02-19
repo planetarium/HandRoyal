@@ -25,7 +25,7 @@ public sealed record class Move : IBencodable
 
     public MoveType Type { get; set; }
 
-    public IValue Bencoded => new List(
+    IValue IBencodable.Bencoded => new List(
         ToValue(PlayerIndex),
         ToValue(Type));
 }

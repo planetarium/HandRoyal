@@ -2,7 +2,6 @@
 using Bencodex.Types;
 using HandRoyal.States;
 using Libplanet.Action;
-using Libplanet.Action.State;
 
 namespace HandRoyal.BlockActions;
 
@@ -11,7 +10,7 @@ internal sealed class PostProcessSession : BlockActionBase
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {
         var sessionsAccount = world[Addresses.Sessions];
-        var archivedSessionsAccount = world.GetAccount(Addresses.ArchivedSessions);
+        var archivedSessionsAccount = world[Addresses.ArchivedSessions];
         var sessionList = Session.GetSessions(world).ToList();
         for (var i = sessionList.Count - 1; i >= 0; i--)
         {
@@ -22,41 +21,39 @@ internal sealed class PostProcessSession : BlockActionBase
                 continue;
             }
 
-            var winerIds = session.Players.Where(item => item.State == PlayerState.Won)
-                .Select(item => item.Id)
-                .ToArray();
-            var prize = session.Metadata.Prize;
-            var usersAccount = world.GetAccount(Addresses.Users);
-            var userIds = session.Players.Select(player => player.Id).ToArray();
-            foreach (var userId in userIds)
-            {
-                if (usersAccount.GetState(userId) is not { } userState)
-                {
-                    continue;
-                }
+            UpdateUsersStates(world, session);
 
-                var user = new User(userState);
-                var gloves = winerIds.Contains(userId) ? user.Gloves.Add(prize) : user.Gloves;
-                user = user with
-                {
-                    Gloves = gloves,
-                    SessionId = default,
-                };
-                usersAccount[userId] = user.Bencoded;
-            }
-
-            // world = world.SetAccount(Addresses.Users, usersAccount);
-            sessionsAccount.Remove(sessionId);
-            // sessionsAccount = sessionsAccount.RemoveState(sessionId);
-            archivedSessionsAccount[sessionId] = session.Bencoded;
-            // archivedSessionsAccount = archivedSessionsAccount.SetState(sessionId, session.Bencoded);
+            sessionsAccount.RemoveState(sessionId);
+            archivedSessionsAccount[sessionId] = session;
             sessionList.RemoveAt(i);
         }
 
-        sessionsAccount[Addresses.Sessions] = new List(sessionList.Select(s => s.Metadata.Id.Bencoded));
-        // sessionsAccount = sessionsAccount.SetState(
-        //     Addresses.Sessions, );
-        // world = world.SetAccount(Addresses.Sessions, sessionsAccount);
-        // world = world.SetAccount(Addresses.ArchivedSessions, archivedSessionsAccount);
+        sessionsAccount[Addresses.Sessions] = new List(
+            sessionList.Select(item => item.Metadata.Id.Bencoded));
+    }
+
+    private static void UpdateUsersStates(IWorldContext world, Session session)
+    {
+        var winerIds = session.Players
+            .Where(item => item.State == PlayerState.Won)
+            .Select(item => item.Id)
+            .ToArray();
+        var prize = session.Metadata.Prize;
+        var usersAccount = world[Addresses.Users];
+        var userIds = session.Players.Select(player => player.Id).ToArray();
+        foreach (var userId in userIds)
+        {
+            if (!usersAccount.TryGetObject<User>(userId, out var user))
+            {
+                continue;
+            }
+
+            var gloves = winerIds.Contains(userId) ? user.Gloves.Add(prize) : user.Gloves;
+            usersAccount[userId] = user with
+            {
+                Gloves = gloves,
+                SessionId = default,
+            };
+        }
     }
 }

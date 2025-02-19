@@ -24,7 +24,7 @@ internal sealed class SessionEventPublisher(
                 {
                     var stateStore = storeService.StateStore;
                     var trie = stateStore.GetStateRoot(info.NextState);
-                    var world = new WorldBaseState(trie, stateStore);
+                    var world = new WorldStateContext(trie, stateStore);
                     var sessions = Session.GetSessions(world);
                     var height = info.Context.BlockIndex;
                     foreach (var session in sessions)
@@ -44,7 +44,7 @@ internal sealed class SessionEventPublisher(
             var typeId = GetTypeId(info.Action);
             var stateStore = storeService.StateStore;
             var trie = stateStore.GetStateRoot(info.NextState);
-            var world = new WorldBaseState(trie, stateStore);
+            var world = new WorldStateContext(trie, stateStore);
             if (typeId == "SubmitMove")
             {
                 var submitMove = CreateAction<SubmitMove>(info.Action);

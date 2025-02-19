@@ -3,7 +3,6 @@ using Bencodex;
 using Bencodex.Types;
 using HandRoyal.Extensions;
 using Libplanet.Action;
-using Libplanet.Action.State;
 using Libplanet.Crypto;
 using static HandRoyal.BencodexUtility;
 
@@ -32,7 +31,7 @@ public sealed record class Session : IBencodable
         Height = ToInt64(list, 6);
     }
 
-    public IValue Bencoded => new List(
+    IValue IBencodable.Bencoded => new List(
         ToValue(Metadata),
         ToValue(State),
         ToValue(Players),
@@ -45,8 +44,6 @@ public sealed record class Session : IBencodable
 
     public SessionState State { get; set; }
 
-    public Address Organizer { get; set; }
-
     public ImmutableArray<Player> Players { get; set; } = [];
 
     public ImmutableArray<Round> Rounds { get; set; } = [];
@@ -57,11 +54,11 @@ public sealed record class Session : IBencodable
 
     public long Height { get; set; }
 
-    public int FindPlayer(Address address)
+    public int FindPlayer(Address useId)
     {
         for (var i = 0; i < Players.Length; i++)
         {
-            if (Players[i].Id == address)
+            if (Players[i].Id == useId)
             {
                 return i;
             }
@@ -85,36 +82,33 @@ public sealed record class Session : IBencodable
         _ => throw new InvalidOperationException($"Invalid session state: {State}"),
     };
 
-    public static Session FromState(IWorldState worldState, Address sessionId)
+    public static Session FromState(IWorldContext world, Address sessionId)
     {
-        var sessionsAccount = worldState.GetAccountState(Addresses.Sessions);
-        if (sessionsAccount.GetState(sessionId) is not { } sessionState)
+        var sessionsAccount = world[Addresses.Sessions];
+        if (!sessionsAccount.TryGetObject<Session>(sessionId, out var session))
         {
             var message = $"Session of id {sessionId} does not exist.";
             throw new ArgumentException(message, nameof(sessionId));
         }
 
-        return new Session(sessionState);
+        return session;
     }
 
-    public static Session[] GetSessions(IWorldState worldState)
+    public static Session[] GetSessions(IWorldContext world)
     {
-        var sessionsAccount = worldState.GetAccountState(Addresses.Sessions);
-        if (sessionsAccount.GetState(Addresses.Sessions) is not List addressList)
-        {
-            return [];
-        }
+        var sessionsAccount = world[Addresses.Sessions];
+        var addressList = sessionsAccount.GetState<List>(Addresses.Sessions, []);
 
         var sessions = new List<Session>(addressList.Count);
         for (var i = 0; i < addressList.Count; i++)
         {
             var sessionAddress = new Address(addressList[i]);
-            if (sessionsAccount.GetState(sessionAddress) is not { } sessionState)
+            if (!sessionsAccount.TryGetObject<Session>(sessionAddress, out var session))
             {
                 continue;
             }
 
-            sessions.Add(new Session(sessionState));
+            sessions.Add(session);
         }
 
         return [.. sessions];

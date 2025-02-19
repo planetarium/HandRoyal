@@ -57,16 +57,14 @@ public sealed record class CreateSession : ActionBase
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {
         var sessionsAccount = world[Addresses.Sessions];
-        var sessionId = SessionId;
-
-        if (sessionId == default)
+        if (SessionId == default)
         {
             throw new CreateSessionException("Session id is not set.");
         }
 
-        if (sessionsAccount.Contains(SessionId))
+        if (sessionsAccount.ContainsState(SessionId))
         {
-            throw new CreateSessionException($"Session of id {sessionId} already exists.");
+            throw new CreateSessionException($"Session of id {SessionId} already exists.");
         }
 
         var prize = Prize;
@@ -74,20 +72,20 @@ public sealed record class CreateSession : ActionBase
         if (!glovesAccount.TryGetObject<Glove>(prize, out var glove))
         {
             throw new CreateSessionException(
-                $"Given glove prize {prize} for session id {sessionId} does not exist.");
+                $"Given glove prize {prize} for session id {SessionId} does not exist.");
         }
 
         var signer = context.Signer;
         if (!glove.Author.Equals(signer))
         {
             throw new CreateSessionException(
-                $"Organizer for session id {sessionId} is not author of the prize {prize}.");
+                $"Organizer for session id {SessionId} is not author of the prize {prize}.");
         }
 
         var sessionMetadata = new SessionMetadata
         {
             Id = SessionId,
-            Organizer = context.Signer,
+            Organizer = signer,
             Prize = Prize,
             MaximumUser = MaximumUser,
             MinimumUser = MinimumUser,
@@ -95,11 +93,8 @@ public sealed record class CreateSession : ActionBase
             RoundInterval = RoundInterval,
             WaitingInterval = WaitingInterval,
         };
-        var session = new Session(sessionMetadata);
-        var sessionList = sessionsAccount.GetState(
-            Addresses.Sessions, fallback: List.Empty);
-        sessionList = sessionList.Add(SessionId);
-        sessionsAccount[Addresses.Sessions] = sessionList;
-        sessionsAccount[SessionId] = session.Bencoded;
+        var sessionList = sessionsAccount.GetState(Addresses.Sessions, fallback: List.Empty);
+        sessionsAccount[Addresses.Sessions] = sessionList.Add(SessionId);
+        sessionsAccount[SessionId] = new Session(sessionMetadata);
     }
 }

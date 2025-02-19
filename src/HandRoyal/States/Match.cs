@@ -27,7 +27,7 @@ public sealed record class Match : IBencodable
 
     public Move Move2 { get; set; } = new();
 
-    public IValue Bencoded => new List(
+    IValue IBencodable.Bencoded => new List(
         ToValue(Move1),
         ToValue(Move2));
 

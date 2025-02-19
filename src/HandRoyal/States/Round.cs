@@ -27,7 +27,7 @@ public sealed record class Round : IBencodable
 
     public ImmutableArray<Match> Matches { get; set; } = [];
 
-    public IValue Bencoded => new List(
+    IValue IBencodable.Bencoded => new List(
         ToValue(Height),
         ToValue(Matches));
 

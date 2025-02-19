@@ -15,14 +15,33 @@ internal sealed class AccountContext(
 
     public IAccount Account => _account;
 
-    public IValue this[Address address]
+    public bool IsReadOnly => false;
+
+    public object this[Address address]
     {
-        get => _account.GetState(address) ?? throw new KeyNotFoundException(
-            $"No state found at {address}");
+        get => _account.GetState(address)
+            ?? throw new KeyNotFoundException($"No state found at {address}");
         set
         {
-            _account = _account.SetState(address, value);
-            setter(this);
+            if (value is IValue state)
+            {
+                _account = _account.SetState(address, state);
+                setter(this);
+            }
+            else if (value is IBencodable obj)
+            {
+                if (obj is IValidateState validateState)
+                {
+                    validateState.Validate();
+                }
+
+                _account = _account.SetState(address, obj.Bencoded);
+                setter(this);
+            }
+            else
+            {
+                throw new NotSupportedException("Setting state is not supported.");
+            }
         }
     }
 
@@ -64,11 +83,17 @@ internal sealed class AccountContext(
         return fallback;
     }
 
-    public bool Contains(Address address) => _account.GetState(address) is not null;
+    public bool ContainsState(Address address) => _account.GetState(address) is not null;
 
-    public bool Remove(Address address)
+    public bool RemoveState(Address address)
     {
-        _account.RemoveState(address);
-        return true;
+        if (_account.GetState(address) is not null)
+        {
+            _account = _account.RemoveState(address);
+            setter(this);
+            return true;
+        }
+
+        return false;
     }
 }

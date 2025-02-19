@@ -36,6 +36,7 @@ public sealed record class JoinSession : ActionBase
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {
         var sessionsAccount = world[Addresses.Sessions];
+        var signer = context.Signer;
         if (!sessionsAccount.TryGetObject<Session>(SessionId, out var session))
         {
             throw new JoinSessionException($"Session of id {SessionId} does not exists.");
@@ -58,16 +59,16 @@ public sealed record class JoinSession : ActionBase
             throw new JoinSessionException(message);
         }
 
-        if (session.Players.Any(player => player.Id.Equals(context.Signer)))
+        if (session.FindPlayer(signer) != -1)
         {
-            var message = $"Duplicated participation is prohibited. ({context.Signer})";
+            var message = $"Duplicated participation is prohibited. ({signer})";
             throw new JoinSessionException(message);
         }
 
         var usersAccount = world[Addresses.Users];
-        if (!usersAccount.TryGetObject<User>(context.Signer, out var user))
+        if (!usersAccount.TryGetObject<User>(signer, out var user))
         {
-            var message = $"User does not exists. ({context.Signer})";
+            var message = $"User does not exists. ({signer})";
             throw new JoinSessionException(message);
         }
 
@@ -82,11 +83,9 @@ public sealed record class JoinSession : ActionBase
             throw new JoinSessionException(errMsg);
         }
 
-        var players = session.Players;
-        var player = new Player(context.Signer, Glove);
-        session = session with { Players = players.Add(player) };
-        user = user with { SessionId = SessionId };
-        sessionsAccount[SessionId] = session.Bencoded;
-        usersAccount[context.Signer] = user.Bencoded;
+        var player = new Player(signer, Glove);
+        var players = session.Players.Add(player);
+        sessionsAccount[SessionId] = session with { Players = players };
+        usersAccount[signer] = user with { SessionId = SessionId };
     }
 }

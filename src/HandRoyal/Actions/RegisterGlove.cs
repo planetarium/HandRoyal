@@ -23,12 +23,11 @@ public sealed record class RegisterGlove : ActionBase
     {
         var signer = context.Signer;
         var glovesAccount = world[Addresses.Gloves];
-        if (glovesAccount.Contains(Id))
+        if (glovesAccount.ContainsState(Id))
         {
             throw new RegisterGloveException($"Glove of given id {Id} is already exists.");
         }
 
-        var glove = new Glove(Id, signer);
-        glovesAccount[Id] = glove.Bencoded;
+        glovesAccount[Id] = new Glove(Id, signer);
     }
 }

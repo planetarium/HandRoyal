@@ -22,12 +22,11 @@ public sealed record class CreateUser : ActionBase
     {
         var signer = context.Signer;
         var usersAccount = world[Addresses.Users];
-        if (usersAccount.Contains(signer))
+        if (usersAccount.ContainsState(signer))
         {
             throw new InvalidOperationException("User already exists.");
         }
 
-        var user = new User(signer);
-        usersAccount[signer] = user.Bencoded;
+        usersAccount[signer] = new User(signer);
     }
 }

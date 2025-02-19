@@ -32,7 +32,7 @@ public sealed record class User : IBencodable
         SessionId = ToAddress(list, 2);
     }
 
-    public IValue Bencoded => new List(
+    IValue IBencodable.Bencoded => new List(
         ToValue(Id),
         ToValue(Gloves),
         ToValue(SessionId));

@@ -24,7 +24,7 @@ public sealed record class Glove : IBencodable
         Author = ToAddress(list, 1);
     }
 
-    public IValue Bencoded => new List(
+    IValue IBencodable.Bencoded => new List(
         ToValue(Id),
         ToValue(Author));
 

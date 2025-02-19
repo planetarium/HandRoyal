@@ -27,7 +27,7 @@ public sealed record class Player : IBencodable
         State = ToEnum<PlayerState>(list, 2);
     }
 
-    public IValue Bencoded => new List(
+    IValue IBencodable.Bencoded => new List(
         ToValue(Id),
         ToValue(Glove),
         ToValue(State));
