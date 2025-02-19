@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using Bencodex;
 using Bencodex.Types;
 using Libplanet.Crypto;
@@ -45,5 +46,12 @@ public sealed record class User : IBencodable
         }
 
         return user;
+    }
+
+    public static bool TryGetUser(
+        IWorldContext world, Address userId, [MaybeNullWhen(false)] out User user)
+    {
+        var usersAccount = world[Addresses.Users];
+        return usersAccount.TryGetObject(userId, out user);
     }
 }

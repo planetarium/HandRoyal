@@ -1,4 +1,3 @@
-using Bencodex.Types;
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
 using HandRoyal.States;
@@ -10,40 +9,28 @@ namespace HandRoyal.Explorer.Queries;
 internal sealed class StateQueryController(IBlockChainService blockChainService) : GraphController
 {
     [Query("Sessions")]
-    public List<Session> GetSessions()
+    public Session[] GetSessions()
     {
         var blockChain = blockChainService.BlockChain;
-        var worldState = blockChain.GetWorldState();
-
-        var currentSessionAccount = worldState.GetAccountState(Addresses.Sessions);
-        if (currentSessionAccount.GetState(Addresses.Sessions)
-            is not List activeSessionAddresses)
-        {
-            return [];
-        }
-
-        return activeSessionAddresses
-            .Select(address => currentSessionAccount.GetState(new Address(address)))
-            .Where(state => state is not null)
-            .Select(state => new Session(state!))
-            .ToList();
+        var world = new WorldStateContext(blockChain);
+        return Session.GetSessions(world);
     }
 
     [Query("Session")]
     public Session? GetSession(Address sessionId)
     {
         var blockChain = blockChainService.BlockChain;
-        var worldState = blockChain.GetWorldState();
-        var sessionsAccount = worldState.GetAccountState(Addresses.Sessions);
-        if (sessionsAccount.GetState(sessionId) is { } currentSessionState)
+        var world = new WorldStateContext(blockChain);
+        var sessionsAccount = world[Addresses.Sessions];
+        if (sessionsAccount.TryGetObject<Session>(sessionId, out var session))
         {
-            return new Session(currentSessionState);
+            return session;
         }
 
-        var archivedSessionsAccount = worldState.GetAccountState(Addresses.ArchivedSessions);
-        if (archivedSessionsAccount.GetState(sessionId) is { } archivedSessionState)
+        var archivedSessionsAccount = world[Addresses.ArchivedSessions];
+        if (archivedSessionsAccount.TryGetObject<Session>(sessionId, out var archivedSession))
         {
-            return new Session(archivedSessionState);
+            return archivedSession;
         }
 
         return null;
@@ -53,11 +40,11 @@ internal sealed class StateQueryController(IBlockChainService blockChainService)
     public User? GetUser(Address userId)
     {
         var blockChain = blockChainService.BlockChain;
-        var worldState = blockChain.GetWorldState();
-        var usersAccount = worldState.GetAccountState(Addresses.Users);
-        if (usersAccount.GetState(userId) is { } userState)
+        var world = new WorldStateContext(blockChain);
+        var usersAccount = world[Addresses.Users];
+        if (usersAccount.TryGetObject<User>(userId, out var user))
         {
-            return new User(userState);
+            return user;
         }
 
         return null;
@@ -67,11 +54,11 @@ internal sealed class StateQueryController(IBlockChainService blockChainService)
     public Glove? GetGlove(Address gloveId)
     {
         var blockChain = blockChainService.BlockChain;
-        var worldState = blockChain.GetWorldState();
-        var glovesAccount = worldState.GetAccountState(Addresses.Gloves);
-        if (glovesAccount.GetState(gloveId) is { } gloveState)
+        var world = new WorldStateContext(blockChain);
+        var glovesAccount = world[Addresses.Gloves];
+        if (glovesAccount.TryGetObject<Glove>(gloveId, out var glove))
         {
-            return new Glove(gloveState);
+            return glove;
         }
 
         return null;

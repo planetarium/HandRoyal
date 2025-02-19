@@ -1,5 +1,6 @@
 ﻿using Libplanet.Action;
 using Libplanet.Action.State;
+using Libplanet.Blockchain;
 using Libplanet.Crypto;
 using Libplanet.Store;
 using Libplanet.Store.Trie;
@@ -7,10 +8,20 @@ using Libplanet.Types.Assets;
 
 namespace HandRoyal;
 
-public sealed class WorldStateContext(ITrie trie, IStateStore stateStore) : IWorldContext
+public sealed class WorldStateContext(IWorldState world) : IWorldContext
 {
     private readonly Dictionary<Address, AccountStateContext> _accountByAddress = [];
-    private readonly WorldBaseState _world = new(trie, stateStore);
+    private readonly IWorldState _world = world;
+
+    public WorldStateContext(ITrie trie, IStateStore stateStore)
+        : this(new WorldBaseState(trie, stateStore))
+    {
+    }
+
+    public WorldStateContext(BlockChain blockChain)
+        : this(blockChain.GetWorldState())
+    {
+    }
 
     public bool IsReadOnly => true;
 
