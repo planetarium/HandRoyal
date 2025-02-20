@@ -1,28 +1,24 @@
 ﻿using HandRoyal.States;
 using Libplanet.Action;
-using Libplanet.Action.State;
 
 namespace HandRoyal.BlockActions;
 
 internal sealed class ProcessSession : BlockActionBase
 {
-    protected override IWorld OnExecute(IActionContext context)
+    protected override void OnExecute(IWorldContext world, IActionContext context)
     {
-        var world = context.PreviousState;
         var height = context.BlockIndex;
-        var sessionsAccount = world.GetAccount(Addresses.Sessions);
+        var random = context.GetRandom();
+        var sessionsAccount = world[Addresses.Sessions];
         var sessions = Session.GetSessions(world);
         for (var i = 0; i < sessions.Length; i++)
         {
             var session = sessions[i];
-            if (session.ProcessRound(height, context.GetRandom()) is { } nextSession)
+            if (session.ProcessRound(height, random) is { } nextSession)
             {
                 var sessionId = session.Metadata.Id;
-                sessions[i] = nextSession;
-                sessionsAccount = sessionsAccount.SetState(sessionId, nextSession.Bencoded);
+                sessionsAccount[sessionId] = nextSession;
             }
         }
-
-        return world.SetAccount(Addresses.Sessions, sessionsAccount);
     }
 }

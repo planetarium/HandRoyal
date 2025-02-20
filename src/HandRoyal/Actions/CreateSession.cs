@@ -1,116 +1,25 @@
 ﻿using Bencodex.Types;
 using HandRoyal.Exceptions;
+using HandRoyal.Extensions;
 using HandRoyal.States;
 using Libplanet.Action;
-using Libplanet.Action.State;
 using Libplanet.Crypto;
 using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.Actions;
 
 [ActionType("CreateSession")]
-public sealed class CreateSession : ActionBase
+public sealed record class CreateSession : ActionBase
 {
     public CreateSession()
     {
     }
 
-    public CreateSession(
-        Address sessionId,
-        Address prize,
-        int maximumUser,
-        int minimumUser,
-        int remainingUser,
-        long roundInterval,
-        long waitingInterval)
+    public CreateSession(IValue value)
     {
-        SessionId = sessionId;
-        Prize = prize;
-        MaximumUser = maximumUser;
-        MinimumUser = minimumUser;
-        RemainingUser = remainingUser;
-        RoundInterval = roundInterval;
-        WaitingInterval = waitingInterval;
-    }
-
-    public Address SessionId { get; private set; }
-
-    public Address Prize { get; private set; }
-
-    public int MaximumUser { get; private set; }
-
-    public int MinimumUser { get; private set; }
-
-    public int RemainingUser { get; private set; }
-
-    public long RoundInterval { get; private set; }
-
-    public long WaitingInterval { get; private set; }
-
-    protected override IValue PlainValueInternal => new List(
-        ToValue(SessionId),
-        ToValue(Prize),
-        ToValue(MaximumUser),
-        ToValue(MinimumUser),
-        ToValue(RemainingUser),
-        ToValue(RoundInterval),
-        ToValue(WaitingInterval));
-
-    public override IWorld Execute(IActionContext context)
-    {
-        var world = context.PreviousState;
-        var sessionsAccount = world.GetAccount(Addresses.Sessions);
-        var sessionId = SessionId;
-
-        if (sessionId == default)
+        if (value is not List list)
         {
-            throw new CreateSessionException("Session id is not set.");
-        }
-
-        if (sessionsAccount.GetState(SessionId) is not null)
-        {
-            throw new CreateSessionException($"Session of id {sessionId} already exists.");
-        }
-
-        var prize = Prize;
-        var glovesAccount = world.GetAccount(Addresses.Gloves);
-        if (glovesAccount.GetState(prize) is not { } gloveState)
-        {
-            throw new CreateSessionException(
-                $"Given glove prize {prize} for session id {sessionId} does not exist.");
-        }
-
-        var signer = context.Signer;
-        var glove = new Glove(gloveState);
-        if (!glove.Author.Equals(signer))
-        {
-            throw new CreateSessionException(
-                $"Organizer for session id {sessionId} is not author of the prize {prize}.");
-        }
-
-        var sessionMetadata = new SessionMetadata(
-            SessionId,
-            context.Signer,
-            Prize,
-            MaximumUser,
-            MinimumUser,
-            RemainingUser,
-            RoundInterval,
-            WaitingInterval);
-        var session = new Session(sessionMetadata);
-        var sessionAddresses = sessionsAccount.GetState(Addresses.Sessions)
-            is IValue value ? (List)value : [];
-        sessionAddresses = sessionAddresses.Add(sessionId.Bencoded);
-        sessionsAccount = sessionsAccount.SetState(Addresses.Sessions, sessionAddresses);
-        sessionsAccount = sessionsAccount.SetState(sessionId, session.Bencoded);
-        return world.SetAccount(Addresses.Sessions, sessionsAccount);
-    }
-
-    protected override void LoadPlainValueInternal(IValue plainValueInternal)
-    {
-        if (plainValueInternal is not List list)
-        {
-            throw new CreateSessionException("Given plainValue for CreateSession is not list");
+            throw new ArgumentException($"Given value {value} is not a list.", nameof(value));
         }
 
         SessionId = ToAddress(list, 0);
@@ -120,5 +29,72 @@ public sealed class CreateSession : ActionBase
         RemainingUser = ToInt32(list, 4);
         RoundInterval = ToInt64(list, 5);
         WaitingInterval = ToInt64(list, 6);
+    }
+
+    public required Address SessionId { get; init; }
+
+    public required Address Prize { get; init; }
+
+    public int MaximumUser { get; init; } = SessionMetadata.Default.MaximumUser;
+
+    public int MinimumUser { get; init; } = SessionMetadata.Default.MinimumUser;
+
+    public int RemainingUser { get; init; } = SessionMetadata.Default.MaximumUser;
+
+    public long RoundInterval { get; init; } = SessionMetadata.Default.RoundInterval;
+
+    public long WaitingInterval { get; init; } = SessionMetadata.Default.WaitingInterval;
+
+    protected override IValue PlainValue => new List(
+        ToValue(SessionId),
+        ToValue(Prize),
+        ToValue(MaximumUser),
+        ToValue(MinimumUser),
+        ToValue(RemainingUser),
+        ToValue(RoundInterval),
+        ToValue(WaitingInterval));
+
+    protected override void OnExecute(IWorldContext world, IActionContext context)
+    {
+        var sessionsAccount = world[Addresses.Sessions];
+        if (SessionId == default)
+        {
+            throw new CreateSessionException("Session id is not set.");
+        }
+
+        if (sessionsAccount.ContainsState(SessionId))
+        {
+            throw new CreateSessionException($"Session of id {SessionId} already exists.");
+        }
+
+        var prize = Prize;
+        var glovesAccount = world[Addresses.Gloves];
+        if (!glovesAccount.TryGetObject<Glove>(prize, out var glove))
+        {
+            throw new CreateSessionException(
+                $"Given glove prize {prize} for session id {SessionId} does not exist.");
+        }
+
+        var signer = context.Signer;
+        if (!glove.Author.Equals(signer))
+        {
+            throw new CreateSessionException(
+                $"Organizer for session id {SessionId} is not author of the prize {prize}.");
+        }
+
+        var sessionMetadata = new SessionMetadata
+        {
+            Id = SessionId,
+            Organizer = signer,
+            Prize = Prize,
+            MaximumUser = MaximumUser,
+            MinimumUser = MinimumUser,
+            RemainingUser = RemainingUser,
+            RoundInterval = RoundInterval,
+            WaitingInterval = WaitingInterval,
+        };
+        var sessionList = sessionsAccount.GetState(Addresses.Sessions, fallback: List.Empty);
+        sessionsAccount[Addresses.Sessions] = sessionList.Add(SessionId);
+        sessionsAccount[SessionId] = new Session { Metadata = sessionMetadata };
     }
 }

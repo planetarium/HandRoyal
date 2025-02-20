@@ -8,10 +8,8 @@ namespace HandRoyal.States;
 
 public sealed record class Player : IBencodable
 {
-    public Player(Address id, Address glove)
+    public Player()
     {
-        Id = id;
-        Glove = glove;
         State = 0;
     }
 
@@ -19,7 +17,7 @@ public sealed record class Player : IBencodable
     {
         if (value is not List list)
         {
-            throw new ArgumentException($"Given value {value} is not a list.");
+            throw new ArgumentException($"Given value {value} is not a list.", nameof(value));
         }
 
         Id = ToAddress(list, 0);
@@ -27,14 +25,14 @@ public sealed record class Player : IBencodable
         State = ToEnum<PlayerState>(list, 2);
     }
 
-    public IValue Bencoded => new List(
+    IValue IBencodable.Bencoded => new List(
         ToValue(Id),
         ToValue(Glove),
         ToValue(State));
 
-    public Address Id { get; }
+    public required Address Id { get; init; }
 
-    public Address Glove { get; }
+    public Address Glove { get; init; }
 
     public PlayerState State { get; set; }
 

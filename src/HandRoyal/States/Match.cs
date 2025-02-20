@@ -16,7 +16,7 @@ public sealed record class Match : IBencodable
     {
         if (value is not List list)
         {
-            throw new ArgumentException($"Given value {value} is not a list.");
+            throw new ArgumentException($"Given value {value} is not a list.", nameof(value));
         }
 
         Move1 = ToObject<Move>(list, 0);
@@ -27,7 +27,7 @@ public sealed record class Match : IBencodable
 
     public Move Move2 { get; set; } = new();
 
-    public IValue Bencoded => new List(
+    IValue IBencodable.Bencoded => new List(
         ToValue(Move1),
         ToValue(Move2));
 

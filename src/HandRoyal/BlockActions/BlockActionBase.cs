@@ -7,15 +7,17 @@ namespace HandRoyal.BlockActions;
 
 public abstract class BlockActionBase : IAction
 {
-    IValue IAction.PlainValue => new List(
-        (Text)GetType().Name);
+    IValue IAction.PlainValue => new Text(GetType().Name);
 
     void IAction.LoadPlainValue(IValue plainValue)
+        => throw new UnreachableException("This method should not be called.");
+
+    IWorld IAction.Execute(IActionContext context)
     {
-        throw new UnreachableException("This method should not be called.");
+        using var worldContext = new WorldContext(context);
+        OnExecute(worldContext, context);
+        return worldContext.Flush();
     }
 
-    IWorld IAction.Execute(IActionContext context) => OnExecute(context);
-
-    protected abstract IWorld OnExecute(IActionContext context);
+    protected abstract void OnExecute(IWorldContext world, IActionContext context);
 }

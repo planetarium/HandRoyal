@@ -2,42 +2,46 @@
 using HandRoyal.Exceptions;
 using HandRoyal.States;
 using Libplanet.Action;
-using Libplanet.Action.State;
 using Libplanet.Crypto;
+using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.Actions;
 
 [ActionType("JoinSession")]
-public sealed class JoinSession : ActionBase
+public sealed record class JoinSession : ActionBase
 {
     public JoinSession()
     {
     }
 
-    public JoinSession(Address sessionId, Address? glove)
+    public JoinSession(IValue value)
     {
-        SessionId = sessionId;
-        Glove = glove ?? default;
+        if (value is not List list)
+        {
+            throw new ArgumentException($"Given value {value} is not a list.", nameof(value));
+        }
+
+        SessionId = ToAddress(list, 0);
+        Glove = ToAddress(list, 1);
     }
 
-    public Address SessionId { get; private set; }
+    public required Address SessionId { get; init; }
 
-    public Address Glove { get; private set; }
+    public required Address Glove { get; init; }
 
-    protected override IValue PlainValueInternal => List.Empty
-        .Add(SessionId.Bencoded)
-        .Add(Glove.Bencoded);
+    protected override IValue PlainValue => new List(
+        ToValue(SessionId),
+        ToValue(Glove));
 
-    public override IWorld Execute(IActionContext context)
+    protected override void OnExecute(IWorldContext world, IActionContext context)
     {
-        var world = context.PreviousState;
-        var sessionsAccount = world.GetAccount(Addresses.Sessions);
-        if (sessionsAccount.GetState(SessionId) is not { } sessionState)
+        var sessionsAccount = world[Addresses.Sessions];
+        var signer = context.Signer;
+        if (!sessionsAccount.TryGetObject<Session>(SessionId, out var session))
         {
             throw new JoinSessionException($"Session of id {SessionId} does not exists.");
         }
 
-        var session = new Session(sessionState);
         var sessionMetadata = session.Metadata;
         if (session.State != SessionState.Ready)
         {
@@ -55,27 +59,17 @@ public sealed class JoinSession : ActionBase
             throw new JoinSessionException(message);
         }
 
-        if (session.Players.Any(player => player.Id.Equals(context.Signer)))
+        if (session.FindPlayer(signer) != -1)
         {
-            var message = $"Duplicated participation is prohibited. ({context.Signer})";
+            var message = $"Duplicated participation is prohibited. ({signer})";
             throw new JoinSessionException(message);
         }
 
-        var usersAccount = world.GetAccount(Addresses.Users);
-        if (usersAccount.GetState(context.Signer) is not { } userState)
+        var usersAccount = world[Addresses.Users];
+        if (!usersAccount.TryGetObject<User>(signer, out var user))
         {
-            var message = $"User does not exists. ({context.Signer})";
+            var message = $"User does not exists. ({signer})";
             throw new JoinSessionException(message);
-        }
-
-        User user;
-        try
-        {
-            user = new User(userState);
-        }
-        catch (Exception e)
-        {
-            throw new JoinSessionException("Exception occurred during JoinSession.", e);
         }
 
         if (user.SessionId != default)
@@ -89,25 +83,9 @@ public sealed class JoinSession : ActionBase
             throw new JoinSessionException(errMsg);
         }
 
-        var players = session.Players;
-        var player = new Player(context.Signer, Glove);
-        session = session with { Players = players.Add(player) };
-        sessionsAccount = sessionsAccount.SetState(SessionId, session.Bencoded);
-        world = world.SetAccount(Addresses.Sessions, sessionsAccount);
-        user = user with { SessionId = SessionId };
-        usersAccount = usersAccount.SetState(context.Signer, user.Bencoded);
-        world = world.SetAccount(Addresses.Users, usersAccount);
-        return world;
-    }
-
-    protected override void LoadPlainValueInternal(IValue plainValueInternal)
-    {
-        if (plainValueInternal is not List list)
-        {
-            throw new CreateSessionException("Given plainValue for CreateSession is not list");
-        }
-
-        SessionId = new Address(list[0]);
-        Glove = new Address(list[1]);
+        var player = new Player { Id = signer, Glove = Glove };
+        var players = session.Players.Add(player);
+        sessionsAccount[SessionId] = session with { Players = players };
+        usersAccount[signer] = user with { SessionId = SessionId };
     }
 }

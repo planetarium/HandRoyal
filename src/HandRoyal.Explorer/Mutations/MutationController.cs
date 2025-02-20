@@ -1,8 +1,10 @@
+using Bencodex.Types;
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
 using HandRoyal.Actions;
 using HandRoyal.Explorer.Types;
 using HandRoyal.States;
+using Libplanet.Action;
 using Libplanet.Crypto;
 using Libplanet.Node.Services;
 using Libplanet.Types.Tx;
@@ -22,7 +24,7 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
             nonce: nonce,
             privateKey: privateKey,
             genesisHash: blockChain.Genesis.Hash,
-            actions: [createUser.PlainValue]);
+            actions: GetActionValues(createUser));
         blockChain.StageTransaction(tx);
 
         return tx.Id;
@@ -41,20 +43,22 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
     {
         var address = privateKey.Address;
         var blockChain = blockChainService.BlockChain;
-        var createSession = new CreateSession(
-            sessionId: sessionId,
-            prize: prize,
-            maximumUser: maximumUser,
-            minimumUser: minimumUser,
-            remainingUser: remainingUser,
-            roundInterval: roundInterval,
-            waitingInterval: waitingInterval);
+        var createSession = new CreateSession
+        {
+            SessionId = sessionId,
+            Prize = prize,
+            MaximumUser = maximumUser,
+            MinimumUser = minimumUser,
+            RemainingUser = remainingUser,
+            RoundInterval = roundInterval,
+            WaitingInterval = waitingInterval,
+        };
         var nonce = blockChain.GetNextTxNonce(address);
         var tx = Transaction.Create(
             nonce: nonce,
             privateKey: privateKey,
             genesisHash: blockChain.Genesis.Hash,
-            actions: [createSession.PlainValue]);
+            actions: GetActionValues(createSession));
         blockChain.StageTransaction(tx);
 
         return tx.Id;
@@ -65,13 +69,16 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
     {
         var address = privateKey.Address;
         var blockChain = blockChainService.BlockChain;
-        var registerGlove = new RegisterGlove(gloveId);
+        var registerGlove = new RegisterGlove
+        {
+            Id = gloveId,
+        };
         var nonce = blockChain.GetNextTxNonce(address);
         var tx = Transaction.Create(
             nonce: nonce,
             privateKey: privateKey,
             genesisHash: blockChain.Genesis.Hash,
-            actions: [registerGlove.PlainValue]);
+            actions: GetActionValues(registerGlove));
         blockChain.StageTransaction(tx);
 
         return tx.Id;
@@ -82,13 +89,17 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
     {
         var address = privateKey.Address;
         var blockChain = blockChainService.BlockChain;
-        var joinSession = new JoinSession(sessionId, gloveId);
+        var joinSession = new JoinSession
+        {
+            SessionId = sessionId,
+            Glove = gloveId ?? default,
+        };
         var nonce = blockChain.GetNextTxNonce(address);
         var tx = Transaction.Create(
             nonce: nonce,
             privateKey: privateKey,
             genesisHash: blockChain.Genesis.Hash,
-            actions: [joinSession.PlainValue]);
+            actions: GetActionValues(joinSession));
         blockChain.StageTransaction(tx);
 
         return tx.Id;
@@ -99,13 +110,17 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
     {
         var address = privateKey.Address;
         var blockChain = blockChainService.BlockChain;
-        var submitMove = new SubmitMove(sessionId, move);
+        var submitMove = new SubmitMove
+        {
+            SessionId = sessionId,
+            Move = move,
+        };
         var nonce = blockChain.GetNextTxNonce(address);
         var tx = Transaction.Create(
             nonce: nonce,
             privateKey: privateKey,
             genesisHash: blockChain.Genesis.Hash,
-            actions: [submitMove.PlainValue]);
+            actions: GetActionValues(submitMove));
         blockChain.StageTransaction(tx);
 
         return tx.Id;
@@ -123,4 +138,7 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
 
         return tx.Id;
     }
+
+    private static IValue[] GetActionValues(params IAction[] actions)
+        => [.. actions.Select(action => action.PlainValue)];
 }

@@ -4,6 +4,7 @@ using GraphQL.AspNet.Controllers;
 using HandRoyal.Actions;
 using HandRoyal.Explorer.Types;
 using HandRoyal.States;
+using Libplanet.Action;
 using Libplanet.Crypto;
 
 namespace HandRoyal.Explorer.Queries;
@@ -16,7 +17,7 @@ internal sealed class ActionQueryController : GraphController
     public HexValue CreateUser()
     {
         var createUser = new CreateUser();
-        return _codec.Encode(createUser.PlainValue);
+        return Encode(createUser);
     }
 
     [Query("CreateSession")]
@@ -29,35 +30,50 @@ internal sealed class ActionQueryController : GraphController
         long roundInterval,
         long waitingInterval)
     {
-        var createSession = new CreateSession(
-            sessionId: sessionId,
-            prize: prize,
-            maximumUser: maximumUser,
-            minimumUser: minimumUser,
-            remainingUser: remainingUser,
-            roundInterval: roundInterval,
-            waitingInterval: waitingInterval);
-        return _codec.Encode(createSession.PlainValue);
+        var createSession = new CreateSession
+        {
+            SessionId = sessionId,
+            Prize = prize,
+            MaximumUser = maximumUser,
+            MinimumUser = minimumUser,
+            RemainingUser = remainingUser,
+            RoundInterval = roundInterval,
+            WaitingInterval = waitingInterval,
+        };
+        return Encode(createSession);
     }
 
     [Query("JoinSession")]
     public HexValue JoinSession(Address sessionId, Address? gloveId)
     {
-        var joinSession = new JoinSession(sessionId, gloveId);
-        return _codec.Encode(joinSession.PlainValue);
+        var joinSession = new JoinSession
+        {
+            SessionId = sessionId,
+            Glove = gloveId ?? default,
+        };
+        return Encode(joinSession);
     }
 
     [Query("RegisterGlove")]
     public HexValue RegisterGlove(Address gloveId)
     {
-        var registerGlove = new RegisterGlove(gloveId);
-        return _codec.Encode(registerGlove.PlainValue);
+        var registerGlove = new RegisterGlove
+        {
+            Id = gloveId,
+        };
+        return Encode(registerGlove);
     }
 
     [Query("SubmitMove")]
     public HexValue SubmitMove(Address sessionId, MoveType move)
     {
-        var submitMove = new SubmitMove(sessionId, move);
-        return _codec.Encode(submitMove.PlainValue);
+        var submitMove = new SubmitMove
+        {
+            SessionId = sessionId,
+            Move = move,
+        };
+        return Encode(submitMove);
     }
+
+    private static HexValue Encode(IAction action) => _codec.Encode(action.PlainValue);
 }

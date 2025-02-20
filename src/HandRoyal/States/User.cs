@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using Bencodex;
 using Bencodex.Types;
-using Libplanet.Action.State;
 using Libplanet.Crypto;
 using static HandRoyal.BencodexUtility;
 
@@ -9,15 +9,8 @@ namespace HandRoyal.States;
 
 public sealed record class User : IBencodable
 {
-    public User(Address id)
-        : this(id, [])
+    public User()
     {
-    }
-
-    public User(Address id, ImmutableArray<Address> gloves)
-    {
-        Id = id;
-        Gloves = gloves;
     }
 
     public User(IValue value)
@@ -32,26 +25,33 @@ public sealed record class User : IBencodable
         SessionId = ToAddress(list, 2);
     }
 
-    public IValue Bencoded => new List(
+    IValue IBencodable.Bencoded => new List(
         ToValue(Id),
         ToValue(Gloves),
         ToValue(SessionId));
 
-    public Address Id { get; }
+    public required Address Id { get; init; }
 
-    public ImmutableArray<Address> Gloves { get; set; }
+    public ImmutableArray<Address> Gloves { get; init; } = [];
 
-    public Address SessionId { get; set; }
+    public Address SessionId { get; init; }
 
-    public static User FromState(IWorldState worldState, Address userId)
+    public static User FromState(IWorldContext world, Address userId)
     {
-        var userAccount = worldState.GetAccountState(Addresses.Users);
-        if (userAccount.GetState(userId) is not { } userState)
+        var usersAccount = world[Addresses.Users];
+        if (!usersAccount.TryGetObject<User>(userId, out var user))
         {
             var message = $"User of id {userId} does not exist.";
             throw new ArgumentException(message, nameof(userId));
         }
 
-        return new User(userState);
+        return user;
+    }
+
+    public static bool TryGetUser(
+        IWorldContext world, Address userId, [MaybeNullWhen(false)] out User user)
+    {
+        var usersAccount = world[Addresses.Users];
+        return usersAccount.TryGetObject(userId, out user);
     }
 }

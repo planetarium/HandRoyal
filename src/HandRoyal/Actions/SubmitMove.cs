@@ -1,42 +1,45 @@
 ﻿using Bencodex.Types;
 using HandRoyal.States;
 using Libplanet.Action;
-using Libplanet.Action.State;
 using Libplanet.Crypto;
+using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.Actions;
 
 [ActionType("SubmitMove")]
-public sealed class SubmitMove : ActionBase
+public sealed record class SubmitMove : ActionBase
 {
     public SubmitMove()
     {
     }
 
-    public SubmitMove(Address sessionId, MoveType move)
+    public SubmitMove(IValue value)
     {
-        SessionId = sessionId;
-        Move = move;
+        if (value is not List list)
+        {
+            throw new ArgumentException($"Given value {value} is not a list.", nameof(value));
+        }
+
+        SessionId = ToAddress(list, 0);
+        Move = ToEnum<MoveType>(list, 1);
     }
 
-    public Address SessionId { get; set; }
+    public required Address SessionId { get; init; }
 
-    public MoveType Move { get; set; }
+    public required MoveType Move { get; init; }
 
-    protected override IValue PlainValueInternal => new List(
-        SessionId.Bencoded,
-        (Integer)(int)Move);
+    protected override IValue PlainValue => new List(
+        ToValue(SessionId),
+        ToValue(Move));
 
-    public override IWorld Execute(IActionContext context)
+    protected override void OnExecute(IWorldContext world, IActionContext context)
     {
-        var world = context.PreviousState;
-        var sessionsAccount = world.GetAccount(Addresses.Sessions);
-        if (sessionsAccount.GetState(SessionId) is not { } sessionState)
+        var sessionsAccount = world[Addresses.Sessions];
+        if (!sessionsAccount.TryGetObject<Session>(SessionId, out var session))
         {
             throw new InvalidOperationException($"Session {SessionId} does not exist.");
         }
 
-        var session = new Session(sessionState);
         var playerIndex = session.FindPlayer(context.Signer);
         if (playerIndex == -1)
         {
@@ -46,20 +49,10 @@ public sealed class SubmitMove : ActionBase
         var rounds = session.Rounds;
         var round = rounds[^1];
         round = round.Submit(playerIndex, Move);
-        session = session with
+        sessionsAccount[SessionId] = session with
         {
             Rounds = rounds.SetItem(rounds.Length - 1, round),
             Height = context.BlockIndex,
         };
-        sessionsAccount = sessionsAccount.SetState(SessionId, session.Bencoded);
-        world = world.SetAccount(Addresses.Sessions, sessionsAccount);
-        return world;
-    }
-
-    protected override void LoadPlainValueInternal(IValue plainValueInternal)
-    {
-        var list = (List)plainValueInternal;
-        SessionId = new Address(list[0]);
-        Move = (MoveType)(int)(Integer)list[1];
     }
 }

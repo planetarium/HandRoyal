@@ -1,35 +1,32 @@
 ﻿using Bencodex.Types;
 using HandRoyal.States;
 using Libplanet.Action;
-using Libplanet.Action.State;
 
 namespace HandRoyal.Actions;
 
 [ActionType("CreateUser")]
-public sealed class CreateUser : ActionBase
+public sealed record class CreateUser : ActionBase
 {
     public CreateUser()
     {
     }
 
-    protected override IValue PlainValueInternal => Null.Value;
-
-    public override IWorld Execute(IActionContext context)
+    public CreateUser(IValue value)
+        : base(value)
     {
-        var world = context.PreviousState;
+    }
+
+    protected override IValue PlainValue => Null.Value;
+
+    protected override void OnExecute(IWorldContext world, IActionContext context)
+    {
         var signer = context.Signer;
-        var usersAccount = world.GetAccount(Addresses.Users);
-        if (usersAccount.GetState(signer) is not null)
+        var usersAccount = world[Addresses.Users];
+        if (usersAccount.ContainsState(signer))
         {
             throw new InvalidOperationException("User already exists.");
         }
 
-        var user = new User(signer);
-        usersAccount = usersAccount.SetState(signer, user.Bencoded);
-        return world.SetAccount(Addresses.Users, usersAccount);
-    }
-
-    protected override void LoadPlainValueInternal(IValue plainValueInternal)
-    {
+        usersAccount[signer] = new User { Id = signer };
     }
 }
