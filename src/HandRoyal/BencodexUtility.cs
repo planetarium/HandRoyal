@@ -13,6 +13,10 @@ public static class BencodexUtility
 
     public static IValue ToValue(long value) => new Integer(value);
 
+    public static IValue ToValue(string value) => new Text(value);
+
+    public static IValue ToValue(bool value) => new Bencodex.Types.Boolean(value);
+
     public static IValue ToValue(Enum @enum) => new Integer((int)(object)@enum);
 
     public static IValue ToValue<T>(ImmutableArray<T> values)
@@ -24,6 +28,10 @@ public static class BencodexUtility
     public static int ToInt32(List list, int index) => (int)(Integer)list[index];
 
     public static long ToInt64(List list, int index) => (long)(Integer)list[index];
+
+    public static string GetString(List list, int index) => (Text)list[index];
+
+    public static bool ToBoolean(List list, int index) => (Bencodex.Types.Boolean)list[index];
 
     public static T ToObject<T>(List list, int index)
         where T : IBencodable

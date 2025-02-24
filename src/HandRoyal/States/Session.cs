@@ -1,56 +1,34 @@
 ﻿using System.Collections.Immutable;
-using Bencodex;
 using Bencodex.Types;
 using HandRoyal.Extensions;
+using HandRoyal.Serialization;
 using Libplanet.Action;
 using Libplanet.Crypto;
-using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.States;
 
-public sealed record class Session : IBencodable
+[Model(0)]
+public sealed record class Session : IEquatable<Session>
 {
-    public Session()
-    {
-    }
-
-    public Session(IValue value)
-    {
-        if (value is not List list)
-        {
-            throw new ArgumentException($"Given value {value} is not a list.", nameof(value));
-        }
-
-        Metadata = ToObject<SessionMetadata>(list, 0);
-        State = ToEnum<SessionState>(list, 1);
-        Players = ToObjects<Player>(list, 2);
-        Rounds = ToObjects<Round>(list, 3);
-        CreationHeight = ToInt64(list, 4);
-        StartHeight = ToInt64(list, 5);
-        Height = ToInt64(list, 6);
-    }
-
-    IValue IBencodable.Bencoded => new List(
-        ToValue(Metadata),
-        ToValue(State),
-        ToValue(Players),
-        ToValue(Rounds),
-        ToValue(CreationHeight),
-        ToValue(StartHeight),
-        ToValue(Height));
-
+    [Property(0)]
     public required SessionMetadata Metadata { get; init; }
 
+    [Property(1)]
     public SessionState State { get; init; }
 
+    [Property(2)]
     public ImmutableArray<Player> Players { get; init; } = [];
 
+    [Property(3)]
     public ImmutableArray<Round> Rounds { get; init; } = [];
 
+    [Property(4)]
     public long CreationHeight { get; init; }
 
+    [Property(5)]
     public long StartHeight { get; init; }
 
+    [Property(6)]
     public long Height { get; init; }
 
     public int FindPlayer(Address useId)
@@ -112,6 +90,10 @@ public sealed record class Session : IBencodable
 
         return [.. sessions];
     }
+
+    public bool Equals(Session? other) => SerializerUtility.Equals(this, other);
+
+    public override int GetHashCode() => SerializerUtility.GetHashCode(this);
 
     private Session? StartSession(long height, IRandom random)
     {

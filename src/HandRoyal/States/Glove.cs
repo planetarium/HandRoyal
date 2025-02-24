@@ -1,34 +1,14 @@
-﻿using Bencodex;
-using Bencodex.Types;
+﻿using HandRoyal.Serialization;
 using Libplanet.Crypto;
-using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.States;
 
-public sealed record class Glove : IBencodable
+[Model(0)]
+public sealed record class Glove
 {
-    public Glove(Address id, Address author)
-    {
-        Id = id;
-        Author = author;
-    }
+    [Property(0)]
+    public required Address Id { get; init; }
 
-    public Glove(IValue value)
-    {
-        if (value is not List list)
-        {
-            throw new ArgumentException($"Given value {value} is not a list.", nameof(value));
-        }
-
-        Id = ToAddress(list, 0);
-        Author = ToAddress(list, 1);
-    }
-
-    IValue IBencodable.Bencoded => new List(
-        ToValue(Id),
-        ToValue(Author));
-
-    public Address Id { get; }
-
-    public Address Author { get; }
+    [Property(1)]
+    public required Address Author { get; init; }
 }

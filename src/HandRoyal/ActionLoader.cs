@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Bencodex.Types;
+using HandRoyal.Serialization;
 using Libplanet.Action;
 using Libplanet.Action.Loader;
 using Libplanet.Action.Sys;
@@ -41,10 +42,11 @@ public sealed class ActionLoader : IActionLoader
                     nameof(value));
             }
 
-            if (Activator.CreateInstance(actionType, list[1]) is not IAction action)
+            if (Serializer.Deserialize(list[1], actionType) is not IAction action)
             {
-                throw new InvalidOperationException(
-                    $"Failed to instantiate an action from {value} for index {index}");
+                throw new ArgumentException(
+                    $"Failed to deserialize the action: {value}",
+                    nameof(value));
             }
 
             return action;
@@ -70,10 +72,10 @@ public sealed class ActionLoader : IActionLoader
                 continue;
             }
 
-            if (type.GetConstructor([typeof(IValue)]) is null)
+            if (!type.IsDefined(typeof(ModelAttribute)))
             {
                 throw new InvalidOperationException(
-                    $"The action type {type} does not have a constructor that takes an IValue.");
+                    $"The action type {type} does not have an SerializableObjectAttribute.");
             }
 
             typeById.Add(attribute.TypeIdentifier, type);

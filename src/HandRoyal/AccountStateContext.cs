@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Bencodex;
 using Bencodex.Types;
+using HandRoyal.Serialization;
 using Libplanet.Action.State;
 using Libplanet.Crypto;
 
@@ -15,19 +16,52 @@ public sealed class AccountStateContext(
 
     public object this[Address address]
     {
-        get => account.GetState(address)
-            ?? throw new KeyNotFoundException($"No state found at {address}");
+        get
+        {
+            if (account.GetState(address) is not { } state)
+            {
+                throw new KeyNotFoundException($"No state found at {address}");
+            }
+
+            if (Serializer.TryGetType(state, out var type))
+            {
+                return Serializer.Deserialize(state, type)
+                    ?? throw new InvalidOperationException("Failed to deserialize state.");
+            }
+
+            return state;
+        }
+
         set => throw new NotSupportedException("Setting state is not supported.");
     }
 
     public bool TryGetObject<T>(Address address, [MaybeNullWhen(false)] out T value)
-        where T : IBencodable
     {
-        if (account.GetState(address) is { } state
-            && Activator.CreateInstance(typeof(T), args: [state]) is T obj)
+        if (account.GetState(address) is { } state)
         {
-            value = obj;
-            return true;
+            if (Serializer.TryGetType(state, out var type))
+            {
+                if (Serializer.Deserialize(state, type) is T obj)
+                {
+                    value = obj;
+                    return true;
+                }
+            }
+            else if (typeof(IBencodable).IsAssignableFrom(typeof(T)))
+            {
+                if (Activator.CreateInstance(typeof(T), args: [state]) is not T obj)
+                {
+                    throw new InvalidOperationException("Failed to create an instance of T.");
+                }
+
+                value = obj;
+                return true;
+            }
+            else if (typeof(IValue).IsAssignableFrom(typeof(T)))
+            {
+                value = (T)state;
+                return true;
+            }
         }
 
         value = default;
@@ -58,8 +92,8 @@ public sealed class AccountStateContext(
         return fallback;
     }
 
-    public bool ContainsState(Address address) => account.GetState(address) is not null;
+    public bool Contains(Address address) => account.GetState(address) is not null;
 
-    public bool RemoveState(Address address)
+    public bool Remove(Address address)
         => throw new NotSupportedException("Removing state is not supported.");
 }

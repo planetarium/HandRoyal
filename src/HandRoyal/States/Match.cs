@@ -1,35 +1,17 @@
 ﻿using System.Collections.Immutable;
-using Bencodex;
-using Bencodex.Types;
+using HandRoyal.Serialization;
 using Libplanet.Action;
-using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.States;
 
-public sealed record class Match : IBencodable
+[Model(0)]
+public sealed record class Match
 {
-    public Match()
-    {
-    }
-
-    public Match(IValue value)
-    {
-        if (value is not List list)
-        {
-            throw new ArgumentException($"Given value {value} is not a list.", nameof(value));
-        }
-
-        Move1 = ToObject<Move>(list, 0);
-        Move2 = ToObject<Move>(list, 1);
-    }
-
+    [Property(0)]
     public Move Move1 { get; set; } = new();
 
+    [Property(1)]
     public Move Move2 { get; set; } = new();
-
-    IValue IBencodable.Bencoded => new List(
-        ToValue(Move1),
-        ToValue(Move2));
 
     public static ImmutableArray<Match> Create(int[] players)
     {

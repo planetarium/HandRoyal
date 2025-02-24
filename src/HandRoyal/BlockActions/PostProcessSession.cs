@@ -23,7 +23,7 @@ internal sealed class PostProcessSession : BlockActionBase
 
             UpdateUsersStates(world, session);
 
-            sessionsAccount.RemoveState(sessionId);
+            sessionsAccount.Remove(sessionId);
             archivedSessionsAccount[sessionId] = session;
             sessionList.RemoveAt(i);
         }
