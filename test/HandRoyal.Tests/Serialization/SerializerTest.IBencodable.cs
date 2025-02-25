@@ -19,21 +19,21 @@ public sealed partial class SerializerTest
     [InlineData(typeof(BencodableRecordClass))]
     public void CanSupport_IBencodable_Test(Type type)
     {
-        Assert.True(Serializer.CanSupportType(type));
+        Assert.True(ModelSerializer.CanSupportType(type));
     }
 
     [Fact]
     public void CannotSupport_IBencodableType_Test()
     {
-        Assert.False(Serializer.CanSupportType(typeof(IBencodable)));
+        Assert.False(ModelSerializer.CanSupportType(typeof(IBencodable)));
     }
 
     [Theory]
     [MemberData(nameof(BencodexValues))]
     public void IBencodableType_SerializeAndDeserialize_Test(IValue value)
     {
-        var serialized = Serializer.Serialize(value);
-        var actualValue = Serializer.Deserialize(serialized, value.GetType())!;
+        var serialized = ModelSerializer.Serialize(value);
+        var actualValue = ModelSerializer.Deserialize(serialized, value.GetType())!;
         Assert.Equal(value, actualValue);
     }
 

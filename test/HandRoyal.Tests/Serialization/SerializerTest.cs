@@ -26,7 +26,7 @@ public sealed partial class SerializerTest
     [InlineData(typeof(TimeSpan))]
     public void CanSupport_Test(Type type)
     {
-        Assert.True(Serializer.CanSupportType(type));
+        Assert.True(ModelSerializer.CanSupportType(type));
     }
 
     [Theory]
@@ -41,7 +41,7 @@ public sealed partial class SerializerTest
     [InlineData(typeof(TimeSpan[]))]
     public void CanSupportArray_Test(Type type)
     {
-        Assert.True(Serializer.CanSupportType(type));
+        Assert.True(ModelSerializer.CanSupportType(type));
     }
 
     [Theory]
@@ -56,13 +56,13 @@ public sealed partial class SerializerTest
     [InlineData(typeof(ImmutableArray<TimeSpan>))]
     public void CanSupportImmutableArray_Test(Type type)
     {
-        Assert.True(Serializer.CanSupportType(type));
+        Assert.True(ModelSerializer.CanSupportType(type));
     }
 
     [Fact]
     public void CanSupportNonSerializable_FailTest()
     {
-        Assert.False(Serializer.CanSupportType(typeof(object)));
+        Assert.False(ModelSerializer.CanSupportType(typeof(object)));
     }
 
     [Theory]
@@ -88,7 +88,7 @@ public sealed partial class SerializerTest
     [InlineData(typeof(ImmutableStack<string>))]
     public void CanSupport_FailTest(Type type)
     {
-        Assert.False(Serializer.CanSupportType(type));
+        Assert.False(ModelSerializer.CanSupportType(type));
     }
 
     public enum TestEnum
