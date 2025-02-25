@@ -23,9 +23,9 @@ public sealed class AccountStateContext(
                 throw new KeyNotFoundException($"No state found at {address}");
             }
 
-            if (Serializer.TryGetType(state, out var type))
+            if (ModelSerializer.TryGetType(state, out var type))
             {
-                return Serializer.Deserialize(state, type)
+                return ModelSerializer.Deserialize(state, type)
                     ?? throw new InvalidOperationException("Failed to deserialize state.");
             }
 
@@ -39,9 +39,9 @@ public sealed class AccountStateContext(
     {
         if (account.GetState(address) is { } state)
         {
-            if (Serializer.TryGetType(state, out var type))
+            if (ModelSerializer.TryGetType(state, out var type))
             {
-                if (Serializer.Deserialize(state, type) is T obj)
+                if (ModelSerializer.Deserialize(state, type) is T obj)
                 {
                     value = obj;
                     return true;

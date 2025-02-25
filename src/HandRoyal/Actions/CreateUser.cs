@@ -5,7 +5,7 @@ using Libplanet.Action;
 namespace HandRoyal.Actions;
 
 [ActionType("CreateUser")]
-[Model(0)]
+[Model(Version = 1)]
 public sealed record class CreateUser : ActionBase
 {
     protected override void OnExecute(IWorldContext world, IActionContext context)

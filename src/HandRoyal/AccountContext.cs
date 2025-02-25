@@ -27,9 +27,9 @@ internal sealed class AccountContext(
                 throw new KeyNotFoundException($"No state found at {address}");
             }
 
-            if (Serializer.TryGetType(state, out var type))
+            if (ModelSerializer.TryGetType(state, out var type))
             {
-                return Serializer.Deserialize(state, type)
+                return ModelSerializer.Deserialize(state, type)
                     ?? throw new InvalidOperationException("Failed to deserialize state.");
             }
 
@@ -58,9 +58,9 @@ internal sealed class AccountContext(
                 _account = _account.SetState(address, obj.Bencoded);
                 setter(this);
             }
-            else if (Serializer.CanSupportType(value.GetType()))
+            else if (ModelSerializer.CanSupportType(value.GetType()))
             {
-                _account = _account.SetState(address, Serializer.Serialize(value));
+                _account = _account.SetState(address, ModelSerializer.Serialize(value));
                 setter(this);
             }
             else
@@ -74,9 +74,9 @@ internal sealed class AccountContext(
     {
         if (_account.GetState(address) is { } state)
         {
-            if (Serializer.TryGetType(state, out var type))
+            if (ModelSerializer.TryGetType(state, out var type))
             {
-                if (Serializer.Deserialize(state, type) is T obj)
+                if (ModelSerializer.Deserialize(state, type) is T obj)
                 {
                     value = obj;
                     return true;

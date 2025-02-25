@@ -4,7 +4,7 @@ using Libplanet.Action;
 
 namespace HandRoyal.States;
 
-[Model(0)]
+[Model(Version = 1)]
 public sealed record class Match
 {
     [Property(0)]

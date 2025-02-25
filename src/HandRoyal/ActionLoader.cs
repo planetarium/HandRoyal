@@ -42,7 +42,7 @@ public sealed class ActionLoader : IActionLoader
                     nameof(value));
             }
 
-            if (Serializer.Deserialize(list[1], actionType) is not IAction action)
+            if (ModelSerializer.Deserialize(list[1], actionType) is not IAction action)
             {
                 throw new ArgumentException(
                     $"Failed to deserialize the action: {value}",
@@ -75,7 +75,7 @@ public sealed class ActionLoader : IActionLoader
             if (!type.IsDefined(typeof(ModelAttribute)))
             {
                 throw new InvalidOperationException(
-                    $"The action type {type} does not have an SerializableObjectAttribute.");
+                    $"The action type {type} does not have an {nameof(ModelAttribute)}.");
             }
 
             typeById.Add(attribute.TypeIdentifier, type);

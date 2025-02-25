@@ -7,7 +7,7 @@ using Libplanet.Crypto;
 
 namespace HandRoyal.States;
 
-[Model(0)]
+[Model(Version = 1)]
 public sealed record class Session : IEquatable<Session>
 {
     [Property(0)]
@@ -91,9 +91,9 @@ public sealed record class Session : IEquatable<Session>
         return [.. sessions];
     }
 
-    public bool Equals(Session? other) => SerializerUtility.Equals(this, other);
+    public bool Equals(Session? other) => ModelUtility.Equals(this, other);
 
-    public override int GetHashCode() => SerializerUtility.GetHashCode(this);
+    public override int GetHashCode() => ModelUtility.GetHashCode(this);
 
     private Session? StartSession(long height, IRandom random)
     {

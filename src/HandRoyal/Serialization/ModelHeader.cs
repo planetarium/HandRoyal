@@ -5,7 +5,7 @@ using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.Serialization;
 
-internal sealed record class SerializationHeader : IBencodable
+internal sealed record class ModelHeader : IBencodable
 {
     private const int ElementCount = 3;
 
@@ -21,7 +21,7 @@ internal sealed record class SerializationHeader : IBencodable
         ToValue(Version));
 
     public static bool TryGetHeader(
-        IValue value, [MaybeNullWhen(false)] out SerializationHeader header)
+        IValue value, [MaybeNullWhen(false)] out ModelHeader header)
     {
         if (value is List list
             && list.Count == ElementCount
@@ -29,7 +29,7 @@ internal sealed record class SerializationHeader : IBencodable
             && list[1] is Text typeName
             && list[2] is Integer version)
         {
-            header = new SerializationHeader
+            header = new ModelHeader
             {
                 TypeValue = magicValue,
                 TypeName = typeName,
@@ -42,7 +42,7 @@ internal sealed record class SerializationHeader : IBencodable
         return false;
     }
 
-    public static SerializationHeader GetHeader(IValue value)
+    public static ModelHeader GetHeader(IValue value)
     {
         if (value is not List list)
         {
@@ -54,7 +54,7 @@ internal sealed record class SerializationHeader : IBencodable
             throw new ArgumentException("The list does not have two elements.", nameof(value));
         }
 
-        return new SerializationHeader
+        return new ModelHeader
         {
             TypeValue = ToInt32(list, 0),
             TypeName = GetString(list, 1),

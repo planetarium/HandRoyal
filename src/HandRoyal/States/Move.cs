@@ -2,7 +2,7 @@
 
 namespace HandRoyal.States;
 
-[Model(0)]
+[Model(Version = 1)]
 public sealed record class Move
 {
     [Property(0)]

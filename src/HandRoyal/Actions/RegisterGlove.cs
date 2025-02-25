@@ -7,7 +7,7 @@ using Libplanet.Crypto;
 namespace HandRoyal.Actions;
 
 [ActionType("RegisterGlove")]
-[Model(0)]
+[Model(Version = 1)]
 public sealed record class RegisterGlove : ActionBase
 {
     [Property(0)]

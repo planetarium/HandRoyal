@@ -6,7 +6,7 @@ using Libplanet.Crypto;
 namespace HandRoyal.Actions;
 
 [ActionType("SubmitMove")]
-[Model(0)]
+[Model(Version = 1)]
 public sealed record class SubmitMove : ActionBase
 {
     [Property(0)]

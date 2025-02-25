@@ -4,7 +4,7 @@ using Libplanet.Crypto;
 
 namespace HandRoyal.States;
 
-[Model(0)]
+[Model(Version = 1)]
 public sealed record class Player
 {
     [Property(0)]

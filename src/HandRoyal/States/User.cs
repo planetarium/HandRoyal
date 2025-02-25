@@ -5,7 +5,7 @@ using Libplanet.Crypto;
 
 namespace HandRoyal.States;
 
-[Model(0)]
+[Model(Version = 1)]
 public sealed record class User : IEquatable<User>
 {
     [Property(0)]
@@ -28,7 +28,7 @@ public sealed record class User : IEquatable<User>
         return usersAccount.TryGetObject(userId, out user);
     }
 
-    public bool Equals(User? other) => SerializerUtility.Equals(this, other);
+    public bool Equals(User? other) => ModelUtility.Equals(this, other);
 
-    public override int GetHashCode() => SerializerUtility.GetHashCode(this);
+    public override int GetHashCode() => ModelUtility.GetHashCode(this);
 }

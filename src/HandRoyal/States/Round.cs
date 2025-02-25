@@ -4,7 +4,7 @@ using Libplanet.Action;
 
 namespace HandRoyal.States;
 
-[Model(0)]
+[Model(Version = 1)]
 public sealed record class Round : IEquatable<Round>
 {
     [Property(0)]
@@ -49,7 +49,7 @@ public sealed record class Round : IEquatable<Round>
         throw new ArgumentException($"Player {playerIndex} is not in this round.");
     }
 
-    public bool Equals(Round? other) => SerializerUtility.Equals(this, other);
+    public bool Equals(Round? other) => ModelUtility.Equals(this, other);
 
-    public override int GetHashCode() => SerializerUtility.GetHashCode(this);
+    public override int GetHashCode() => ModelUtility.GetHashCode(this);
 }

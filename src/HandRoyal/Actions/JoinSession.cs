@@ -7,7 +7,7 @@ using Libplanet.Crypto;
 namespace HandRoyal.Actions;
 
 [ActionType("JoinSession")]
-[Model(0)]
+[Model(Version = 1)]
 public sealed record class JoinSession : ActionBase
 {
     [Property(0)]

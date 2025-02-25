@@ -9,7 +9,7 @@ using Libplanet.Crypto;
 namespace HandRoyal.Actions;
 
 [ActionType("CreateSession")]
-[Model(0)]
+[Model(Version = 1)]
 public sealed record class CreateSession : ActionBase
 {
     [Property(0)]

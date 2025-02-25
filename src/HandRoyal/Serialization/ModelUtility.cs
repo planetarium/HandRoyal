@@ -2,11 +2,13 @@
 
 namespace HandRoyal.Serialization;
 
-public static class SerializerUtility
+public static class ModelUtility
 {
+    private static readonly IModelResolver _resolver = ModelResolver.Default;
+
     public static int GetHashCode(object obj)
     {
-        var properties = Serializer.GetProperties(obj.GetType());
+        var properties = _resolver.GetProperties(obj.GetType());
         HashCode hash = default;
         foreach (var property in properties)
         {
@@ -29,7 +31,7 @@ public static class SerializerUtility
             return false;
         }
 
-        var properties = Serializer.GetProperties(typeof(T));
+        var properties = _resolver.GetProperties(typeof(T));
         foreach (var property in properties)
         {
             var leftValue = property.GetValue(left);

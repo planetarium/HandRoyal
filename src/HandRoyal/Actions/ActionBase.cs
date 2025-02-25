@@ -15,7 +15,7 @@ public abstract record class ActionBase : IAction
 
     IValue IAction.PlainValue => new List(
         TypeId,
-        Serializer.Serialize(this));
+        ModelSerializer.Serialize(this));
 
     private IValue TypeId =>
         GetType().GetCustomAttribute<ActionTypeAttribute>() is { } attribute

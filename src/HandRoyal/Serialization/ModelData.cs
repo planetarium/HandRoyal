@@ -5,11 +5,11 @@ using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.Serialization;
 
-internal sealed record class SerializationData : IBencodable
+internal sealed record class ModelData : IBencodable
 {
     private const int ElementCount = 2;
 
-    public required SerializationHeader Header { get; init; }
+    public required ModelHeader Header { get; init; }
 
     public required IValue Value { get; init; }
 
@@ -18,13 +18,13 @@ internal sealed record class SerializationData : IBencodable
         Value);
 
     public static bool TryGetObject(
-        IValue value, [MaybeNullWhen(false)] out SerializationData obj)
+        IValue value, [MaybeNullWhen(false)] out ModelData obj)
     {
         if (value is List list
             && list.Count == ElementCount
-            && SerializationHeader.TryGetHeader(list[0], out var header))
+            && ModelHeader.TryGetHeader(list[0], out var header))
         {
-            obj = new SerializationData
+            obj = new ModelData
             {
                 Header = header,
                 Value = list[1],
@@ -36,7 +36,7 @@ internal sealed record class SerializationData : IBencodable
         return false;
     }
 
-    public static SerializationData GetObject(IValue value)
+    public static ModelData GetObject(IValue value)
     {
         if (value is not List list)
         {
@@ -48,9 +48,9 @@ internal sealed record class SerializationData : IBencodable
             throw new ArgumentException("The list does not have two elements.", nameof(value));
         }
 
-        return new SerializationData
+        return new ModelData
         {
-            Header = SerializationHeader.GetHeader(list[0]),
+            Header = ModelHeader.GetHeader(list[0]),
             Value = list[1],
         };
     }
