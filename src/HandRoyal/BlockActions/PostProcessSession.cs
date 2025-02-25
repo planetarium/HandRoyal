@@ -43,7 +43,7 @@ internal sealed class PostProcessSession : BlockActionBase
         var userIds = session.Players.Select(player => player.Id).ToArray();
         foreach (var userId in userIds)
         {
-            if (!usersAccount.TryGetObject<User>(userId, out var user))
+            if (!usersAccount.TryGetValue<User>(userId, out var user))
             {
                 continue;
             }

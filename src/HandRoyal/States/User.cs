@@ -25,7 +25,7 @@ public sealed record class User : IEquatable<User>
         IWorldContext world, Address userId, [MaybeNullWhen(false)] out User user)
     {
         var usersAccount = world[Addresses.Users];
-        return usersAccount.TryGetObject(userId, out user);
+        return usersAccount.TryGetValue(userId, out user);
     }
 
     public bool Equals(User? other) => ModelUtility.Equals(this, other);

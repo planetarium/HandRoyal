@@ -70,7 +70,7 @@ internal sealed class AccountContext(
         }
     }
 
-    public bool TryGetObject<T>(Address address, [MaybeNullWhen(false)] out T value)
+    public bool TryGetValue<T>(Address address, [MaybeNullWhen(false)] out T value)
     {
         if (_account.GetState(address) is { } state)
         {
@@ -103,23 +103,9 @@ internal sealed class AccountContext(
         return false;
     }
 
-    public bool TryGetState<T>(Address address, [MaybeNullWhen(false)] out T value)
-        where T : IValue
+    public T GetValue<T>(Address address, T fallback)
     {
-        if (_account.GetState(address) is T state)
-        {
-            value = state;
-            return true;
-        }
-
-        value = default;
-        return false;
-    }
-
-    public T GetState<T>(Address address, T fallback)
-        where T : IValue
-    {
-        if (TryGetState<T>(address, out var value))
+        if (TryGetValue<T>(address, out var value))
         {
             return value;
         }

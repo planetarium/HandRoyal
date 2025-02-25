@@ -22,13 +22,13 @@ internal sealed class StateQueryController(IBlockChainService blockChainService)
         var blockChain = blockChainService.BlockChain;
         var world = new WorldStateContext(blockChain);
         var sessionsAccount = world[Addresses.Sessions];
-        if (sessionsAccount.TryGetObject<Session>(sessionId, out var session))
+        if (sessionsAccount.TryGetValue<Session>(sessionId, out var session))
         {
             return session;
         }
 
         var archivedSessionsAccount = world[Addresses.ArchivedSessions];
-        if (archivedSessionsAccount.TryGetObject<Session>(sessionId, out var archivedSession))
+        if (archivedSessionsAccount.TryGetValue<Session>(sessionId, out var archivedSession))
         {
             return archivedSession;
         }
@@ -42,7 +42,7 @@ internal sealed class StateQueryController(IBlockChainService blockChainService)
         var blockChain = blockChainService.BlockChain;
         var world = new WorldStateContext(blockChain);
         var usersAccount = world[Addresses.Users];
-        if (usersAccount.TryGetObject<User>(userId, out var user))
+        if (usersAccount.TryGetValue<User>(userId, out var user))
         {
             return user;
         }
@@ -56,7 +56,7 @@ internal sealed class StateQueryController(IBlockChainService blockChainService)
         var blockChain = blockChainService.BlockChain;
         var world = new WorldStateContext(blockChain);
         var glovesAccount = world[Addresses.Gloves];
-        if (glovesAccount.TryGetObject<Glove>(gloveId, out var glove))
+        if (glovesAccount.TryGetValue<Glove>(gloveId, out var glove))
         {
             return glove;
         }

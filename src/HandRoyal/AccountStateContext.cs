@@ -35,11 +35,16 @@ public sealed class AccountStateContext(
         set => throw new NotSupportedException("Setting state is not supported.");
     }
 
-    public bool TryGetObject<T>(Address address, [MaybeNullWhen(false)] out T value)
+    public bool TryGetValue<T>(Address address, [MaybeNullWhen(false)] out T value)
     {
         if (account.GetState(address) is { } state)
         {
-            if (ModelSerializer.TryGetType(state, out var type))
+            if (typeof(IValue).IsAssignableFrom(typeof(T)))
+            {
+                value = (T)state;
+                return true;
+            }
+            else if (ModelSerializer.TryGetType(state, out var type))
             {
                 if (ModelSerializer.Deserialize(state, type) is T obj)
                 {
@@ -57,34 +62,15 @@ public sealed class AccountStateContext(
                 value = obj;
                 return true;
             }
-            else if (typeof(IValue).IsAssignableFrom(typeof(T)))
-            {
-                value = (T)state;
-                return true;
-            }
         }
 
         value = default;
         return false;
     }
 
-    public bool TryGetState<T>(Address address, [MaybeNullWhen(false)] out T value)
-        where T : IValue
+    public T GetValue<T>(Address address, T fallback)
     {
-        if (account.GetState(address) is T state)
-        {
-            value = state;
-            return true;
-        }
-
-        value = default;
-        return false;
-    }
-
-    public T GetState<T>(Address address, T fallback)
-        where T : IValue
-    {
-        if (TryGetState<T>(address, out var value))
+        if (TryGetValue<T>(address, out var value))
         {
             return value;
         }

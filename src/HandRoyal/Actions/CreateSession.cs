@@ -35,30 +35,22 @@ public sealed record class CreateSession : ActionBase
 
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {
-        var sessionsAccount = world[Addresses.Sessions];
         if (SessionId == default)
         {
             throw new CreateSessionException("Session id is not set.");
         }
 
-        if (sessionsAccount.Contains(SessionId))
+        if (world.Contains(Addresses.Sessions, SessionId))
         {
             throw new CreateSessionException($"Session of id {SessionId} already exists.");
         }
 
-        var prize = Prize;
-        var glovesAccount = world[Addresses.Gloves];
-        if (!glovesAccount.TryGetObject<Glove>(prize, out var glove))
-        {
-            throw new CreateSessionException(
-                $"Given glove prize {prize} for session id {SessionId} does not exist.");
-        }
-
+        var glove = (Glove)world[Addresses.Gloves, Prize];
         var signer = context.Signer;
         if (!glove.Author.Equals(signer))
         {
             throw new CreateSessionException(
-                $"Organizer for session id {SessionId} is not author of the prize {prize}.");
+                $"Organizer for session id {SessionId} is not author of the prize {Prize}.");
         }
 
         var sessionMetadata = new SessionMetadata
@@ -72,8 +64,8 @@ public sealed record class CreateSession : ActionBase
             RoundInterval = RoundInterval,
             WaitingInterval = WaitingInterval,
         };
-        var sessionList = sessionsAccount.GetState(Addresses.Sessions, fallback: List.Empty);
-        sessionsAccount[Addresses.Sessions] = sessionList.Add(SessionId);
-        sessionsAccount[SessionId] = new Session { Metadata = sessionMetadata };
+        var sessionList = world.GetValue(Addresses.Sessions, Addresses.Sessions, List.Empty);
+        world[Addresses.Sessions, Addresses.Sessions] = sessionList.Add(SessionId);
+        world[Addresses.Sessions, SessionId] = new Session { Metadata = sessionMetadata };
     }
 }

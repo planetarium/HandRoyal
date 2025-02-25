@@ -31,6 +31,73 @@ public sealed record class Session : IEquatable<Session>
     [Property(6)]
     public long Height { get; init; }
 
+    public Session Join(User user, Address gloveId)
+    {
+        if (State != SessionState.Ready)
+        {
+            var message =
+                $"State of the session of id {Metadata.Id} is not READY. " +
+                $"(state: {State})";
+            throw new InvalidOperationException(message);
+        }
+
+        if (Players.Length >= Metadata.MaximumUser)
+        {
+            var message =
+                $"Participant registration of session of id {Metadata.Id} is closed " +
+                $"since max user count {Metadata.MinimumUser} has reached.";
+            throw new InvalidOperationException(message);
+        }
+
+        if (FindPlayer(user.Id) != -1)
+        {
+            var message = $"Duplicated participation is prohibited. ({user.Id})";
+            throw new InvalidOperationException(message);
+        }
+
+        if (user.SessionId != default)
+        {
+            throw new InvalidOperationException("User is already in a session.");
+        }
+
+        if (gloveId != default && !user.Gloves.Contains(gloveId))
+        {
+            var message = $"Cannot join session with invalid glove {gloveId}.";
+            throw new InvalidOperationException(message);
+        }
+
+        var player = new Player { Id = user.Id, Glove = gloveId };
+        var players = Players.Add(player);
+        return this with { Players = players };
+    }
+
+    public Session Submit(Address userId, MoveType move, long blockHeight)
+    {
+        if (State != SessionState.Active)
+        {
+            var message =
+                $"State of the session of id {Metadata.Id} is not ACTIVE. " +
+                $"(state: {State})";
+            throw new InvalidOperationException(message);
+        }
+
+        var playerIndex = FindPlayer(userId);
+        if (playerIndex == -1)
+        {
+            var message = $"Player is not part of the session. ({userId})";
+            throw new InvalidOperationException(message);
+        }
+
+        var rounds = Rounds;
+        var round = rounds[^1];
+        round = round.Submit(playerIndex, move);
+        return this with
+        {
+            Rounds = rounds.SetItem(rounds.Length - 1, round),
+            Height = blockHeight,
+        };
+    }
+
     public int FindPlayer(Address useId)
     {
         for (var i = 0; i < Players.Length; i++)
@@ -62,7 +129,7 @@ public sealed record class Session : IEquatable<Session>
     public static Session FromState(IWorldContext world, Address sessionId)
     {
         var sessionsAccount = world[Addresses.Sessions];
-        if (!sessionsAccount.TryGetObject<Session>(sessionId, out var session))
+        if (!sessionsAccount.TryGetValue<Session>(sessionId, out var session))
         {
             var message = $"Session of id {sessionId} does not exist.";
             throw new ArgumentException(message, nameof(sessionId));
@@ -74,13 +141,13 @@ public sealed record class Session : IEquatable<Session>
     public static Session[] GetSessions(IWorldContext world)
     {
         var sessionsAccount = world[Addresses.Sessions];
-        var addressList = sessionsAccount.GetState<List>(Addresses.Sessions, []);
+        var addressList = sessionsAccount.GetValue<List>(Addresses.Sessions, []);
 
         var sessions = new List<Session>(addressList.Count);
         for (var i = 0; i < addressList.Count; i++)
         {
             var sessionAddress = new Address(addressList[i]);
-            if (!sessionsAccount.TryGetObject<Session>(sessionAddress, out var session))
+            if (!sessionsAccount.TryGetValue<Session>(sessionAddress, out var session))
             {
                 continue;
             }

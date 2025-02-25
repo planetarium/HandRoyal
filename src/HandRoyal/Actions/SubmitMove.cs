@@ -17,20 +17,11 @@ public sealed record class SubmitMove : ActionBase
 
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {
+        var userId = context.Signer;
+        var move = Move;
+        var height = context.BlockIndex;
         var session = (Session)world[Addresses.Sessions, SessionId];
-        var playerIndex = session.FindPlayer(context.Signer);
-        if (playerIndex == -1)
-        {
-            throw new InvalidOperationException("Player is not part of the session.");
-        }
 
-        var rounds = session.Rounds;
-        var round = rounds[^1];
-        round = round.Submit(playerIndex, Move);
-        world[Addresses.Sessions, SessionId] = session with
-        {
-            Rounds = rounds.SetItem(rounds.Length - 1, round),
-            Height = context.BlockIndex,
-        };
+        world[Addresses.Sessions, SessionId] = session.Submit(userId, move, height);
     }
 }

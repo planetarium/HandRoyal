@@ -20,9 +20,9 @@ public interface IWorldContext
 
     void TransferAsset(Address sender, Address recipient, FungibleAssetValue value);
 
-    bool TryGetObject<T>(Address address, Address stateAddress, [MaybeNullWhen(false)] out T value)
+    bool TryGetValue<T>(Address address, Address stateAddress, [MaybeNullWhen(false)] out T value)
     {
-        if (this[address].TryGetObject<T>(stateAddress, out var obj))
+        if (this[address].TryGetValue<T>(stateAddress, out var obj))
         {
             value = obj;
             return true;
@@ -31,6 +31,9 @@ public interface IWorldContext
         value = default;
         return false;
     }
+
+    T GetValue<T>(Address address, Address stateAddress, T fallback)
+        => this[address].GetValue(stateAddress, fallback);
 
     bool Contains(Address address, Address stateAddress)
         => this[address].Contains(stateAddress);

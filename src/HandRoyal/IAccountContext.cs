@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Bencodex.Types;
 using Libplanet.Crypto;
 
 namespace HandRoyal;
@@ -10,13 +9,9 @@ public interface IAccountContext
 
     object this[Address address] { get; set; }
 
-    bool TryGetObject<T>(Address address, [MaybeNullWhen(false)] out T value);
+    bool TryGetValue<T>(Address address, [MaybeNullWhen(false)] out T value);
 
-    bool TryGetState<T>(Address address, [MaybeNullWhen(false)] out T value)
-        where T : IValue;
-
-    T GetState<T>(Address address, T fallback)
-        where T : IValue;
+    T GetValue<T>(Address address, T fallback);
 
     bool Contains(Address address);
 
