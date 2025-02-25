@@ -46,14 +46,14 @@ internal sealed class SessionEventPublisher(
             if (typeId == "SubmitMove")
             {
                 var submitMove = CreateAction<SubmitMove>(info.Action);
-                var session = Session.FromState(world, submitMove.SessionId);
+                var session = Session.GetSession(world, submitMove.SessionId);
                 var eventData = new SessionEventData(session);
                 RaisePublishedEvent(eventData, SubscriptionController.SessionChangedEventName);
             }
             else if (typeId == "CreateSession")
             {
                 var createSession = CreateAction<CreateSession>(info.Action);
-                var session = Session.FromState(world, createSession.SessionId);
+                var session = Session.GetSession(world, createSession.SessionId);
                 var eventData = new SessionEventData(session);
                 RaisePublishedEvent(eventData, SubscriptionController.SessionChangedEventName);
             }

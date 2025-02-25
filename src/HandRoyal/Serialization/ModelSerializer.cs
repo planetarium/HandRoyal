@@ -46,10 +46,7 @@ public static class ModelSerializer
 
     public static bool CanSupportType(Type type)
     {
-        if (SupportedBaseTypes.Contains(type)
-            || type.IsEnum
-            || IsBencodableType(type)
-            || IsBencodexType(type))
+        if (IsStandardType(type))
         {
             return true;
         }
@@ -78,11 +75,7 @@ public static class ModelSerializer
         }
 
         var type = obj.GetType();
-        if (SupportedBaseTypes.Contains(type)
-            || type.IsEnum
-            || IsBencodableType(type)
-            || IsBencodexType(type)
-            || IsSupportedArrayType(type))
+        if (IsStandardType(type) || IsStandardArrayType(type))
         {
             return SerializeValue(obj, type, options);
         }
@@ -117,11 +110,7 @@ public static class ModelSerializer
 
     public static object? Deserialize(IValue value, Type type, ModelOptions options)
     {
-        if (SupportedBaseTypes.Contains(type)
-            || type.IsEnum
-            || IsBencodableType(type)
-            || IsBencodexType(type)
-            || IsSupportedArrayType(type))
+        if (IsStandardType(type) || IsStandardArrayType(type))
         {
             return DeserializeValue(type, value, options);
         }

@@ -17,7 +17,7 @@ public sealed record class Player
     public PlayerState State { get; set; }
 
     public static ImmutableArray<Player> SetState(
-        ImmutableArray<Player> players, int[] winers, PlayerState playerState)
+        ImmutableArray<Player> players, in ImmutableArray<int> winers, PlayerState playerState)
     {
         for (var i = 0; i < players.Length; i++)
         {

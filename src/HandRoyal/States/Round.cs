@@ -13,19 +13,19 @@ public sealed record class Round : IEquatable<Round>
     [Property(1)]
     public ImmutableArray<Match> Matches { get; set; } = [];
 
-    public int[] GetWiners(IRandom random)
+    public ImmutableArray<int> GetWiners(IRandom random)
     {
         var matches = Matches;
         var capacity = Matches.Length * 2;
-        var winerList = new List<int>(capacity);
+        var builder = ImmutableArray.CreateBuilder<int>(capacity);
         for (var i = 0; i < matches.Length; i++)
         {
             var match = matches[i];
             var winers = match.GetWiners(random);
-            winerList.AddRange(winers);
+            builder.AddRange(winers);
         }
 
-        return [.. winerList];
+        return builder.ToImmutable();
     }
 
     public Round Submit(int playerIndex, MoveType move)

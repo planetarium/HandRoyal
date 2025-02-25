@@ -96,7 +96,7 @@ public sealed class ModelResolver : IModelResolver
 
     private static void ValidateArrayProperty(Type type, Type propertyType)
     {
-        if (!IsSupportedArrayType(propertyType))
+        if (!IsStandardArrayType(propertyType))
         {
             throw new ModelSerializationException($"Type {propertyType} is not supported.");
         }
