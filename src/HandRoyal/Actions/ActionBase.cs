@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using Bencodex.Types;
+using HandRoyal.Serialization;
 using Libplanet.Action;
 using Libplanet.Action.State;
 
@@ -12,15 +13,9 @@ public abstract record class ActionBase : IAction
     {
     }
 
-    protected ActionBase(IValue value)
-    {
-    }
-
     IValue IAction.PlainValue => new List(
         TypeId,
-        PlainValue);
-
-    protected abstract IValue PlainValue { get; }
+        ModelSerializer.Serialize(this));
 
     private IValue TypeId =>
         GetType().GetCustomAttribute<ActionTypeAttribute>() is { } attribute

@@ -1,39 +1,19 @@
 ﻿using System.Collections.Immutable;
-using Bencodex;
-using Bencodex.Types;
+using HandRoyal.Serialization;
 using Libplanet.Crypto;
-using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.States;
 
-public sealed record class Player : IBencodable
+[Model(Version = 1)]
+public sealed record class Player
 {
-    public Player()
-    {
-        State = 0;
-    }
-
-    public Player(IValue value)
-    {
-        if (value is not List list)
-        {
-            throw new ArgumentException($"Given value {value} is not a list.", nameof(value));
-        }
-
-        Id = ToAddress(list, 0);
-        Glove = ToAddress(list, 1);
-        State = ToEnum<PlayerState>(list, 2);
-    }
-
-    IValue IBencodable.Bencoded => new List(
-        ToValue(Id),
-        ToValue(Glove),
-        ToValue(State));
-
+    [Property(0)]
     public required Address Id { get; init; }
 
+    [Property(1)]
     public Address Glove { get; init; }
 
+    [Property(2)]
     public PlayerState State { get; set; }
 
     public static ImmutableArray<Player> SetState(

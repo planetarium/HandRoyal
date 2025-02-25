@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Bencodex;
 using Bencodex.Types;
+using HandRoyal.Serialization;
 using Libplanet.Action.State;
 using Libplanet.Crypto;
 
@@ -19,11 +20,30 @@ internal sealed class AccountContext(
 
     public object this[Address address]
     {
-        get => _account.GetState(address)
-            ?? throw new KeyNotFoundException($"No state found at {address}");
+        get
+        {
+            if (_account.GetState(address) is not { } state)
+            {
+                throw new KeyNotFoundException($"No state found at {address}");
+            }
+
+            if (ModelSerializer.TryGetType(state, out var type))
+            {
+                return ModelSerializer.Deserialize(state, type)
+                    ?? throw new InvalidOperationException("Failed to deserialize state.");
+            }
+
+            return state;
+        }
+
         set
         {
-            if (value is IValue state)
+            if (value is null)
+            {
+                _account = _account.RemoveState(address);
+                setter(this);
+            }
+            else if (value is IValue state)
             {
                 _account = _account.SetState(address, state);
                 setter(this);
@@ -38,6 +58,11 @@ internal sealed class AccountContext(
                 _account = _account.SetState(address, obj.Bencoded);
                 setter(this);
             }
+            else if (ModelSerializer.CanSupportType(value.GetType()))
+            {
+                _account = _account.SetState(address, ModelSerializer.Serialize(value));
+                setter(this);
+            }
             else
             {
                 throw new NotSupportedException("Setting state is not supported.");
@@ -45,37 +70,42 @@ internal sealed class AccountContext(
         }
     }
 
-    public bool TryGetObject<T>(Address address, [MaybeNullWhen(false)] out T value)
-        where T : IBencodable
+    public bool TryGetValue<T>(Address address, [MaybeNullWhen(false)] out T value)
     {
-        if (_account.GetState(address) is { } state
-            && Activator.CreateInstance(typeof(T), args: [state]) is T obj)
+        if (_account.GetState(address) is { } state)
         {
-            value = obj;
-            return true;
+            if (ModelSerializer.TryGetType(state, out var type))
+            {
+                if (ModelSerializer.Deserialize(state, type) is T obj)
+                {
+                    value = obj;
+                    return true;
+                }
+            }
+            else if (typeof(IBencodable).IsAssignableFrom(typeof(T)))
+            {
+                if (Activator.CreateInstance(typeof(T), args: [state]) is not T obj)
+                {
+                    throw new InvalidOperationException("Failed to create an instance of T.");
+                }
+
+                value = obj;
+                return true;
+            }
+            else if (typeof(IValue).IsAssignableFrom(typeof(T)))
+            {
+                value = (T)state;
+                return true;
+            }
         }
 
         value = default;
         return false;
     }
 
-    public bool TryGetState<T>(Address address, [MaybeNullWhen(false)] out T value)
-        where T : IValue
+    public T GetValue<T>(Address address, T fallback)
     {
-        if (_account.GetState(address) is T state)
-        {
-            value = state;
-            return true;
-        }
-
-        value = default;
-        return false;
-    }
-
-    public T GetState<T>(Address address, T fallback)
-        where T : IValue
-    {
-        if (TryGetState<T>(address, out var value))
+        if (TryGetValue<T>(address, out var value))
         {
             return value;
         }
@@ -83,9 +113,9 @@ internal sealed class AccountContext(
         return fallback;
     }
 
-    public bool ContainsState(Address address) => _account.GetState(address) is not null;
+    public bool Contains(Address address) => _account.GetState(address) is not null;
 
-    public bool RemoveState(Address address)
+    public bool Remove(Address address)
     {
         if (_account.GetState(address) is not null)
         {

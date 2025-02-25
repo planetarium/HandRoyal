@@ -1,31 +1,13 @@
-﻿using Bencodex;
-using Bencodex.Types;
-using static HandRoyal.BencodexUtility;
+﻿using HandRoyal.Serialization;
 
 namespace HandRoyal.States;
 
-public sealed record class Move : IBencodable
+[Model(Version = 1)]
+public sealed record class Move
 {
-    public Move()
-    {
-    }
+    [Property(0)]
+    public int PlayerIndex { get; init; }
 
-    public Move(IValue value)
-    {
-        if (value is not List list)
-        {
-            throw new ArgumentException($"Given value {value} is not a list.", nameof(value));
-        }
-
-        PlayerIndex = ToInt32(list, 0);
-        Type = ToEnum<MoveType>(list, 1);
-    }
-
-    public int PlayerIndex { get; set; }
-
-    public MoveType Type { get; set; }
-
-    IValue IBencodable.Bencoded => new List(
-        ToValue(PlayerIndex),
-        ToValue(Type));
+    [Property(1)]
+    public MoveType Type { get; init; }
 }

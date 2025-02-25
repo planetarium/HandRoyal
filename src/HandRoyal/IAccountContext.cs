@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Bencodex;
-using Bencodex.Types;
 using Libplanet.Crypto;
 
 namespace HandRoyal;
@@ -11,26 +9,11 @@ public interface IAccountContext
 
     object this[Address address] { get; set; }
 
-    bool TryGetObject<T>(Address address, [MaybeNullWhen(false)] out T value)
-        where T : IBencodable;
+    bool TryGetValue<T>(Address address, [MaybeNullWhen(false)] out T value);
 
-    bool TryGetState<T>(Address address, [MaybeNullWhen(false)] out T value)
-        where T : IValue;
+    T GetValue<T>(Address address, T fallback);
 
-    T GetState<T>(Address address, T fallback)
-        where T : IValue;
+    bool Contains(Address address);
 
-    bool ContainsState(Address address);
-
-    bool RemoveState(Address address);
-
-    void SetObject(Address address, IBencodable obj)
-    {
-        if (IsReadOnly)
-        {
-            throw new InvalidOperationException("This context is read-only.");
-        }
-
-        this[address] = obj.Bencoded;
-    }
+    bool Remove(Address address);
 }

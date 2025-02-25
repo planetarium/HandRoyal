@@ -1,5 +1,5 @@
-﻿using Bencodex.Types;
-using HandRoyal.Exceptions;
+﻿using HandRoyal.Exceptions;
+using HandRoyal.Serialization;
 using HandRoyal.States;
 using Libplanet.Action;
 using Libplanet.Crypto;
@@ -7,27 +7,23 @@ using Libplanet.Crypto;
 namespace HandRoyal.Actions;
 
 [ActionType("RegisterGlove")]
+[Model(Version = 1)]
 public sealed record class RegisterGlove : ActionBase
 {
-    public RegisterGlove()
-    {
-    }
-
-    public RegisterGlove(IValue value) => Id = new Address(value);
-
+    [Property(0)]
     public required Address Id { get; init; }
-
-    protected override IValue PlainValue => Id.Bencoded;
 
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {
-        var signer = context.Signer;
-        var glovesAccount = world[Addresses.Gloves];
-        if (glovesAccount.ContainsState(Id))
+        if (world.Contains(Addresses.Gloves, Id))
         {
             throw new RegisterGloveException($"Glove of given id {Id} is already exists.");
         }
 
-        glovesAccount[Id] = new Glove(Id, signer);
+        world[Addresses.Gloves, Id] = new Glove
+        {
+            Id = Id,
+            Author = context.Signer,
+        };
     }
 }

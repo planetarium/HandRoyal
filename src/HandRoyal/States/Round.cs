@@ -1,35 +1,17 @@
 ﻿using System.Collections.Immutable;
-using Bencodex;
-using Bencodex.Types;
+using HandRoyal.Serialization;
 using Libplanet.Action;
-using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.States;
 
-public sealed record class Round : IBencodable
+[Model(Version = 1)]
+public sealed record class Round : IEquatable<Round>
 {
-    public Round()
-    {
-    }
-
-    public Round(IValue value)
-    {
-        if (value is not List list)
-        {
-            throw new ArgumentException($"Given value {value} is not a list.", nameof(value));
-        }
-
-        Height = ToInt64(list, 0);
-        Matches = ToObjects<Match>(list, 1);
-    }
-
+    [Property(0)]
     public long Height { get; set; }
 
+    [Property(1)]
     public ImmutableArray<Match> Matches { get; set; } = [];
-
-    IValue IBencodable.Bencoded => new List(
-        ToValue(Height),
-        ToValue(Matches));
 
     public int[] GetWiners(IRandom random)
     {
@@ -66,4 +48,8 @@ public sealed record class Round : IBencodable
 
         throw new ArgumentException($"Player {playerIndex} is not in this round.");
     }
+
+    public bool Equals(Round? other) => ModelUtility.Equals(this, other);
+
+    public override int GetHashCode() => ModelUtility.GetHashCode(this);
 }

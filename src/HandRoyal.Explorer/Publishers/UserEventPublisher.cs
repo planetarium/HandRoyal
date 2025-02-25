@@ -18,7 +18,7 @@ internal sealed class UserEventPublisher(
         var world = new WorldStateContext(trie, stateStore);
         if (typeId == "CreateUser")
         {
-            var user = User.FromState(world, info.Context.Signer);
+            var user = User.GetUser(world, info.Context.Signer);
             var eventData = new UserEventData(user);
             RaisePublishedEvent(eventData, SubscriptionController.UserChangedEventName);
         }

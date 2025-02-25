@@ -1,0 +1,10 @@
+[*.cs]
+
+# S2344: Enumeration type names should not have "Flags" or "Enum" suffixes
+dotnet_diagnostic.S2344.severity = none
+
+# SA1201: Elements should appear in the correct order
+dotnet_diagnostic.SA1201.severity = none
+
+# S4144: Methods should not have identical implementations
+dotnet_diagnostic.S4144.severity = none

@@ -1,44 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Bencodex;
-using Bencodex.Types;
+using HandRoyal.Serialization;
 using Libplanet.Crypto;
-using static HandRoyal.BencodexUtility;
 
 namespace HandRoyal.States;
 
-public sealed record class SessionMetadata : IBencodable
+[Model(Version = 1)]
+public sealed record class SessionMetadata
 {
-    public SessionMetadata()
-    {
-    }
-
-    public SessionMetadata(IValue value)
-    {
-        if (value is not List list)
-        {
-            throw new ArgumentException($"Given value {value} is not a list.", nameof(value));
-        }
-
-        Id = ToAddress(list, 0);
-        Organizer = ToAddress(list, 1);
-        Prize = ToAddress(list, 2);
-        MaximumUser = ToInt32(list, 3);
-        MinimumUser = ToInt32(list, 4);
-        RemainingUser = ToInt32(list, 5);
-        RoundInterval = ToInt64(list, 6);
-        WaitingInterval = ToInt64(list, 7);
-    }
-
-    IValue IBencodable.Bencoded => new List(
-        ToValue(Id),
-        ToValue(Organizer),
-        ToValue(Prize),
-        ToValue(MaximumUser),
-        ToValue(MinimumUser),
-        ToValue(RemainingUser),
-        ToValue(RoundInterval),
-        ToValue(WaitingInterval));
-
     public static SessionMetadata Default { get; } = new SessionMetadata
     {
         Id = default,
@@ -47,21 +15,29 @@ public sealed record class SessionMetadata : IBencodable
     };
 
     [Required]
+    [Property(0)]
     public required Address Id { get; init; }
 
     [Required]
+    [Property(1)]
     public required Address Organizer { get; init; }
 
     [Required]
+    [Property(2)]
     public required Address Prize { get; init; }
 
+    [Property(3)]
     public int MaximumUser { get; set; } = 8;
 
+    [Property(4)]
     public int MinimumUser { get; set; } = 2;
 
+    [Property(5)]
     public int RemainingUser { get; set; } = 1;
 
+    [Property(6)]
     public long RoundInterval { get; set; } = 5;
 
+    [Property(7)]
     public long WaitingInterval { get; set; } = 10;
 }
