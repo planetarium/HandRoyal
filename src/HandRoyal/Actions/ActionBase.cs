@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+using System.Collections.Concurrent;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Reflection;
 using Bencodex.Types;
@@ -32,6 +33,7 @@ public abstract record class ActionBase : IAction
     IWorld IAction.Execute(IActionContext context)
     {
         using var worldContext = new WorldContext(context);
+        Validator.ValidateObject(this, new ValidationContext(this), validateAllProperties: true);
         UseGas(GetType());
         OnExecute(worldContext, context);
         return worldContext.Flush();

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using Bencodex;
 using Bencodex.Types;
 using HandRoyal.Serialization;
@@ -50,16 +51,13 @@ internal sealed class AccountContext(
             }
             else if (value is IBencodable obj)
             {
-                if (obj is IValidateState validateState)
-                {
-                    validateState.Validate();
-                }
-
                 _account = _account.SetState(address, obj.Bencoded);
                 setter(this);
             }
             else if (ModelSerializer.CanSupportType(value.GetType()))
             {
+                Validator.ValidateObject(
+                    value, new ValidationContext(value), validateAllProperties: true);
                 _account = _account.SetState(address, ModelSerializer.Serialize(value));
                 setter(this);
             }
