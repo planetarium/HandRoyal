@@ -7,6 +7,7 @@ namespace HandRoyal.Actions;
 
 [ActionType("SubmitMove")]
 [Model(Version = 1)]
+[GasUsage(1)]
 public sealed record class SubmitMove : ActionBase
 {
     [Property(0)]

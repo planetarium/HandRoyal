@@ -6,6 +6,7 @@ namespace HandRoyal.Actions;
 
 [ActionType("CreateUser")]
 [Model(Version = 1)]
+[GasUsage(1)]
 public sealed record class CreateUser : ActionBase
 {
     protected override void OnExecute(IWorldContext world, IActionContext context)

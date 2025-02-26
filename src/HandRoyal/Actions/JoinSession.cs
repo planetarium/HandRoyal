@@ -7,6 +7,7 @@ namespace HandRoyal.Actions;
 
 [ActionType("JoinSession")]
 [Model(Version = 1)]
+[GasUsage(1)]
 public sealed record class JoinSession : ActionBase
 {
     [Property(0)]
