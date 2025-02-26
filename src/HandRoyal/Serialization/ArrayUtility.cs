@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+﻿using System.Collections.Concurrent;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -7,10 +8,12 @@ namespace HandRoyal.Serialization;
 
 public static class ArrayUtility
 {
-    private static readonly Dictionary<Type, Array> _emptyArrayByElementType = [];
-    private static readonly Dictionary<Type, object> _immutableEmptyArrayByElementType = [];
-    private static readonly Dictionary<Type, Type> _arrayTypeByElementType = [];
-    private static readonly Dictionary<Type, Type> _immutableArrayTypeElementType = [];
+    private static readonly ConcurrentDictionary<Type, Array> _emptyArrayByElementType = [];
+    private static readonly ConcurrentDictionary<Type, object> _immutableEmptyArrayByElementType
+        = [];
+
+    private static readonly ConcurrentDictionary<Type, Type> _arrayTypeByElementType = [];
+    private static readonly ConcurrentDictionary<Type, Type> _immutableArrayTypeElementType = [];
 
     public static bool IsStandardArrayType(Type type) => IsSupportedArrayType(type, out _);
 
@@ -62,48 +65,17 @@ public static class ArrayUtility
     }
 
     public static Array ToEmptyArray(Type elementType)
-    {
-        if (!_emptyArrayByElementType.TryGetValue(elementType, out var array))
-        {
-            array = CreateEmptyArray(elementType);
-            _emptyArrayByElementType[elementType] = array;
-        }
-
-        return array;
-    }
+        => _emptyArrayByElementType.GetOrAdd(elementType, CreateEmptyArray);
 
     public static object ToImmutableEmptyArray(Type elementType)
-    {
-        if (!_immutableEmptyArrayByElementType.TryGetValue(elementType, out var array))
-        {
-            array = CreateImmutableEmptyArray(elementType);
-            _immutableEmptyArrayByElementType[elementType] = array;
-        }
-
-        return array;
-    }
+        => _immutableEmptyArrayByElementType.GetOrAdd(elementType, CreateImmutableEmptyArray);
 
     public static Type GetArrayType(Type elementType)
-    {
-        if (!_arrayTypeByElementType.TryGetValue(elementType, out var arrayType))
-        {
-            arrayType = elementType.MakeArrayType();
-            _arrayTypeByElementType[elementType] = arrayType;
-        }
-
-        return arrayType;
-    }
+        => _arrayTypeByElementType.GetOrAdd(elementType, item => item.MakeArrayType());
 
     public static Type GetImmutableArrayType(Type elementType)
-    {
-        if (!_immutableArrayTypeElementType.TryGetValue(elementType, out var immutableArrayType))
-        {
-            immutableArrayType = typeof(ImmutableArray<>).MakeGenericType(elementType);
-            _immutableArrayTypeElementType[elementType] = immutableArrayType;
-        }
-
-        return immutableArrayType;
-    }
+        => _immutableArrayTypeElementType.GetOrAdd(
+            elementType, item => typeof(ImmutableArray<>).MakeGenericType(item));
 
     private static object CreateImmutableEmptyArray(Type elementType)
     {
