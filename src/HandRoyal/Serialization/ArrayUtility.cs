@@ -12,7 +12,7 @@ public static class ArrayUtility
     private static readonly Dictionary<Type, Type> _arrayTypeByElementType = [];
     private static readonly Dictionary<Type, Type> _immutableArrayTypeElementType = [];
 
-    public static bool IsSupportedArrayType(Type type) => IsSupportedArrayType(type, out _);
+    public static bool IsStandardArrayType(Type type) => IsSupportedArrayType(type, out _);
 
     public static bool IsSupportedArrayType(Type type, [MaybeNullWhen(false)] out Type elementType)
     {

@@ -31,7 +31,7 @@ public sealed record class Session : IEquatable<Session>
     [Property(6)]
     public long Height { get; init; }
 
-    public Session Join(User user, Address gloveId)
+    public Session Join(long blockHeight, User user, Address gloveId)
     {
         if (State != SessionState.Ready)
         {
@@ -68,10 +68,14 @@ public sealed record class Session : IEquatable<Session>
 
         var player = new Player { Id = user.Id, Glove = gloveId };
         var players = Players.Add(player);
-        return this with { Players = players };
+        return this with
+        {
+            Players = players,
+            Height = blockHeight,
+        };
     }
 
-    public Session Submit(Address userId, MoveType move, long blockHeight)
+    public Session Submit(long blockHeight, Address userId, MoveType move)
     {
         if (State != SessionState.Active)
         {
@@ -126,7 +130,7 @@ public sealed record class Session : IEquatable<Session>
         _ => throw new InvalidOperationException($"Invalid session state: {State}"),
     };
 
-    public static Session FromState(IWorldContext world, Address sessionId)
+    public static Session GetSession(IWorldContext world, Address sessionId)
     {
         var sessionsAccount = world[Addresses.Sessions];
         if (!sessionsAccount.TryGetValue<Session>(sessionId, out var session))
@@ -181,7 +185,7 @@ public sealed record class Session : IEquatable<Session>
             };
         }
 
-        var playerIndexes = random.Shuffle(indexes).ToArray();
+        var playerIndexes = random.Shuffle(indexes).ToImmutableArray();
         var matches = Match.Create(playerIndexes);
         var round = new Round
         {
@@ -211,7 +215,7 @@ public sealed record class Session : IEquatable<Session>
 
         var round = Rounds[^1];
         var winers = round.GetWiners(random);
-        var losers = Enumerable.Range(0, Players.Length).Except(winers).ToArray();
+        var losers = Enumerable.Range(0, Players.Length).Except(winers).ToImmutableArray();
         var players = Player.SetState(Players, losers, PlayerState.Lose);
 
         if (winers.Length <= remainingUser)
@@ -225,7 +229,7 @@ public sealed record class Session : IEquatable<Session>
         }
         else
         {
-            var playerIndexes = random.Shuffle(winers).ToArray();
+            var playerIndexes = random.Shuffle(winers).ToImmutableArray();
             var nextRound = new Round
             {
                 Height = height,

@@ -62,6 +62,19 @@ public static class TypeUtility
         return type is not null;
     }
 
+    public static bool IsStandardType(Type type)
+    {
+        if (SupportedBaseTypes.Contains(type)
+            || type.IsEnum
+            || IsBencodableType(type)
+            || IsBencodexType(type))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public static bool IsBencodableType(Type type)
         => typeof(IBencodable).IsAssignableFrom(type) && !type.IsInterface;
 

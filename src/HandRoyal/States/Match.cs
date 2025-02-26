@@ -13,11 +13,11 @@ public sealed record class Match
     [Property(1)]
     public Move Move2 { get; set; } = new();
 
-    public static ImmutableArray<Match> Create(int[] players)
+    public static ImmutableArray<Match> Create(in ImmutableArray<int> players)
     {
         var segmentation = 2;
         var count = (int)Math.Ceiling((double)players.Length / segmentation);
-        var matchList = new List<Match>(count);
+        var builder = ImmutableArray.CreateBuilder<Match>(count);
         for (var i = 0; i < count; i++)
         {
             var start = i * segmentation;
@@ -29,10 +29,10 @@ public sealed record class Match
                 Move1 = new Move { PlayerIndex = playerIndex1 },
                 Move2 = new Move { PlayerIndex = playerIndex2 },
             };
-            matchList.Add(match);
+            builder.Add(match);
         }
 
-        return [.. matchList];
+        return builder.ToImmutable();
     }
 
     public int[] GetWiners(IRandom random)

@@ -13,7 +13,14 @@ public static class ModelUtility
         foreach (var property in properties)
         {
             var value = property.GetValue(obj);
-            hash.Add(value);
+            if (value is IList list)
+            {
+                AddArray(hash, list);
+            }
+            else
+            {
+                hash.Add(value);
+            }
         }
 
         return hash.ToHashCode();
@@ -36,21 +43,11 @@ public static class ModelUtility
         {
             var leftValue = property.GetValue(left);
             var rightValue = property.GetValue(right);
-            if (leftValue is IList leftList
-                && rightValue is IList rightList
-                && typeof(IList).IsAssignableFrom(property.PropertyType))
+            if (ArrayUtility.IsSupportedArrayType(property.PropertyType, out var elementType))
             {
-                if (leftList.Count != rightList.Count)
+                if (!Equals(leftValue as IList, rightValue as IList, elementType))
                 {
                     return false;
-                }
-
-                for (var i = 0; i < leftList.Count; i++)
-                {
-                    if (!object.Equals(leftList[i], rightList[i]))
-                    {
-                        return false;
-                    }
                 }
             }
             else if (!object.Equals(leftValue, rightValue))
@@ -60,5 +57,56 @@ public static class ModelUtility
         }
 
         return true;
+    }
+
+    private static bool Equals(IList? left, IList? right, Type elementType)
+    {
+        if (left is null || right is null)
+        {
+            return false;
+        }
+
+        if (left.Count != right.Count)
+        {
+            return false;
+        }
+
+        if (ArrayUtility.IsSupportedArrayType(elementType, out var elementType1))
+        {
+            for (var i = 0; i < left.Count; i++)
+            {
+                if (!Equals(left[i] as IList, right[i] as IList, elementType1))
+                {
+                    return false;
+                }
+            }
+        }
+        else
+        {
+            for (var i = 0; i < left.Count; i++)
+            {
+                if (!object.Equals(left[i], right[i]))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private static void AddArray(HashCode hash, IList list)
+    {
+        foreach (var item in list)
+        {
+            if (item is IList nestedList)
+            {
+                AddArray(hash, nestedList);
+            }
+            else
+            {
+                hash.Add(item);
+            }
+        }
     }
 }

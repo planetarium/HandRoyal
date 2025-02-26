@@ -26,15 +26,7 @@ public sealed record class ModelOptions
     {
         try
         {
-            if (SupportedBaseTypes.Contains(type)
-            || type.IsEnum
-            || IsBencodableType(type)
-            || IsBencodexType(type))
-            {
-                return 0;
-            }
-
-            return Resolver.GetVersion(type);
+            return IsStandardType(type) ? 0 : Resolver.GetVersion(type);
         }
         catch (Exception e)
         {

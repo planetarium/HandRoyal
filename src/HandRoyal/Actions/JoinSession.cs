@@ -20,8 +20,10 @@ public sealed record class JoinSession : ActionBase
         var signer = context.Signer;
         var session = (Session)world[Addresses.Sessions, SessionId];
         var user = (User)world[Addresses.Users, signer];
+        var gloveId = Glove;
+        var height = context.BlockIndex;
 
-        world[Addresses.Sessions, SessionId] = session.Join(user, gloveId: Glove);
+        world[Addresses.Sessions, SessionId] = session.Join(height, user, gloveId);
         world[Addresses.Users, signer] = user with { SessionId = SessionId };
     }
 }

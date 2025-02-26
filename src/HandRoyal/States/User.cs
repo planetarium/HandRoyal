@@ -18,15 +18,11 @@ public sealed record class User : IEquatable<User>
     public Address SessionId { get; init; }
 
     public static User GetUser(IWorldContext world, Address userId)
-        => world[Addresses.Users, userId] is User user
-            ? user : throw new KeyNotFoundException("User not found.");
+        => (User)world[Addresses.Users, userId];
 
     public static bool TryGetUser(
         IWorldContext world, Address userId, [MaybeNullWhen(false)] out User user)
-    {
-        var usersAccount = world[Addresses.Users];
-        return usersAccount.TryGetValue(userId, out user);
-    }
+        => world.TryGetValue(Addresses.Users, userId, out user);
 
     public bool Equals(User? other) => ModelUtility.Equals(this, other);
 
