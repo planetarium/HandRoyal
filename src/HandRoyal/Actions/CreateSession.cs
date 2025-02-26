@@ -10,6 +10,7 @@ namespace HandRoyal.Actions;
 
 [ActionType("CreateSession")]
 [Model(Version = 1)]
+[GasUsage(1)]
 public sealed record class CreateSession : ActionBase
 {
     [Property(0)]

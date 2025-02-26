@@ -8,6 +8,7 @@ namespace HandRoyal.Actions;
 
 [ActionType("RegisterGlove")]
 [Model(Version = 1)]
+[GasUsage(1)]
 public sealed record class RegisterGlove : ActionBase
 {
     [Property(0)]
