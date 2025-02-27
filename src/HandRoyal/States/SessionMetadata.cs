@@ -6,7 +6,7 @@ using Libplanet.Crypto;
 namespace HandRoyal.States;
 
 [Model(Version = 1)]
-public sealed record class SessionMetadata : StateBase<SessionMetadata>, IValidatableObject
+public sealed record class SessionMetadata : StateBase<SessionMetadata>
 {
     public static SessionMetadata Default { get; } = new SessionMetadata
     {
@@ -27,7 +27,7 @@ public sealed record class SessionMetadata : StateBase<SessionMetadata>, IValida
     [Property(2)]
     public required Address Prize { get; init; }
 
-    [Positive]
+    [GreaterThan(nameof(MinimumUser))]
     [Property(3)]
     public int MaximumUser { get; set; } = 8;
 
@@ -35,7 +35,7 @@ public sealed record class SessionMetadata : StateBase<SessionMetadata>, IValida
     [Property(4)]
     public int MinimumUser { get; set; } = 2;
 
-    [Positive]
+    [LessThan(nameof(MinimumUser))]
     [Property(5)]
     public int RemainingUser { get; set; } = 1;
 
@@ -49,21 +49,4 @@ public sealed record class SessionMetadata : StateBase<SessionMetadata>, IValida
 
     [Property(8)]
     public long RoundInterval { get; set; } = 5;
-
-    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-    {
-        if (MinimumUser > MaximumUser)
-        {
-            yield return new ValidationResult(
-                "MinimumUser cannot be greater than MaximumUser",
-                new[] { nameof(MinimumUser), nameof(MaximumUser) });
-        }
-
-        if (RemainingUser > MaximumUser)
-        {
-            yield return new ValidationResult(
-                "RemainingUser cannot be greater than MaximumUser",
-                new[] { nameof(RemainingUser), nameof(MaximumUser) });
-        }
-    }
 }

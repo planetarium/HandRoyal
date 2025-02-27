@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Bencodex.Types;
+﻿using Bencodex.Types;
 using HandRoyal.DataAnnotations;
 using HandRoyal.Exceptions;
 using HandRoyal.Extensions;
@@ -13,17 +12,18 @@ namespace HandRoyal.Actions;
 [ActionType("CreateSession")]
 [Model(Version = 1)]
 [GasUsage(1)]
-public sealed record class CreateSession : ActionBase, IValidatableObject
+public sealed record class CreateSession : ActionBase
 {
     [Property(0)]
     [DisallowDefault]
     public required Address SessionId { get; init; }
 
     [Property(1)]
+    [DisallowDefault]
     public required Address Prize { get; init; }
 
     [Property(2)]
-    [Positive]
+    [GreaterThan(nameof(MinimumUser))]
     public int MaximumUser { get; init; } = SessionMetadata.Default.MaximumUser;
 
     [Property(3)]
@@ -32,6 +32,7 @@ public sealed record class CreateSession : ActionBase, IValidatableObject
 
     [Property(4)]
     [Positive]
+    [LessThan(nameof(MinimumUser))]
     public int RemainingUser { get; init; } = SessionMetadata.Default.MaximumUser;
 
     [Property(5)]
@@ -43,11 +44,6 @@ public sealed record class CreateSession : ActionBase, IValidatableObject
     [Property(7)]
     [Positive]
     public long RoundInterval { get; init; } = SessionMetadata.Default.RoundInterval;
-
-    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-    {
-        yield break;
-    }
 
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {
