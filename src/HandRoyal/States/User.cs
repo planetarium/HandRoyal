@@ -6,7 +6,7 @@ using Libplanet.Crypto;
 namespace HandRoyal.States;
 
 [Model(Version = 1)]
-public sealed record class User : IEquatable<User>
+public sealed record class User : StateBase<User>, IEquatable<User>
 {
     [Property(0)]
     public required Address Id { get; init; }

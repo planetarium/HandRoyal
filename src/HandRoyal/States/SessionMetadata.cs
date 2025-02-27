@@ -6,7 +6,7 @@ using Libplanet.Crypto;
 namespace HandRoyal.States;
 
 [Model(Version = 1)]
-public sealed record class SessionMetadata : IValidatableObject
+public sealed record class SessionMetadata : StateBase<SessionMetadata>, IValidatableObject
 {
     public static SessionMetadata Default { get; } = new SessionMetadata
     {
@@ -56,14 +56,14 @@ public sealed record class SessionMetadata : IValidatableObject
         {
             yield return new ValidationResult(
                 "MinimumUser cannot be greater than MaximumUser",
-                [nameof(MinimumUser), nameof(MaximumUser)]);
+                new[] { nameof(MinimumUser), nameof(MaximumUser) });
         }
 
         if (RemainingUser > MaximumUser)
         {
             yield return new ValidationResult(
                 "RemainingUser cannot be greater than MaximumUser",
-                [nameof(RemainingUser), nameof(MaximumUser)]);
+                new[] { nameof(RemainingUser), nameof(MaximumUser) });
         }
     }
 }

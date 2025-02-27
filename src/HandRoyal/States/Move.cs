@@ -3,7 +3,7 @@
 namespace HandRoyal.States;
 
 [Model(Version = 1)]
-public sealed record class Move
+public sealed record class Move : StateBase<Move>
 {
     [Property(0)]
     public int PlayerIndex { get; init; }

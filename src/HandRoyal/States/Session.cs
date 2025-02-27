@@ -8,7 +8,7 @@ using Libplanet.Crypto;
 namespace HandRoyal.States;
 
 [Model(Version = 1)]
-public sealed record class Session : IEquatable<Session>
+public sealed record class Session : StateBase<Session>, IEquatable<Session>
 {
     [Property(0)]
     public required SessionMetadata Metadata { get; init; }

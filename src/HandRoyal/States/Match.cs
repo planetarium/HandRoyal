@@ -5,7 +5,7 @@ using Libplanet.Action;
 namespace HandRoyal.States;
 
 [Model(Version = 1)]
-public sealed record class Match
+public sealed record class Match : StateBase<Match>
 {
     [Property(0)]
     public Move Move1 { get; set; } = new();

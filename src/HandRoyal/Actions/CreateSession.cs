@@ -85,7 +85,7 @@ public sealed record class CreateSession : ActionBase, IValidatableObject
             StartAfter = StartAfter,
             RoundLength = RoundLength,
             RoundInterval = RoundInterval,
-        };
+        }.Validate();
         var sessionList = world.GetValue(Addresses.Sessions, Addresses.Sessions, List.Empty);
         world[Addresses.Sessions, Addresses.Sessions] = sessionList.Add(SessionId);
         world[Addresses.Sessions, SessionId] = new Session { Metadata = sessionMetadata };
