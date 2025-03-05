@@ -29,4 +29,12 @@ internal sealed class QueryController(IBlockChainService blockChainService) : Gr
         var blockChain = blockChainService.BlockChain;
         return blockChain.GetNextTxNonce(address);
     }
+
+    [QueryRoot("IsGloveRegistered")]
+    public bool IsGloveRegistered(Address gloveId)
+    {
+        var blockChain = blockChainService.BlockChain;
+        var worldState = blockChain.GetWorldState();
+        return worldState.GetAccountState(Addresses.Gloves).GetState(gloveId) is not null;
+    }
 }
