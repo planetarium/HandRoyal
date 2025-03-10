@@ -44,12 +44,11 @@ internal sealed class ActionQueryController : GraphController
     }
 
     [Query("JoinSession")]
-    public HexValue JoinSession(Address sessionId, Address? gloveId)
+    public HexValue JoinSession(Address sessionId)
     {
         var joinSession = new JoinSession
         {
             SessionId = sessionId,
-            Glove = gloveId ?? default,
         };
         return Encode(joinSession);
     }
@@ -73,6 +72,16 @@ internal sealed class ActionQueryController : GraphController
             Move = move,
         };
         return Encode(submitMove);
+    }
+
+    [Query("EquipGlove")]
+    public HexValue EquipGlove(Address? gloveId)
+    {
+        var equipGlove = new EquipGlove
+        {
+            Glove = gloveId ?? default,
+        };
+        return Encode(equipGlove);
     }
 
     private static HexValue Encode(IAction action) => _codec.Encode(action.PlainValue);

@@ -68,12 +68,11 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
     }
 
     [MutationRoot("JoinSession")]
-    public TxId JoinSession(PrivateKey privateKey, Address sessionId, Address? gloveId)
+    public TxId JoinSession(PrivateKey privateKey, Address sessionId)
     {
         var joinSession = new JoinSession
         {
             SessionId = sessionId,
-            Glove = gloveId ?? default,
         };
         var txSettings = new TxSettings
         {
@@ -95,6 +94,21 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
         {
             PrivateKey = privateKey,
             Actions = [submitMove],
+        };
+        return txSettings.StageTo(blockChainService.BlockChain);
+    }
+
+    [MutationRoot("EquipGlove")]
+    public TxId EquipGlove(PrivateKey privateKey, Address? gloveId)
+    {
+        var equipGlove = new EquipGlove
+        {
+            Glove = gloveId ?? default,
+        };
+        var txSettings = new TxSettings
+        {
+            PrivateKey = privateKey,
+            Actions = [equipGlove],
         };
         return txSettings.StageTo(blockChainService.BlockChain);
     }

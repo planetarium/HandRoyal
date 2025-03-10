@@ -11,6 +11,8 @@ namespace HandRoyal.Explorer.Types
 
         public Address Id => user.Id;
 
+        public Address EquippedGlove => user.EquippedGlove;
+
         [GraphSkip]
         public Address[] Gloves => user.Gloves.ToArray();
     }

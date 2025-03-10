@@ -15,6 +15,9 @@ public sealed record class User : IEquatable<User>
     public ImmutableArray<Address> Gloves { get; init; } = [];
 
     [Property(2)]
+    public Address EquippedGlove { get; init; }
+
+    [Property(3)]
     public Address SessionId { get; init; }
 
     public static User GetUser(IWorldContext world, Address userId)

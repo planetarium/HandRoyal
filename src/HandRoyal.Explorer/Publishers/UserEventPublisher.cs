@@ -16,7 +16,7 @@ internal sealed class UserEventPublisher(
         var stateStore = storeService.StateStore;
         var trie = stateStore.GetStateRoot(info.NextState);
         var world = new WorldStateContext(trie, stateStore);
-        if (typeId == "CreateUser")
+        if (typeId == "CreateUser" || typeId == "EquipGlove")
         {
             var user = User.GetUser(world, info.Context.Signer);
             var eventData = new UserEventData(user);

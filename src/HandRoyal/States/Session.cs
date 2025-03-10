@@ -31,7 +31,7 @@ public sealed record class Session : IEquatable<Session>
     [Property(6)]
     public long Height { get; init; }
 
-    public Session Join(long blockHeight, User user, Address gloveId)
+    public Session Join(long blockHeight, User user)
     {
         if (State != SessionState.Ready)
         {
@@ -60,13 +60,7 @@ public sealed record class Session : IEquatable<Session>
             throw new InvalidOperationException("User is already in a session.");
         }
 
-        if (gloveId != default && !user.Gloves.Contains(gloveId))
-        {
-            var message = $"Cannot join session with invalid glove {gloveId}.";
-            throw new InvalidOperationException(message);
-        }
-
-        var player = new Player { Id = user.Id, Glove = gloveId };
+        var player = new Player { Id = user.Id, Glove = user.EquippedGlove };
         var players = Players.Add(player);
         return this with
         {
