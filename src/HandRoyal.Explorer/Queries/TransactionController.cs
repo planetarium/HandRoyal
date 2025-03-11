@@ -1,3 +1,7 @@
+using System.Text;
+using System.Text.Json;
+using Bencodex.Json;
+using Bencodex.Types;
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
 using HandRoyal.Explorer.Types;
@@ -12,29 +16,43 @@ internal sealed class TransactionController(
     IActionService actionService,
     IStoreService storeService) : GraphController
 {
+    private static readonly JsonSerializerOptions SerializerOptions = new()
+    {
+        WriteIndented = true,
+        Converters =
+        {
+            new BencodexJsonConverter(),
+        },
+    };
+
     [Query("UnsignedTransaction")]
     public HexValue UnsignedTransaction(
-        PublicKey publicKey, HexValue plainValue, long nonce, FavValue? maxGasPrice)
+        Address address, HexValue plainValue, FavValue? maxGasPrice)
     {
         var blockChain = blockChainService.BlockChain;
         var actionLoader = actionService.ActionLoader;
         var bencodedValue = new Bencodex.Codec().Decode(plainValue);
         var action = actionLoader.LoadAction(0, bencodedValue);
+        var nonce = blockChain.GetNextTxNonce(address);
 
         var invoice = new TxInvoice(
             genesisHash: blockChain.Genesis.Hash,
             actions: new TxActionList([action.PlainValue]),
             gasLimit: null,
             maxGasPrice: null);
-        var metaData = new TxSigningMetadata(publicKey, nonce);
+        var metaData = new TxSigningMetadata(address, nonce);
         var unsignedTransaction = new UnsignedTx(invoice, metaData);
-        return unsignedTransaction.SerializeUnsignedTx().ToArray();
+        var json = unsignedTransaction.SerializeUnsignedTxToJson();
+        return Encoding.UTF8.GetBytes(json);
     }
 
     [Query("SignTransaction")]
     public HexValue SignTransaction(HexValue unsignedTransaction, HexValue signature)
     {
-        var unsignedTx = TxMarshaler.DeserializeUnsignedTx(unsignedTransaction);
+        var reader = new Utf8JsonReader((byte[])unsignedTransaction);
+        var value = new BencodexJsonConverter().Read(ref reader, typeof(IValue), SerializerOptions)
+            ?? throw new InvalidOperationException("Failed to parse the unsigned transaction.");
+        var unsignedTx = TxMarshaler.UnmarshalUnsignedTx((Dictionary)value);
         var signedTransaction = new Transaction(unsignedTx, signature.ToImmutableArray());
         return signedTransaction.Serialize();
     }
