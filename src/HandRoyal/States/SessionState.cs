@@ -8,5 +8,7 @@ public enum SessionState
 
     Active = 2,
 
-    Ended = 3,
+    Break = 3,
+
+    Ended = 4,
 }

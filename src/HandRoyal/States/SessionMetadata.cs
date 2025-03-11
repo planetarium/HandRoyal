@@ -36,8 +36,11 @@ public sealed record class SessionMetadata
     public int RemainingUser { get; set; } = 1;
 
     [Property(6)]
-    public long RoundInterval { get; set; } = 5;
+    public long StartAfter { get; set; } = 10;
 
     [Property(7)]
-    public long WaitingInterval { get; set; } = 10;
+    public long RoundLength { get; set; } = 5;
+
+    [Property(8)]
+    public long RoundInterval { get; set; } = 5;
 }

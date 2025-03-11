@@ -31,8 +31,9 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
         int maximumUser,
         int minimumUser,
         int remainingUser,
-        long roundInterval,
-        long waitingInterval)
+        long startAfter,
+        long roundLength,
+        long roundInterval)
     {
         var createSession = new CreateSession
         {
@@ -41,8 +42,9 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
             MaximumUser = maximumUser,
             MinimumUser = minimumUser,
             RemainingUser = remainingUser,
+            StartAfter = startAfter,
+            RoundLength = roundLength,
             RoundInterval = roundInterval,
-            WaitingInterval = waitingInterval,
         };
         var txSettings = new TxSettings
         {

@@ -29,10 +29,13 @@ public sealed record class CreateSession : ActionBase
     public int RemainingUser { get; init; } = SessionMetadata.Default.MaximumUser;
 
     [Property(5)]
-    public long RoundInterval { get; init; } = SessionMetadata.Default.RoundInterval;
+    public long StartAfter { get; init; } = SessionMetadata.Default.StartAfter;
 
     [Property(6)]
-    public long WaitingInterval { get; init; } = SessionMetadata.Default.WaitingInterval;
+    public long RoundLength { get; init; } = SessionMetadata.Default.RoundLength;
+
+    [Property(7)]
+    public long RoundInterval { get; init; } = SessionMetadata.Default.RoundInterval;
 
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {
@@ -67,8 +70,9 @@ public sealed record class CreateSession : ActionBase
             MaximumUser = MaximumUser,
             MinimumUser = MinimumUser,
             RemainingUser = RemainingUser,
+            StartAfter = StartAfter,
+            RoundLength = RoundLength,
             RoundInterval = RoundInterval,
-            WaitingInterval = WaitingInterval,
         };
         var sessionList = world.GetValue(Addresses.Sessions, Addresses.Sessions, List.Empty);
         world[Addresses.Sessions, Addresses.Sessions] = sessionList.Add(SessionId);
