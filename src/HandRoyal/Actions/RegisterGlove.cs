@@ -16,15 +16,30 @@ public sealed record class RegisterGlove : ActionBase
 
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {
+        if (Id == default)
+        {
+            throw new RegisterGloveException("Cannot register default id");
+        }
+
         if (world.Contains(Addresses.Gloves, Id))
         {
-            throw new RegisterGloveException($"Glove of given id {Id} is already exists.");
+            throw new RegisterGloveException($"Glove of given id {Id} is already exists");
+        }
+
+        if (!world[Addresses.Users].TryGetValue<User>(context.Signer, out var user))
+        {
+            throw new RegisterGloveException($"User of id {context.Signer} does not exist");
         }
 
         world[Addresses.Gloves, Id] = new Glove
         {
             Id = Id,
             Author = context.Signer,
+        };
+
+        world[Addresses.Users, context.Signer] = user with
+        {
+            RegisteredGloves = user.RegisteredGloves.Add(Id),
         };
     }
 }

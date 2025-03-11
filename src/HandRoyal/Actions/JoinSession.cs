@@ -1,4 +1,5 @@
-﻿using HandRoyal.Serialization;
+﻿using HandRoyal.Exceptions;
+using HandRoyal.Serialization;
 using HandRoyal.States;
 using Libplanet.Action;
 using Libplanet.Crypto;
@@ -22,9 +23,25 @@ public sealed record class JoinSession : ActionBase
         var session = (Session)world[Addresses.Sessions, SessionId];
         var user = (User)world[Addresses.Users, signer];
         var gloveId = Glove;
+
+        if (!gloveId.Equals(default))
+        {
+            if (!world[Addresses.Gloves].TryGetValue<Glove>(gloveId, out _))
+            {
+                throw new JoinSessionException($"Glove with id {gloveId} not found");
+            }
+
+            if (gloveId != default && !user.OwnedGloves.Contains(gloveId))
+            {
+                throw new JoinSessionException(
+                    $"Use {context.Signer} does not own glove {gloveId}");
+            }
+        }
+
         var height = context.BlockIndex;
 
-        world[Addresses.Sessions, SessionId] = session.Join(height, user, gloveId);
-        world[Addresses.Users, signer] = user with { SessionId = SessionId };
+        world[Addresses.Sessions, SessionId] = session.Join(height, user);
+        world[Addresses.Users, signer] =
+            user with { SessionId = SessionId, EquippedGlove = gloveId };
     }
 }

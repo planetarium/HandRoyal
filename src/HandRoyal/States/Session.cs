@@ -31,7 +31,7 @@ public sealed record class Session : IEquatable<Session>
     [Property(6)]
     public long Height { get; init; }
 
-    public Session Join(long blockHeight, User user, Address gloveId)
+    public Session Join(long blockHeight, User user)
     {
         if (State != SessionState.Ready)
         {
@@ -60,13 +60,7 @@ public sealed record class Session : IEquatable<Session>
             throw new InvalidOperationException("User is already in a session.");
         }
 
-        if (gloveId != default && !user.Gloves.Contains(gloveId))
-        {
-            var message = $"Cannot join session with invalid glove {gloveId}.";
-            throw new InvalidOperationException(message);
-        }
-
-        var player = new Player { Id = user.Id, Glove = gloveId };
+        var player = new Player { Id = user.Id, Glove = user.EquippedGlove };
         var players = Players.Add(player);
         return this with
         {
@@ -214,22 +208,22 @@ public sealed record class Session : IEquatable<Session>
         }
 
         var round = Rounds[^1];
-        var winers = round.GetWiners(random);
-        var losers = Enumerable.Range(0, Players.Length).Except(winers).ToImmutableArray();
+        var winners = round.GetWinners(random);
+        var losers = Enumerable.Range(0, Players.Length).Except(winners).ToImmutableArray();
         var players = Player.SetState(Players, losers, PlayerState.Lose);
 
-        if (winers.Length <= remainingUser)
+        if (winners.Length <= remainingUser)
         {
             return this with
             {
-                Players = Player.SetState(players, winers, PlayerState.Won),
+                Players = Player.SetState(players, winners, PlayerState.Won),
                 State = SessionState.Ended,
                 Height = height,
             };
         }
         else
         {
-            var playerIndexes = random.Shuffle(winers).ToImmutableArray();
+            var playerIndexes = random.Shuffle(winners).ToImmutableArray();
             var nextRound = new Round
             {
                 Height = height,

@@ -34,7 +34,7 @@ internal sealed class PostProcessSession : BlockActionBase
 
     private static void UpdateUsersStates(IWorldContext world, Session session)
     {
-        var winerIds = session.Players
+        var winnerIds = session.Players
             .Where(item => item.State == PlayerState.Won)
             .Select(item => item.Id)
             .ToArray();
@@ -48,10 +48,12 @@ internal sealed class PostProcessSession : BlockActionBase
                 continue;
             }
 
-            var gloves = winerIds.Contains(userId) ? user.Gloves.Add(prize) : user.Gloves;
+            var gloves = winnerIds.Contains(userId)
+                ? user.OwnedGloves.Add(prize)
+                : user.OwnedGloves;
             usersAccount[userId] = user with
             {
-                Gloves = gloves,
+                OwnedGloves = gloves,
                 SessionId = default,
             };
         }

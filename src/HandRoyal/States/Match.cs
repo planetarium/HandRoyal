@@ -35,7 +35,7 @@ public sealed record class Match
         return builder.ToImmutable();
     }
 
-    public int[] GetWiners(IRandom random)
+    public int[] GetWinners(IRandom random)
     {
         var move1 = Move1;
         var move2 = Move2;
