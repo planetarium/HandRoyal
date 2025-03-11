@@ -13,7 +13,7 @@ public sealed record class Round : IEquatable<Round>
     [Property(1)]
     public ImmutableArray<Match> Matches { get; set; } = [];
 
-    public ImmutableArray<int> GetWiners(IRandom random)
+    public ImmutableArray<int> GetWinners(IRandom random)
     {
         var matches = Matches;
         var capacity = Matches.Length * 2;
@@ -21,8 +21,8 @@ public sealed record class Round : IEquatable<Round>
         for (var i = 0; i < matches.Length; i++)
         {
             var match = matches[i];
-            var winers = match.GetWiners(random);
-            builder.AddRange(winers);
+            var winners = match.GetWinners(random);
+            builder.AddRange(winners);
         }
 
         return builder.ToImmutable();

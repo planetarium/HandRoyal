@@ -38,20 +38,25 @@ public sealed record class CreateSession : ActionBase
     {
         if (SessionId == default)
         {
-            throw new CreateSessionException("Session id is not set.");
+            throw new CreateSessionException("Session id is not set");
         }
 
         if (world.Contains(Addresses.Sessions, SessionId))
         {
-            throw new CreateSessionException($"Session of id {SessionId} already exists.");
+            throw new CreateSessionException($"Session of id {SessionId} already exists");
         }
 
-        var glove = (Glove)world[Addresses.Gloves, Prize];
         var signer = context.Signer;
-        if (!glove.Author.Equals(signer))
+
+        // Everyone can create session with default glove
+        if (!Prize.Equals(default))
         {
-            throw new CreateSessionException(
-                $"Organizer for session id {SessionId} is not author of the prize {Prize}.");
+            var glove = (Glove)world[Addresses.Gloves, Prize];
+            if (!glove.Author.Equals(signer))
+            {
+                throw new CreateSessionException(
+                    $"Organizer for session id {SessionId} is not author of the prize {Prize}");
+            }
         }
 
         var sessionMetadata = new SessionMetadata

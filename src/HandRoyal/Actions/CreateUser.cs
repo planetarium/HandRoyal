@@ -20,6 +20,7 @@ public sealed record class CreateUser : ActionBase
         world[Addresses.Users, signer] = new User
         {
             Id = signer,
+            EquippedGlove = default,
         };
     }
 }
