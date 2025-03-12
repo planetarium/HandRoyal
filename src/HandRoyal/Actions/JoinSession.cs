@@ -40,8 +40,8 @@ public sealed record class JoinSession : ActionBase
 
         var height = context.BlockIndex;
 
-        world[Addresses.Sessions, SessionId] = session.Join(height, user);
         world[Addresses.Users, signer] =
             user with { SessionId = SessionId, EquippedGlove = gloveId };
+        world[Addresses.Sessions, SessionId] = session.Join(height, user);
     }
 }
