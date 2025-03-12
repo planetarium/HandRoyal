@@ -1,3 +1,4 @@
+using System.Text;
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
 using HandRoyal.Actions;
@@ -102,10 +103,12 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
     }
 
     [MutationRoot("StageTransaction")]
-    public TxId StageTransaction(HexValue payload)
+    public TxId StageTransaction(HexValue unsignedTransaction, HexValue signature)
     {
+        var json = Encoding.UTF8.GetString((byte[])unsignedTransaction);
+        var unsignedTx = TxMarshaler.DeserializeUnsignedTxFromJson(json);
+        var tx = new Transaction(unsignedTx, signature.ToImmutableArray());
         var blockChain = blockChainService.BlockChain;
-        var tx = Transaction.Deserialize(payload);
         if (!blockChain.StageTransaction(tx))
         {
             throw new InvalidOperationException("Failed to stage transaction.");
