@@ -115,11 +115,12 @@ public sealed record class Session : IEquatable<Session>
         {
             State = SessionState.Ready,
             CreationHeight = height,
-            StartHeight = Metadata.WaitingInterval + height,
+            StartHeight = Metadata.StartAfter + height,
             Height = height,
         },
         SessionState.Ready => StartSession(height, random),
         SessionState.Active => PlayRound(height, random),
+        SessionState.Break => ProcessBreak(height, random),
         SessionState.Ended => null,
         _ => throw new InvalidOperationException($"Invalid session state: {State}"),
     };
@@ -162,9 +163,9 @@ public sealed record class Session : IEquatable<Session>
 
     private Session? StartSession(long height, IRandom random)
     {
-        var waitingInterval = Metadata.WaitingInterval;
+        var startAfter = Metadata.StartAfter;
         var minimumUser = Metadata.MinimumUser;
-        if (height < CreationHeight + waitingInterval)
+        if (height < CreationHeight + startAfter)
         {
             return null;
         }
@@ -199,9 +200,9 @@ public sealed record class Session : IEquatable<Session>
 
     private Session? PlayRound(long height, IRandom random)
     {
-        var roundInterval = Metadata.RoundInterval;
+        var roundLength = Metadata.RoundLength;
         var remainingUser = Metadata.RemainingUser;
-        var nextHeight = Rounds[^1].Height + roundInterval;
+        var nextHeight = Rounds[^1].Height + roundLength;
         if (height < nextHeight)
         {
             return null;
@@ -221,20 +222,37 @@ public sealed record class Session : IEquatable<Session>
                 Height = height,
             };
         }
-        else
+
+        return this with
         {
-            var playerIndexes = random.Shuffle(winners).ToImmutableArray();
-            var nextRound = new Round
-            {
-                Height = height,
-                Matches = Match.Create(playerIndexes),
-            };
-            return this with
-            {
-                Players = players,
-                Rounds = Rounds.Add(nextRound),
-                Height = height,
-            };
+            State = SessionState.Break,
+            Height = height,
+        };
+    }
+
+    private Session? ProcessBreak(long height, IRandom random)
+    {
+        var roundLength = Metadata.RoundLength;
+        var roundInterval = Metadata.RoundInterval;
+        var nextHeight = Rounds[^1].Height + roundLength + roundInterval;
+        if (height < nextHeight)
+        {
+            return null;
         }
+
+        var round = Rounds[^1];
+        var winners = round.GetWinners(random);
+        var playerIndexes = random.Shuffle(winners).ToImmutableArray();
+        var nextRound = new Round
+        {
+            Height = height,
+            Matches = Match.Create(playerIndexes),
+        };
+        return this with
+        {
+            Rounds = Rounds.Add(nextRound),
+            State = SessionState.Active,
+            Height = height,
+        };
     }
 }

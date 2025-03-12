@@ -27,8 +27,9 @@ internal sealed class ActionQueryController : GraphController
         int maximumUser,
         int minimumUser,
         int remainingUser,
-        long roundInterval,
-        long waitingInterval)
+        long startAfter,
+        long roundLength,
+        long roundInterval)
     {
         var createSession = new CreateSession
         {
@@ -37,8 +38,9 @@ internal sealed class ActionQueryController : GraphController
             MaximumUser = maximumUser,
             MinimumUser = minimumUser,
             RemainingUser = remainingUser,
+            StartAfter = startAfter,
+            RoundLength = roundLength,
             RoundInterval = roundInterval,
-            WaitingInterval = waitingInterval,
         };
         return Encode(createSession);
     }
