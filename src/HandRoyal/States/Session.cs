@@ -88,7 +88,7 @@ public sealed record class Session : IEquatable<Session>
 
         var rounds = Rounds;
         var round = rounds[^1];
-        round = round.Submit(playerIndex, move);
+        round = round.Submit(blockHeight, playerIndex, move);
         return this with
         {
             Rounds = rounds.SetItem(rounds.Length - 1, round),

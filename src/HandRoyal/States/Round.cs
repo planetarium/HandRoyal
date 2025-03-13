@@ -28,7 +28,7 @@ public sealed record class Round : IEquatable<Round>
         return builder.ToImmutable();
     }
 
-    public Round Submit(int playerIndex, MoveType move)
+    public Round Submit(long blockIndex, int playerIndex, MoveType move)
     {
         var matches = Matches;
         for (var i = 0; i < matches.Length; i++)
@@ -36,12 +36,18 @@ public sealed record class Round : IEquatable<Round>
             var match = matches[i];
             if (match.Move1.PlayerIndex == playerIndex)
             {
-                match = match with { Move1 = match.Move1 with { Type = move } };
+                match = match with
+                {
+                    Move1 = match.Move1 with { BlockIndex = blockIndex, Type = move },
+                };
                 return this with { Matches = matches.SetItem(i, match) };
             }
             else if (match.Move2 is not null && match.Move2.PlayerIndex == playerIndex)
             {
-                match = match with { Move2 = match.Move2 with { Type = move } };
+                match = match with
+                {
+                    Move2 = match.Move2 with { BlockIndex = blockIndex, Type = move },
+                };
                 return this with { Matches = matches.SetItem(i, match) };
             }
         }
