@@ -39,11 +39,24 @@ public sealed record class Match
     {
         var move1 = Move1;
         var move2 = Move2;
+
+        // If drawn, move submitted first will win
         if (move1.Type == move2.Type)
         {
-            return random.Next(2) == 0
-                ? [move1.PlayerIndex]
-                : [move2.PlayerIndex];
+            if (move1.BlockIndex == move2.BlockIndex)
+            {
+                return random.Next(2) == 0
+                    ? [move1.PlayerIndex]
+                    : [move2.PlayerIndex];
+            }
+            else if (move1.BlockIndex > move2.BlockIndex)
+            {
+                return [move2.PlayerIndex];
+            }
+            else
+            {
+                return [move1.PlayerIndex];
+            }
         }
 
         if (move1.Type == MoveType.None)
