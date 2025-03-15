@@ -32,9 +32,12 @@ public sealed record class CreateSession : ActionBase
     public long StartAfter { get; init; } = SessionMetadata.Default.StartAfter;
 
     [Property(6)]
-    public long RoundLength { get; init; } = SessionMetadata.Default.RoundLength;
+    public int MaxRounds { get; init; } = SessionMetadata.Default.MaxRounds;
 
     [Property(7)]
+    public long RoundLength { get; init; } = SessionMetadata.Default.RoundLength;
+
+    [Property(8)]
     public long RoundInterval { get; init; } = SessionMetadata.Default.RoundInterval;
 
     protected override void OnExecute(IWorldContext world, IActionContext context)
@@ -71,6 +74,7 @@ public sealed record class CreateSession : ActionBase
             MinimumUser = MinimumUser,
             RemainingUser = RemainingUser,
             StartAfter = StartAfter,
+            MaxRounds = MaxRounds,
             RoundLength = RoundLength,
             RoundInterval = RoundInterval,
         };

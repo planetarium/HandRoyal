@@ -5,7 +5,7 @@ using Libplanet.Action;
 namespace HandRoyal.States;
 
 [Model(Version = 1)]
-public sealed record class Round : IEquatable<Round>
+public sealed record class Phase : IEquatable<Phase>
 {
     [Property(0)]
     public long Height { get; set; }
@@ -28,7 +28,7 @@ public sealed record class Round : IEquatable<Round>
         return builder.ToImmutable();
     }
 
-    public Round Submit(int playerIndex, MoveType move)
+    public Phase Submit(int playerIndex, MoveType move)
     {
         var matches = Matches;
         for (var i = 0; i < matches.Length; i++)
@@ -46,10 +46,10 @@ public sealed record class Round : IEquatable<Round>
             }
         }
 
-        throw new ArgumentException($"Player {playerIndex} is not in this round.");
+        throw new ArgumentException($"Player {playerIndex} is not in this phase.");
     }
 
-    public bool Equals(Round? other) => ModelUtility.Equals(this, other);
+    public bool Equals(Phase? other) => ModelUtility.Equals(this, other);
 
     public override int GetHashCode() => ModelUtility.GetHashCode(this);
 }

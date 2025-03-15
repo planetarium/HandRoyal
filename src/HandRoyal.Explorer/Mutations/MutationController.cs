@@ -33,6 +33,7 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
         int minimumUser,
         int remainingUser,
         long startAfter,
+        int maxRounds,
         long roundLength,
         long roundInterval)
     {
@@ -44,6 +45,7 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
             MinimumUser = minimumUser,
             RemainingUser = remainingUser,
             StartAfter = startAfter,
+            MaxRounds = maxRounds,
             RoundLength = roundLength,
             RoundInterval = roundInterval,
         };
