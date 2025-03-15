@@ -20,7 +20,7 @@ public sealed record class Session : IEquatable<Session>
     public ImmutableArray<Player> Players { get; init; } = [];
 
     [Property(3)]
-    public ImmutableArray<Round> Rounds { get; init; } = [];
+    public ImmutableArray<Phase> Phases { get; init; } = [];
 
     [Property(4)]
     public long CreationHeight { get; init; }
@@ -86,12 +86,12 @@ public sealed record class Session : IEquatable<Session>
             throw new InvalidOperationException(message);
         }
 
-        var rounds = Rounds;
-        var round = rounds[^1];
-        round = round.Submit(playerIndex, move);
+        var phases = Phases;
+        var phase = phases[^1];
+        phase = phase.Submit(playerIndex, move);
         return this with
         {
-            Rounds = rounds.SetItem(rounds.Length - 1, round),
+            Phases = phases.SetItem(phases.Length - 1, phase),
             Height = blockHeight,
         };
     }
@@ -109,7 +109,7 @@ public sealed record class Session : IEquatable<Session>
         return -1;
     }
 
-    public Session? ProcessRound(long height, IRandom random) => State switch
+    public Session? Process(long height, IRandom random) => State switch
     {
         SessionState.None => this with
         {
@@ -118,9 +118,9 @@ public sealed record class Session : IEquatable<Session>
             StartHeight = Metadata.StartAfter + height,
             Height = height,
         },
-        SessionState.Ready => StartSession(height, random),
-        SessionState.Active => PlayRound(height, random),
-        SessionState.Break => ProcessBreak(height, random),
+        SessionState.Ready => Start(height, random),
+        SessionState.Active => Play(height, random),
+        SessionState.Break => Break(height, random),
         SessionState.Ended => null,
         _ => throw new InvalidOperationException($"Invalid session state: {State}"),
     };
@@ -161,7 +161,7 @@ public sealed record class Session : IEquatable<Session>
 
     public override int GetHashCode() => ModelUtility.GetHashCode(this);
 
-    private Session? StartSession(long height, IRandom random)
+    private Session? Start(long height, IRandom random)
     {
         var startAfter = Metadata.StartAfter;
         var minimumUser = Metadata.MinimumUser;
@@ -182,7 +182,7 @@ public sealed record class Session : IEquatable<Session>
 
         var playerIndexes = random.Shuffle(indexes).ToImmutableArray();
         var matches = Match.Create(playerIndexes);
-        var round = new Round
+        var phase = new Phase
         {
             Height = height,
             Matches = matches,
@@ -194,22 +194,22 @@ public sealed record class Session : IEquatable<Session>
             StartHeight = height,
             Height = height,
             Players = Player.SetState(Players, playerIndexes, PlayerState.Playing),
-            Rounds = Rounds.Add(round),
+            Phases = Phases.Add(phase),
         };
     }
 
-    private Session? PlayRound(long height, IRandom random)
+    private Session? Play(long height, IRandom random)
     {
         var roundLength = Metadata.RoundLength;
         var remainingUser = Metadata.RemainingUser;
-        var nextHeight = Rounds[^1].Height + roundLength;
+        var nextHeight = Phases[^1].Height + roundLength;
         if (height < nextHeight)
         {
             return null;
         }
 
-        var round = Rounds[^1];
-        var winners = round.GetWinners(random);
+        var phase = Phases[^1];
+        var winners = phase.GetWinners(random);
         var losers = Enumerable.Range(0, Players.Length).Except(winners).ToImmutableArray();
         var players = Player.SetState(Players, losers, PlayerState.Lose);
 
@@ -230,27 +230,27 @@ public sealed record class Session : IEquatable<Session>
         };
     }
 
-    private Session? ProcessBreak(long height, IRandom random)
+    private Session? Break(long height, IRandom random)
     {
         var roundLength = Metadata.RoundLength;
         var roundInterval = Metadata.RoundInterval;
-        var nextHeight = Rounds[^1].Height + roundLength + roundInterval;
+        var nextHeight = Phases[^1].Height + roundLength + roundInterval;
         if (height < nextHeight)
         {
             return null;
         }
 
-        var round = Rounds[^1];
-        var winners = round.GetWinners(random);
+        var phase = Phases[^1];
+        var winners = phase.GetWinners(random);
         var playerIndexes = random.Shuffle(winners).ToImmutableArray();
-        var nextRound = new Round
+        var nextPhase = new Phase
         {
             Height = height,
             Matches = Match.Create(playerIndexes),
         };
         return this with
         {
-            Rounds = Rounds.Add(nextRound),
+            Phases = Phases.Add(nextPhase),
             State = SessionState.Active,
             Height = height,
         };
