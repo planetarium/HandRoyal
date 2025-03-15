@@ -28,6 +28,7 @@ internal sealed class ActionQueryController : GraphController
         int minimumUser,
         int remainingUser,
         long startAfter,
+        int maxRounds,
         long roundLength,
         long roundInterval)
     {
@@ -39,6 +40,7 @@ internal sealed class ActionQueryController : GraphController
             MinimumUser = minimumUser,
             RemainingUser = remainingUser,
             StartAfter = startAfter,
+            MaxRounds = maxRounds,
             RoundLength = roundLength,
             RoundInterval = roundInterval,
         };

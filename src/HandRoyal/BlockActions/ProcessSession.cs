@@ -14,7 +14,7 @@ internal sealed class ProcessSession : BlockActionBase
         for (var i = 0; i < sessions.Length; i++)
         {
             var session = sessions[i];
-            if (session.ProcessRound(height, random) is { } nextSession)
+            if (session.Process(height, random) is { } nextSession)
             {
                 var sessionId = session.Metadata.Id;
                 sessionsAccount[sessionId] = nextSession;
