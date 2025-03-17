@@ -124,8 +124,8 @@ internal sealed class SubscriptionController(IBlockChainService blockChainServic
             for (var i = 0; i < phase.Matches.Length; i++)
             {
                 match = phase.Matches[i];
-                if (match.Move1.PlayerIndex == index
-                    || match.Move2.PlayerIndex == index)
+                if (match.Players[0] == index
+                    || match.Players[1] == index)
                 {
                     return true;
                 }
