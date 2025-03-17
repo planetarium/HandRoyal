@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using HandRoyal.Enums;
 using HandRoyal.Serialization;
 using Libplanet.Action;
 
@@ -21,27 +22,26 @@ public sealed record class Phase : IEquatable<Phase>
         for (var i = 0; i < matches.Length; i++)
         {
             var match = matches[i];
-            var winners = match.GetWinners(random);
-            builder.AddRange(winners);
+            var winner = match.Winner;
+            if (winner == -1)
+            {
+                continue;
+            }
+
+            builder.Add(winner);
         }
 
         return builder.ToImmutable();
     }
 
-    public Phase Submit(int playerIndex, MoveType move)
+    public Phase Submit(int playerIndex, int gloveIndex)
     {
         var matches = Matches;
         for (var i = 0; i < matches.Length; i++)
         {
-            var match = matches[i];
-            if (match.Move1.PlayerIndex == playerIndex)
+            var match = matches[i].Submit(playerIndex, gloveIndex);
+            if (match is not null)
             {
-                match = match with { Move1 = match.Move1 with { Type = move } };
-                return this with { Matches = matches.SetItem(i, match) };
-            }
-            else if (match.Move2 is not null && match.Move2.PlayerIndex == playerIndex)
-            {
-                match = match with { Move2 = match.Move2 with { Type = move } };
                 return this with { Matches = matches.SetItem(i, match) };
             }
         }

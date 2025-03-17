@@ -46,4 +46,7 @@ public sealed record class SessionMetadata
 
     [Property(9)]
     public long RoundInterval { get; set; } = 5;
+
+    [Property(10)]
+    public int InitialHp { get; set; } = 100;
 }
