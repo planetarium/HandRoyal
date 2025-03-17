@@ -1,4 +1,5 @@
-﻿using HandRoyal.Exceptions;
+﻿using HandRoyal.Enums;
+using HandRoyal.Exceptions;
 using HandRoyal.Serialization;
 using HandRoyal.States;
 using Libplanet.Action;
@@ -31,12 +32,7 @@ public sealed record class RegisterGlove : ActionBase
             throw new RegisterGloveException($"User of id {context.Signer} does not exist");
         }
 
-        world[Addresses.Gloves, Id] = new Glove
-        {
-            Id = Id,
-            Author = context.Signer,
-        };
-
+        world[Addresses.Gloves, Id] = Id;
         world[Addresses.Users, context.Signer] = user with
         {
             RegisteredGloves = user.RegisteredGloves.Add(Id),

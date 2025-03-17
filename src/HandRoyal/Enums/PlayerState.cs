@@ -1,4 +1,4 @@
-﻿namespace HandRoyal.States;
+﻿namespace HandRoyal.Enums;
 
 public enum PlayerState
 {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using HandRoyal.Enums;
 using HandRoyal.Serialization;
 using Libplanet.Crypto;
 
@@ -11,18 +12,18 @@ public sealed record class Player
     public required Address Id { get; init; }
 
     [Property(1)]
-    public Address Glove { get; init; }
+    public ImmutableArray<Address> Gloves { get; init; }
 
     [Property(2)]
     public PlayerState State { get; set; }
 
     public static ImmutableArray<Player> SetState(
-        ImmutableArray<Player> players, in ImmutableArray<int> winers, PlayerState playerState)
+        ImmutableArray<Player> players, in ImmutableArray<int> winners, PlayerState playerState)
     {
         for (var i = 0; i < players.Length; i++)
         {
             var player = players[i];
-            if (winers.Contains(i))
+            if (winners.Contains(i))
             {
                 players = players.SetItem(i, player with { State = playerState });
             }

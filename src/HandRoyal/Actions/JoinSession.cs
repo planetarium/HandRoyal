@@ -1,4 +1,6 @@
-﻿using HandRoyal.Exceptions;
+﻿using System.Collections.Immutable;
+using HandRoyal.Exceptions;
+using HandRoyal.Gloves;
 using HandRoyal.Serialization;
 using HandRoyal.States;
 using Libplanet.Action;
@@ -15,33 +17,33 @@ public sealed record class JoinSession : ActionBase
     public required Address SessionId { get; init; }
 
     [Property(1)]
-    public required Address Glove { get; init; }
+    public required ImmutableArray<Address> Gloves { get; init; }
 
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {
         var signer = context.Signer;
         var session = (Session)world[Addresses.Sessions, SessionId];
         var user = (User)world[Addresses.Users, signer];
-        var gloveId = Glove;
+        var gloves = Gloves;
 
-        if (!gloveId.Equals(default))
+        foreach (var glove in gloves)
         {
-            if (!world[Addresses.Gloves].TryGetValue<Glove>(gloveId, out _))
+            _ = GloveLoader.LoadGlove(glove);
+            if (!user.OwnedGloves.TryGetValue(glove, out var ownedGlove))
             {
-                throw new JoinSessionException($"Glove with id {gloveId} not found");
+                throw new JoinSessionException($"User {signer} does not own the glove {glove}");
             }
 
-            if (gloveId != default && !user.OwnedGloves.Contains(gloveId))
+            if (gloves.Count(g => g.Equals(glove)) > ownedGlove)
             {
                 throw new JoinSessionException(
-                    $"Use {context.Signer} does not own glove {gloveId}");
+                    $"User {signer} does not own enough number of glove {glove}");
             }
         }
 
         var height = context.BlockIndex;
 
-        world[Addresses.Users, signer] =
-            user with { SessionId = SessionId, EquippedGlove = gloveId };
-        world[Addresses.Sessions, SessionId] = session.Join(height, user);
+        world[Addresses.Users, signer] = user with { SessionId = SessionId };
+        world[Addresses.Sessions, SessionId] = session.Join(height, user, gloves);
     }
 }

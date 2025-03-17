@@ -15,7 +15,7 @@ public sealed record class User : IEquatable<User>
     public ImmutableArray<Address> RegisteredGloves { get; init; } = [];
 
     [Property(2)]
-    public ImmutableArray<Address> OwnedGloves { get; init; } = [];
+    public required ImmutableDictionary<Address, int> OwnedGloves { get; init; }
 
     [Property(3)]
     public Address EquippedGlove { get; init; }

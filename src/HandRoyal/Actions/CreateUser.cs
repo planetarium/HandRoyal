@@ -1,6 +1,8 @@
-﻿using HandRoyal.Serialization;
+﻿using System.Collections.Immutable;
+using HandRoyal.Serialization;
 using HandRoyal.States;
 using Libplanet.Action;
+using Libplanet.Crypto;
 
 namespace HandRoyal.Actions;
 
@@ -21,6 +23,7 @@ public sealed record class CreateUser : ActionBase
         {
             Id = signer,
             EquippedGlove = default,
+            OwnedGloves = ImmutableDictionary<Address, int>.Empty,
         };
     }
 }

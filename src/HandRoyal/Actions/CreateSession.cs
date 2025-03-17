@@ -1,6 +1,7 @@
 ﻿using Bencodex.Types;
 using HandRoyal.Exceptions;
 using HandRoyal.Extensions;
+using HandRoyal.Gloves;
 using HandRoyal.Serialization;
 using HandRoyal.States;
 using Libplanet.Action;
@@ -54,15 +55,13 @@ public sealed record class CreateSession : ActionBase
 
         var signer = context.Signer;
 
-        // Everyone can create session with default glove
-        if (!Prize.Equals(default))
+        try
         {
-            var glove = (Glove)world[Addresses.Gloves, Prize];
-            if (!glove.Author.Equals(signer))
-            {
-                throw new CreateSessionException(
-                    $"Organizer for session id {SessionId} is not author of the prize {Prize}");
-            }
+            _ = GloveLoader.LoadGlove(Prize);
+        }
+        catch (Exception)
+        {
+            throw new CreateSessionException($"Glove of id {Prize} does not exist");
         }
 
         var sessionMetadata = new SessionMetadata
