@@ -6,7 +6,7 @@ using Libplanet.Crypto;
 namespace HandRoyal.States;
 
 [Model(Version = 1)]
-public sealed record class SessionMetadata : StateBase<SessionMetadata>
+public sealed record class SessionMetadata
 {
     public static SessionMetadata Default { get; } = new SessionMetadata
     {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using System.ComponentModel.DataAnnotations;
 using Bencodex.Types;
 using HandRoyal.Extensions;
 using HandRoyal.Serialization;
@@ -8,8 +9,9 @@ using Libplanet.Crypto;
 namespace HandRoyal.States;
 
 [Model(Version = 1)]
-public sealed record class Session : StateBase<Session>, IEquatable<Session>
+public sealed record class Session : IEquatable<Session>
 {
+    [Required]
     [Property(0)]
     public required SessionMetadata Metadata { get; init; }
 

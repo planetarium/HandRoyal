@@ -5,7 +5,7 @@ using Libplanet.Action;
 namespace HandRoyal.States;
 
 [Model(Version = 1)]
-public sealed record class Round : StateBase<Round>, IEquatable<Round>
+public sealed record class Round : IEquatable<Round>
 {
     [Property(0)]
     public long Height { get; set; }

@@ -1,4 +1,5 @@
-﻿using Libplanet.Action;
+﻿using System.ComponentModel;
+using Libplanet.Action;
 using Libplanet.Action.State;
 using Libplanet.Crypto;
 using Libplanet.Types.Assets;
@@ -23,7 +24,7 @@ internal sealed class WorldContext(IActionContext context) : IDisposable, IWorld
             if (!_accountByAddress.TryGetValue(address, out var accountContext))
             {
                 var account = _world.GetAccount(address);
-                accountContext = new AccountContext(account, address, SetAccount);
+                accountContext = new AccountContext(account, address, this);
                 _accountByAddress[address] = accountContext;
             }
 
@@ -71,7 +72,9 @@ internal sealed class WorldContext(IActionContext context) : IDisposable, IWorld
         }
     }
 
-    private void SetAccount(AccountContext accountContext)
+    // This method is called by AccountContext to notify that the account is dirty.
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    internal void SetAccount(AccountContext accountContext)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
         _dirtyAccounts.Add(accountContext);

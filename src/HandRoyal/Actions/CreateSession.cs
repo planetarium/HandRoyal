@@ -70,6 +70,7 @@ public sealed record class CreateSession : ActionBase
             }
         }
 
+        using var validationScope = new ValidationScope(world);
         var sessionMetadata = new SessionMetadata
         {
             Id = SessionId,
@@ -81,7 +82,7 @@ public sealed record class CreateSession : ActionBase
             StartAfter = StartAfter,
             RoundLength = RoundLength,
             RoundInterval = RoundInterval,
-        }.Validate();
+        };
         var sessionList = world.GetValue(Addresses.Sessions, Addresses.Sessions, List.Empty);
         world[Addresses.Sessions, Addresses.Sessions] = sessionList.Add(SessionId);
         world[Addresses.Sessions, SessionId] = new Session { Metadata = sessionMetadata };

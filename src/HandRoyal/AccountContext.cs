@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using Bencodex;
 using Bencodex.Types;
+using HandRoyal.DataAnnotations;
 using HandRoyal.Serialization;
 using Libplanet.Action.State;
 using Libplanet.Crypto;
@@ -9,7 +9,8 @@ using Libplanet.Crypto;
 namespace HandRoyal;
 
 internal sealed class AccountContext(
-    IAccount account, Address address, Action<AccountContext> setter) : IAccountContext
+    IAccount account, Address address, WorldContext worldContext)
+    : IAccountContext
 {
     private IAccount _account = account;
 
@@ -42,24 +43,23 @@ internal sealed class AccountContext(
             if (value is null)
             {
                 _account = _account.RemoveState(address);
-                setter(this);
+                worldContext.SetAccount(this);
             }
             else if (value is IValue state)
             {
                 _account = _account.SetState(address, state);
-                setter(this);
+                worldContext.SetAccount(this);
             }
             else if (value is IBencodable obj)
             {
                 _account = _account.SetState(address, obj.Bencoded);
-                setter(this);
+                worldContext.SetAccount(this);
             }
             else if (ModelSerializer.CanSupportType(value.GetType()))
             {
-                Validator.ValidateObject(
-                    value, new ValidationContext(value), validateAllProperties: true);
+                ValidationScope.Validate(worldContext, value);
                 _account = _account.SetState(address, ModelSerializer.Serialize(value));
-                setter(this);
+                worldContext.SetAccount(this);
             }
             else
             {
@@ -118,7 +118,7 @@ internal sealed class AccountContext(
         if (_account.GetState(address) is not null)
         {
             _account = _account.RemoveState(address);
-            setter(this);
+            worldContext.SetAccount(this);
             return true;
         }
 

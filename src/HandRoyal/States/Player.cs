@@ -5,7 +5,7 @@ using Libplanet.Crypto;
 namespace HandRoyal.States;
 
 [Model(Version = 1)]
-public sealed record class Player : StateBase<Player>
+public sealed record class Player
 {
     [Property(0)]
     public required Address Id { get; init; }
