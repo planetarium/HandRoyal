@@ -1,9 +1,9 @@
+using System.Collections.Immutable;
 using Bencodex;
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
 using HandRoyal.Actions;
 using HandRoyal.Explorer.Types;
-using HandRoyal.States;
 using Libplanet.Action;
 using Libplanet.Crypto;
 
@@ -53,7 +53,9 @@ internal sealed class ActionQueryController : GraphController
         var joinSession = new JoinSession
         {
             SessionId = sessionId,
-            Glove = gloveId ?? default,
+            Gloves = gloveId.HasValue
+                ? ImmutableArray.Create(gloveId.Value)
+                : ImmutableArray<Address>.Empty,
         };
         return Encode(joinSession);
     }
@@ -69,12 +71,12 @@ internal sealed class ActionQueryController : GraphController
     }
 
     [Query("SubmitMove")]
-    public HexValue SubmitMove(Address sessionId, MoveType move)
+    public HexValue SubmitMove(Address sessionId, int gloveIndex)
     {
         var submitMove = new SubmitMove
         {
             SessionId = sessionId,
-            Move = move,
+            GloveIndex = gloveIndex,
         };
         return Encode(submitMove);
     }

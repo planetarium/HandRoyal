@@ -9,5 +9,5 @@ internal sealed record class SubmitMoveEventData
 
     public Address UserId { get; init; }
 
-    public MoveType Move { get; init; }
+    public int GloveIndex { get; init; }
 }

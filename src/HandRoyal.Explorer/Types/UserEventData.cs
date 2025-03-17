@@ -13,7 +13,8 @@ namespace HandRoyal.Explorer.Types
 
         public Address[] RegisteredGloves => user.RegisteredGloves.ToArray();
 
-        public Address[] OwnedGloves => user.OwnedGloves.ToArray();
+        public Dictionary<Address, int> OwnedGloves
+            => User.OwnedGloves.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
         public Address EquippedGlove => user.EquippedGlove;
     }
