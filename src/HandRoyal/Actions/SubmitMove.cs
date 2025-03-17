@@ -14,15 +14,15 @@ public sealed record class SubmitMove : ActionBase
     public required Address SessionId { get; init; }
 
     [Property(1)]
-    public required MoveType Move { get; init; }
+    public required int GloveIndex { get; init; }
 
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {
         var userId = context.Signer;
-        var move = Move;
+        var gloveIndex = GloveIndex;
         var height = context.BlockIndex;
         var session = (Session)world[Addresses.Sessions, SessionId];
 
-        world[Addresses.Sessions, SessionId] = session.Submit(height, userId, move);
+        world[Addresses.Sessions, SessionId] = session.Submit(height, userId, GloveIndex);
     }
 }
