@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
-using System.Text;using GraphQL.AspNet.Attributes;
+using System.Text;
+using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
 using HandRoyal.Actions;
 using HandRoyal.Explorer.Types;
@@ -77,7 +78,9 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
         var joinSession = new JoinSession
         {
             SessionId = sessionId,
-            Gloves = gloveId.HasValue ? ImmutableArray.Create(gloveId.Value) : ImmutableArray<Address>.Empty,
+            Gloves = gloveId.HasValue
+                ? ImmutableArray.Create(gloveId.Value)
+                : ImmutableArray<Address>.Empty,
         };
         var txSettings = new TxSettings
         {
