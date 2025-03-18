@@ -5,10 +5,10 @@ using Libplanet.Crypto;
 
 namespace HandRoyal.Explorer.Types;
 
-public sealed class GloveRegisteredEventData(Glove glove)
+public sealed class GloveRegisteredEventData(IGlove glove)
 {
     [GraphSkip]
-    public Glove Glove => glove;
+    public IGlove Glove => glove;
 
     public Address Id => Glove.Id;
 

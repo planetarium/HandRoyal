@@ -3,9 +3,9 @@ using Libplanet.Crypto;
 
 namespace HandRoyal.Gloves;
 
-public class BasicScissors : Glove
+public class BasicScissors : IGlove
 {
-    public override Address Id => new Address("0x0000000000000000000000000000000000000002");
+    public Address Id => new Address("0x0000000000000000000000000000000000000002");
 
-    public override GloveType Type => GloveType.Scissors;
+    public GloveType Type => GloveType.Scissors;
 }

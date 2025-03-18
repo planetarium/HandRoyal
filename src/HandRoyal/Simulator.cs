@@ -10,8 +10,8 @@ public static class Simulator
     public static (Condition Condition1, Condition Condition2, int Winner) Simulate(
         Condition condition1,
         Condition condition2,
-        Glove glove1,
-        Glove glove2,
+        IGlove glove1,
+        IGlove glove2,
         IRandom random)
     {
         const int damage = 40;
