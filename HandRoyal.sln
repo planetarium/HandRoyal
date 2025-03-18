@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 #
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandRoyal", "src\HandRoyal\HandRoyal.csproj", "{4E138EA4-3674-45B9-936A-753542AD4E87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandRoyal.Node", "src\HandRoyal.Node\HandRoyal.Node.csproj", "{40FC9D31-2716-4DEF-8A9E-2B31424722E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandRoyal.Executable", "src\HandRoyal.Executable\HandRoyal.Executable.csproj", "{40FC9D31-2716-4DEF-8A9E-2B31424722E1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandRoyal.Tests", "test\HandRoyal.Tests\HandRoyal.Tests.csproj", "{CDAD3E17-AA76-4239-8A95-96CFD23720FA}"
 EndProject

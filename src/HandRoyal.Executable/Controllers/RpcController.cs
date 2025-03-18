@@ -7,7 +7,7 @@ using Libplanet.Node.Services;
 using Libplanet.Types.Assets;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HandRoyal.Node.Controllers;
+namespace HandRoyal.Executable.Controllers;
 
 [Route("rpc")]
 [ApiController]
