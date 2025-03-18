@@ -9,7 +9,7 @@ namespace HandRoyal.States;
 public sealed record class Condition
 {
     [Property(0)]
-    public required int Hp { get; init; } = 100;
+    public required int HealthPoint { get; init; } = 100;
 
     [Property(1)]
     public ImmutableArray<bool> GloveUsed { get; init; }
