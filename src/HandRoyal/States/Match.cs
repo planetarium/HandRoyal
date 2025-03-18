@@ -138,6 +138,10 @@ public sealed record class Match
         _ => throw new InvalidOperationException($"Invalid match state: {State}"),
     };
 
+    public override int GetHashCode() => ModelUtility.GetHashCode(this);
+
+    public bool Equals(Match? other) => ModelUtility.Equals(this, other);
+
     private Match Start(SessionMetadata metadata, long blockIndex)
     {
         if (Players[1] == -1)
@@ -207,6 +211,7 @@ public sealed record class Match
             -2 or -1 => -1,
             0 => Players[0],
             1 => Players[1],
+            _ => throw new InvalidOperationException($"Invalid winner: {winnerRaw}"),
         };
         round = round with
         {
@@ -256,8 +261,4 @@ public sealed record class Match
             Rounds = Rounds.SetItem(Rounds.Length - 1, round),
         };
     }
-
-    public override int GetHashCode() => ModelUtility.GetHashCode(this);
-
-    public bool Equals(Match? other) => ModelUtility.Equals(this, other);
 }
