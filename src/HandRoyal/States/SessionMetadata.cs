@@ -38,6 +38,8 @@ public sealed record class SessionMetadata
     [Property(6)]
     public long StartAfter { get; set; } = 10;
 
+    // TODO: This used to be treated as number of gloves that user can bring to session,
+    // which should be separated.
     [Property(7)]
     public int MaxRounds { get; set; } = 5;
 
