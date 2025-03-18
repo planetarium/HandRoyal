@@ -30,7 +30,8 @@ internal sealed class ActionQueryController : GraphController
         long startAfter,
         int maxRounds,
         long roundLength,
-        long roundInterval)
+        long roundInterval,
+        int initialHealthPoint)
     {
         var createSession = new CreateSession
         {
@@ -43,6 +44,7 @@ internal sealed class ActionQueryController : GraphController
             MaxRounds = maxRounds,
             RoundLength = roundLength,
             RoundInterval = roundInterval,
+            InitialHealthPoint = initialHealthPoint,
         };
         return Encode(createSession);
     }
