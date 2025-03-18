@@ -35,7 +35,9 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
         long startAfter,
         int maxRounds,
         long roundLength,
-        long roundInterval)
+        long roundInterval,
+        int initialHealthPoint,
+        int numberOfGloves)
     {
         var createSession = new CreateSession
         {
@@ -48,6 +50,8 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
             MaxRounds = maxRounds,
             RoundLength = roundLength,
             RoundInterval = roundInterval,
+            InitialHealthPoint = initialHealthPoint,
+            NumberOfGloves = numberOfGloves,
         };
         var txSettings = new TxSettings
         {
@@ -79,7 +83,7 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
         {
             SessionId = sessionId,
             Gloves = gloveId.HasValue
-                ? ImmutableArray.Create(gloveId.Value)
+                ? [gloveId.Value]
                 : ImmutableArray<Address>.Empty,
         };
         var txSettings = new TxSettings
