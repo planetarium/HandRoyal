@@ -1,4 +1,5 @@
 using GraphQL.AspNet.Attributes;
+using HandRoyal.Enums;
 using HandRoyal.States;
 
 namespace HandRoyal.Explorer.Types;

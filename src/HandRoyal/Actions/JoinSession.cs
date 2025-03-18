@@ -26,15 +26,21 @@ public sealed record class JoinSession : ActionBase
         var user = (User)world[Addresses.Users, signer];
         var gloves = Gloves;
 
+        if (gloves.Length != session.Metadata.MaxRounds)
+        {
+
+        }
+
         foreach (var glove in gloves)
         {
             _ = GloveLoader.LoadGlove(glove);
-            if (!user.OwnedGloves.TryGetValue(glove, out var ownedGlove))
+            var count = user.OwnedGloves.Count(info => info.Id.Equals(glove));
+            if (count == 0)
             {
                 throw new JoinSessionException($"User {signer} does not own the glove {glove}");
             }
 
-            if (gloves.Count(g => g.Equals(glove)) > ownedGlove)
+            if (gloves.Count(g => g.Equals(glove)) > count)
             {
                 throw new JoinSessionException(
                     $"User {signer} does not own enough number of glove {glove}");
