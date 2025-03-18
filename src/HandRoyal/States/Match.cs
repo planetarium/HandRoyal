@@ -37,15 +37,15 @@ public sealed record class Match
             }
 
             var round = Rounds[^1];
-            if ((round.Condition1.Hp <= 0 && round.Condition2.Hp <= 0) ||
-                round.Condition1.Hp == round.Condition2.Hp)
+            if ((round.Condition1.HealthPoint <= 0 && round.Condition2.HealthPoint <= 0) ||
+                round.Condition1.HealthPoint == round.Condition2.HealthPoint)
             {
                 // 둘 다 0 이하거나 체력이 같으면 무승부
                 return -1;
             }
 
             // 남은 체력이 많은 사람이 승리 (0이하인 경우도 포함)
-            return round.Condition1.Hp > round.Condition2.Hp
+            return round.Condition1.HealthPoint > round.Condition2.HealthPoint
                 ? Players[0]
                 : Players[1];
         }
@@ -163,13 +163,13 @@ public sealed record class Match
                 {
                     Condition1 = new Condition
                     {
-                        Hp = metadata.InitialHp,
+                        HealthPoint = metadata.InitialHealthPoint,
                         GloveUsed = [..Enumerable.Range(0, metadata.MaxRounds).Select(_ => false)],
                         Submission = -1,
                     },
                     Condition2 = new Condition
                     {
-                        Hp = metadata.InitialHp,
+                        HealthPoint = metadata.InitialHealthPoint,
                         GloveUsed = [..Enumerable.Range(0, metadata.MaxRounds).Select(_ => false)],
                         Submission = -1,
                     },
@@ -247,7 +247,7 @@ public sealed record class Match
         }
 
         var round = Rounds[^1];
-        if (round.Condition1.Hp <= 0 || round.Condition2.Hp <= 0)
+        if (round.Condition1.HealthPoint <= 0 || round.Condition2.HealthPoint <= 0)
         {
             return this with
             {
