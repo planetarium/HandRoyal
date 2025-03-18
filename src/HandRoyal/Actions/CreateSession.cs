@@ -44,6 +44,9 @@ public sealed record class CreateSession : ActionBase
     [Property(9)]
     public int InitialHealthPoint { get; init; } = SessionMetadata.Default.InitialHealthPoint;
 
+    [Property(10)]
+    public int NumberOfGloves { get; init; } = SessionMetadata.Default.NumberOfGloves;
+
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {
         if (SessionId == default)
@@ -80,6 +83,7 @@ public sealed record class CreateSession : ActionBase
             RoundLength = RoundLength,
             RoundInterval = RoundInterval,
             InitialHealthPoint = InitialHealthPoint,
+            NumberOfGloves = NumberOfGloves,
         };
         var sessionList = world.GetValue(Addresses.Sessions, Addresses.Sessions, List.Empty);
         world[Addresses.Sessions, Addresses.Sessions] = sessionList.Add(SessionId);
