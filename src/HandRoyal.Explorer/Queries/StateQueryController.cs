@@ -1,5 +1,6 @@
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
+using HandRoyal.Gloves;
 using HandRoyal.States;
 using Libplanet.Crypto;
 using Libplanet.Node.Services;
@@ -51,12 +52,12 @@ internal sealed class StateQueryController(IBlockChainService blockChainService)
     }
 
     [Query("Glove")]
-    public Glove? GetGlove(Address gloveId)
+    public IGlove? GetGlove(Address gloveId)
     {
         var blockChain = blockChainService.BlockChain;
         var world = new WorldStateContext(blockChain);
         var glovesAccount = world[Addresses.Gloves];
-        if (glovesAccount.TryGetValue<Glove>(gloveId, out var glove))
+        if (glovesAccount.TryGetValue<IGlove>(gloveId, out var glove))
         {
             return glove;
         }

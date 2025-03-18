@@ -1,15 +1,16 @@
 using GraphQL.AspNet.Attributes;
-using HandRoyal.States;
+using HandRoyal.Enums;
+using HandRoyal.Gloves;
 using Libplanet.Crypto;
 
 namespace HandRoyal.Explorer.Types;
 
-public sealed class GloveRegisteredEventData(Glove glove)
+public sealed class GloveRegisteredEventData(IGlove glove)
 {
     [GraphSkip]
-    public Glove Glove => glove;
+    public IGlove Glove => glove;
 
     public Address Id => Glove.Id;
 
-    public Address Author => Glove.Author;
+    public GloveType Type => Glove.Type;
 }

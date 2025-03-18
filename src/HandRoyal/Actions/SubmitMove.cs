@@ -23,6 +23,6 @@ public sealed record class SubmitMove : ActionBase
         var height = context.BlockIndex;
         var session = (Session)world[Addresses.Sessions, SessionId];
 
-        world[Addresses.Sessions, SessionId] = session.Submit(height, userId, GloveIndex);
+        world[Addresses.Sessions, SessionId] = session.Submit(height, userId, gloveIndex);
     }
 }

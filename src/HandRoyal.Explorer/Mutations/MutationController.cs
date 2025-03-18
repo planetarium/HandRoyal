@@ -1,9 +1,9 @@
+using System.Collections.Immutable;
 using System.Text;
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
 using HandRoyal.Actions;
 using HandRoyal.Explorer.Types;
-using HandRoyal.States;
 using Libplanet.Crypto;
 using Libplanet.Node.Services;
 using Libplanet.Types.Tx;
@@ -78,7 +78,9 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
         var joinSession = new JoinSession
         {
             SessionId = sessionId,
-            Glove = gloveId ?? default,
+            Gloves = gloveId.HasValue
+                ? ImmutableArray.Create(gloveId.Value)
+                : ImmutableArray<Address>.Empty,
         };
         var txSettings = new TxSettings
         {
@@ -89,12 +91,12 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
     }
 
     [MutationRoot("SubmitMove")]
-    public TxId SubmitMove(PrivateKey privateKey, Address sessionId, MoveType move)
+    public TxId SubmitMove(PrivateKey privateKey, Address sessionId, int gloveIndex)
     {
         var submitMove = new SubmitMove
         {
             SessionId = sessionId,
-            Move = move,
+            GloveIndex = gloveIndex,
         };
         var txSettings = new TxSettings
         {

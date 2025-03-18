@@ -4,7 +4,7 @@ namespace HandRoyal.Gloves;
 
 public static class GloveLoader
 {
-    public static Glove LoadGlove(Address address) => address.ToHex() switch
+    public static IGlove LoadGlove(Address address) => address.ToHex() switch
     {
         "0x0000000000000000000000000000000000000000" => new BasicRock(),
         "0x0000000000000000000000000000000000000001" => new BasicPaper(),
