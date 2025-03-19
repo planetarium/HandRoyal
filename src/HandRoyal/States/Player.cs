@@ -6,7 +6,7 @@ using Libplanet.Crypto;
 namespace HandRoyal.States;
 
 [Model(Version = 1)]
-public sealed record class Player
+public sealed record class Player : IEquatable<Player>
 {
     [Property(0)]
     public required Address Id { get; init; }
@@ -31,4 +31,8 @@ public sealed record class Player
 
         return players;
     }
+
+    public bool Equals(Player? other) => ModelUtility.Equals(this, other);
+
+    public override int GetHashCode() => ModelUtility.GetHashCode(this);
 }
