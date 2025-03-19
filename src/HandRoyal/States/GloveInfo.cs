@@ -3,7 +3,6 @@ using Libplanet.Crypto;
 
 namespace HandRoyal.States;
 
-
 [Model(Version = 1)]
 public sealed record class GloveInfo : IEquatable<GloveInfo>
 {

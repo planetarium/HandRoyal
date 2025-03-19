@@ -54,6 +54,11 @@ public sealed record class CreateSession : ActionBase
             throw new CreateSessionException("Session id is not set");
         }
 
+        if (NumberOfGloves < MaxRounds)
+        {
+            throw new CreateSessionException("NumberOfGloves must be greater than MaxRounds.");
+        }
+
         if (world.Contains(Addresses.Sessions, SessionId))
         {
             throw new CreateSessionException($"Session of id {SessionId} already exists");
@@ -61,14 +66,14 @@ public sealed record class CreateSession : ActionBase
 
         var signer = context.Signer;
 
-        try
-        {
-            _ = GloveLoader.LoadGlove(Prize);
-        }
-        catch (Exception)
-        {
-            throw new CreateSessionException($"Glove of id {Prize} does not exist");
-        }
+        // try
+        // {
+        //     _ = GloveLoader.LoadGlove(Prize);
+        // }
+        // catch (Exception)
+        // {
+        //     throw new CreateSessionException($"Glove of id {Prize} does not exist");
+        // }
 
         var sessionMetadata = new SessionMetadata
         {
