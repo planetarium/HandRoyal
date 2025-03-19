@@ -212,7 +212,10 @@ public sealed record class Session : IEquatable<Session>
         };
         if (!phase.Matches.All(match => match.State == MatchState.Ended))
         {
-            return null;
+            return this with
+            {
+                Phases = Phases[..^1].Add(phase),
+            };
         }
 
         var winners = phase.GetWinners(random);
@@ -226,6 +229,7 @@ public sealed record class Session : IEquatable<Session>
                 Players = Player.SetState(players, winners, PlayerState.Won),
                 State = SessionState.Ended,
                 Height = blockIndex,
+                Phases = Phases[..^1].Add(phase),
             };
         }
 
@@ -238,7 +242,7 @@ public sealed record class Session : IEquatable<Session>
         return this with
         {
             Height = blockIndex,
-            Phases = Phases.Add(nextPhase),
+            Phases = Phases[..^1].Add(phase).Add(nextPhase),
         };
     }
 }
