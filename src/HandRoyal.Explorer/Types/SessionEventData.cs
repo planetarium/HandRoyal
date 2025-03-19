@@ -13,5 +13,7 @@ internal sealed class SessionEventData(Session session)
 
     public SessionState State => session.State;
 
+    public Phase? Phase => session.Phases.LastOrDefault();
+
     public Match? Match { get; set; }
 }
