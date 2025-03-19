@@ -77,7 +77,7 @@ public sealed record class Match
 
     public Match? Submit(int playerIndex, int gloveIndex)
     {
-        if (Players[1] == playerIndex)
+        if (Players[0] == playerIndex)
         {
             if (State != MatchState.Active || !Rounds.Any())
             {
@@ -99,7 +99,7 @@ public sealed record class Match
                 Rounds = Rounds.SetItem(Rounds.Length - 1, nextRound),
             };
         }
-        else if (Players[2] == playerIndex)
+        else if (Players[1] == playerIndex)
         {
             if (State != MatchState.Active || !Rounds.Any())
             {
