@@ -135,7 +135,8 @@ public sealed class ModelResolver : IModelResolver
                 $"Method {nameof(GetHashCode)} is not implemented in {type}. " +
                 "Please override GetHashCode method.");
         }
-        else if (methodInfo2.IsDefined(typeof(CompilerGeneratedAttribute)))
+        else if (methodInfo2.DeclaringType != type
+            && methodInfo2.IsDefined(typeof(CompilerGeneratedAttribute)))
         {
             throw new ModelSerializationException(
                 $"Method {nameof(GetHashCode)} is not implemented in {type}. " +
