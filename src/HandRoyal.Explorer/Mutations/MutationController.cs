@@ -77,14 +77,12 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
     }
 
     [MutationRoot("JoinSession")]
-    public TxId JoinSession(PrivateKey privateKey, Address sessionId, Address? gloveId)
+    public TxId JoinSession(PrivateKey privateKey, Address sessionId, IEnumerable<Address> gloves)
     {
         var joinSession = new JoinSession
         {
             SessionId = sessionId,
-            Gloves = gloveId.HasValue
-                ? [gloveId.Value]
-                : ImmutableArray<Address>.Empty,
+            Gloves = gloves.ToImmutableArray(),
         };
         var txSettings = new TxSettings
         {
