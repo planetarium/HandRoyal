@@ -38,7 +38,7 @@ public sealed record class JoinSession : ActionBase, IEquatable<JoinSession>
         foreach (var glove in gloves)
         {
             _ = GloveLoader.LoadGlove(glove);
-            var count = user.OwnedGloves.Count(info => info.Id.Equals(glove));
+            var count = user.OwnedGloves.FirstOrDefault(info => info.Id.Equals(glove))?.Count ?? 0;
             if (count == 0)
             {
                 throw new JoinSessionException($"User {signer} does not own the glove {glove}");
