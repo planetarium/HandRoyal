@@ -50,14 +50,12 @@ internal sealed class ActionQueryController : GraphController
     }
 
     [Query("JoinSession")]
-    public HexValue JoinSession(Address sessionId, Address? gloveId)
+    public HexValue JoinSession(Address sessionId, IEnumerable<Address> gloves)
     {
         var joinSession = new JoinSession
         {
             SessionId = sessionId,
-            Gloves = gloveId.HasValue
-                ? ImmutableArray.Create(gloveId.Value)
-                : ImmutableArray<Address>.Empty,
+            Gloves = gloves.ToImmutableArray(),
         };
         return Encode(joinSession);
     }

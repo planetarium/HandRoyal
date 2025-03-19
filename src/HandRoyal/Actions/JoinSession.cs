@@ -11,13 +11,17 @@ namespace HandRoyal.Actions;
 [ActionType("JoinSession")]
 [Model(Version = 1)]
 [GasUsage(1)]
-public sealed record class JoinSession : ActionBase
+public sealed record class JoinSession : ActionBase, IEquatable<JoinSession>
 {
     [Property(0)]
     public required Address SessionId { get; init; }
 
     [Property(1)]
     public required ImmutableArray<Address> Gloves { get; init; }
+
+    public bool Equals(JoinSession? other) => ModelUtility.Equals(this, other);
+
+    public override int GetHashCode() => ModelUtility.GetHashCode(this);
 
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {
