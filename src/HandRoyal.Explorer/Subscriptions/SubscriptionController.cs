@@ -109,26 +109,4 @@ internal sealed class SubscriptionController(IBlockChainService blockChainServic
         eventData.Status = TxStatus.Staging;
         return this.OkAndComplete(eventData);
     }
-
-    private static bool TryGetMatch(
-        Session session, Address userId, [MaybeNullWhen(false)] out Match match)
-    {
-        var index = session.FindPlayer(userId);
-        if (index >= 0 && session.Phases.Length > 0)
-        {
-            var phase = session.Phases[^1];
-            for (var i = 0; i < phase.Matches.Length; i++)
-            {
-                match = phase.Matches[i];
-                if (match.Players[0] == index
-                    || match.Players[1] == index)
-                {
-                    return true;
-                }
-            }
-        }
-
-        match = default;
-        return false;
-    }
 }
