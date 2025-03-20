@@ -66,14 +66,14 @@ public sealed record class CreateSession : ActionBase
 
         var signer = context.Signer;
 
-        // try
-        // {
-        //     _ = GloveLoader.LoadGlove(Prize);
-        // }
-        // catch (Exception)
-        // {
-        //     throw new CreateSessionException($"Glove of id {Prize} does not exist");
-        // }
+        try
+        {
+            _ = GloveLoader.LoadGlove(Prize);
+        }
+        catch (Exception)
+        {
+            throw new CreateSessionException($"Glove of id {Prize} does not exist");
+        }
 
         var sessionMetadata = new SessionMetadata
         {
