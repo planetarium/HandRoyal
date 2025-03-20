@@ -1,7 +1,9 @@
-﻿using HandRoyal.Enums;
+﻿using System.Collections.Immutable;
+using HandRoyal.Enums;
 using HandRoyal.Gloves;
 using HandRoyal.States;
 using Libplanet.Action;
+using Libplanet.Crypto;
 
 namespace HandRoyal;
 
@@ -10,11 +12,44 @@ public static class Simulator
     public static (Condition Condition1, Condition Condition2, int Winner) Simulate(
         Condition condition1,
         Condition condition2,
-        IGlove glove1,
-        IGlove glove2,
+        ImmutableArray<Address> gloves1,
+        ImmutableArray<Address> gloves2,
+        int gloveIndex1,
+        int gloveIndex2,
         IRandom random)
     {
         const int damage = 40;
+        if (gloveIndex1 == -1 && gloveIndex2 == -1)
+        {
+            return (condition1, condition2, -1);
+        }
+        else if (gloveIndex1 == -1)
+        {
+            return (
+                condition1 with { HealthPoint = condition1.HealthPoint - damage },
+                condition2 with
+                {
+                    GloveUsed = condition2.GloveUsed.SetItem(
+                        condition2.Submission,
+                        true),
+                },
+                1);
+        }
+        else if (gloveIndex2 == -1)
+        {
+            return (
+                condition1 with
+                {
+                    GloveUsed = condition1.GloveUsed.SetItem(
+                        condition1.Submission,
+                        true),
+                },
+                condition2 with { HealthPoint = condition2.HealthPoint - damage },
+                0);
+        }
+
+        IGlove glove1 = GloveLoader.LoadGlove(gloves1[gloveIndex1]);
+        IGlove glove2 = GloveLoader.LoadGlove(gloves2[gloveIndex2]);
         var winner = GetRcpWinner(glove1.Type, glove2.Type);
         var newCondition1 = condition1 with
         {
@@ -22,7 +57,6 @@ public static class Simulator
             GloveUsed = condition1.GloveUsed.SetItem(
                 condition1.Submission,
                 true),
-            Submission = -1,
         };
         var newCondition2 = condition2 with
         {
@@ -30,7 +64,6 @@ public static class Simulator
             GloveUsed = condition2.GloveUsed.SetItem(
                 condition2.Submission,
                 true),
-            Submission = -1,
         };
         return (newCondition1, newCondition2, winner);
     }
