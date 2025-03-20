@@ -46,11 +46,7 @@ internal sealed class SubscriptionController(IBlockChainService blockChainServic
         var session = eventData.Session;
         if (session.Metadata.Id == sessionId)
         {
-            if (TryGetMatch(session, userId, out var match))
-            {
-                eventData.Match = match;
-            }
-
+            eventData.UserId = userId;
             return Ok(eventData);
         }
 
