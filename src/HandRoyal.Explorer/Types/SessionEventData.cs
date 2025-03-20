@@ -22,6 +22,8 @@ internal sealed class SessionEventData(Session session)
             ?? throw new InvalidOperationException("User not found in match")
         : null;
 
+    public Address? SessionId => session.Metadata.Id;
+
     public long Height => session.Height;
 
     public SessionState SessionState => session.State;
@@ -48,7 +50,7 @@ internal sealed class SessionEventData(Session session)
 
     public MatchState CurrentUserMatchState { get; set; }
 
-    public long RoundEndHeight
+    public long IntervalEndHeight
     {
         get
         {
