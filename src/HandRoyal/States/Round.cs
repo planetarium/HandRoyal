@@ -15,5 +15,5 @@ public sealed record class Round
     /// Gets the index of the winner of the round. If -2, round still processing, -1 drawn.
     /// </summary>
     [Property(2)]
-    public int Winner { get; init; }
+    public int Winner { get; init; } = -2;
 }

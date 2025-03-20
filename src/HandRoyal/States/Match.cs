@@ -173,6 +173,7 @@ public sealed record class Match
                         GloveUsed = [..Enumerable.Range(0, metadata.MaxRounds).Select(_ => false)],
                         Submission = -1,
                     },
+                    Winner = -2,
                 }
             ],
         };
@@ -201,10 +202,10 @@ public sealed record class Match
             Simulator.Simulate(
                 condition1,
                 condition2,
-                GloveLoader.LoadGlove(players[Players[0]]
-                    .Gloves[condition1.Submission]),
-                GloveLoader.LoadGlove(players[Players[1]]
-                    .Gloves[condition2.Submission]),
+                players[Players[0]].Gloves,
+                players[Players[1]].Gloves,
+                condition1.Submission,
+                condition2.Submission,
                 random);
         var winner = winnerRaw switch
         {
@@ -247,6 +248,12 @@ public sealed record class Match
         }
 
         var round = Rounds[^1];
+        round = round with
+        {
+            Winner = -2,
+            Condition1 = round.Condition1 with { Submission = -1 },
+            Condition2 = round.Condition2 with { Submission = -1 },
+        };
         if (round.Condition1.HealthPoint <= 0 || round.Condition2.HealthPoint <= 0)
         {
             return this with
@@ -258,7 +265,7 @@ public sealed record class Match
         return this with
         {
             State = MatchState.Active,
-            Rounds = Rounds.SetItem(Rounds.Length - 1, round),
+            Rounds = Rounds.Add(round),
         };
     }
 }
