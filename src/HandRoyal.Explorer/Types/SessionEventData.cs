@@ -44,6 +44,24 @@ internal sealed class SessionEventData(Session session)
         ? Session.Players[opi].Id
         : null;
 
+    public long CurrentInterval
+    {
+        get
+        {
+            if (CurrentUserMatchState == MatchState.Active)
+            {
+                return Session.Metadata.RoundLength;
+            }
+
+            if (CurrentUserMatchState == MatchState.Break)
+            {
+                return Session.Metadata.RoundInterval;
+            }
+
+            return Session.Metadata.StartAfter;
+        }
+    }
+
     public Address[]? MyGloves
         => UserPlayerIndex is { } upi
             ? Session.Players[upi].Gloves.ToArray()
@@ -56,7 +74,8 @@ internal sealed class SessionEventData(Session session)
 
     public Round? CurrentUserRound => CurrentUserMatch?.Rounds.LastOrDefault();
 
-    public MatchState CurrentUserMatchState { get; set; }
+    public MatchState CurrentUserMatchState
+        => CurrentUserMatch?.State ?? MatchState.None;
 
     public long IntervalEndHeight
     {
@@ -74,11 +93,11 @@ internal sealed class SessionEventData(Session session)
 
             if (roundCount > 0)
             {
-                var baseHeight = currentUserMatch.StartHeight
+                var roundEndHeight = currentUserMatch.StartHeight
                     + ((roundInterval + roundLength) * roundCount);
                 return currentUserMatch.State == MatchState.Active
-                    ? baseHeight
-                    : baseHeight + roundInterval;
+                    ? roundEndHeight - roundInterval
+                    : roundEndHeight;
             }
 
             return currentUserMatch.StartHeight;
