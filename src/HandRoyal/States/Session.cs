@@ -130,8 +130,14 @@ public sealed record class Session : IEquatable<Session>
         var sessionsAccount = world[Addresses.Sessions];
         if (!sessionsAccount.TryGetValue<Session>(sessionId, out var session))
         {
-            var message = $"Session of id {sessionId} does not exist.";
-            throw new ArgumentException(message, nameof(sessionId));
+            var archivedSessionsAccount = world[Addresses.ArchivedSessions];
+            if (!archivedSessionsAccount.TryGetValue<Session>(sessionId, out var archivedSession))
+            {
+                var message = $"Session of id {sessionId} does not exist.";
+                throw new ArgumentException(message, nameof(sessionId));
+            }
+
+            return archivedSession;
         }
 
         return session;
