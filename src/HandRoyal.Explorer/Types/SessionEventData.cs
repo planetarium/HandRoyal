@@ -28,12 +28,20 @@ internal sealed class SessionEventData(Session session)
 
     public SessionState SessionState => session.State;
 
+    [GraphSkip]
     public int? UserPlayerIndex => Session.Players
         .Select((p, i) => new { Index = i, Player = p })
         .FirstOrDefault(p => p.Player.Id.Equals(UserId))?.Index;
 
+    [GraphSkip]
     public int? OpponentPlayerIndex => UserPlayerIndex is { } upi
         ? CurrentUserMatch!.Players.FirstOrDefault(p => p != upi)
+        : null;
+
+    public Address? OrganizerAddress => session.Metadata.Organizer;
+
+    public Address? OpponentAddress => OpponentPlayerIndex is { } opi
+        ? Session.Players[opi].Id
         : null;
 
     public Address[]? MyGloves
