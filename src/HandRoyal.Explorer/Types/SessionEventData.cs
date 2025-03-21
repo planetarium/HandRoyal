@@ -77,6 +77,11 @@ internal sealed class SessionEventData(Session session)
     public MatchState CurrentUserMatchState
         => CurrentUserMatch?.State ?? MatchState.None;
 
+    public PlayerState? PlayerState
+        => UserPlayerIndex is { } upi
+            ? Session.Players[upi].State
+            : null;
+
     public long IntervalEndHeight
     {
         get
