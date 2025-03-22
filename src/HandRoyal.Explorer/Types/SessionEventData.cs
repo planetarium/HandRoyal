@@ -72,6 +72,32 @@ internal sealed class SessionEventData(Session session)
             ? Session.Players[opi].Gloves.ToArray()
             : null;
 
+    public int? PlayersLeft =>
+        Session.Players.Count(p => p.State == Enums.PlayerState.Playing);
+
+    public int? CurrentPhaseIndex => Session.Phases.Length - 1;
+
+    public int? CurrentUserRoundIndex => CurrentUserMatch?.Rounds.Length - 1;
+
+    public Condition? MyCondition => CurrentUserMatch?.Players[0] == UserPlayerIndex
+        ? CurrentUserRound?.Condition1
+        : CurrentUserRound?.Condition2;
+
+    public Condition? OpponentCondition => CurrentUserMatch?.Players[0] == UserPlayerIndex
+        ? CurrentUserRound?.Condition2
+        : CurrentUserRound?.Condition1;
+
+    public string LastRoundWinner => CurrentUserRound?.Winner switch
+    {
+        null => "undefined",
+        -2 => "playing",
+        -1 => "draw",
+        { } x when x == UserPlayerIndex => "you",
+        { } x when x == UserPlayerIndex => "opponent",
+        _ => "undefined",
+    };
+
+    [GraphSkip]
     public Round? CurrentUserRound => CurrentUserMatch?.Rounds.LastOrDefault();
 
     public MatchState CurrentUserMatchState
