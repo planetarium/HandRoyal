@@ -1,0 +1,175 @@
+{
+  "gloves": [
+    {
+      "id": "0x0000000000000000000000000000000000000000",
+      "name": "Basic Rock",
+      "type": "Rock",
+      "rarity": "Common",
+      "baseDamage": 40,
+      "attackBehaviorType": "Basic",
+      "effects": []
+    },
+    {
+      "id": "0x0000000000000000000000000000000000000001",
+      "name": "Basic Paper",
+      "type": "Paper",
+      "rarity": "Common",
+      "baseDamage": 40,
+      "attackBehaviorType": "Basic",
+      "effects": []
+    },
+    {
+      "id": "0x0000000000000000000000000000000000000002",
+      "name": "Basic Scissors",
+      "type": "Scissors",
+      "rarity": "Common",
+      "baseDamage": 40,
+      "attackBehaviorType": "Basic",
+      "effects": []
+    },
+    {
+      "id": "0x0000000000000000000000000000000000000003",
+      "name": "Sharp Rock",
+      "type": "Rock",
+      "rarity": "Uncommon",
+      "baseDamage": 42,
+      "attackBehaviorType": "Basic",
+      "effects": []
+    },
+    {
+      "id": "0x0000000000000000000000000000000000000004",
+      "name": "Sharp Paper",
+      "type": "Paper",
+      "rarity": "Uncommon",
+      "baseDamage": 42,
+      "attackBehaviorType": "Basic",
+      "effects": []
+    },
+    {
+      "id": "0x0000000000000000000000000000000000000005",
+      "name": "Sharp Scissors",
+      "type": "Scissors",
+      "rarity": "Uncommon",
+      "baseDamage": 42,
+      "attackBehaviorType": "Basic",
+      "effects": []
+    },
+    {
+      "id": "0x0000000000000000000000000000000000000006",
+      "name": "Sturdy Rock",
+      "type": "Rock",
+      "rarity": "Uncommon",
+      "baseDamage": 40,
+      "attackBehaviorType": "Basic",
+      "effects": [
+        {
+          "name": "Damage Reduction",
+          "type": "DamageReduction",
+          "duration": 1,
+          "parameters": {
+            "reductionAmount": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "0x0000000000000000000000000000000000000007",
+      "name": "Sturdy Paper",
+      "type": "Paper",
+      "rarity": "Uncommon",
+      "baseDamage": 40,
+      "attackBehaviorType": "Basic",
+      "effects": [
+        {
+          "name": "Damage Reduction",
+          "type": "DamageReduction",
+          "duration": 1,
+          "parameters": {
+            "reductionAmount": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "0x0000000000000000000000000000000000000008",
+      "name": "Sturdy Scissors",
+      "type": "Scissors",
+      "rarity": "Uncommon",
+      "baseDamage": 40,
+      "attackBehaviorType": "Basic",
+      "effects": [
+        {
+          "name": "Damage Reduction",
+          "type": "DamageReduction",
+          "duration": 1,
+          "parameters": {
+            "reductionAmount": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "0x0000000000000000000000000000000000000009",
+      "name": "Burning Rock",
+      "type": "Rock",
+      "rarity": "Rare",
+      "baseDamage": 35,
+      "attackBehaviorType": "Basic",
+      "effects": [
+        {
+          "name": "Burn",
+          "type": "Burn",
+          "duration": -1,
+          "parameters": {
+            "damagePerRound": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "0x0000000000000000000000000000000000000010",
+      "name": "Burning Paper",
+      "type": "Paper",
+      "rarity": "Rare",
+      "baseDamage": 35,
+      "attackBehaviorType": "Basic",
+      "effects": [
+        {
+          "name": "Burn",
+          "type": "Burn",
+          "duration": -1,
+          "parameters": {
+            "damagePerRound": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "0x0000000000000000000000000000000000000011",
+      "name": "Burning Scissors",
+      "type": "Scissors",
+      "rarity": "Rare",
+      "baseDamage": 35,
+      "attackBehaviorType": "Basic",
+      "effects": [
+        {
+          "name": "Burn",
+          "type": "Burn",
+          "duration": -1,
+          "parameters": {
+            "damagePerRound": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "0x0000000000000000000000000000000000000012",
+      "name": "Gun",
+      "type": "Special",
+      "rarity": "Legendary",
+      "baseDamage": 30,
+      "attackBehaviorType": "Basic",
+      "effects": []
+    }
+  ]
+} 

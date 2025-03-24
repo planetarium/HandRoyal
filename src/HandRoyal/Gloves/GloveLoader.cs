@@ -4,11 +4,10 @@ namespace HandRoyal.Gloves;
 
 public static class GloveLoader
 {
-    public static IGlove LoadGlove(Address address) => address.ToHex() switch
+    private static readonly GloveFactory _factory = new("src/HandRoyal/Gloves/Data/gloves.json");
+
+    public static IGlove LoadGlove(Address id)
     {
-        "0000000000000000000000000000000000000000" => new BasicRock(),
-        "0000000000000000000000000000000000000001" => new BasicPaper(),
-        "0000000000000000000000000000000000000002" => new BasicScissors(),
-        _ => throw new ArgumentException($"Invalid glove address '{address}'"),
-    };
+        return _factory.CreateGlove(id.ToString());
+    }
 }
