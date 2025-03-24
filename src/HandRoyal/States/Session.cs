@@ -247,6 +247,7 @@ public sealed record class Session : IEquatable<Session>
         };
         return this with
         {
+            Players = players,
             Height = blockIndex,
             Phases = Phases[..^1].Add(phase).Add(nextPhase),
         };
