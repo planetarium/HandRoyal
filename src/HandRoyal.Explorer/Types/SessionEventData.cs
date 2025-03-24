@@ -19,7 +19,6 @@ internal sealed class SessionEventData(Session session)
     [GraphSkip]
     public Match? CurrentUserMatch => UserPlayerIndex is { } upi
         ? CurrentPhase?.Matches.FirstOrDefault(m => m.Players.Contains(upi))
-            ?? throw new InvalidOperationException("User not found in match")
         : null;
 
     public Address? SessionId => session.Metadata.Id;
@@ -40,25 +39,29 @@ internal sealed class SessionEventData(Session session)
 
     public Address? OrganizerAddress => session.Metadata.Organizer;
 
-    public Address? OpponentAddress => OpponentPlayerIndex is { } opi
-        ? Session.Players[opi].Id
-        : null;
+    public Address? OpponentAddress
+    {
+        get
+        {
+            if (OpponentPlayerIndex is not { } opi)
+            {
+                return null;
+            }
+
+            return opi == -1 ? null : Session.Players[opi].Id;
+        }
+    }
 
     public long CurrentInterval
     {
         get
         {
-            if (CurrentUserMatchState == MatchState.Active)
+            return CurrentUserMatchState switch
             {
-                return Session.Metadata.RoundLength;
-            }
-
-            if (CurrentUserMatchState == MatchState.Break)
-            {
-                return Session.Metadata.RoundInterval;
-            }
-
-            return Session.Metadata.StartAfter;
+                MatchState.Active => Session.Metadata.RoundLength,
+                MatchState.Break => Session.Metadata.RoundInterval,
+                _ => Session.Metadata.StartAfter,
+            };
         }
     }
 
@@ -68,9 +71,17 @@ internal sealed class SessionEventData(Session session)
             : null;
 
     public Address[]? OpponentGloves
-        => OpponentPlayerIndex is { } opi
-            ? Session.Players[opi].Gloves.ToArray()
-            : null;
+    {
+        get
+        {
+            if (OpponentPlayerIndex is not { } opi)
+            {
+                return null;
+            }
+
+            return opi == -1 ? null : Session.Players[opi].Gloves.ToArray();
+        }
+    }
 
     public int? PlayersLeft =>
         Session.Players.Count(p => p.State == Enums.PlayerState.Playing);
@@ -100,7 +111,7 @@ internal sealed class SessionEventData(Session session)
     [GraphSkip]
     public Round? CurrentUserRound => CurrentUserMatch?.Rounds.LastOrDefault();
 
-    public MatchState CurrentUserMatchState
+    public MatchState? CurrentUserMatchState
         => CurrentUserMatch?.State ?? MatchState.None;
 
     public PlayerState? PlayerState
@@ -117,7 +128,14 @@ internal sealed class SessionEventData(Session session)
                 return session.StartHeight;
             }
 
-            var roundCount = currentUserMatch.Rounds.Count();
+            if (currentUserMatch.State == MatchState.Ended)
+            {
+                return currentUserMatch.StartHeight +
+                    ((session.Metadata.RoundLength + session.Metadata.RoundInterval) *
+                    session.Metadata.MaxRounds);
+            }
+
+            var roundCount = currentUserMatch.Rounds.Length;
 
             var roundInterval = session.Metadata.RoundInterval;
             var roundLength = session.Metadata.RoundLength;
