@@ -10,11 +10,14 @@ if (builder.Environment.IsDevelopment())
 {
     builder.WebHost.ConfigureKestrel(options =>
     {
-        // Setup a HTTP/2 endpoint without TLS.
-        options.ListenLocalhost(5259, o => o.Protocols =
-            HttpProtocols.Http1AndHttp2);
-        options.ListenLocalhost(5260, o => o.Protocols =
-            HttpProtocols.Http2);
+        if (builder.Environment.IsDevelopment())
+        {
+            // Setup a HTTP/2 endpoint without TLS.
+            options.ListenLocalhost(5259, o => o.Protocols =
+                HttpProtocols.Http1AndHttp2);
+            options.ListenLocalhost(5260, o => o.Protocols =
+                HttpProtocols.Http2);
+        }
     });
 
     builder.Services.AddEndpointsApiExplorer();
