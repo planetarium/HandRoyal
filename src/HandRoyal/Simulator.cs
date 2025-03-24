@@ -53,14 +53,14 @@ public static class Simulator
         var winner = GetRcpWinner(glove1.Type, glove2.Type);
         var newCondition1 = condition1 with
         {
-            HealthPoint = condition1.HealthPoint - (winner == 0 ? damage : 0),
+            HealthPoint = condition1.HealthPoint - (winner == 1 ? damage : 0),
             GloveUsed = condition1.GloveUsed.SetItem(
                 condition1.Submission,
                 true),
         };
         var newCondition2 = condition2 with
         {
-            HealthPoint = condition2.HealthPoint - (winner == 1 ? damage : 0),
+            HealthPoint = condition2.HealthPoint - (winner == 0 ? damage : 0),
             GloveUsed = condition2.GloveUsed.SetItem(
                 condition2.Submission,
                 true),
