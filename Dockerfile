@@ -19,5 +19,8 @@ WORKDIR /app
 # Copy the published output from the build stage
 COPY --from=build /out ./
 
+# Expose the port for the application
+Expose 8080
+
 # Set the entry point for the application
 ENTRYPOINT ["dotnet", "HandRoyal.Node.dll"]
