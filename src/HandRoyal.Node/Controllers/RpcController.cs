@@ -12,7 +12,9 @@ namespace HandRoyal.Node.Controllers;
 [Route("rpc")]
 [ApiController]
 public sealed class RpcController(
-    IBlockChainService blockChainService, IWebHostEnvironment environment)
+    IBlockChainService blockChainService,
+    IWebHostEnvironment environment,
+    ILogger<RpcController> logger)
     : ControllerBase
 {
     private const string Version = "2.0";
@@ -41,6 +43,7 @@ public sealed class RpcController(
         }
         catch (Exception e)
         {
+            logger.LogError(e, "Failed to handle RPC request: {0}", request);
             return BadRequest(new { jsonrpc = Version, error = e.Message });
         }
     }
