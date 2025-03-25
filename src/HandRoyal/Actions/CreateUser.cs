@@ -1,4 +1,5 @@
-﻿using HandRoyal.Serialization;
+﻿using HandRoyal.DataAnnotations;
+using HandRoyal.Serialization;
 using HandRoyal.States;
 using Libplanet.Action;
 
@@ -17,6 +18,7 @@ public sealed record class CreateUser : ActionBase
             throw new InvalidOperationException("User already exists.");
         }
 
+        using var validationScope = new ValidationScope(world);
         world[Addresses.Users, signer] = new User
         {
             Id = signer,

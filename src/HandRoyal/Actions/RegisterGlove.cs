@@ -1,4 +1,5 @@
-﻿using HandRoyal.Exceptions;
+﻿using HandRoyal.DataAnnotations;
+using HandRoyal.Exceptions;
 using HandRoyal.Serialization;
 using HandRoyal.States;
 using Libplanet.Action;
@@ -12,6 +13,7 @@ namespace HandRoyal.Actions;
 public sealed record class RegisterGlove : ActionBase
 {
     [Property(0)]
+    [DisallowDefault]
     public required Address Id { get; init; }
 
     protected override void OnExecute(IWorldContext world, IActionContext context)

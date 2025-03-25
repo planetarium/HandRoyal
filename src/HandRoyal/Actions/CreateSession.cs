@@ -1,4 +1,5 @@
 ﻿using Bencodex.Types;
+using HandRoyal.DataAnnotations;
 using HandRoyal.Exceptions;
 using HandRoyal.Extensions;
 using HandRoyal.Serialization;
@@ -14,18 +15,24 @@ namespace HandRoyal.Actions;
 public sealed record class CreateSession : ActionBase
 {
     [Property(0)]
+    [DisallowDefault]
     public required Address SessionId { get; init; }
 
     [Property(1)]
+    [DisallowDefault]
     public required Address Prize { get; init; }
 
     [Property(2)]
+    [GreaterThan(nameof(MinimumUser))]
     public int MaximumUser { get; init; } = SessionMetadata.Default.MaximumUser;
 
     [Property(3)]
+    [Positive]
     public int MinimumUser { get; init; } = SessionMetadata.Default.MinimumUser;
 
     [Property(4)]
+    [Positive]
+    [LessThan(nameof(MinimumUser))]
     public int RemainingUser { get; init; } = SessionMetadata.Default.MaximumUser;
 
     [Property(5)]
@@ -35,6 +42,7 @@ public sealed record class CreateSession : ActionBase
     public long RoundLength { get; init; } = SessionMetadata.Default.RoundLength;
 
     [Property(7)]
+    [Positive]
     public long RoundInterval { get; init; } = SessionMetadata.Default.RoundInterval;
 
     protected override void OnExecute(IWorldContext world, IActionContext context)
@@ -62,6 +70,7 @@ public sealed record class CreateSession : ActionBase
             }
         }
 
+        using var validationScope = new ValidationScope(world);
         var sessionMetadata = new SessionMetadata
         {
             Id = SessionId,

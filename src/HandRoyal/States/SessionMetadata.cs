@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using HandRoyal.DataAnnotations;
 using HandRoyal.Serialization;
 using Libplanet.Crypto;
 
@@ -26,18 +27,23 @@ public sealed record class SessionMetadata
     [Property(2)]
     public required Address Prize { get; init; }
 
+    [GreaterThan(nameof(MinimumUser))]
     [Property(3)]
     public int MaximumUser { get; set; } = 8;
 
+    [Positive]
     [Property(4)]
     public int MinimumUser { get; set; } = 2;
 
+    [LessThan(nameof(MinimumUser))]
     [Property(5)]
     public int RemainingUser { get; set; } = 1;
 
+    [Positive]
     [Property(6)]
     public long StartAfter { get; set; } = 10;
 
+    [Positive]
     [Property(7)]
     public long RoundLength { get; set; } = 5;
 
