@@ -25,7 +25,7 @@ public static class Simulator
 
         // 배틀 시뮬레이션
         IGlove? glove1 = gloveIndex1 == -1 ? null : GloveLoader.LoadGlove(gloves1[gloveIndex1]);
-        IGlove? glove2 = gloveIndex2 == -1 ? null : GloveLoader.LoadGlove(gloves1[gloveIndex2]);
+        IGlove? glove2 = gloveIndex2 == -1 ? null : GloveLoader.LoadGlove(gloves2[gloveIndex2]);
         int winner = GetWinner(glove1?.Type, glove2?.Type);
         var nextGloveUsed1 = gloveIndex1 == -1 ?
             nextCondition1.GloveUsed :
@@ -57,13 +57,21 @@ public static class Simulator
 
         if (glove2 is not null)
         {
+            var isAttackerWin = glove2.Id.Equals(gunAddress) || winner == 1;
             (nextCondition2, nextCondition1) =
                 glove2.AttackBehavior.Execute(
                     glove2,
                     glove1,
                     nextCondition2,
                     nextCondition1,
-                    glove2.Id.Equals(gunAddress) || winner == 1);
+                    isAttackerWin);
+            foreach (var ability in glove2.Abilities)
+            {
+                (nextCondition2, nextCondition1) = ability.Apply(
+                    nextCondition2,
+                    nextCondition1,
+                    isAttackerWin);
+            }
         }
 
         return (

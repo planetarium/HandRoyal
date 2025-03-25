@@ -2,7 +2,6 @@
 using HandRoyal.Gloves;
 using HandRoyal.Serialization;
 using HandRoyal.States.Effects;
-using Libplanet.Crypto;
 
 namespace HandRoyal.States;
 
