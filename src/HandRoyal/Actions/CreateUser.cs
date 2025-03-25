@@ -33,13 +33,43 @@ public sealed record class CreateUser : ActionBase
                     },
                     new GloveInfo
                     {
-                        Id = new Address("0x0000000000000000000000000000000000000001"),
+                        Id = new Address("0x1000000000000000000000000000000000000000"),
                         Count = 2,
                     },
                     new GloveInfo
                     {
-                        Id = new Address("0x0000000000000000000000000000000000000002"),
+                        Id = new Address("0x2000000000000000000000000000000000000000"),
                         Count = 2,
+                    },
+                    new GloveInfo
+                    {
+                        Id = new Address("0x0100000000000000000000000000000000000000"),
+                        Count = 1,
+                    },
+                    new GloveInfo
+                    {
+                        Id = new Address("0x1100000000000000000000000000000000000000"),
+                        Count = 1,
+                    },
+                    new GloveInfo
+                    {
+                        Id = new Address("0x2100000000000000000000000000000000000000"),
+                        Count = 1,
+                    },
+                    new GloveInfo
+                    {
+                        Id = new Address("0x0100000000000000000000000000000000000001"),
+                        Count = 1,
+                    },
+                    new GloveInfo
+                    {
+                        Id = new Address("0x1100000000000000000000000000000000000001"),
+                        Count = 1,
+                    },
+                    new GloveInfo
+                    {
+                        Id = new Address("0x2100000000000000000000000000000000000001"),
+                        Count = 1,
                     },
                 ]
             ],

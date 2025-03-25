@@ -33,8 +33,8 @@ internal sealed class SessionEventData(Session session)
         .FirstOrDefault(p => p.Player.Id.Equals(UserId))?.Index;
 
     [GraphSkip]
-    public int? OpponentPlayerIndex => UserPlayerIndex is { } upi
-        ? CurrentUserMatch!.Players.FirstOrDefault(p => p != upi)
+    public int? OpponentPlayerIndex => UserPlayerIndex is { } upi && CurrentUserMatch is not null
+        ? CurrentUserMatch.Players.FirstOrDefault(p => p != upi)
         : null;
 
     public Address? OrganizerAddress => session.Metadata.Organizer;

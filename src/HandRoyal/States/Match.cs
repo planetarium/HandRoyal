@@ -204,8 +204,6 @@ public sealed record class Match
                 condition2,
                 players[Players[0]].Gloves,
                 players[Players[1]].Gloves,
-                condition1.Submission,
-                condition2.Submission,
                 random);
         var winner = winnerRaw switch
         {
