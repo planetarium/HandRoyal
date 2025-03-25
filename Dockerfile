@@ -1,7 +1,6 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG TARGETARCH
 WORKDIR /app
-
-ARG CONFIGURATION=Release
 
 COPY ./src ./HandRoyal/src
 COPY ./.editorconfig ./HandRoyal
@@ -9,11 +8,16 @@ COPY ./Directory.Build.props ./HandRoyal
 COPY ./Menees.Analyzers.Settings.xml ./HandRoyal
 COPY ./stylecop.json ./HandRoyal
 COPY ./.submodules/Libplanet ./HandRoyal/.submodules/Libplanet
+ENV DOTNET_NUGET_SIGNATURE_VERIFICATION=false
+RUN dotnet restore \
+    --arch $TARGETARCH \
+    ./HandRoyal/src/HandRoyal.Node/HandRoyal.Node.csproj
 
 RUN dotnet publish \
-    --configuration $CONFIGURATION \
+    --no-restore \
+    --configuration Release \
     --output /out \
-    --runtime linux-x64 \
+    --arch $TARGETARCH \
     ./HandRoyal/src/HandRoyal.Node/HandRoyal.Node.csproj
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
