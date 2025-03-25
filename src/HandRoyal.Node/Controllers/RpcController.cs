@@ -11,12 +11,15 @@ namespace HandRoyal.Node.Controllers;
 
 [Route("rpc")]
 [ApiController]
-public sealed class RpcController(IBlockChainService blockChainService) : ControllerBase
+public sealed class RpcController(
+    IBlockChainService blockChainService, IWebHostEnvironment environment)
+    : ControllerBase
 {
     private const string Version = "2.0";
-    private const string ChainId = "0xa8c";
 
     private readonly BlockChain _blockChain = blockChainService.BlockChain;
+
+    private string ChainId => environment.IsDevelopment() ? "0xfffa8c" : "0xa8c";
 
     [HttpPost]
     public IActionResult HandleRpcRequest([FromBody] JsonElement request)
