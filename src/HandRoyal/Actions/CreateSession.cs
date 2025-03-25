@@ -1,6 +1,7 @@
 ﻿using Bencodex.Types;
 using HandRoyal.Exceptions;
 using HandRoyal.Extensions;
+using HandRoyal.Gloves;
 using HandRoyal.Serialization;
 using HandRoyal.States;
 using Libplanet.Action;
@@ -32,16 +33,30 @@ public sealed record class CreateSession : ActionBase
     public long StartAfter { get; init; } = SessionMetadata.Default.StartAfter;
 
     [Property(6)]
-    public long RoundLength { get; init; } = SessionMetadata.Default.RoundLength;
+    public int MaxRounds { get; init; } = SessionMetadata.Default.MaxRounds;
 
     [Property(7)]
+    public long RoundLength { get; init; } = SessionMetadata.Default.RoundLength;
+
+    [Property(8)]
     public long RoundInterval { get; init; } = SessionMetadata.Default.RoundInterval;
+
+    [Property(9)]
+    public int InitialHealthPoint { get; init; } = SessionMetadata.Default.InitialHealthPoint;
+
+    [Property(10)]
+    public int NumberOfGloves { get; init; } = SessionMetadata.Default.NumberOfGloves;
 
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {
         if (SessionId == default)
         {
             throw new CreateSessionException("Session id is not set");
+        }
+
+        if (NumberOfGloves < MaxRounds)
+        {
+            throw new CreateSessionException("NumberOfGloves must be greater than MaxRounds.");
         }
 
         if (world.Contains(Addresses.Sessions, SessionId))
@@ -51,15 +66,13 @@ public sealed record class CreateSession : ActionBase
 
         var signer = context.Signer;
 
-        // Everyone can create session with default glove
-        if (!Prize.Equals(default))
+        try
         {
-            var glove = (Glove)world[Addresses.Gloves, Prize];
-            if (!glove.Author.Equals(signer))
-            {
-                throw new CreateSessionException(
-                    $"Organizer for session id {SessionId} is not author of the prize {Prize}");
-            }
+            _ = GloveLoader.LoadGlove(Prize);
+        }
+        catch (Exception)
+        {
+            throw new CreateSessionException($"Glove of id {Prize} does not exist");
         }
 
         var sessionMetadata = new SessionMetadata
@@ -71,8 +84,11 @@ public sealed record class CreateSession : ActionBase
             MinimumUser = MinimumUser,
             RemainingUser = RemainingUser,
             StartAfter = StartAfter,
+            MaxRounds = MaxRounds,
             RoundLength = RoundLength,
             RoundInterval = RoundInterval,
+            InitialHealthPoint = InitialHealthPoint,
+            NumberOfGloves = NumberOfGloves,
         };
         var sessionList = world.GetValue(Addresses.Sessions, Addresses.Sessions, List.Empty);
         world[Addresses.Sessions, Addresses.Sessions] = sessionList.Add(SessionId);

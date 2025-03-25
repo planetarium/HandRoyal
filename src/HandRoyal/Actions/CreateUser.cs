@@ -1,6 +1,9 @@
-﻿using HandRoyal.Serialization;
+﻿using System.Collections.Immutable;
+using HandRoyal.Gloves;
+using HandRoyal.Serialization;
 using HandRoyal.States;
 using Libplanet.Action;
+using Libplanet.Crypto;
 
 namespace HandRoyal.Actions;
 
@@ -21,6 +24,25 @@ public sealed record class CreateUser : ActionBase
         {
             Id = signer,
             EquippedGlove = default,
+            OwnedGloves = [
+                ..(GloveInfo[])[
+                    new GloveInfo
+                    {
+                        Id = new Address("0x0000000000000000000000000000000000000000"),
+                        Count = 2,
+                    },
+                    new GloveInfo
+                    {
+                        Id = new Address("0x0000000000000000000000000000000000000001"),
+                        Count = 2,
+                    },
+                    new GloveInfo
+                    {
+                        Id = new Address("0x0000000000000000000000000000000000000002"),
+                        Count = 2,
+                    },
+                ]
+            ],
         };
     }
 }

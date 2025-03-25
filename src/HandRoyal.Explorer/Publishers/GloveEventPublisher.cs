@@ -2,7 +2,7 @@ using Bencodex.Types;
 using HandRoyal.Actions;
 using HandRoyal.Explorer.Subscriptions;
 using HandRoyal.Explorer.Types;
-using HandRoyal.States;
+using HandRoyal.Gloves;
 using Libplanet.Action;
 using Libplanet.Node.Services;
 
@@ -24,7 +24,7 @@ internal sealed class GloveEventPublisher(
             var trie = stateStore.GetStateRoot(info.NextState);
             var world = new WorldStateContext(trie, stateStore);
             var glovesAccount = world[Addresses.Gloves];
-            var gloveState = glovesAccount.GetValue<Glove?>(registerGlove.Id, null);
+            var gloveState = glovesAccount.GetValue<IGlove?>(registerGlove.Id, null);
             if (gloveState != null)
             {
                 var eventData = new GloveRegisteredEventData(gloveState);

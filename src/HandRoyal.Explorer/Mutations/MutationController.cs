@@ -1,9 +1,9 @@
+using System.Collections.Immutable;
 using System.Text;
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
 using HandRoyal.Actions;
 using HandRoyal.Explorer.Types;
-using HandRoyal.States;
 using Libplanet.Crypto;
 using Libplanet.Node.Services;
 using Libplanet.Types.Tx;
@@ -33,8 +33,11 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
         int minimumUser,
         int remainingUser,
         long startAfter,
+        int maxRounds,
         long roundLength,
-        long roundInterval)
+        long roundInterval,
+        int initialHealthPoint,
+        int numberOfGloves)
     {
         var createSession = new CreateSession
         {
@@ -44,8 +47,11 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
             MinimumUser = minimumUser,
             RemainingUser = remainingUser,
             StartAfter = startAfter,
+            MaxRounds = maxRounds,
             RoundLength = roundLength,
             RoundInterval = roundInterval,
+            InitialHealthPoint = initialHealthPoint,
+            NumberOfGloves = numberOfGloves,
         };
         var txSettings = new TxSettings
         {
@@ -71,12 +77,12 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
     }
 
     [MutationRoot("JoinSession")]
-    public TxId JoinSession(PrivateKey privateKey, Address sessionId, Address? gloveId)
+    public TxId JoinSession(PrivateKey privateKey, Address sessionId, IEnumerable<Address> gloves)
     {
         var joinSession = new JoinSession
         {
             SessionId = sessionId,
-            Glove = gloveId ?? default,
+            Gloves = gloves.ToImmutableArray(),
         };
         var txSettings = new TxSettings
         {
@@ -87,12 +93,12 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
     }
 
     [MutationRoot("SubmitMove")]
-    public TxId SubmitMove(PrivateKey privateKey, Address sessionId, MoveType move)
+    public TxId SubmitMove(PrivateKey privateKey, Address sessionId, int gloveIndex)
     {
         var submitMove = new SubmitMove
         {
             SessionId = sessionId,
-            Move = move,
+            GloveIndex = gloveIndex,
         };
         var txSettings = new TxSettings
         {

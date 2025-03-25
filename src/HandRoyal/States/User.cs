@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using HandRoyal.Serialization;
 using Libplanet.Crypto;
 
@@ -15,7 +16,7 @@ public sealed record class User : IEquatable<User>
     public ImmutableArray<Address> RegisteredGloves { get; init; } = [];
 
     [Property(2)]
-    public ImmutableArray<Address> OwnedGloves { get; init; } = [];
+    public required ImmutableArray<GloveInfo> OwnedGloves { get; init; }
 
     [Property(3)]
     public Address EquippedGlove { get; init; }
@@ -29,6 +30,43 @@ public sealed record class User : IEquatable<User>
     public static bool TryGetUser(
         IWorldContext world, Address userId, [MaybeNullWhen(false)] out User user)
         => world.TryGetValue(Addresses.Users, userId, out user);
+
+    [Pure]
+    public User ObtainGlove(Address glove, int count)
+    {
+        var index = -1;
+        for (int i = 0; i < OwnedGloves.Length; i++)
+        {
+            if (OwnedGloves[i].Id.Equals(glove))
+            {
+                index = i;
+                break;
+            }
+        }
+
+        if (index == -1)
+        {
+            if (count <= 0)
+            {
+                return this;
+            }
+
+            return this with
+            {
+                OwnedGloves = OwnedGloves.Add(new GloveInfo { Id = glove, Count = count }),
+            };
+        }
+
+        var nextCount = OwnedGloves[index].Count + count;
+        nextCount = nextCount < 0 ? 0 : nextCount;
+
+        return this with
+        {
+            OwnedGloves = OwnedGloves
+                .RemoveAt(index)
+                .Add(new GloveInfo { Id = glove, Count = nextCount }),
+        };
+    }
 
     public bool Equals(User? other) => ModelUtility.Equals(this, other);
 

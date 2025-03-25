@@ -1,4 +1,4 @@
-﻿namespace HandRoyal.States;
+﻿namespace HandRoyal.Enums;
 
 public enum SessionState
 {
@@ -8,7 +8,5 @@ public enum SessionState
 
     Active = 2,
 
-    Break = 3,
-
-    Ended = 4,
+    Ended = 3,
 }

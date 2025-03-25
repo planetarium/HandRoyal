@@ -1,7 +1,9 @@
 ﻿using System.Collections.Immutable;
 using Bencodex.Types;
+using HandRoyal.Enums;
 using HandRoyal.States;
 using Libplanet.Action;
+using Libplanet.Crypto;
 
 namespace HandRoyal.BlockActions;
 
@@ -48,12 +50,13 @@ internal sealed class PostProcessSession : BlockActionBase
                 continue;
             }
 
-            var gloves = winnerIds.Contains(userId)
-                ? user.OwnedGloves.Add(prize)
-                : user.OwnedGloves;
+            if (winnerIds.Contains(userId))
+            {
+                user = user.ObtainGlove(prize, 1);
+            }
+
             usersAccount[userId] = user with
             {
-                OwnedGloves = gloves,
                 SessionId = default,
             };
         }

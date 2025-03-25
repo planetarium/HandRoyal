@@ -1,9 +1,9 @@
+using System.Collections.Immutable;
 using Bencodex;
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
 using HandRoyal.Actions;
 using HandRoyal.Explorer.Types;
-using HandRoyal.States;
 using Libplanet.Action;
 using Libplanet.Crypto;
 
@@ -28,8 +28,10 @@ internal sealed class ActionQueryController : GraphController
         int minimumUser,
         int remainingUser,
         long startAfter,
+        int maxRounds,
         long roundLength,
-        long roundInterval)
+        long roundInterval,
+        int initialHealthPoint)
     {
         var createSession = new CreateSession
         {
@@ -39,19 +41,21 @@ internal sealed class ActionQueryController : GraphController
             MinimumUser = minimumUser,
             RemainingUser = remainingUser,
             StartAfter = startAfter,
+            MaxRounds = maxRounds,
             RoundLength = roundLength,
             RoundInterval = roundInterval,
+            InitialHealthPoint = initialHealthPoint,
         };
         return Encode(createSession);
     }
 
     [Query("JoinSession")]
-    public HexValue JoinSession(Address sessionId, Address? gloveId)
+    public HexValue JoinSession(Address sessionId, IEnumerable<Address> gloves)
     {
         var joinSession = new JoinSession
         {
             SessionId = sessionId,
-            Glove = gloveId ?? default,
+            Gloves = gloves.ToImmutableArray(),
         };
         return Encode(joinSession);
     }
@@ -67,12 +71,12 @@ internal sealed class ActionQueryController : GraphController
     }
 
     [Query("SubmitMove")]
-    public HexValue SubmitMove(Address sessionId, MoveType move)
+    public HexValue SubmitMove(Address sessionId, int gloveIndex)
     {
         var submitMove = new SubmitMove
         {
             SessionId = sessionId,
-            Move = move,
+            GloveIndex = gloveIndex,
         };
         return Encode(submitMove);
     }

@@ -39,8 +39,17 @@ public sealed record class SessionMetadata
     public long StartAfter { get; set; } = 10;
 
     [Property(7)]
-    public long RoundLength { get; set; } = 5;
+    public int MaxRounds { get; set; } = 5;
 
     [Property(8)]
+    public long RoundLength { get; set; } = 5;
+
+    [Property(9)]
     public long RoundInterval { get; set; } = 5;
+
+    [Property(10)]
+    public int InitialHealthPoint { get; set; } = 100;
+
+    [Property(11)]
+    public int NumberOfGloves { get; set; } = 5;
 }
