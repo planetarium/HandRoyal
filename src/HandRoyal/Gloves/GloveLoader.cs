@@ -4,7 +4,7 @@ namespace HandRoyal.Gloves;
 
 public static class GloveLoader
 {
-    private static readonly GloveFactory _factory = new("src/HandRoyal/Gloves/Data/gloves.json");
+    private static readonly GloveFactory _factory = new("../HandRoyal/Gloves/Data/gloves.json");
 
     public static IGlove LoadGlove(Address id)
     {

@@ -4,5 +4,10 @@ namespace HandRoyal.Gloves;
 
 public interface IAttackBehavior
 {
-    BattleResult Execute(BattleContext context);
-} 
+    (Condition NextAttackerCondition, Condition NextDefenderCondition) Execute(
+        IGlove attackerGlove,
+        IGlove? defenderGlove,
+        Condition attackerCondition,
+        Condition defenderCondition,
+        bool isAttackerWin);
+}

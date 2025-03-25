@@ -1,26 +1,30 @@
 using System.Text.Json;
+using HandRoyal.Enums;
+using HandRoyal.Gloves.Abilities;
 using HandRoyal.Gloves.Behaviors;
 using HandRoyal.Gloves.Data;
-using HandRoyal.Gloves.Effects;
 using Libplanet.Crypto;
 
 namespace HandRoyal.Gloves;
 
 public class GloveFactory
 {
-    private readonly IReadOnlyDictionary<string, GloveData> _gloveData;
-    private readonly IReadOnlyDictionary<string, Type> _behaviorTypes;
+    private readonly JsonSerializerOptions _jsonOptions = new()
+        { PropertyNameCaseInsensitive = true };
+
+    private readonly Dictionary<string, GloveData> _gloveData;
+    private readonly Dictionary<string, Type> _behaviorTypes;
 
     public GloveFactory(string jsonPath)
     {
         var json = File.ReadAllText(jsonPath);
-        var gloveDataList = JsonSerializer.Deserialize<List<GloveData>>(json) ?? new List<GloveData>();
-        _gloveData = gloveDataList.ToDictionary(d => d.Id);
+        var gloveDataList =
+            JsonSerializer.Deserialize<GloveDataList>(json, _jsonOptions);
+        _gloveData = gloveDataList.Gloves.ToDictionary(d => d.Id);
 
         _behaviorTypes = new Dictionary<string, Type>
         {
-            { "Basic", typeof(BasicAttackBehavior) },
-            // 여기에 새로운 공격 행동 타입들을 추가할 수 있습니다.
+            { "basic", typeof(BasicAttackBehavior) },
         };
     }
 
@@ -34,34 +38,57 @@ public class GloveFactory
         var behaviorType = _behaviorTypes.GetValueOrDefault(data.AttackBehaviorType);
         if (behaviorType == null)
         {
-            throw new ArgumentException($"Attack behavior type {data.AttackBehaviorType} not found");
+            throw new ArgumentException(
+                $"Attack behavior type {data.AttackBehaviorType} not found");
         }
 
         var behavior = (IAttackBehavior)Activator.CreateInstance(behaviorType)!;
-        var effects = data.Effects.Select(e => CreateEffect(e)).ToList();
+        var abilities = data.Abilities.Select(CreateAbility).ToList();
+        GloveType gloveType = data.Type switch
+        {
+            "rock" => GloveType.Rock,
+            "scissors" => GloveType.Scissors,
+            "paper" => GloveType.Paper,
+            "special" => GloveType.Special,
+            _ => throw new AggregateException($"Unknown glove type {data.Type}"),
+        };
+        Rarity rarity = data.Rarity switch
+        {
+            "common" => Rarity.Common,
+            "uncommon" => Rarity.Uncommon,
+            "rare" => Rarity.Rare,
+            "legendary" => Rarity.Legendary,
+            _ => throw new AggregateException($"Unknown rarity {data.Rarity}"),
+        };
 
         return new Glove(
             new Address(data.Id),
-            data.Type,
-            data.Rarity,
+            data.Name,
+            gloveType,
+            rarity,
             data.BaseDamage,
-            effects,
+            abilities,
             behavior);
     }
 
-    private IEffect CreateEffect(EffectData data)
+    private static IAbility CreateAbility(AbilityData data)
     {
         return data.Type switch
         {
-            EffectType.DamageReduction => new DamageReductionEffect(
-                data.Name,
-                data.Duration,
-                Convert.ToInt32(data.Parameters["reductionAmount"])),
-            EffectType.Burn => new BurnEffect(
-                data.Name,
-                data.Duration,
-                Convert.ToInt32(data.Parameters["damagePerRound"])),
-            _ => throw new ArgumentException($"Unknown effect type: {data.Type}")
+            "damageReduction" => new DamageReductionAbility(
+                Convert.ToInt32(data.Parameters[0])),
+            "burn" => new BurnAbility(
+                Convert.ToInt32(data.Parameters[0])),
+            _ => throw new ArgumentException($"Unknown effect type: {data.Type}"),
         };
     }
-} 
+
+    private struct GloveDataList
+    {
+        public GloveDataList()
+        {
+        }
+
+        public GloveData[] Gloves { get; init; } = [];
+    }
+}

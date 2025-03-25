@@ -70,9 +70,9 @@ public sealed record class CreateSession : ActionBase
         {
             _ = GloveLoader.LoadGlove(Prize);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            throw new CreateSessionException($"Glove of id {Prize} does not exist");
+            throw new CreateSessionException($"Glove of id {Prize} does not exist", e);
         }
 
         var sessionMetadata = new SessionMetadata

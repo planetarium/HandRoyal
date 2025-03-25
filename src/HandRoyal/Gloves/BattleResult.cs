@@ -2,14 +2,13 @@ namespace HandRoyal.Gloves;
 
 public class BattleResult
 {
-    public int Damage { get; }
-    public IEnumerable<IEffect> Effects { get; }
-    public int Winner { get; }
-
-    public BattleResult(int damage, IEnumerable<IEffect> effects, int winner)
+    public BattleResult(int damage, IEnumerable<IAbility> effects)
     {
         Damage = damage;
         Effects = effects;
-        Winner = winner;
     }
-} 
+
+    public int Damage { get; }
+
+    public IEnumerable<IAbility> Effects { get; }
+}

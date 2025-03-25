@@ -1,11 +1,16 @@
+﻿using HandRoyal.Enums;
 using HandRoyal.States;
+using HandRoyal.States.Effects;
 
 namespace HandRoyal.Gloves;
 
 public interface IEffect
 {
-    string Name { get; }
-    EffectType Type { get; }
+    EffectType EffectType { get; }
+
     int Duration { get; }
-    void Apply(BattleContext context);
-} 
+
+    (IEffect NextEffect, Condition NextCondition) Apply(Condition condition);
+
+    EffectData ToEffectData();
+}

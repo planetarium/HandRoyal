@@ -1,9 +1,8 @@
 ﻿using System.Collections.Immutable;
-using HandRoyal.Enums;
-using HandRoyal.Serialization;
-using Libplanet.Crypto;
 using HandRoyal.Gloves;
-using HandRoyal.Gloves.Effects;
+using HandRoyal.Serialization;
+using HandRoyal.States.Effects;
+using Libplanet.Crypto;
 
 namespace HandRoyal.States;
 
@@ -20,18 +19,36 @@ public sealed record class Condition : IEquatable<Condition>
     public int Submission { get; init; } = -1;
 
     [Property(3)]
-    public ImmutableArray<Address> Gloves { get; init; }
+    public ImmutableArray<EffectData> ActiveEffectData { get; init; } =
+        ImmutableArray<EffectData>.Empty;
 
-    [Property(4)]
-    public ImmutableArray<EffectData> ActiveEffects { get; init; }
+    public ImmutableArray<IEffect> ActiveEffects =>
+        [..ActiveEffectData.Select(EffectLoader.CreateEffect)];
 
-    public bool HasBurnEffect() =>
-        ActiveEffects.Any(e => e.Type == EffectType.Burn);
-
-    public int GetBurnDamage()
+    public Condition AdjustEffect(IEffect effect)
     {
-        var burnEffect = ActiveEffects.FirstOrDefault(e => e.Type == EffectType.Burn);
-        return burnEffect != null ? Convert.ToInt32(burnEffect.Parameters["damagePerRound"]) : 0;
+        return this with
+        {
+            ActiveEffectData = ActiveEffectData.Add(effect.ToEffectData()),
+        };
+    }
+
+    public Condition ApplyEffects()
+    {
+        var condition = this;
+        var nextEffects = new List<IEffect>();
+        foreach (var effect in ActiveEffects)
+        {
+            var (nextEffect, nextCondition) = effect.Apply(condition);
+            nextEffects.Add(nextEffect);
+            condition = nextCondition;
+        }
+
+        condition = condition with
+        {
+            ActiveEffectData = [..nextEffects.Select(effect => effect.ToEffectData())],
+        };
+        return condition;
     }
 
     public bool Equals(Condition? other) => ModelUtility.Equals(this, other);

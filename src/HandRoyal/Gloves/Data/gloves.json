@@ -3,173 +3,173 @@
     {
       "id": "0x0000000000000000000000000000000000000000",
       "name": "Basic Rock",
-      "type": "Rock",
-      "rarity": "Common",
+      "type": "rock",
+      "rarity": "common",
       "baseDamage": 40,
-      "attackBehaviorType": "Basic",
-      "effects": []
+      "attackBehaviorType": "basic",
+      "abilities": []
     },
     {
-      "id": "0x0000000000000000000000000000000000000001",
+      "id": "0x1000000000000000000000000000000000000000",
       "name": "Basic Paper",
-      "type": "Paper",
-      "rarity": "Common",
+      "type": "paper",
+      "rarity": "common",
       "baseDamage": 40,
-      "attackBehaviorType": "Basic",
-      "effects": []
+      "attackBehaviorType": "basic",
+      "abilities": []
     },
     {
-      "id": "0x0000000000000000000000000000000000000002",
+      "id": "0x2000000000000000000000000000000000000000",
       "name": "Basic Scissors",
-      "type": "Scissors",
-      "rarity": "Common",
+      "type": "scissors",
+      "rarity": "common",
       "baseDamage": 40,
-      "attackBehaviorType": "Basic",
-      "effects": []
+      "attackBehaviorType": "basic",
+      "abilities": []
     },
     {
-      "id": "0x0000000000000000000000000000000000000003",
-      "name": "Sharp Rock",
-      "type": "Rock",
-      "rarity": "Uncommon",
+      "id": "0x0100000000000000000000000000000000000000",
+      "name": "Red Rock",
+      "type": "rock",
+      "rarity": "uncommon",
       "baseDamage": 42,
-      "attackBehaviorType": "Basic",
-      "effects": []
+      "attackBehaviorType": "basic",
+      "abilities": []
     },
     {
-      "id": "0x0000000000000000000000000000000000000004",
-      "name": "Sharp Paper",
-      "type": "Paper",
-      "rarity": "Uncommon",
+      "id": "0x1100000000000000000000000000000000000000",
+      "name": "Red Paper",
+      "type": "paper",
+      "rarity": "uncommon",
       "baseDamage": 42,
-      "attackBehaviorType": "Basic",
-      "effects": []
+      "attackBehaviorType": "basic",
+      "abilities": []
     },
     {
-      "id": "0x0000000000000000000000000000000000000005",
-      "name": "Sharp Scissors",
-      "type": "Scissors",
-      "rarity": "Uncommon",
+      "id": "0x2100000000000000000000000000000000000000",
+      "name": "Red Scissors",
+      "type": "scissors",
+      "rarity": "uncommon",
       "baseDamage": 42,
-      "attackBehaviorType": "Basic",
-      "effects": []
+      "attackBehaviorType": "basic",
+      "abilities": []
     },
     {
-      "id": "0x0000000000000000000000000000000000000006",
-      "name": "Sturdy Rock",
-      "type": "Rock",
-      "rarity": "Uncommon",
+      "id": "0x0100000000000000000000000000000000000001",
+      "name": "Green Rock",
+      "type": "rock",
+      "rarity": "uncommon",
       "baseDamage": 40,
-      "attackBehaviorType": "Basic",
-      "effects": [
+      "attackBehaviorType": "basic",
+      "abilities": [
         {
           "name": "Damage Reduction",
-          "type": "DamageReduction",
+          "type": "damageReduction",
           "duration": 1,
-          "parameters": {
-            "reductionAmount": 2
-          }
+          "parameters": [
+            2
+          ]
         }
       ]
     },
     {
-      "id": "0x0000000000000000000000000000000000000007",
-      "name": "Sturdy Paper",
-      "type": "Paper",
-      "rarity": "Uncommon",
+      "id": "0x1100000000000000000000000000000000000001",
+      "name": "Green Paper",
+      "type": "paper",
+      "rarity": "uncommon",
       "baseDamage": 40,
-      "attackBehaviorType": "Basic",
-      "effects": [
+      "attackBehaviorType": "basic",
+      "abilities": [
         {
           "name": "Damage Reduction",
-          "type": "DamageReduction",
+          "type": "damageReduction",
           "duration": 1,
-          "parameters": {
-            "reductionAmount": 2
-          }
+          "parameters": [
+            2
+          ]
         }
       ]
     },
     {
-      "id": "0x0000000000000000000000000000000000000008",
-      "name": "Sturdy Scissors",
-      "type": "Scissors",
-      "rarity": "Uncommon",
+      "id": "0x2100000000000000000000000000000000000001",
+      "name": "Green Scissors",
+      "type": "scissors",
+      "rarity": "uncommon",
       "baseDamage": 40,
-      "attackBehaviorType": "Basic",
-      "effects": [
+      "attackBehaviorType": "basic",
+      "abilities": [
         {
           "name": "Damage Reduction",
-          "type": "DamageReduction",
+          "type": "damageReduction",
           "duration": 1,
-          "parameters": {
-            "reductionAmount": 2
-          }
+          "parameters": [
+            2
+          ]
         }
       ]
     },
     {
-      "id": "0x0000000000000000000000000000000000000009",
+      "id": "0x0200000000000000000000000000000000000000",
       "name": "Burning Rock",
-      "type": "Rock",
-      "rarity": "Rare",
+      "type": "rock",
+      "rarity": "rare",
       "baseDamage": 35,
-      "attackBehaviorType": "Basic",
-      "effects": [
+      "attackBehaviorType": "basic",
+      "abilities": [
         {
           "name": "Burn",
-          "type": "Burn",
+          "type": "burn",
           "duration": -1,
-          "parameters": {
-            "damagePerRound": 5
-          }
+          "parameters": [
+            5
+          ]
         }
       ]
     },
     {
-      "id": "0x0000000000000000000000000000000000000010",
+      "id": "0x1200000000000000000000000000000000000000",
       "name": "Burning Paper",
-      "type": "Paper",
-      "rarity": "Rare",
+      "type": "paper",
+      "rarity": "rare",
       "baseDamage": 35,
-      "attackBehaviorType": "Basic",
-      "effects": [
+      "attackBehaviorType": "basic",
+      "abilities": [
         {
           "name": "Burn",
-          "type": "Burn",
+          "type": "burn",
           "duration": -1,
-          "parameters": {
-            "damagePerRound": 5
-          }
+          "parameters": [
+            5
+          ]
         }
       ]
     },
     {
-      "id": "0x0000000000000000000000000000000000000011",
+      "id": "0x2200000000000000000000000000000000000000",
       "name": "Burning Scissors",
-      "type": "Scissors",
-      "rarity": "Rare",
+      "type": "scissors",
+      "rarity": "rare",
       "baseDamage": 35,
-      "attackBehaviorType": "Basic",
-      "effects": [
+      "attackBehaviorType": "basic",
+      "abilities": [
         {
           "name": "Burn",
-          "type": "Burn",
+          "type": "burn",
           "duration": -1,
-          "parameters": {
-            "damagePerRound": 5
-          }
+          "parameters": [
+            5
+          ]
         }
       ]
     },
     {
-      "id": "0x0000000000000000000000000000000000000012",
+      "id": "0x3400000000000000000000000000000000000000",
       "name": "Gun",
-      "type": "Special",
-      "rarity": "Legendary",
+      "type": "special",
+      "rarity": "legendary",
       "baseDamage": 30,
-      "attackBehaviorType": "Basic",
-      "effects": []
+      "attackBehaviorType": "basic",
+      "abilities": []
     }
   ]
-} 
+}

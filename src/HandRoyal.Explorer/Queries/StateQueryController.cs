@@ -62,18 +62,4 @@ internal sealed class StateQueryController(IBlockChainService blockChainService)
 
         return null;
     }
-
-    [Query("Glove")]
-    public IGlove? GetGlove(Address gloveId)
-    {
-        var blockChain = blockChainService.BlockChain;
-        var world = new WorldStateContext(blockChain);
-        var glovesAccount = world[Addresses.Gloves];
-        if (glovesAccount.TryGetValue<IGlove>(gloveId, out var glove))
-        {
-            return glove;
-        }
-
-        return null;
-    }
 }

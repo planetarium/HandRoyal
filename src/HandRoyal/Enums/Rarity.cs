@@ -6,5 +6,5 @@ public enum Rarity
     Uncommon = 1,  // 희귀
     Rare = 2,      // 레어
     Epic = 3,      // 에픽
-    Legendary = 4  // 전설
-} 
+    Legendary = 4, // 전설
+}
