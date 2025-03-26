@@ -12,6 +12,9 @@ namespace HandRoyal.Actions;
 [GasUsage(1)]
 public sealed record class CreateUser : ActionBase
 {
+    [Property(0)]
+    public required string Name { get; init; }
+
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {
         var signer = context.Signer;
@@ -23,6 +26,7 @@ public sealed record class CreateUser : ActionBase
         world[Addresses.Users, signer] = new User
         {
             Id = signer,
+            Name = Name,
             EquippedGlove = default,
             OwnedGloves = [
                 ..(GloveInfo[])[

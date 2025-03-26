@@ -14,9 +14,12 @@ internal sealed class ActionQueryController : GraphController
     private static readonly Codec _codec = new();
 
     [Query("CreateUser")]
-    public HexValue CreateUser()
+    public HexValue CreateUser(string name)
     {
-        var createUser = new CreateUser();
+        var createUser = new CreateUser
+        {
+            Name = name,
+        };
         return Encode(createUser);
     }
 
