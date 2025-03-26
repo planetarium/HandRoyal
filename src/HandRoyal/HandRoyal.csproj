@@ -12,4 +12,8 @@
     <PackageReference Include="Libplanet.Action" Version="$(LibplanetVersion)" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Gloves/Data/gloves.json" />
+  </ItemGroup>
+
 </Project>

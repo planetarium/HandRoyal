@@ -15,11 +15,10 @@ public class GloveFactory
     private readonly Dictionary<string, GloveData> _gloveData;
     private readonly Dictionary<string, Type> _behaviorTypes;
 
-    public GloveFactory(string jsonPath)
+    public GloveFactory(string jsonContent)
     {
-        var json = File.ReadAllText(jsonPath);
         var gloveDataList =
-            JsonSerializer.Deserialize<GloveDataList>(json, _jsonOptions);
+            JsonSerializer.Deserialize<GloveDataList>(jsonContent, _jsonOptions);
         _gloveData = gloveDataList.Gloves.ToDictionary(d => d.Id);
 
         _behaviorTypes = new Dictionary<string, Type>
