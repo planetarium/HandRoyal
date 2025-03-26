@@ -13,9 +13,12 @@ namespace HandRoyal.Explorer.Mutations;
 internal sealed class MutationController(IBlockChainService blockChainService) : GraphController
 {
     [MutationRoot("CreateUser")]
-    public TxId CreateUser(PrivateKey privateKey)
+    public TxId CreateUser(PrivateKey privateKey, string name)
     {
-        var createUser = new CreateUser();
+        var createUser = new CreateUser
+        {
+            Name = name,
+        };
         var txSettings = new TxSettings
         {
             PrivateKey = privateKey,
