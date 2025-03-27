@@ -163,6 +163,33 @@
       ]
     },
     {
+      "id": "0x0300000000000000000000000000000000000000",
+      "name": "Latecomer Rock",
+      "type": "rock",
+      "rarity": "epic",
+      "baseDamage": 15,
+      "attackBehaviorType": "lateCommer",
+      "abilities": []
+    },
+    {
+      "id": "0x1300000000000000000000000000000000000000",
+      "name": "Latecomer Paper",
+      "type": "paper",
+      "rarity": "epic",
+      "baseDamage": 15,
+      "attackBehaviorType": "lateCommer",
+      "abilities": []
+    },
+    {
+      "id": "0x2300000000000000000000000000000000000000",
+      "name": "Latecomer Scissors",
+      "type": "scissor",
+      "rarity": "epic",
+      "baseDamage": 15,
+      "attackBehaviorType": "lateCommer",
+      "abilities": []
+    },
+    {
       "id": "0x3400000000000000000000000000000000000000",
       "name": "Gun",
       "type": "special",

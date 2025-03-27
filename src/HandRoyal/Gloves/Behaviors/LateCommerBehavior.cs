@@ -1,9 +1,9 @@
-using HandRoyal.Gloves.Abilities;
+﻿using HandRoyal.Gloves.Abilities;
 using HandRoyal.States;
 
 namespace HandRoyal.Gloves.Behaviors;
 
-public class BasicAttackBehavior : IAttackBehavior
+public class LateCommerBehavior : IAttackBehavior
 {
     public (Condition NextAttackerCondition, Condition NextDefenderCondition) Execute(
         IGlove attackerGlove,
@@ -11,7 +11,7 @@ public class BasicAttackBehavior : IAttackBehavior
         Condition attackerCondition,
         Condition defenderCondition,
         bool isAttackerWin,
-        BattleContext battleContext)
+        BattleContext context)
     {
         if (!isAttackerWin)
         {
@@ -23,12 +23,13 @@ public class BasicAttackBehavior : IAttackBehavior
         {
             defenderCondition = defenderCondition with
             {
-                HealthPoint = defenderCondition.HealthPoint - attackerGlove.BaseDamage,
+                HealthPoint = defenderCondition.HealthPoint -
+                              (attackerGlove.BaseDamage * (context.RoundIndex + 1)),
             };
         }
         else
         {
-            var damage = attackerGlove.BaseDamage;
+            var damage = attackerGlove.BaseDamage * (context.RoundIndex + 1);
             foreach (var effect in defenderGloveNotNull!.Abilities)
             {
                 if (effect is DamageReductionAbility dre)

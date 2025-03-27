@@ -1,6 +1,7 @@
 ﻿using System.Collections.Immutable;
 using HandRoyal.Enums;
 using HandRoyal.Gloves;
+using HandRoyal.Gloves.Behaviors;
 using HandRoyal.States;
 using Libplanet.Action;
 using Libplanet.Crypto;
@@ -15,6 +16,7 @@ public static class Simulator
         Condition condition2,
         ImmutableArray<Address> gloves1,
         ImmutableArray<Address> gloves2,
+        int roundIndex,
         IRandom random)
     {
         // 상태 이상들을 체크하고 상태 이상 대미지를 가함
@@ -33,6 +35,7 @@ public static class Simulator
         var nextGloveUsed2 = gloveIndex2 == -1 ?
             nextCondition2.GloveUsed :
             nextCondition2.GloveUsed.SetItem(gloveIndex2, true);
+        var context = new BattleContext { RoundIndex = roundIndex };
 
         // 총에 대한 특수 케이스
         var gunAddress = new Address("0x3400000000000000000000000000000000000000");
@@ -45,7 +48,8 @@ public static class Simulator
                     glove2,
                     nextCondition1,
                     nextCondition2,
-                    isAttackerWin);
+                    isAttackerWin,
+                    context);
             foreach (var ability in glove1.Abilities)
             {
                 (nextCondition1, nextCondition2) = ability.Apply(
@@ -64,7 +68,8 @@ public static class Simulator
                     glove1,
                     nextCondition2,
                     nextCondition1,
-                    isAttackerWin);
+                    isAttackerWin,
+                    context);
             foreach (var ability in glove2.Abilities)
             {
                 (nextCondition2, nextCondition1) = ability.Apply(
