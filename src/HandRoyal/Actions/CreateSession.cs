@@ -1,4 +1,5 @@
-﻿using Bencodex.Types;
+﻿using System.Collections.Immutable;
+using Bencodex.Types;
 using HandRoyal.Exceptions;
 using HandRoyal.Extensions;
 using HandRoyal.Gloves;
@@ -47,6 +48,9 @@ public sealed record class CreateSession : ActionBase
     [Property(10)]
     public int NumberOfGloves { get; init; } = SessionMetadata.Default.NumberOfGloves;
 
+    [Property(11)]
+    public ImmutableArray<Address> Users { get; init; } = SessionMetadata.Default.Users;
+
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {
         if (SessionId == default)
@@ -89,6 +93,7 @@ public sealed record class CreateSession : ActionBase
             RoundInterval = RoundInterval,
             InitialHealthPoint = InitialHealthPoint,
             NumberOfGloves = NumberOfGloves,
+            Users = Users,
         };
         var sessionList = world.GetValue(Addresses.Sessions, Addresses.Sessions, List.Empty);
         world[Addresses.Sessions, Addresses.Sessions] = sessionList.Add(SessionId);

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Immutable;
+using System.ComponentModel.DataAnnotations;
 using HandRoyal.Serialization;
 using Libplanet.Crypto;
 
@@ -52,4 +53,7 @@ public sealed record class SessionMetadata
 
     [Property(11)]
     public int NumberOfGloves { get; set; } = 5;
+
+    [Property(12)]
+    public ImmutableArray<Address> Users { get; set; } = [];
 }
