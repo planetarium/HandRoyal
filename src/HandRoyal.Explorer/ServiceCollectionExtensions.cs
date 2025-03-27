@@ -31,6 +31,7 @@ public static class ServiceCollectionExtensions
         @this.AddHostedService<UserEventPublisher>();
         @this.AddHostedService<GloveEventPublisher>();
         @this.AddHostedService<TransactionEventPublisher>();
+        @this.AddHostedService<PickUpEventPublisher>();
 
         return @this;
     }

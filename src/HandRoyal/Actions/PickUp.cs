@@ -27,7 +27,7 @@ public sealed record class PickUp : ActionBase
             signer,
             Currencies.SinkAddress,
             new FungibleAssetValue(Currencies.Royal, Price, 0));
-        var pickup = GloveLoader.PickUpGlove(context.GetRandom());
+        var pickup = GloveLoader.PickUpGlove(context.GetRandom(), false);
         bool added = false;
         var nextOwnedGloves = new List<GloveInfo>();
         foreach (var gloveInfo in user.OwnedGloves)

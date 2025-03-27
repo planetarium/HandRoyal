@@ -28,13 +28,14 @@ public class GloveFactory
         };
     }
 
-    public string PickUpGlove(IRandom random)
+    public string PickUpGlove(IRandom random, bool ensureUncommon)
     {
-        const int max = 1000;
-        const int uncommon = 125;  // 희귀
-        const int rare = 25;      // 레어
-        const int epic = 5;      // 에픽
-        const int legendary = 1; // 전설
+        const int common = 256;   // 일반
+        const int uncommon = 64;  // 고급
+        const int rare = 16;      // 희귀
+        const int epic = 4;       // 에픽
+        const int legendary = 1;  // 전설
+        const int max = common + uncommon + rare + epic + legendary;
         switch (random.Next(0, max))
         {
             case < legendary:
@@ -78,7 +79,9 @@ public class GloveFactory
                 throw new InvalidOperationException("No uncommon glove");
 
             default:
-                var commons = _gloveData.Values.Where(d => d.Rarity == "common").ToArray();
+                var commons = _gloveData.Values
+                    .Where(d => d.Rarity == (ensureUncommon ? "uncommon" : "common"))
+                    .ToArray();
                 if (commons.Length != 0)
                 {
                     var index = random.Next(0, commons.Length);

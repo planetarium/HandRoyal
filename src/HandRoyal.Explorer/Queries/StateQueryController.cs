@@ -1,7 +1,6 @@
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
 using HandRoyal.Explorer.Types;
-using HandRoyal.Gloves;
 using HandRoyal.States;
 using Libplanet.Crypto;
 using Libplanet.Node.Services;

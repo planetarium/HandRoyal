@@ -29,8 +29,8 @@ public static class GloveLoader
         return _factory.CreateGlove(id.ToString());
     }
 
-    public static string PickUpGlove(IRandom random)
+    public static string PickUpGlove(IRandom random, bool ensureUncommon)
     {
-        return _factory.PickUpGlove(random);
+        return _factory.PickUpGlove(random, ensureUncommon);
     }
 }
