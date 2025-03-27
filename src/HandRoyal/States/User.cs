@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using HandRoyal.Serialization;
 using Libplanet.Crypto;
+using Libplanet.Types.Assets;
 
 namespace HandRoyal.States;
 

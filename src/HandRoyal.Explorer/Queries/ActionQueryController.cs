@@ -86,5 +86,12 @@ internal sealed class ActionQueryController : GraphController
         return Encode(submitMove);
     }
 
+    [Query("PickUp")]
+    public HexValue PickUp()
+    {
+        var pickUp = new PickUp();
+        return Encode(pickUp);
+    }
+
     private static HexValue Encode(IAction action) => _codec.Encode(action.PlainValue);
 }

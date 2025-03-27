@@ -3,6 +3,7 @@ using HandRoyal.Enums;
 using HandRoyal.Gloves.Abilities;
 using HandRoyal.Gloves.Behaviors;
 using HandRoyal.Gloves.Data;
+using Libplanet.Action;
 using Libplanet.Crypto;
 
 namespace HandRoyal.Gloves;
@@ -25,6 +26,69 @@ public class GloveFactory
         {
             { "basic", typeof(BasicAttackBehavior) },
         };
+    }
+
+    public string PickUpGlove(IRandom random)
+    {
+        const int max = 1000;
+        const int uncommon = 125;  // 희귀
+        const int rare = 25;      // 레어
+        const int epic = 5;      // 에픽
+        const int legendary = 1; // 전설
+        switch (random.Next(0, max))
+        {
+            case < legendary:
+                var legendaries = _gloveData.Values.Where(d => d.Rarity == "legendary").ToArray();
+                if (legendaries.Length != 0)
+                {
+                    var index = random.Next(0, legendaries.Length);
+                    return legendaries[index].Id;
+                }
+
+                throw new InvalidOperationException("No legendary glove");
+
+            case < epic:
+                var epics = _gloveData.Values.Where(d => d.Rarity == "epic").ToArray();
+                if (epics.Length != 0)
+                {
+                    var index = random.Next(0, epics.Length);
+                    return epics[index].Id;
+                }
+
+                throw new InvalidOperationException("No epic glove");
+
+            case < rare:
+                var rares = _gloveData.Values.Where(d => d.Rarity == "rare").ToArray();
+                if (rares.Length != 0)
+                {
+                    var index = random.Next(0, rares.Length);
+                    return rares[index].Id;
+                }
+
+                throw new InvalidOperationException("No rare glove");
+
+            case < uncommon:
+                var uncommons = _gloveData.Values.Where(d => d.Rarity == "uncommon").ToArray();
+                if (uncommons.Length != 0)
+                {
+                    var index = random.Next(0, uncommons.Length);
+                    return uncommons[index].Id;
+                }
+
+                throw new InvalidOperationException("No uncommon glove");
+
+            default:
+                var commons = _gloveData.Values.Where(d => d.Rarity == "common").ToArray();
+                if (commons.Length != 0)
+                {
+                    var index = random.Next(0, commons.Length);
+                    return commons[index].Id;
+                }
+
+                throw new InvalidOperationException("No common glove");
+        }
+
+        random.Next(0, max);
     }
 
     public IGlove CreateGlove(string gloveId)
@@ -56,6 +120,7 @@ public class GloveFactory
             "common" => Rarity.Common,
             "uncommon" => Rarity.Uncommon,
             "rare" => Rarity.Rare,
+            "epic" => Rarity.Epic,
             "legendary" => Rarity.Legendary,
             _ => throw new AggregateException($"Unknown rarity {data.Rarity}"),
         };

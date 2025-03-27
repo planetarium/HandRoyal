@@ -49,15 +49,16 @@ internal sealed class StateQueryController(IBlockChainService blockChainService)
         return sessionEventData;
     }
 
-    [Query("User")]
-    public User? GetUser(Address userId)
+    [Query("GetUserData")]
+    public UserData? GetUserData(Address userId)
     {
         var blockChain = blockChainService.BlockChain;
         var world = new WorldStateContext(blockChain);
         var usersAccount = world[Addresses.Users];
         if (usersAccount.TryGetValue<User>(userId, out var user))
         {
-            return user;
+            var fav = world.GetBalance(userId, Currencies.Royal);
+            return new UserData(user, fav);
         }
 
         return null;

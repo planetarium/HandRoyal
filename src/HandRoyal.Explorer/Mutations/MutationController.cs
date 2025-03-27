@@ -111,6 +111,18 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
         return txSettings.StageTo(blockChainService.BlockChain);
     }
 
+    [MutationRoot("PickUp")]
+    public TxId SubmitMove(PrivateKey privateKey)
+    {
+        var pickUp = new PickUp();
+        var txSettings = new TxSettings
+        {
+            PrivateKey = privateKey,
+            Actions = [pickUp],
+        };
+        return txSettings.StageTo(blockChainService.BlockChain);
+    }
+
     [MutationRoot("StageTransaction")]
     public TxId StageTransaction(HexValue unsignedTransaction, HexValue signature)
     {
