@@ -53,6 +53,12 @@ internal sealed class WorldContext(IActionContext context) : IDisposable, IWorld
         return _world.GetBalance(address, currency);
     }
 
+    public void MintAsset(FungibleAssetValue value)
+    {
+        ObjectDisposedException.ThrowIf(_disposed, this);
+        _world = _world.MintAsset(context, context.Signer, value);
+    }
+
     public void TransferAsset(Address sender, Address recipient, FungibleAssetValue value)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);

@@ -18,6 +18,8 @@ public interface IWorldContext
 
     FungibleAssetValue GetBalance(Address address, Currency currency);
 
+    void MintAsset(FungibleAssetValue value);
+
     void TransferAsset(Address sender, Address recipient, FungibleAssetValue value);
 
     bool TryGetValue<T>(Address address, Address stateAddress, [MaybeNullWhen(false)] out T value)
