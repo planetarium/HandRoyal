@@ -3,7 +3,6 @@ using Bencodex.Types;
 using HandRoyal.Enums;
 using HandRoyal.States;
 using Libplanet.Action;
-using Libplanet.Crypto;
 
 namespace HandRoyal.BlockActions;
 

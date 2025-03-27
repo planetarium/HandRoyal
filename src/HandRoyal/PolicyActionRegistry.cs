@@ -8,6 +8,7 @@ public class PolicyActionRegistry : IPolicyActionsRegistry
 {
     public ImmutableArray<IAction> BeginBlockActions { get; } =
     [
+        new PreProcessSession(),
         new ProcessSession(),
     ];
 

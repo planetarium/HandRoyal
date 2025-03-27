@@ -4,6 +4,7 @@ using HandRoyal.Explorer.Subscriptions;
 using HandRoyal.Explorer.Types;
 using HandRoyal.States;
 using Libplanet.Action;
+using Libplanet.Crypto;
 using Libplanet.Node.Services;
 
 namespace HandRoyal.Explorer.Publishers;
@@ -14,27 +15,51 @@ internal sealed class SessionEventPublisher(
     IStoreService storeService)
     : RenderActionEventPublisherBase<SessionEventData>(serviceProvider)
 {
+    private readonly Dictionary<Address, Session> _sessionById = [];
+
     protected override void OnRenderAction(RenderActionInfo info)
     {
         if (info.Action is Text typeIdText)
         {
             var name = typeIdText.Value;
-            if (name == "ProcessSession")
+            var stateStore = storeService.StateStore;
+            var trie = stateStore.GetStateRoot(info.NextState);
+            var world = new WorldStateContext(trie, stateStore);
+            var sessions = Session.GetSessions(world);
+            if (name == "PreProcessSession")
             {
-                var stateStore = storeService.StateStore;
-                var trie = stateStore.GetStateRoot(info.NextState);
-                var world = new WorldStateContext(trie, stateStore);
-                var sessions = Session.GetSessions(world);
-                var height = info.Context.BlockIndex;
                 foreach (var session in sessions)
                 {
-                    if (session.Height == height)
+                    var sessionId = session.Metadata.Id;
+                    _sessionById[sessionId] = session;
+                }
+            }
+            else if (name == "ProcessSession")
+            {
+                foreach (var session in sessions)
+                {
+                    var prevSession = _sessionById[session.Metadata.Id];
+                    if (session != prevSession)
                     {
                         var eventData = new SessionEventData(session);
                         var eventName = SubscriptionController.SessionChangedEventName;
                         RaisePublishedEvent(eventData, eventName);
                     }
                 }
+            }
+            else if (name == "PostProcessSession")
+            {
+                foreach (var session in sessions)
+                {
+                    if (!_sessionById.ContainsKey(session.Metadata.Id))
+                    {
+                        var eventData = new SessionEventData(session);
+                        var eventName = SubscriptionController.SessionChangedEventName;
+                        RaisePublishedEvent(eventData, eventName);
+                    }
+                }
+
+                _sessionById.Clear();
             }
         }
         else
