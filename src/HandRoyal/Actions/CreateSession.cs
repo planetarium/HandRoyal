@@ -13,7 +13,7 @@ namespace HandRoyal.Actions;
 [ActionType("CreateSession")]
 [Model(Version = 1)]
 [GasUsage(1)]
-public sealed record class CreateSession : ActionBase
+public sealed record class CreateSession : ActionBase, IEquatable<CreateSession>
 {
     [Property(0)]
     public required Address SessionId { get; init; }
@@ -50,6 +50,10 @@ public sealed record class CreateSession : ActionBase
 
     [Property(11)]
     public ImmutableArray<Address> Users { get; init; } = SessionMetadata.Default.Users;
+
+    public bool Equals(CreateSession? other) => ModelUtility.Equals(this, other);
+
+    public override int GetHashCode() => ModelUtility.GetHashCode(this);
 
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {

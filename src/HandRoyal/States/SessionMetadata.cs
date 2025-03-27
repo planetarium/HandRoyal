@@ -6,7 +6,7 @@ using Libplanet.Crypto;
 namespace HandRoyal.States;
 
 [Model(Version = 1)]
-public sealed record class SessionMetadata
+public sealed record class SessionMetadata : IEquatable<SessionMetadata>
 {
     public static SessionMetadata Default { get; } = new SessionMetadata
     {
@@ -56,4 +56,8 @@ public sealed record class SessionMetadata
 
     [Property(12)]
     public ImmutableArray<Address> Users { get; set; } = [];
+
+    public override int GetHashCode() => ModelUtility.GetHashCode(this);
+
+    public bool Equals(SessionMetadata? other) => ModelUtility.Equals(this, other);
 }

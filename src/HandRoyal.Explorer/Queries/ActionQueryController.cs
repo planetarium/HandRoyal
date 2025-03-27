@@ -35,7 +35,7 @@ internal sealed class ActionQueryController : GraphController
         long roundLength,
         long roundInterval,
         int initialHealthPoint,
-        ImmutableArray<Address> users)
+        IEnumerable<Address> users)
     {
         var createSession = new CreateSession
         {
@@ -49,7 +49,7 @@ internal sealed class ActionQueryController : GraphController
             RoundLength = roundLength,
             RoundInterval = roundInterval,
             InitialHealthPoint = initialHealthPoint,
-            Users = users,
+            Users = [.. users],
         };
         return Encode(createSession);
     }
