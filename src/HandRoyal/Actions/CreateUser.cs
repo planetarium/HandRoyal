@@ -4,6 +4,7 @@ using HandRoyal.Serialization;
 using HandRoyal.States;
 using Libplanet.Action;
 using Libplanet.Crypto;
+using Libplanet.Types.Assets;
 
 namespace HandRoyal.Actions;
 
@@ -23,6 +24,7 @@ public sealed record class CreateUser : ActionBase
             throw new InvalidOperationException("User already exists.");
         }
 
+        world.MintAsset(new FungibleAssetValue(Currencies.Royal, 1_000, 0));
         world[Addresses.Users, signer] = new User
         {
             Id = signer,
