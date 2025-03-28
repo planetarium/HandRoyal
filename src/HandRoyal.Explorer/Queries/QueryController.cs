@@ -13,7 +13,7 @@ internal sealed class QueryController(IBlockChainService blockChainService) : Gr
         var address = sessionId;
         var blockChain = blockChainService.BlockChain;
 
-        var worldState = blockChain.GetWorldState();
+        var worldState = blockChain.GetNextWorldState() ?? blockChain.GetWorldState();
         var currentSessionAccount = worldState.GetAccountState(Addresses.Sessions);
         if (currentSessionAccount.GetState(address) is not null)
         {
@@ -34,7 +34,7 @@ internal sealed class QueryController(IBlockChainService blockChainService) : Gr
     public bool IsGloveRegistered(Address gloveId)
     {
         var blockChain = blockChainService.BlockChain;
-        var worldState = blockChain.GetWorldState();
+        var worldState = blockChain.GetNextWorldState() ?? blockChain.GetWorldState();
         return worldState.GetAccountState(Addresses.Gloves).GetState(gloveId) is not null;
     }
 }

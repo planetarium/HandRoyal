@@ -18,7 +18,7 @@ public sealed class WorldStateContext(IWorldState world) : IWorldContext
     }
 
     public WorldStateContext(BlockChain blockChain)
-        : this(blockChain.GetWorldState())
+        : this(blockChain.GetNextWorldState() ?? blockChain.GetWorldState())
     {
     }
 
