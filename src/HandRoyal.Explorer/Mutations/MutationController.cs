@@ -140,14 +140,17 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
     }
 
     [MutationRoot("MintSinkAddress")]
-    public TxId MintSinkAddress(PrivateKey privateKey, int amount)
+    public TxId MintSinkAddress(PrivateKey privateKey, long amount)
     {
         if (!privateKey.Address.Equals(Currencies.SinkAddress))
         {
             throw new InvalidOperationException("Can sink only sink address");
         }
 
-        var mintAsset = new MintAsset();
+        var mintAsset = new MintAsset
+        {
+            Amount = amount,
+        };
         var txSettings = new TxSettings
         {
             PrivateKey = privateKey,
