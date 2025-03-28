@@ -13,6 +13,8 @@ namespace HandRoyal.Actions;
 [GasUsage(1)]
 public sealed record class JoinSession : ActionBase, IEquatable<JoinSession>
 {
+    public const int JoinReward = 2;
+
     [Property(0)]
     public required Address SessionId { get; init; }
 
@@ -53,6 +55,7 @@ public sealed record class JoinSession : ActionBase, IEquatable<JoinSession>
 
         var height = context.BlockIndex;
 
+        world.TransferAsset(Currencies.SinkAddress, context.Signer, Currencies.Royal * JoinReward);
         world[Addresses.Users, signer] = user with { SessionId = SessionId };
         world[Addresses.Sessions, SessionId] = session.Join(height, user, gloves);
     }

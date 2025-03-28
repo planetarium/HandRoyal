@@ -6,6 +6,7 @@ using HandRoyal.Actions;
 using HandRoyal.Explorer.Types;
 using Libplanet.Crypto;
 using Libplanet.Node.Services;
+using Libplanet.Types.Assets;
 using Libplanet.Types.Tx;
 
 namespace HandRoyal.Explorer.Mutations;
@@ -136,5 +137,22 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
         }
 
         return tx.Id;
+    }
+
+    [MutationRoot("MintSinkAddress")]
+    public TxId MintSinkAddress(PrivateKey privateKey, int amount)
+    {
+        if (!privateKey.Address.Equals(Currencies.SinkAddress))
+        {
+            throw new InvalidOperationException("Can sink only sink address");
+        }
+
+        var mintAsset = new MintAsset();
+        var txSettings = new TxSettings
+        {
+            PrivateKey = privateKey,
+            Actions = [mintAsset],
+        };
+        return txSettings.StageTo(blockChainService.BlockChain);
     }
 }
