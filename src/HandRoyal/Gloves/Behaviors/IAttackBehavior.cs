@@ -1,6 +1,6 @@
 using HandRoyal.States;
 
-namespace HandRoyal.Gloves;
+namespace HandRoyal.Gloves.Behaviors;
 
 public interface IAttackBehavior
 {
@@ -9,5 +9,6 @@ public interface IAttackBehavior
         IGlove? defenderGlove,
         Condition attackerCondition,
         Condition defenderCondition,
-        bool isAttackerWin);
+        bool isAttackerWin,
+        BattleContext context);
 }

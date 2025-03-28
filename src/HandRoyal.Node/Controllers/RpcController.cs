@@ -128,7 +128,7 @@ public sealed class RpcController(
     private OkObjectResult OnGasPriceRequest(JsonElement request)
     {
         var id = GetId(request);
-        var gasPrice = FungibleAssetValue.Parse(Currencies.NCG, "0.00001");
+        var gasPrice = FungibleAssetValue.Parse(Currencies.Gas, "0.00001");
         return Ok(new
         {
             jsonrpc = Version,
@@ -156,11 +156,11 @@ public sealed class RpcController(
         var height = request.GetProperty("params")[1].GetInt64();
         var block = _blockChain[height];
         var worldState = _blockChain.GetWorldState(block.Hash);
-        var ncg = worldState.GetBalance(new Address(address), Currencies.NCG);
+        var royal = worldState.GetBalance(new Address(address), Currencies.Royal);
         return Ok(new
         {
             jsonrpc = Version,
-            result = $"0x{ncg.RawValue:X}",
+            result = $"0x{royal.RawValue:X}",
             id,
         });
     }

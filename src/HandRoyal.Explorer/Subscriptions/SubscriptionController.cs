@@ -18,6 +18,7 @@ internal sealed class SubscriptionController(IBlockChainService blockChainServic
     public const string UserChangedEventName = "USER_CHANGED";
     public const string TransactionChangedEventName = "TRANSACTION_CHANGED";
     public const string GloveRegisteredEventName = "GLOVE_REGISTERED";
+    public const string PickUpResultEventName = "PICKUP_RESULT";
 
     [SubscriptionRoot("onTipChanged", typeof(TipEventData), EventName = TipChangedEventName)]
     public IGraphActionResult OnTipChanged(TipEventData eventData)
@@ -108,5 +109,19 @@ internal sealed class SubscriptionController(IBlockChainService blockChainServic
         eventData.TxId = txId;
         eventData.Status = TxStatus.Staging;
         return this.OkAndComplete(eventData);
+    }
+
+    [SubscriptionRoot(
+        "onPickUpResult",
+        typeof(PickUpResultEventData),
+        EventName = PickUpResultEventName)]
+    public IGraphActionResult OnPickUpResult(PickUpResultEventData eventData, TxId txId)
+    {
+        if (eventData.TxId == txId)
+        {
+            return this.OkAndComplete(eventData);
+        }
+
+        return this.SkipSubscriptionEvent();
     }
 }

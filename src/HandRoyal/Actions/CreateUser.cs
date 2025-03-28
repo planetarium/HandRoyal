@@ -4,6 +4,7 @@ using HandRoyal.Serialization;
 using HandRoyal.States;
 using Libplanet.Action;
 using Libplanet.Crypto;
+using Libplanet.Types.Assets;
 
 namespace HandRoyal.Actions;
 
@@ -12,6 +13,8 @@ namespace HandRoyal.Actions;
 [GasUsage(1)]
 public sealed record class CreateUser : ActionBase
 {
+    public const int InitialRoyal = 1_000;
+
     [Property(0)]
     public required string Name { get; init; }
 
@@ -23,6 +26,7 @@ public sealed record class CreateUser : ActionBase
             throw new InvalidOperationException("User already exists.");
         }
 
+        world.TransferAsset(Currencies.SinkAddress, signer, Currencies.Royal * InitialRoyal);
         world[Addresses.Users, signer] = new User
         {
             Id = signer,
@@ -44,36 +48,6 @@ public sealed record class CreateUser : ActionBase
                     {
                         Id = new Address("0x2000000000000000000000000000000000000000"),
                         Count = 2,
-                    },
-                    new GloveInfo
-                    {
-                        Id = new Address("0x0100000000000000000000000000000000000000"),
-                        Count = 1,
-                    },
-                    new GloveInfo
-                    {
-                        Id = new Address("0x1100000000000000000000000000000000000000"),
-                        Count = 1,
-                    },
-                    new GloveInfo
-                    {
-                        Id = new Address("0x2100000000000000000000000000000000000000"),
-                        Count = 1,
-                    },
-                    new GloveInfo
-                    {
-                        Id = new Address("0x0100000000000000000000000000000000000001"),
-                        Count = 1,
-                    },
-                    new GloveInfo
-                    {
-                        Id = new Address("0x1100000000000000000000000000000000000001"),
-                        Count = 1,
-                    },
-                    new GloveInfo
-                    {
-                        Id = new Address("0x2100000000000000000000000000000000000001"),
-                        Count = 1,
                     },
                 ]
             ],

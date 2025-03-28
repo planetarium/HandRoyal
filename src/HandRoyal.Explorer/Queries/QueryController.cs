@@ -1,5 +1,6 @@
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
+using Libplanet.Action.State;
 using Libplanet.Crypto;
 using Libplanet.Node.Services;
 
@@ -36,5 +37,13 @@ internal sealed class QueryController(IBlockChainService blockChainService) : Gr
         var blockChain = blockChainService.BlockChain;
         var worldState = blockChain.GetNextWorldState() ?? blockChain.GetWorldState();
         return worldState.GetAccountState(Addresses.Gloves).GetState(gloveId) is not null;
+    }
+
+    [QueryRoot("GetBalance")]
+    public long GetBalance(Address address)
+    {
+        var blockChain = blockChainService.BlockChain;
+        var worldState = blockChain.GetWorldState();
+        return (long)worldState.GetBalance(address, Currencies.Royal).MajorUnit;
     }
 }

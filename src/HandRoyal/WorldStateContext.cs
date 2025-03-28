@@ -44,6 +44,11 @@ public sealed class WorldStateContext(IWorldState world) : IWorldContext
     public FungibleAssetValue GetBalance(Address address, Currency currency)
         => _world.GetBalance(address, currency);
 
+    public void MintAsset(FungibleAssetValue value)
+        => throw new NotSupportedException(
+            $"{nameof(MintAsset)} is not supported in this context.");
+
     public void TransferAsset(Address sender, Address recipient, FungibleAssetValue value)
-        => throw new NotSupportedException("This method is not supported in this context.");
+        => throw new NotSupportedException(
+            $"{nameof(TransferAsset)} is not supported in this context.");
 }

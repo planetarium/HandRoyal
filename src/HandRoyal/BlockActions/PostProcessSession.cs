@@ -8,6 +8,8 @@ namespace HandRoyal.BlockActions;
 
 internal sealed class PostProcessSession : BlockActionBase
 {
+    public const int WinReward = 8;
+
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {
         var sessionsAccount = world[Addresses.Sessions];
@@ -58,6 +60,12 @@ internal sealed class PostProcessSession : BlockActionBase
             {
                 SessionId = default,
             };
+        }
+
+        // Gold Reward
+        foreach (var winner in winnerIds)
+        {
+            world.TransferAsset(Currencies.SinkAddress, winner, Currencies.Royal * WinReward);
         }
     }
 }

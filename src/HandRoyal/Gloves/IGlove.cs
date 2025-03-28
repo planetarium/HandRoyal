@@ -1,4 +1,5 @@
 ﻿using HandRoyal.Enums;
+using HandRoyal.Gloves.Behaviors;
 using Libplanet.Crypto;
 
 namespace HandRoyal.Gloves;
