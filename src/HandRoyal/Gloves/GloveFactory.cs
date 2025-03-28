@@ -90,8 +90,6 @@ public class GloveFactory
 
                 throw new InvalidOperationException("No common glove");
         }
-
-        random.Next(0, max);
     }
 
     public IGlove CreateGlove(string gloveId)

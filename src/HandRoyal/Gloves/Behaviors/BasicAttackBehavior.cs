@@ -11,7 +11,7 @@ public class BasicAttackBehavior : IAttackBehavior
         Condition attackerCondition,
         Condition defenderCondition,
         bool isAttackerWin,
-        BattleContext battleContext)
+        BattleContext context)
     {
         if (!isAttackerWin)
         {
