@@ -65,6 +65,8 @@ internal sealed class SessionEventData(Session session)
         }
     }
 
+    public bool IsPlayer => UserPlayerIndex is not null;
+
     public Address[]? MyGloves
         => UserPlayerIndex is { } upi
             ? Session.Players[upi].Gloves.ToArray()

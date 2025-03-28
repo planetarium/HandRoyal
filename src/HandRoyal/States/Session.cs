@@ -42,6 +42,12 @@ public sealed record class Session : IEquatable<Session>
             throw new InvalidOperationException(message);
         }
 
+        if (Metadata.Users.Length != 0 && !Metadata.Users.Contains(user.Id))
+        {
+            var message = $"User {user.Id} is not allowed to join the session.";
+            throw new InvalidOperationException(message);
+        }
+
         if (Players.Length >= Metadata.MaximumUser)
         {
             var message =

@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Immutable;
+using System.ComponentModel.DataAnnotations;
 using HandRoyal.Serialization;
 using Libplanet.Crypto;
 
 namespace HandRoyal.States;
 
 [Model(Version = 1)]
-public sealed record class SessionMetadata
+public sealed record class SessionMetadata : IEquatable<SessionMetadata>
 {
     public static SessionMetadata Default { get; } = new SessionMetadata
     {
@@ -52,4 +53,11 @@ public sealed record class SessionMetadata
 
     [Property(11)]
     public int NumberOfGloves { get; set; } = 5;
+
+    [Property(12)]
+    public ImmutableArray<Address> Users { get; set; } = [];
+
+    public override int GetHashCode() => ModelUtility.GetHashCode(this);
+
+    public bool Equals(SessionMetadata? other) => ModelUtility.Equals(this, other);
 }
