@@ -11,6 +11,8 @@ public static class Addresses
 
     public static readonly Address Sessions = new("0000000000000000000000000000000000000010");
 
+    public static readonly Address MatchPool = new("0000000000000000000000000000000000000020");
+
     public static readonly Address ArchivedSessions
         = new("0000000000000000000000000000000000000020");
 
