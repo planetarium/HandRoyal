@@ -1,5 +1,4 @@
 ﻿using System.Collections.Immutable;
-using Bencodex.Types;
 using HandRoyal.Exceptions;
 using HandRoyal.Gloves;
 using HandRoyal.Serialization;
@@ -29,7 +28,7 @@ public sealed record class RegisterMatching : ActionBase, IEquatable<RegisterMat
             throw new RegisterMatchingException($"User of id {signer} does not exist.");
         }
 
-        var matchPool = world.GetValue<List<MatchingInfo>>(
+        var matchPool = world.GetValue<ImmutableArray<MatchingInfo>>(
             Addresses.MatchPool,
             Addresses.MatchPool,
             []);
@@ -62,7 +61,7 @@ public sealed record class RegisterMatching : ActionBase, IEquatable<RegisterMat
             }
         }
 
-        matchPool.Add(
+        matchPool = matchPool.Add(
             new MatchingInfo
             {
                 UserId = signer,

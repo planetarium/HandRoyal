@@ -15,6 +15,7 @@ public class PolicyActionRegistry : IPolicyActionsRegistry
     public ImmutableArray<IAction> EndBlockActions { get; } =
     [
         new PostProcessSession(),
+        new ProcessMatching(),
     ];
 
     public ImmutableArray<IAction> BeginTxActions { get; } =

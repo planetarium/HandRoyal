@@ -1,4 +1,5 @@
-﻿using HandRoyal.Exceptions;
+﻿using System.Collections.Immutable;
+using HandRoyal.Exceptions;
 using HandRoyal.Serialization;
 using HandRoyal.States;
 using Libplanet.Action;
@@ -18,7 +19,7 @@ public sealed record class CancelMatching : ActionBase
             throw new CancelMatchingException($"User of id {signer} does not exist.");
         }
 
-        var matchPool = world.GetValue<List<MatchingInfo>>(
+        var matchPool = world.GetValue<ImmutableArray<MatchingInfo>>(
             Addresses.MatchPool,
             Addresses.MatchPool,
             []);
@@ -28,7 +29,7 @@ public sealed record class CancelMatching : ActionBase
                 $"User of id {signer} already exists in the matching pool.");
         }
 
-        matchPool.Remove(matchPool.First(info => info.UserId.Equals(signer)));
+        matchPool = matchPool.Remove(matchPool.First(info => info.UserId.Equals(signer)));
         world[Addresses.MatchPool, Addresses.MatchPool] = matchPool;
     }
 }

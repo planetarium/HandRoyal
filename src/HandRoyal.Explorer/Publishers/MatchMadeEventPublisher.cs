@@ -20,14 +20,15 @@ internal sealed class MatchMadeEventPublisher(
         }
 
         var name = typeIdText.Value;
+        if (name != "ProcessMatching")
+        {
+            return;
+        }
+
         var stateStore = storeService.StateStore;
         var trie = stateStore.GetStateRoot(info.NextState);
         var world = new WorldStateContext(trie, stateStore);
         var sessions = Session.GetSessions(world);
-        if (name != "PreProcessSession")
-        {
-            return;
-        }
 
         foreach (var session in sessions)
         {
