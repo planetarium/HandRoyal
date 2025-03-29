@@ -100,5 +100,19 @@ internal sealed class ActionQueryController : GraphController
         return Encode(pickUpMany);
     }
 
+    [Query("RegisterMatching")]
+    public HexValue RegisterMatching(IEnumerable<Address> gloves)
+    {
+        var registerMatching = new RegisterMatching { Gloves = [..gloves] };
+        return Encode(registerMatching);
+    }
+
+    [Query("CancelMatching")]
+    public HexValue CancelMatching()
+    {
+        var cancelMatching = new CancelMatching();
+        return Encode(cancelMatching);
+    }
+
     private static HexValue Encode(IAction action) => _codec.Encode(action.PlainValue);
 }

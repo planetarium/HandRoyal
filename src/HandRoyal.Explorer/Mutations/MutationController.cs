@@ -113,13 +113,49 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
     }
 
     [MutationRoot("PickUp")]
-    public TxId SubmitMove(PrivateKey privateKey)
+    public TxId PickUp(PrivateKey privateKey)
     {
         var pickUp = new PickUp();
         var txSettings = new TxSettings
         {
             PrivateKey = privateKey,
             Actions = [pickUp],
+        };
+        return txSettings.StageTo(blockChainService.BlockChain);
+    }
+
+    [MutationRoot("PickUpMany")]
+    public TxId PickUpMany(PrivateKey privateKey)
+    {
+        var pickUpMany = new PickUpMany();
+        var txSettings = new TxSettings
+        {
+            PrivateKey = privateKey,
+            Actions = [pickUpMany],
+        };
+        return txSettings.StageTo(blockChainService.BlockChain);
+    }
+
+    [MutationRoot("RegisterMatching")]
+    public TxId RegisterMatching(PrivateKey privateKey, IEnumerable<Address> gloves)
+    {
+        var registerMatching = new RegisterMatching { Gloves = [..gloves] };
+        var txSettings = new TxSettings
+        {
+            PrivateKey = privateKey,
+            Actions = [registerMatching],
+        };
+        return txSettings.StageTo(blockChainService.BlockChain);
+    }
+
+    [MutationRoot("CancelMatching")]
+    public TxId CancelMatching(PrivateKey privateKey)
+    {
+        var cancelMatching = new CancelMatching();
+        var txSettings = new TxSettings
+        {
+            PrivateKey = privateKey,
+            Actions = [cancelMatching],
         };
         return txSettings.StageTo(blockChainService.BlockChain);
     }

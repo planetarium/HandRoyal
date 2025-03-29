@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using Bencodex.Types;
 using HandRoyal.Exceptions;
 using HandRoyal.Gloves;
 using HandRoyal.Serialization;
@@ -11,10 +12,14 @@ namespace HandRoyal.Actions;
 [ActionType("RegisterMatching")]
 [Model(Version = 1)]
 [GasUsage(1)]
-public sealed record class RegisterMatching : ActionBase
+public sealed record class RegisterMatching : ActionBase, IEquatable<RegisterMatching>
 {
     [Property(0)]
     public required ImmutableArray<Address> Gloves { get; init; }
+
+    public override int GetHashCode() => ModelUtility.GetHashCode(this);
+
+    public bool Equals(RegisterMatching? other) => ModelUtility.Equals(this, other);
 
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {
@@ -46,7 +51,8 @@ public sealed record class RegisterMatching : ActionBase
             var count = user.OwnedGloves.FirstOrDefault(info => info.Id.Equals(glove))?.Count ?? 0;
             if (count == 0)
             {
-                throw new RegisterMatchingException($"User {signer} does not own the glove {glove}");
+                throw new RegisterMatchingException(
+                    $"User {signer} does not own the glove {glove}");
             }
 
             if (gloves.Count(g => g.Equals(glove)) > count)

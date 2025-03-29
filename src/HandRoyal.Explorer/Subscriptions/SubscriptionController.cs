@@ -128,7 +128,7 @@ internal sealed class SubscriptionController(IBlockChainService blockChainServic
         "onMatchMade",
         typeof(MatchMadeEventData),
         EventName = MatchMadeEventName)]
-    public IGraphActionResult OnPickUpResult(MatchMadeEventData eventData, Address userId)
+    public IGraphActionResult OnMatchMade(MatchMadeEventData eventData, Address userId)
     {
         if (eventData.Players.Any(player => player.Equals(userId)))
         {
