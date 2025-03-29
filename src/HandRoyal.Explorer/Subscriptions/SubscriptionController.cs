@@ -1,9 +1,7 @@
-using System.Diagnostics.CodeAnalysis;
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
 using GraphQL.AspNet.Interfaces.Controllers;
 using HandRoyal.Explorer.Types;
-using HandRoyal.States;
 using Libplanet.Crypto;
 using Libplanet.Node.Services;
 using Libplanet.Types.Tx;
@@ -19,6 +17,7 @@ internal sealed class SubscriptionController(IBlockChainService blockChainServic
     public const string TransactionChangedEventName = "TRANSACTION_CHANGED";
     public const string GloveRegisteredEventName = "GLOVE_REGISTERED";
     public const string PickUpResultEventName = "PICKUP_RESULT";
+    public const string MatchMadeEventName = "MATCH_MADE";
 
     [SubscriptionRoot("onTipChanged", typeof(TipEventData), EventName = TipChangedEventName)]
     public IGraphActionResult OnTipChanged(TipEventData eventData)
@@ -118,6 +117,20 @@ internal sealed class SubscriptionController(IBlockChainService blockChainServic
     public IGraphActionResult OnPickUpResult(PickUpResultEventData eventData, TxId txId)
     {
         if (eventData.TxId == txId)
+        {
+            return this.OkAndComplete(eventData);
+        }
+
+        return this.SkipSubscriptionEvent();
+    }
+
+    [SubscriptionRoot(
+        "onMatchMade",
+        typeof(MatchMadeEventData),
+        EventName = MatchMadeEventName)]
+    public IGraphActionResult OnPickUpResult(MatchMadeEventData eventData, Address userId)
+    {
+        if (eventData.Players.Any(player => player.Equals(userId)))
         {
             return this.OkAndComplete(eventData);
         }
