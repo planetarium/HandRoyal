@@ -6,24 +6,30 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 builder.Logging.AddConsole();
 if (builder.Environment.IsDevelopment())
 {
     builder.WebHost.ConfigureKestrel(options =>
     {
-        if (builder.Environment.IsDevelopment())
-        {
-            // Setup a HTTP/2 endpoint without TLS.
-            options.ListenLocalhost(5259, o => o.Protocols =
-                HttpProtocols.Http1AndHttp2);
-            options.ListenLocalhost(5260, o => o.Protocols =
-                HttpProtocols.Http2);
-        }
+        options.ListenLocalhost(5259, o => o.Protocols =
+            HttpProtocols.Http1AndHttp2);
+        options.ListenLocalhost(5260, o => o.Protocols =
+            HttpProtocols.Http2);
     });
 
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddAuthorization();
     builder.Services.AddAuthentication("Bearer").AddJwtBearer();
+}
+
+if (Environment.GetEnvironmentVariable("APPSETTINGS_PATH") is { } appSettingsPath)
+{
+    builder.Configuration.AddJsonFile(appSettingsPath, optional: false, reloadOnChange: true);
 }
 
 builder.Services.AddCors(options =>
