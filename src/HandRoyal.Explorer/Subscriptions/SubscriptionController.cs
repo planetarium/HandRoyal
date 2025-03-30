@@ -18,6 +18,7 @@ internal sealed class SubscriptionController(IBlockChainService blockChainServic
     public const string GloveRegisteredEventName = "GLOVE_REGISTERED";
     public const string PickUpResultEventName = "PICKUP_RESULT";
     public const string MatchMadeEventName = "MATCH_MADE";
+    public const string SessionResultChangedEventName = "SESSION_RESULT_CHANGED";
 
     [SubscriptionRoot("onTipChanged", typeof(TipEventData), EventName = TipChangedEventName)]
     public IGraphActionResult OnTipChanged(TipEventData eventData)
@@ -136,5 +137,14 @@ internal sealed class SubscriptionController(IBlockChainService blockChainServic
         }
 
         return this.SkipSubscriptionEvent();
+    }
+
+    [SubscriptionRoot(
+        "onSessionResultChanged",
+        typeof(SessionResultEventData),
+        EventName = SessionResultChangedEventName)]
+    public IGraphActionResult OnSessionResultChanged(SessionResultEventData eventData)
+    {
+        return Ok(eventData);
     }
 }
