@@ -37,13 +37,13 @@ public sealed record class SessionMetadata : IEquatable<SessionMetadata>
     public int RemainingUser { get; set; } = 1;
 
     [Property(6)]
-    public long StartAfter { get; set; } = 10;
+    public long StartAfter { get; set; } = 5;
 
     [Property(7)]
     public int MaxRounds { get; set; } = 5;
 
     [Property(8)]
-    public long RoundLength { get; set; } = 5;
+    public long RoundLength { get; set; } = 15;
 
     [Property(9)]
     public long RoundInterval { get; set; } = 5;

@@ -25,6 +25,7 @@ public class GloveFactory
         _behaviorTypes = new Dictionary<string, Type>
         {
             { "basic", typeof(BasicAttackBehavior) },
+            { "lateCommer", typeof(LateCommerBehavior) },
         };
     }
 
