@@ -3,6 +3,7 @@ using HandRoyal.Node;
 using Libplanet.Node.Extensions;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.AddConsole();
