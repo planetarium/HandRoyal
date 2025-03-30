@@ -2,6 +2,7 @@ using GraphQL.AspNet;
 using GraphQL.AspNet.Configuration;
 using HandRoyal.Explorer.Publishers;
 using HandRoyal.Explorer.ScalarTypes;
+using HandRoyal.Explorer.Types;
 using Microsoft.AspNetCore.WebSockets;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -32,6 +33,7 @@ public static class ServiceCollectionExtensions
         @this.AddHostedService<GloveEventPublisher>();
         @this.AddHostedService<TransactionEventPublisher>();
         @this.AddHostedService<PickUpEventPublisher>();
+        @this.AddHostedService<MatchMadeEventPublisher>();
 
         return @this;
     }
