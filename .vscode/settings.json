@@ -1,21 +1,21 @@
 {
-    "[csharp]": {
-        "editor.rulers": [
-            100
-        ]
-    },
-    "[markdown]": {
-        "editor.rulers": [
-            80
-        ]
-    },
-    "files.exclude": {
-        "**/bin": true,
-        "**/obj": true,
-    },
-    "search.exclude": {
-        "**/bin": true,
-        "**/obj": true,
-        "**/*.code-search": true,
-    }
+  "[csharp]": {
+    "editor.rulers": [
+      100
+    ]
+  },
+  "[markdown]": {
+    "editor.rulers": [
+      80
+    ]
+  },
+  "files.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+  },
+  "search.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+    "**/*.code-search": true,
+  }
 }
