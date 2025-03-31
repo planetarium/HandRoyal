@@ -26,20 +26,12 @@ internal sealed class SessionEventPublisher(
             var trie = stateStore.GetStateRoot(info.NextState);
             var world = new WorldStateContext(trie, stateStore);
             var sessions = Session.GetSessions(world);
-            if (name == "PreProcessSession")
+            if (name == "ProcessSession")
             {
+                var height = info.Context.BlockIndex;
                 foreach (var session in sessions)
                 {
-                    var sessionId = session.Metadata.Id;
-                    _sessionById[sessionId] = session;
-                }
-            }
-            else if (name == "ProcessSession")
-            {
-                foreach (var session in sessions)
-                {
-                    var prevSession = _sessionById[session.Metadata.Id];
-                    if (session != prevSession)
+                    if (session.Height == height)
                     {
                         var eventData = new SessionEventData(session);
                         var eventName = SubscriptionController.SessionChangedEventName;
@@ -60,6 +52,11 @@ internal sealed class SessionEventPublisher(
                 }
 
                 _sessionById.Clear();
+                foreach (var session in sessions)
+                {
+                    var sessionId = session.Metadata.Id;
+                    _sessionById[sessionId] = session;
+                }
             }
         }
         else
