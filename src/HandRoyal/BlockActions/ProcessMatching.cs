@@ -47,6 +47,20 @@ internal sealed class ProcessMatching : BlockActionBase
             Prize = default,
             MaximumUser = 2,
         };
+        var userAccount = world[Addresses.Users];
+        if (!userAccount.TryGetValue<User>(player1.Id, out var user1))
+        {
+            return;
+        }
+
+        if (!userAccount.TryGetValue<User>(player2.Id, out var user2))
+        {
+            return;
+        }
+
+        world[Addresses.Users, player1.Id] = user1 with { SessionId = sessionId };
+        world[Addresses.Users, player2.Id] = user2 with { SessionId = sessionId };
+
         var sessionList = world.GetValue(Addresses.Sessions, Addresses.Sessions, List.Empty);
         world[Addresses.Sessions, Addresses.Sessions] = sessionList.Add(sessionId.Bencoded);
         world[Addresses.Sessions, sessionId] = new Session
