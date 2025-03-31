@@ -25,6 +25,9 @@ WORKDIR /app
 
 COPY --from=build /out ./
 
+VOLUME /app/.logs
+VOLUME /app/.store
+
 EXPOSE 8080
 
 ENTRYPOINT ["dotnet", "HandRoyal.Node.dll"]

@@ -1,17 +1,20 @@
 using HandRoyal.Explorer;
 using HandRoyal.Node;
+using HandRoyal.Node.Logging;
 using Libplanet.Node.Extensions;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Serilog;
+using Serilog.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .CreateLogger();
 
-builder.Host.UseSerilog();
 builder.Logging.AddConsole();
+builder.Logging.AddProvider(new DefaultLoggerToSerilogSink((ILogEventSink)Log.Logger));
+
 if (builder.Environment.IsDevelopment())
 {
     builder.WebHost.ConfigureKestrel(options =>
