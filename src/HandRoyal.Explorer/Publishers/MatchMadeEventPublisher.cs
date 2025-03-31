@@ -32,8 +32,7 @@ internal sealed class MatchMadeEventPublisher(
 
         foreach (var session in sessions)
         {
-            if (session.State != SessionState.None ||
-                session.State != SessionState.Ready)
+            if (session.State is not (SessionState.None or SessionState.Ready))
             {
                 continue;
             }

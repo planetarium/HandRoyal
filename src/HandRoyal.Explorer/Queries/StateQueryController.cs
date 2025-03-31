@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
 using HandRoyal.Explorer.Types;
@@ -61,5 +62,21 @@ internal sealed class StateQueryController(IBlockChainService blockChainService)
         }
 
         return null;
+    }
+
+    [Query("GetMatchPool")]
+    public MatchingInfo[] GetMatchPool()
+    {
+        var blockChain = blockChainService.BlockChain;
+        var world = new WorldStateContext(blockChain);
+        var matchPoolAccount = world[Addresses.MatchPool];
+        if (matchPoolAccount.TryGetValue<ImmutableArray<MatchingInfo>>(
+                Addresses.MatchPool,
+                out var matchingInfos))
+        {
+            return matchingInfos.ToArray();
+        }
+
+        return [];
     }
 }
