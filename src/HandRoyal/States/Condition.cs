@@ -21,7 +21,7 @@ public sealed record class Condition : IEquatable<Condition>
     public ImmutableArray<EffectData> ActiveEffectData { get; init; } =
         ImmutableArray<EffectData>.Empty;
 
-    public ImmutableArray<IEffect> ActiveEffects =>
+    internal ImmutableArray<IEffect> ActiveEffects =>
         [..ActiveEffectData.Select(EffectLoader.CreateEffect)];
 
     public Condition AdjustEffect(IEffect effect)
