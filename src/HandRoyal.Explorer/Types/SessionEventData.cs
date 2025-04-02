@@ -106,7 +106,7 @@ internal sealed class SessionEventData(Session session)
         -2 => "playing",
         -1 => "draw",
         { } x when x == UserPlayerIndex => "you",
-        { } x when x == UserPlayerIndex => "opponent",
+        { } x when x == OpponentPlayerIndex => "opponent",
         _ => "undefined",
     };
 
