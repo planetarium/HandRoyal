@@ -164,7 +164,7 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
     public TxId StageTransaction(HexValue unsignedTransaction, HexValue signature)
     {
         var json = Encoding.UTF8.GetString((byte[])unsignedTransaction);
-        var unsignedTx = TxMarshaler.DeserializeUnsignedTxFromJson(json);
+        var unsignedTx = TxMarshaler.DeserializeUnsignedTx(json);
         var tx = new Transaction(unsignedTx, signature.ToImmutableArray());
         var blockChain = blockChainService.BlockChain;
         if (!blockChain.StageTransaction(tx))
