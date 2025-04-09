@@ -16,7 +16,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandRoyal.Bot", "src\HandRo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandRoyal.Pages", "src\HandRoyal.Pages\HandRoyal.Pages.csproj", "{159CD5EA-39EA-4751-92F2-AD97E9C19B8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandRoyal.BotPages", "src\HandRoyal.BotPages\HandRoyal.BotPages.csproj", "{686BABA8-3FC8-4998-BF51-2B04F9435FA8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandRoyal.Bot.Pages", "src\HandRoyal.Bot.Pages\HandRoyal.Bot.Pages.csproj", "{686BABA8-3FC8-4998-BF51-2B04F9435FA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

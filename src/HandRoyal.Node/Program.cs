@@ -1,5 +1,5 @@
 using HandRoyal.Bot;
-using HandRoyal.BotPages;
+using HandRoyal.Bot.Pages;
 using HandRoyal.Explorer;
 using HandRoyal.Node.Data;
 using HandRoyal.Node.Logging;
@@ -41,7 +41,7 @@ if (Environment.GetEnvironmentVariable("APPSETTINGS_PATH") is { } appSettingsPat
     builder.Configuration.AddJsonFile(appSettingsPath, optional: false, reloadOnChange: true);
 }
 
-// Register services from HandRoyal.BotPages
+// Register services from HandRoyal.Bot.Pages
 builder.Services.AddBotPages(builder.Configuration);
 
 // Add services for Razor components and Blazor server
@@ -70,6 +70,7 @@ builder.Services.AddGrpcReflection();
 builder.Services.AddLibplanetNode(builder.Configuration);
 builder.Services.AddExplorer();
 builder.Services.AddBot(builder.Configuration);
+builder.Services.AddExplorerPages();
 
 builder.Services.AddControllers();
 

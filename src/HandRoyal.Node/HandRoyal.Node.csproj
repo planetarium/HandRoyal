@@ -32,14 +32,18 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="System.Reactive" Version="6.0.1" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="15.1.3" />
+    <PackageReference Include="GraphQL.Server.Ui.Playground" Version="7.7.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.15" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\HandRoyal\HandRoyal.csproj" />
     <ProjectReference Include="..\HandRoyal.Pages\HandRoyal.Pages.csproj" />
     <ProjectReference Include="..\HandRoyal.Explorer\HandRoyal.Explorer.csproj" />
+    <ProjectReference Include="..\HandRoyal.Explorer.Pages\HandRoyal.Explorer.Pages.csproj" />
     <ProjectReference Include="..\HandRoyal.Bot\HandRoyal.Bot.csproj" />
-    <ProjectReference Include="..\HandRoyal.BotPages\HandRoyal.BotPages.csproj" />
+    <ProjectReference Include="..\HandRoyal.Bot.Pages\HandRoyal.Bot.Pages.csproj" />
   </ItemGroup>
 
 </Project>

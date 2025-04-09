@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace HandRoyal.BotPages;
+namespace HandRoyal.Bot.Pages;
 
 public static class ServiceCollectionExtensions
 {
