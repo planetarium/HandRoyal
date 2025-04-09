@@ -58,12 +58,11 @@ builder.Services.AddTransient<IPage, Schema>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
+    options.AddPolicy("AllowAll", new CorsPolicyBuilder()
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .Build());
 });
 
 builder.Services.AddGrpc();
@@ -86,6 +85,10 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
+
+app.UseCors("AllowAll");
+app.UseExplorer();
+app.MapControllers();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
