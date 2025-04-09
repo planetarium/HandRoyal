@@ -46,7 +46,8 @@ public class WalletService : IWalletService
     {
         if (!_wallets.TryGetValue(userId, out var wallet))
         {
-            throw new KeyNotFoundException($"Wallet not found for user {userId}");
+            await Task.FromException(
+                new KeyNotFoundException($"Wallet not found for user {userId}"));
         }
 
         return await Task.FromResult(

@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Text;
 using Bencodex;
 using GraphQL.AspNet.Attributes;
 using GraphQL.AspNet.Controllers;
@@ -23,7 +24,8 @@ internal sealed class ActionController(
     {
         if (!httpContextAccessor.IsValidToken(jwtValidator))
         {
-            throw new UnauthorizedAccessException("Invalid or missing authentication token");
+            await Task.FromException(
+                new UnauthorizedAccessException("Invalid or missing authentication token"));
         }
 
         var userId = httpContextAccessor.UserId();
@@ -37,9 +39,9 @@ internal sealed class ActionController(
             maxGasPrice: null);
         var metaData = new TxSigningMetadata(address, nonce);
         var unsignedTx = new UnsignedTx(invoice, metaData);
-        var payload = new Codec().Encode(unsignedTx.MarshalUnsignedTx());
+        var payload = Encoding.UTF8.GetBytes(unsignedTx.SerializeUnsignedTxToJson());
         var signature = await walletService.Sign(userId, payload);
-        var signedTx = new Transaction(unsignedTx, signature.ToImmutableArray());
+        var signedTx = new Transaction(unsignedTx, [..signature]);
 
         blockChain.StageTransaction(signedTx);
         return signedTx.Id;
@@ -48,6 +50,16 @@ internal sealed class ActionController(
     [MutationRoot("CreateUserByWallet")]
     public async Task<TxId> CreateUser(string name)
     {
+        var userId = httpContextAccessor.UserId();
+        try
+        {
+            await walletService.GetAddressAsync(userId);
+        }
+        catch (KeyNotFoundException)
+        {
+            await walletService.CreateWalletAsync(userId);
+        }
+
         var createUser = new CreateUser
         {
             Name = name,

@@ -8,7 +8,7 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddWalletServices(this IServiceCollection services)
     {
-        services.AddScoped<IWalletService, WalletService>();
+        services.AddSingleton<IWalletService, WalletService>();
         return services;
     }
 }
