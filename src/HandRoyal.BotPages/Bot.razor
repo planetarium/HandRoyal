@@ -1,0 +1,93 @@
+﻿@page "/bot"
+@using HandRoyal.Bot
+@using HandRoyal.Pages
+@using Microsoft.AspNetCore.Components.Web
+@inject IBotService BotService
+@namespace HandRoyal.BotPages
+@implements IPage
+@implements IDisposable
+
+<h2>Bot</h2>
+
+<h1>Bots</h1>
+
+@if (_bots == null)
+{
+    <p>Loading...</p>
+}
+else if (!_bots.Any())
+{
+    <p>No bots available.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Job Name</th>
+                <th>Job State</th>
+                <th>Job Started At</th>
+                <th>Job Finished At</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bot in _bots)
+            {
+                <tr>
+                    <td>@bot.Name</td>
+                    <td>@bot.GetType().Name</td>
+                    <td>@bot.Job.Name</td>
+                    <td>@bot.Job.State</td>
+                    <td>@(bot.Job.StartTime == DateTimeOffset.MinValue ? string.Empty : bot.Job.StartTime)</td>
+                    <td>@(bot.Job.FinishTime == DateTimeOffset.MinValue ? string.Empty : bot.Job.FinishTime)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IBot[]? _bots;
+    private DateTime _lastUpdate = DateTime.MinValue;
+    private readonly TimeSpan _updateInterval = TimeSpan.FromSeconds(1);
+
+    public string Title => "Bot";
+
+    public string Url => "/bot";
+
+    public string Icon => "oi oi-puzzle-piece";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _bots = BotService.Bots.ToArray();
+        foreach (var bot in _bots)
+        {
+            bot.JobStarted += OnJobChanged;
+            bot.JobFinished += OnJobChanged;
+            bot.JobUpdated += OnJobChanged;
+        }
+        await Task.CompletedTask;
+    }
+
+    private void OnJobChanged(object? sender, EventArgs e)
+    {
+        var now = DateTime.Now;
+        if (now - _lastUpdate >= _updateInterval)
+        {
+            _lastUpdate = now;
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public void Dispose()
+    {
+        foreach (var bot in _bots ?? [])
+        {
+            bot.JobStarted -= OnJobChanged;
+            bot.JobFinished -= OnJobChanged;
+            bot.JobUpdated -= OnJobChanged;
+        }
+    }
+}

@@ -1,0 +1,67 @@
+﻿@page "/schema"
+@using HandRoyal.Node.Data
+@using HandRoyal.Pages
+@using BlazorMonaco
+@using BlazorMonaco.Editor
+@using BlazorMonaco.Languages
+@inject SettingsSchemaService SchemaService
+@inject IJSRuntime JSRuntime
+@implements IPage
+
+<h1>Schema</h1>
+
+<div class="full-height">
+    @if (_schema == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <div class="editor-header">
+            <button class="copy-button" @onclick="CopyToClipboard" title="Copy to clipboard">
+                <img src="/icons/copy.svg" alt="Copy" />
+            </button>
+        </div>
+        <div class="myeditor-container">
+            <StandaloneCodeEditor @ref="_editor" CssClass="myeditor" ConstructionOptions="EditorConstructionOptions" />
+        </div>
+    }
+</div>
+
+@code {
+    private string? _schema;
+    private StandaloneCodeEditor? _editor;
+
+    public string Title => "Schema";
+    public string Url => "/schema";
+    public string Icon => "oi oi-document";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _schema = await SchemaService.GetSchemaAsync(default);
+    }
+
+    private async Task CopyToClipboard()
+    {
+        if (_schema != null)
+        {
+            await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", _schema);
+        }
+    }
+
+    private StandaloneEditorConstructionOptions EditorConstructionOptions(StandaloneCodeEditor editor)
+    {
+        return new StandaloneEditorConstructionOptions
+        {
+            AutomaticLayout = true,
+            Language = "json",
+            Value = _schema ?? string.Empty,
+            ReadOnly = true,
+            Minimap = new EditorMinimapOptions { Enabled = true },
+            ScrollBeyondLastLine = false,
+            LineNumbers = "on",
+            RenderWhitespace = "selection",
+            WordWrap = "on"
+        };
+    }
+}

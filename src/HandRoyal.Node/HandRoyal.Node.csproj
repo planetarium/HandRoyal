@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BlazorMonaco" Version="3.3.0" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
     <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.64.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
@@ -35,7 +36,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HandRoyal\HandRoyal.csproj" />
+    <ProjectReference Include="..\HandRoyal.Pages\HandRoyal.Pages.csproj" />
     <ProjectReference Include="..\HandRoyal.Explorer\HandRoyal.Explorer.csproj" />
+    <ProjectReference Include="..\HandRoyal.Bot\HandRoyal.Bot.csproj" />
+    <ProjectReference Include="..\HandRoyal.BotPages\HandRoyal.BotPages.csproj" />
   </ItemGroup>
 
 </Project>

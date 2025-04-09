@@ -1,0 +1,21 @@
+﻿.my-component {
+    border: 2px dashed red;
+    padding: 1em;
+    margin: 1em 0;
+    background-image: url('background.png');
+}
+
+.table th:nth-child(1),
+.table td:nth-child(1) {
+    width: 200px;
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+    width: 150px;
+}
+
+.table th:nth-child(3),
+.table td:nth-child(3) {
+    width: 150px;
+}

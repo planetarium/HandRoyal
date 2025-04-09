@@ -1,11 +1,17 @@
+using HandRoyal.Bot;
+using HandRoyal.BotPages;
 using HandRoyal.Explorer;
-using HandRoyal.Node;
+using HandRoyal.Node.Data;
 using HandRoyal.Node.Logging;
+using HandRoyal.Node.Pages;
+using HandRoyal.Pages;
 using Libplanet.Node.Extensions;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Serilog;
 using Serilog.Core;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 Log.Logger = new LoggerConfiguration()
@@ -35,45 +41,58 @@ if (Environment.GetEnvironmentVariable("APPSETTINGS_PATH") is { } appSettingsPat
     builder.Configuration.AddJsonFile(appSettingsPath, optional: false, reloadOnChange: true);
 }
 
+// Register services from HandRoyal.BotPages
+builder.Services.AddBotPages(builder.Configuration);
+
+// Add services for Razor components and Blazor server
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
+
+builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddSingleton<SettingsSchemaService>();
+builder.Services.AddTransient<IPage, Counter>();
+builder.Services.AddTransient<IPage, Weather>();
+builder.Services.AddTransient<IPage, Schema>();
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", new CorsPolicyBuilder()
-        .AllowAnyOrigin()
-        .AllowAnyMethod()
-        .AllowAnyHeader()
-        .Build());
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
 });
 
 builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
 builder.Services.AddLibplanetNode(builder.Configuration);
 builder.Services.AddExplorer();
-builder.Services.AddHostedService<BlockChainRendererTracer>();
+builder.Services.AddBot(builder.Configuration);
+
 builder.Services.AddControllers();
-builder.Services.AddDirectoryBrowser(); // Optional: Enable directory browsing for static files
 
-var handlerMessage = """
-    Communication with gRPC endpoints must be made through a gRPC client. To learn how to
-    create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909
-    """;
-using var app = builder.Build();
+var app = builder.Build();
 
-// Serve static files from the wwwroot folder
-app.UseStaticFiles();
-app.UseDirectoryBrowser(); // Optional: Enable directory browsing
-
-app.MapGet("/", () => handlerMessage);
 if (builder.Environment.IsDevelopment())
 {
     app.MapGrpcReflectionService().AllowAnonymous();
 }
 
-// Use GraphQL middleware
-app.UseCors("AllowAll");
-app.UseExplorer();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
 
-app.MapSchemaBuilder("/v1/schema");
-app.MapGet("/schema", context => Task.Run(() => context.Response.Redirect("/v1/schema")));
-app.MapControllers();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+
+// Map Blazor endpoints
+app.MapBlazorHub();
+app.MapFallbackToPage("/_Host");
 
 await app.RunAsync();

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using System.Runtime.Serialization;
 using HandRoyal.Gloves;
 using HandRoyal.Serialization;
 using HandRoyal.States.Effects;
@@ -6,6 +7,7 @@ using HandRoyal.States.Effects;
 namespace HandRoyal.States;
 
 [Model(Version = 1)]
+[KnownType(typeof(BurnEffect))]
 public sealed record class Condition : IEquatable<Condition>
 {
     [Property(0)]

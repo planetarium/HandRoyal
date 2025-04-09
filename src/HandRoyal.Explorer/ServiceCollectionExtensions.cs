@@ -3,6 +3,8 @@ using GraphQL.AspNet.Configuration;
 using HandRoyal.Explorer.Publishers;
 using HandRoyal.Explorer.ScalarTypes;
 using HandRoyal.Explorer.Types;
+using HandRoyal.Gloves;
+using HandRoyal.States.Effects;
 using Microsoft.AspNetCore.WebSockets;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,6 +27,8 @@ public static class ServiceCollectionExtensions
         @this.AddGraphQL(options =>
         {
             options.AddAssembly(typeof(ServiceCollectionExtensions).Assembly);
+            options.AddType<IEffect>();
+            options.AddType<BurnEffect>();
         }).AddSubscriptions();
 
         @this.AddHostedService<TipEventPublisher>();

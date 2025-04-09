@@ -103,7 +103,7 @@ internal sealed class ActionQueryController : GraphController
     [Query("RegisterMatching")]
     public HexValue RegisterMatching(IEnumerable<Address> gloves)
     {
-        var registerMatching = new RegisterMatching { Gloves = [..gloves] };
+        var registerMatching = new RegisterMatching { Gloves = [.. gloves] };
         return Encode(registerMatching);
     }
 

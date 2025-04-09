@@ -1,0 +1,300 @@
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+type Query_Transaction {
+  unsignedTransaction(address: Address! plainValue: Hex maxGasPrice: Input_FavValue): Hex
+  signTransaction(unsignedTransaction: Hex signature: Hex): Hex
+  transactionResult(txId: TxId!): TxResultValue
+}
+
+enum TxStatus {
+  INVALID
+  STAGING
+  SUCCESS
+  FAILURE
+  INCLUDED
+}
+
+type TransactionEventData {
+  blockHash: BlockHash!
+  blockHeight: Long!
+  txId: TxId!
+  status: TxStatus!
+}
+
+type EffectData {
+  type: EffectType!
+  duration: Int!
+  parameters: [Int!]
+}
+
+type Mutation {
+  createUser(privateKey: PrivateKey name: String): TxId!
+  createSession(privateKey: PrivateKey sessionId: Address! prize: Address! maximumUser: Int! minimumUser: Int! remainingUser: Int! startAfter: Long! maxRounds: Int! roundLength: Long! roundInterval: Long! initialHealthPoint: Int! numberOfGloves: Int!): TxId!
+  registerGlove(privateKey: PrivateKey gloveId: Address!): TxId!
+  joinSession(privateKey: PrivateKey sessionId: Address! gloves: [Address!]): TxId!
+  submitMove(privateKey: PrivateKey sessionId: Address! gloveIndex: Int!): TxId!
+  pickUp(privateKey: PrivateKey): TxId!
+  pickUpMany(privateKey: PrivateKey): TxId!
+  registerMatching(privateKey: PrivateKey gloves: [Address!]): TxId!
+  cancelMatching(privateKey: PrivateKey): TxId!
+  stageTransaction(unsignedTransaction: Hex signature: Hex): TxId!
+  mintSinkAddress(privateKey: PrivateKey amount: Long!): TxId!
+}
+
+type Subscription {
+  onTipChanged: TipEventData
+  onMoveChanged(sessionId: Address! userId: Address!): SubmitMoveEventData
+  onSessionChanged(sessionId: Address! userId: Address!): SessionEventData
+  onUserChanged(userId: Address!): UserEventData
+  onGloveRegistered(gloveId: Address!): GloveRegisteredEventData
+  onTransactionChanged(txId: TxId!): TransactionEventData
+  onPickUpResult(txId: TxId!): PickUpResultEventData
+  onMatchMade(userId: Address!): MatchMadeEventData
+}
+
+type Query {
+  actionQuery: Query_ActionQuery
+  nodeStatus: Query_NodeStatus
+  isValidSessionId(sessionId: Address!): Boolean!
+  nextTxNonce(address: Address!): Long!
+  isGloveRegistered(gloveId: Address!): Boolean!
+  getBalance(address: Address!): Long!
+  stateQuery: Query_StateQuery
+  transaction: Query_Transaction
+}
+
+input Input_FavValue {
+  quantity: Decimal!
+  ticker: String
+  decimalPlaces: Byte!
+  minters: [Address!]
+}
+
+enum GloveType {
+  SPECIAL
+  ROCK
+  PAPER
+  SCISSORS
+}
+
+type MatchMadeEventData {
+  sessionId: Address!
+  players: [Address!]
+}
+
+type GloveInfo {
+  id: Address!
+  count: Int!
+}
+
+type TipEventData {
+  height: Long!
+  hash: BlockHash!
+}
+
+"A unsigned byte. (Min: 0, Max: 255)"
+scalar Byte
+
+type TxResultValue {
+  txStatus: TxStatus!
+  blockIndex: Long
+  exceptionNames: [String]
+}
+
+type BlockHeaderValue {
+  height: Long!
+  id: BlockHash!
+  hash: String
+  miner: Address!
+}
+
+type SubmitMoveEventData {
+  sessionId: Address!
+  userId: Address!
+  gloveIndex: Int!
+}
+
+enum SessionState {
+  NONE
+  READY
+  ACTIVE
+  ENDED
+}
+
+scalar PrivateKey
+
+type Query_ActionQuery {
+  createUser(name: String): Hex
+  createSession(sessionId: Address! prize: Address! maximumUser: Int! minimumUser: Int! remainingUser: Int! startAfter: Long! maxRounds: Int! roundLength: Long! roundInterval: Long! initialHealthPoint: Int! users: [Address!]): Hex
+  joinSession(sessionId: Address! gloves: [Address!]): Hex
+  registerGlove(gloveId: Address!): Hex
+  submitMove(sessionId: Address! gloveIndex: Int!): Hex
+  pickUp: Hex
+  pickUpMany: Hex
+  registerMatching(gloves: [Address!]): Hex
+  cancelMatching: Hex
+}
+
+interface IEffect {
+  effectType: EffectType!
+  duration: Int!
+}
+
+"A 128-bit, floating point value that offers greater local precision, with a smaller range, than other floating-point types. (Min: -79228162514264337593543950335, Max: 79228162514264337593543950335)"
+scalar Decimal
+
+"A 64-bit integer. (Min: -9223372036854775808, Max: 9223372036854775807)"
+scalar Long
+
+type BurnEffect implements IEffect {
+  effectType: EffectType!
+  duration: Int!
+}
+
+scalar TxId
+
+type Query_NodeStatus {
+  tip: BlockHeaderValue
+}
+
+type Query_StateQuery {
+  sessions: [Session]
+  session(sessionId: Address!): Session
+  userScopedSession(sessionId: Address! userId: Address!): SessionEventData
+  getUserData(userId: Address!): UserData
+}
+
+type PickUpResultEventData {
+  txId: TxId!
+  gloves: [String]
+}
+
+type UserData {
+  id: Address!
+  name: String
+  registeredGloves: [Address!]
+  ownedGloves: [GloveInfo]
+  equippedGlove: Address!
+  sessionId: Address!
+  balance: Long!
+}
+
+type Player {
+  id: Address!
+  gloves: [Address!]
+  state: PlayerState!
+}
+
+type Session {
+  metadata: SessionMetadata
+  state: SessionState!
+  players: [Player]
+  phases: [Phase]
+  creationHeight: Long!
+  startHeight: Long!
+  height: Long!
+}
+
+type SessionMetadata {
+  id: Address!
+  organizer: Address!
+  prize: Address!
+  maximumUser: Int!
+  minimumUser: Int!
+  remainingUser: Int!
+  startAfter: Long!
+  maxRounds: Int!
+  roundLength: Long!
+  roundInterval: Long!
+  initialHealthPoint: Int!
+  numberOfGloves: Int!
+  users: [Address!]
+}
+
+scalar BlockHash
+
+enum PlayerState {
+  READY
+  PLAYING
+  WON
+  LOSE
+}
+
+type Phase {
+  height: Long!
+  matches: [Match]
+}
+
+enum MatchState {
+  NONE
+  ACTIVE
+  BREAK
+  ENDED
+}
+
+type Match {
+  startHeight: Long!
+  players: [Int!]
+  state: MatchState!
+  rounds: [Round]
+  winner: Int!
+}
+
+scalar Address
+
+type UserEventData {
+  id: Address!
+  registeredGloves: [Address!]
+  ownedGloves: [GloveInfo]
+  equippedGlove: Address!
+}
+
+type GloveRegisteredEventData {
+  id: Address!
+  type: GloveType!
+}
+
+enum EffectType {
+  BURN
+}
+
+type Round {
+  condition1: Condition
+  condition2: Condition
+  winner: Int!
+}
+
+scalar Hex
+
+type SessionEventData {
+  sessionId: Address
+  height: Long!
+  sessionState: SessionState!
+  organizerAddress: Address
+  opponentAddress: Address
+  currentInterval: Long!
+  isPlayer: Boolean!
+  myGloves: [Address!]
+  opponentGloves: [Address!]
+  playersLeft: Int
+  currentPhaseIndex: Int
+  currentUserRoundIndex: Int
+  myCondition: Condition
+  opponentCondition: Condition
+  lastRoundWinner: String
+  currentUserMatchState: MatchState
+  playerState: PlayerState
+  intervalEndHeight: Long!
+}
+
+type Condition {
+  healthPoint: Int!
+  gloveUsed: [Boolean!]
+  submission: Int!
+  activeEffectData: [EffectData]
+  activeEffects: [IEffect]
+}

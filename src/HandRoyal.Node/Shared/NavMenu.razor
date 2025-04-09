@@ -1,0 +1,35 @@
+﻿@using HandRoyal.Pages
+@inject IEnumerable<IPage> Pages
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">HandRoyal.Node</a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        @foreach (var page in Pages)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="@(page.Url)" Match="NavLinkMatch.All">
+                    <span class="@(page.Icon)" aria-hidden="true"></span> @(page.Title)
+                </NavLink>
+            </div>
+        }
+    </nav>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}
