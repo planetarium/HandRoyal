@@ -1,8 +1,9 @@
 using GraphQL.AspNet;
 using GraphQL.AspNet.Configuration;
+using HandRoyal.Explorer.Jwt;
 using HandRoyal.Explorer.Publishers;
 using HandRoyal.Explorer.ScalarTypes;
-using HandRoyal.Explorer.Types;
+using HandRoyal.Wallet.Extensions;
 using Microsoft.AspNetCore.WebSockets;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -37,5 +38,20 @@ public static class ServiceCollectionExtensions
         @this.AddHostedService<MatchMadeEventPublisher>();
 
         return @this;
+    }
+
+    public static IServiceCollection AddExplorerServices(
+        this IServiceCollection services)
+    {
+        services.AddWalletServices();
+        services.AddHttpContextAccessor();
+
+        // Ensure JwtValidator is available to the Explorer
+        if (!services.Any(s => s.ServiceType == typeof(JwtValidator)))
+        {
+            services.AddSingleton<JwtValidator>();
+        }
+
+        return services;
     }
 }
