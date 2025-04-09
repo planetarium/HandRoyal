@@ -2,7 +2,7 @@ namespace HandRoyal.Explorer.Jwt;
 
 public class SupabaseOptions
 {
-    public string ServiceRoleKey { get; set; } = string.Empty;
+    public string JwtSecret { get; set; } = string.Empty;
 
     public string Issuer { get; set; } = string.Empty;
 

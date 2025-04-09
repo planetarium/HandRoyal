@@ -6,26 +6,20 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace HandRoyal.Explorer.Jwt;
 
-public class JwtValidator
+public class JwtValidator(IOptions<SupabaseOptions> options)
 {
-    private readonly SupabaseOptions _options;
-
-    public JwtValidator(IOptions<SupabaseOptions> options)
-    {
-        _options = options.Value;
-    }
-
     public ClaimsPrincipal? ValidateToken(string token)
     {
-        var key = Encoding.UTF8.GetBytes(_options.ServiceRoleKey);
+        var option = options.Value;
+        var key = Encoding.UTF8.GetBytes(option.JwtSecret);
 
         var validationParams = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidIssuer = _options.Issuer,
+            ValidIssuer = option.Issuer,
 
             ValidateAudience = true,
-            ValidAudience = _options.Audience,
+            ValidAudience = option.Audience,
 
             ValidateLifetime = true,
             ClockSkew = TimeSpan.FromMinutes(2),

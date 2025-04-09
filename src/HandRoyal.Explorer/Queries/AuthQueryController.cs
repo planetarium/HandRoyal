@@ -14,7 +14,7 @@ internal sealed class AuthQueryController(
     : GraphController
 {
     [QueryRoot("getUserAddress")]
-    public async Task<Address> GetUserAddress()
+    public async Task<Address?> GetUserAddress()
     {
         // Validate the JWT token
         if (!httpContextAccessor.IsValidToken(jwtValidator))
@@ -22,6 +22,13 @@ internal sealed class AuthQueryController(
             throw new UnauthorizedAccessException("Invalid or missing authentication token");
         }
 
-        return await walletService.GetAddressAsync(httpContextAccessor.UserId());
+        try
+        {
+            return await walletService.GetAddressAsync(httpContextAccessor.UserId());
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
     }
 }

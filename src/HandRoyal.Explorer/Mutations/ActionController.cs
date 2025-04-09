@@ -58,7 +58,6 @@ internal sealed class ActionController(
 
     [MutationRoot("CreateSessionByWallet")]
     public async Task<TxId> CreateSession(
-        PrivateKey privateKey,
         Address sessionId,
         Address prize,
         int maximumUser,
@@ -69,7 +68,7 @@ internal sealed class ActionController(
         long roundLength,
         long roundInterval,
         int initialHealthPoint,
-        int numberOfGloves)
+        IEnumerable<Address> users)
     {
         var createSession = new CreateSession
         {
@@ -83,7 +82,7 @@ internal sealed class ActionController(
             RoundLength = roundLength,
             RoundInterval = roundInterval,
             InitialHealthPoint = initialHealthPoint,
-            NumberOfGloves = numberOfGloves,
+            Users = [.. users],
         };
 
         return await StageAction(createSession);
