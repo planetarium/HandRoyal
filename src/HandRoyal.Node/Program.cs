@@ -70,7 +70,6 @@ builder.Services.AddGrpcReflection();
 builder.Services.AddLibplanetNode(builder.Configuration);
 builder.Services.AddExplorer();
 builder.Services.AddBot(builder.Configuration);
-builder.Services.AddExplorerPages();
 
 builder.Services.AddControllers();
 
