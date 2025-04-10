@@ -25,10 +25,6 @@ if (builder.Environment.IsDevelopment())
         options.ListenLocalhost(5260, o => o.Protocols =
             HttpProtocols.Http2);
     });
-
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddAuthorization();
-    builder.Services.AddAuthentication("Bearer").AddJwtBearer();
 }
 
 if (Environment.GetEnvironmentVariable("APPSETTINGS_PATH") is { } appSettingsPath)
