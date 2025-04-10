@@ -26,7 +26,7 @@ public sealed record class CancelMatching : ActionBase
         if (!matchPool.Any(info => info.UserId.Equals(signer)))
         {
             throw new CancelMatchingException(
-                $"User of id {signer} already exists in the matching pool.");
+                $"User of id {signer} does not exist in the matching pool.");
         }
 
         matchPool = matchPool.Remove(matchPool.First(info => info.UserId.Equals(signer)));
