@@ -39,7 +39,7 @@ internal sealed class ActionController(
             maxGasPrice: null);
         var metaData = new TxSigningMetadata(address, nonce);
         var unsignedTx = new UnsignedTx(invoice, metaData);
-        var payload = Encoding.UTF8.GetBytes(unsignedTx.SerializeUnsignedTxToJson());
+        var payload = Encoding.UTF8.GetBytes(unsignedTx.SerializeUnsignedTx());
         var signature = await walletService.Sign(userId, payload);
         var signedTx = new Transaction(unsignedTx, [..signature]);
 
