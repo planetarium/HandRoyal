@@ -26,6 +26,9 @@ public class JwtValidator(IOptions<SupabaseOptions> options)
 
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(key),
+
+            RequireSignedTokens = true,
+            ValidAlgorithms = [SecurityAlgorithms.HmacSha256],
         };
 
         try
