@@ -1,43 +1,30 @@
 using HandRoyal.Bot.Jobs;
-using HandRoyal.Bot.Properties;
 
 namespace HandRoyal.Bot;
 
 public sealed class UserBot(BotOptions options)
     : BotBase(options)
 {
+    private static readonly SortedDictionary<Type, Type> _jobByOptions = new()
+    {
+        { typeof(IdleJob.Options), typeof(IdleJob) },
+        { typeof(UpdateUserJob.Options), typeof(UpdateUserJob) },
+        { typeof(WaitMatchingJob.Options), typeof(WaitMatchingJob) },
+        { typeof(CancelMatchingJob.Options), typeof(CancelMatchingJob) },
+        { typeof(WaitSessionJob.Options), typeof(WaitSessionJob) },
+        { typeof(SubmitJob.Options), typeof(SubmitJob) },
+    };
+
     private bool _isCreated;
 
     protected override async Task<Type> SelectJobAsync(CancellationToken cancellationToken)
     {
-        if (Properties.Contains(typeof(IdleJob.Options)))
+        foreach (var (option, job) in _jobByOptions)
         {
-            return typeof(IdleJob);
-        }
-
-        if (Properties.Contains(typeof(UpdateUserJob.Options)))
-        {
-            return typeof(UpdateUserJob);
-        }
-
-        if (Properties.Contains(typeof(WaitMatchingJob.Options)))
-        {
-            return typeof(WaitMatchingJob);
-        }
-
-        if (Properties.Contains(typeof(CancelMatchingJob.Options)))
-        {
-            return typeof(CancelMatchingJob);
-        }
-
-        if (Properties.Contains(typeof(WaitSessionJob.Options)))
-        {
-            return typeof(WaitSessionJob);
-        }
-
-        if (Properties.Contains(typeof(SubmitJob.Options)))
-        {
-            return typeof(SubmitJob);
+            if (Properties.Contains(option))
+            {
+                return job;
+            }
         }
 
         if (!_isCreated)
