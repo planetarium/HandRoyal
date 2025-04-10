@@ -101,7 +101,7 @@ internal sealed class ActionController(
     }
 
     [MutationRoot("RegisterGloveByWallet")]
-    public async Task<TxId> RegisterGlove(PrivateKey privateKey, Address gloveId)
+    public async Task<TxId> RegisterGlove(Address gloveId)
     {
         var registerGlove = new RegisterGlove
         {
@@ -112,7 +112,7 @@ internal sealed class ActionController(
     }
 
     [MutationRoot("JoinSessionByWallet")]
-    public async Task<TxId> JoinSession(PrivateKey privateKey, Address sessionId, IEnumerable<Address> gloves)
+    public async Task<TxId> JoinSession(Address sessionId, IEnumerable<Address> gloves)
     {
         var joinSession = new JoinSession
         {
@@ -124,7 +124,7 @@ internal sealed class ActionController(
     }
 
     [MutationRoot("SubmitMoveByWallet")]
-    public async Task<TxId> SubmitMove(PrivateKey privateKey, Address sessionId, int gloveIndex)
+    public async Task<TxId> SubmitMove(Address sessionId, int gloveIndex)
     {
         var submitMove = new SubmitMove
         {
@@ -136,7 +136,7 @@ internal sealed class ActionController(
     }
 
     [MutationRoot("PickUpByWallet")]
-    public async Task<TxId> PickUp(PrivateKey privateKey)
+    public async Task<TxId> PickUp()
     {
         var pickUp = new PickUp();
 
@@ -144,7 +144,7 @@ internal sealed class ActionController(
     }
 
     [MutationRoot("PickUpManyByWallet")]
-    public async Task<TxId> PickUpMany(PrivateKey privateKey)
+    public async Task<TxId> PickUpMany()
     {
         var pickUpMany = new PickUpMany();
 
@@ -152,7 +152,7 @@ internal sealed class ActionController(
     }
 
     [MutationRoot("RegisterMatchingByWallet")]
-    public async Task<TxId> RegisterMatching(PrivateKey privateKey, IEnumerable<Address> gloves)
+    public async Task<TxId> RegisterMatching(IEnumerable<Address> gloves)
     {
         var registerMatching = new RegisterMatching { Gloves = [.. gloves] };
 
@@ -160,7 +160,7 @@ internal sealed class ActionController(
     }
 
     [MutationRoot("CancelMatchingByWallet")]
-    public async Task<TxId> CancelMatching(PrivateKey privateKey)
+    public async Task<TxId> CancelMatching()
     {
         var cancelMatching = new CancelMatching();
 
