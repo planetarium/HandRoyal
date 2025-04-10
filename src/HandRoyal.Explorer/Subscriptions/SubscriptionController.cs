@@ -115,11 +115,11 @@ internal sealed class SubscriptionController(IBlockChainService blockChainServic
         "onPickUpResult",
         typeof(PickUpResultEventData),
         EventName = PickUpResultEventName)]
-    public IGraphActionResult OnPickUpResult(PickUpResultEventData eventData, TxId txId)
+    public IGraphActionResult OnPickUpResult(PickUpResultEventData eventData, Address userId)
     {
-        if (eventData.TxId == txId)
+        if (eventData.UserId.Equals(userId))
         {
-            return this.OkAndComplete(eventData);
+            return this.Ok(eventData);
         }
 
         return this.SkipSubscriptionEvent();

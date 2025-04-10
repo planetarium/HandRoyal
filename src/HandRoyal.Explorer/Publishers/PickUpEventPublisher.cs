@@ -25,7 +25,7 @@ internal sealed class PickUpEventPublisher(
 
             var random = info.Context.GetRandom();
             var glove = GloveLoader.PickUpGlove(random, false);
-            var eventData = new PickUpResultEventData(txIdNotNull, [glove]);
+            var eventData = new PickUpResultEventData(txIdNotNull, info.Context.Signer, [glove]);
             RaisePublishedEvent(eventData, SubscriptionController.PickUpResultEventName);
         }
         else if (typeId == "PickUpMany")
@@ -40,7 +40,8 @@ internal sealed class PickUpEventPublisher(
             var pickups = Enumerable.Range(0, PickUpMany.Count - 1)
                 .Select(_ => GloveLoader.PickUpGlove(random, false));
             pickups = pickups.Append(GloveLoader.PickUpGlove(random, true));
-            var eventData = new PickUpResultEventData(txIdNotNull, pickups.ToArray());
+            var eventData =
+                new PickUpResultEventData(txIdNotNull, info.Context.Signer, pickups.ToArray());
             RaisePublishedEvent(eventData, SubscriptionController.PickUpResultEventName);
         }
     }
