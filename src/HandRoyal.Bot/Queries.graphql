@@ -40,6 +40,12 @@ query joinSession($sessionId: Address!, $gloves: [Address!]!) {
   }
 }
 
+query SubmitMove($sessionId: Address!, $gloveIndex: Int!) {
+  actionQuery {
+    submitMove(sessionId: $sessionId, gloveIndex: $gloveIndex)
+  }
+}
+
 query PickUp {
   actionQuery {
     pickUp
@@ -94,6 +100,102 @@ query TransactionResult($txId: TxId!) {
 query UnsignedTransaction($address: Address!, $plainValue: Hex!) {
   transaction {
     unsignedTransaction(address: $address, plainValue: $plainValue)
+  }
+}
+
+query GetSession($sessionId: Address!) {
+  stateQuery {
+    session(sessionId: $sessionId) {
+      metadata {
+        id
+        organizer
+        prize
+        maximumUser
+        minimumUser
+        remainingUser
+        startAfter
+        maxRounds
+        roundLength
+        roundInterval
+        initialHealthPoint
+        numberOfGloves
+        users
+      }
+      state
+      players {
+        id
+        gloves
+        state
+      }
+      phases {
+        height
+        matches {
+          startHeight
+          players
+          state
+          rounds {
+            condition1 {
+              healthPoint
+              gloveUsed
+              submission
+            }
+            condition2 {
+              healthPoint
+              gloveUsed
+              submission
+            }
+            winner
+          }
+          winner
+        }
+      }
+      creationHeight
+      startHeight
+      height
+    }
+  }
+}
+
+query GetUserScopedSession($sessionId: Address!, $userId: Address!) {
+  stateQuery {
+    userScopedSession(sessionId: $sessionId, userId: $userId) {
+      sessionId
+      height
+      sessionState
+      organizerAddress
+      opponentAddress
+      currentInterval
+      isPlayer
+      myGloves
+      opponentGloves
+      playersLeft
+      currentPhaseIndex
+      currentUserRoundIndex
+      myCondition {
+        healthPoint
+        gloveUsed
+        submission
+        activeEffectData {
+          type
+          duration
+          parameters
+        }
+      }
+      opponentCondition {
+        healthPoint
+        gloveUsed
+        submission
+        activeEffectData {
+          type
+          duration
+          parameters
+        }
+      }
+      lastRoundWinner
+      currentUserMatchState
+      playerState
+      intervalEndHeight
+    }
   }
 }
 

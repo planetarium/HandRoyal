@@ -446,6 +446,153 @@ namespace HandRoyal.Bot.GraphQL
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class SubmitMoveResult : global::System.IEquatable<SubmitMoveResult>, ISubmitMoveResult
+    {
+        public SubmitMoveResult(global::HandRoyal.Bot.GraphQL.ISubmitMove_ActionQuery? actionQuery)
+        {
+            ActionQuery = actionQuery;
+        }
+
+        public global::HandRoyal.Bot.GraphQL.ISubmitMove_ActionQuery? ActionQuery { get; }
+
+        public virtual global::System.Boolean Equals(SubmitMoveResult? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (((ActionQuery is null && other.ActionQuery is null) || ActionQuery != null && ActionQuery.Equals(other.ActionQuery)));
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((SubmitMoveResult)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                if (ActionQuery != null)
+                {
+                    hash ^= 397 * ActionQuery.GetHashCode();
+                }
+
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class SubmitMove_ActionQuery_Query_ActionQuery : global::System.IEquatable<SubmitMove_ActionQuery_Query_ActionQuery>, ISubmitMove_ActionQuery_Query_ActionQuery
+    {
+        public SubmitMove_ActionQuery_Query_ActionQuery(global::System.String? submitMove)
+        {
+            SubmitMove = submitMove;
+        }
+
+        public global::System.String? SubmitMove { get; }
+
+        public virtual global::System.Boolean Equals(SubmitMove_ActionQuery_Query_ActionQuery? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (((SubmitMove is null && other.SubmitMove is null) || SubmitMove != null && SubmitMove.Equals(other.SubmitMove)));
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((SubmitMove_ActionQuery_Query_ActionQuery)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                if (SubmitMove != null)
+                {
+                    hash ^= 397 * SubmitMove.GetHashCode();
+                }
+
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface ISubmitMoveResult
+    {
+        public global::HandRoyal.Bot.GraphQL.ISubmitMove_ActionQuery? ActionQuery { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface ISubmitMove_ActionQuery
+    {
+        public global::System.String? SubmitMove { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface ISubmitMove_ActionQuery_Query_ActionQuery : ISubmitMove_ActionQuery
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
     public partial class PickUpResult : global::System.IEquatable<PickUpResult>, IPickUpResult
     {
         public PickUpResult(global::HandRoyal.Bot.GraphQL.IPickUp_ActionQuery? actionQuery)
@@ -1762,6 +1909,1661 @@ namespace HandRoyal.Bot.GraphQL
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetSessionResult : global::System.IEquatable<GetSessionResult>, IGetSessionResult
+    {
+        public GetSessionResult(global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery? stateQuery)
+        {
+            StateQuery = stateQuery;
+        }
+
+        public global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery? StateQuery { get; }
+
+        public virtual global::System.Boolean Equals(GetSessionResult? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (((StateQuery is null && other.StateQuery is null) || StateQuery != null && StateQuery.Equals(other.StateQuery)));
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetSessionResult)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                if (StateQuery != null)
+                {
+                    hash ^= 397 * StateQuery.GetHashCode();
+                }
+
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetSession_StateQuery_Query_StateQuery : global::System.IEquatable<GetSession_StateQuery_Query_StateQuery>, IGetSession_StateQuery_Query_StateQuery
+    {
+        public GetSession_StateQuery_Query_StateQuery(global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session? session)
+        {
+            Session = session;
+        }
+
+        public global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session? Session { get; }
+
+        public virtual global::System.Boolean Equals(GetSession_StateQuery_Query_StateQuery? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (((Session is null && other.Session is null) || Session != null && Session.Equals(other.Session)));
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetSession_StateQuery_Query_StateQuery)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                if (Session != null)
+                {
+                    hash ^= 397 * Session.GetHashCode();
+                }
+
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetSession_StateQuery_Session_Session : global::System.IEquatable<GetSession_StateQuery_Session_Session>, IGetSession_StateQuery_Session_Session
+    {
+        public GetSession_StateQuery_Session_Session(global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Metadata? metadata, global::HandRoyal.Bot.GraphQL.SessionState state, global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Players?>? players, global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases?>? phases, global::System.Int64 creationHeight, global::System.Int64 startHeight, global::System.Int64 height)
+        {
+            Metadata = metadata;
+            State = state;
+            Players = players;
+            Phases = phases;
+            CreationHeight = creationHeight;
+            StartHeight = startHeight;
+            Height = height;
+        }
+
+        public global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Metadata? Metadata { get; }
+        public global::HandRoyal.Bot.GraphQL.SessionState State { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Players?>? Players { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases?>? Phases { get; }
+        public global::System.Int64 CreationHeight { get; }
+        public global::System.Int64 StartHeight { get; }
+        public global::System.Int64 Height { get; }
+
+        public virtual global::System.Boolean Equals(GetSession_StateQuery_Session_Session? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (((Metadata is null && other.Metadata is null) || Metadata != null && Metadata.Equals(other.Metadata))) && State.Equals(other.State) && global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(Players, other.Players) && global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(Phases, other.Phases) && global::System.Object.Equals(CreationHeight, other.CreationHeight) && global::System.Object.Equals(StartHeight, other.StartHeight) && global::System.Object.Equals(Height, other.Height);
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetSession_StateQuery_Session_Session)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                if (Metadata != null)
+                {
+                    hash ^= 397 * Metadata.GetHashCode();
+                }
+
+                hash ^= 397 * State.GetHashCode();
+                if (Players != null)
+                {
+                    foreach (var Players_elm in Players)
+                    {
+                        if (Players_elm != null)
+                        {
+                            hash ^= 397 * Players_elm.GetHashCode();
+                        }
+                    }
+                }
+
+                if (Phases != null)
+                {
+                    foreach (var Phases_elm in Phases)
+                    {
+                        if (Phases_elm != null)
+                        {
+                            hash ^= 397 * Phases_elm.GetHashCode();
+                        }
+                    }
+                }
+
+                hash ^= 397 * CreationHeight.GetHashCode();
+                hash ^= 397 * StartHeight.GetHashCode();
+                hash ^= 397 * Height.GetHashCode();
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetSession_StateQuery_Session_Metadata_SessionMetadata : global::System.IEquatable<GetSession_StateQuery_Session_Metadata_SessionMetadata>, IGetSession_StateQuery_Session_Metadata_SessionMetadata
+    {
+        public GetSession_StateQuery_Session_Metadata_SessionMetadata(global::Libplanet.Crypto.Address id, global::Libplanet.Crypto.Address organizer, global::Libplanet.Crypto.Address prize, global::System.Int32 maximumUser, global::System.Int32 minimumUser, global::System.Int32 remainingUser, global::System.Int64 startAfter, global::System.Int32 maxRounds, global::System.Int64 roundLength, global::System.Int64 roundInterval, global::System.Int32 initialHealthPoint, global::System.Int32 numberOfGloves, global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? users)
+        {
+            Id = id;
+            Organizer = organizer;
+            Prize = prize;
+            MaximumUser = maximumUser;
+            MinimumUser = minimumUser;
+            RemainingUser = remainingUser;
+            StartAfter = startAfter;
+            MaxRounds = maxRounds;
+            RoundLength = roundLength;
+            RoundInterval = roundInterval;
+            InitialHealthPoint = initialHealthPoint;
+            NumberOfGloves = numberOfGloves;
+            Users = users;
+        }
+
+        public global::Libplanet.Crypto.Address Id { get; }
+        public global::Libplanet.Crypto.Address Organizer { get; }
+        public global::Libplanet.Crypto.Address Prize { get; }
+        public global::System.Int32 MaximumUser { get; }
+        public global::System.Int32 MinimumUser { get; }
+        public global::System.Int32 RemainingUser { get; }
+        public global::System.Int64 StartAfter { get; }
+        public global::System.Int32 MaxRounds { get; }
+        public global::System.Int64 RoundLength { get; }
+        public global::System.Int64 RoundInterval { get; }
+        public global::System.Int32 InitialHealthPoint { get; }
+        public global::System.Int32 NumberOfGloves { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? Users { get; }
+
+        public virtual global::System.Boolean Equals(GetSession_StateQuery_Session_Metadata_SessionMetadata? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (Id.Equals(other.Id)) && Organizer.Equals(other.Organizer) && Prize.Equals(other.Prize) && global::System.Object.Equals(MaximumUser, other.MaximumUser) && global::System.Object.Equals(MinimumUser, other.MinimumUser) && global::System.Object.Equals(RemainingUser, other.RemainingUser) && global::System.Object.Equals(StartAfter, other.StartAfter) && global::System.Object.Equals(MaxRounds, other.MaxRounds) && global::System.Object.Equals(RoundLength, other.RoundLength) && global::System.Object.Equals(RoundInterval, other.RoundInterval) && global::System.Object.Equals(InitialHealthPoint, other.InitialHealthPoint) && global::System.Object.Equals(NumberOfGloves, other.NumberOfGloves) && global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(Users, other.Users);
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetSession_StateQuery_Session_Metadata_SessionMetadata)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                hash ^= 397 * Id.GetHashCode();
+                hash ^= 397 * Organizer.GetHashCode();
+                hash ^= 397 * Prize.GetHashCode();
+                hash ^= 397 * MaximumUser.GetHashCode();
+                hash ^= 397 * MinimumUser.GetHashCode();
+                hash ^= 397 * RemainingUser.GetHashCode();
+                hash ^= 397 * StartAfter.GetHashCode();
+                hash ^= 397 * MaxRounds.GetHashCode();
+                hash ^= 397 * RoundLength.GetHashCode();
+                hash ^= 397 * RoundInterval.GetHashCode();
+                hash ^= 397 * InitialHealthPoint.GetHashCode();
+                hash ^= 397 * NumberOfGloves.GetHashCode();
+                if (Users != null)
+                {
+                    foreach (var Users_elm in Users)
+                    {
+                        hash ^= 397 * Users_elm.GetHashCode();
+                    }
+                }
+
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetSession_StateQuery_Session_Players_Player : global::System.IEquatable<GetSession_StateQuery_Session_Players_Player>, IGetSession_StateQuery_Session_Players_Player
+    {
+        public GetSession_StateQuery_Session_Players_Player(global::Libplanet.Crypto.Address id, global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? gloves, global::HandRoyal.Bot.GraphQL.PlayerState state)
+        {
+            Id = id;
+            Gloves = gloves;
+            State = state;
+        }
+
+        public global::Libplanet.Crypto.Address Id { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? Gloves { get; }
+        public global::HandRoyal.Bot.GraphQL.PlayerState State { get; }
+
+        public virtual global::System.Boolean Equals(GetSession_StateQuery_Session_Players_Player? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (Id.Equals(other.Id)) && global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(Gloves, other.Gloves) && State.Equals(other.State);
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetSession_StateQuery_Session_Players_Player)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                hash ^= 397 * Id.GetHashCode();
+                if (Gloves != null)
+                {
+                    foreach (var Gloves_elm in Gloves)
+                    {
+                        hash ^= 397 * Gloves_elm.GetHashCode();
+                    }
+                }
+
+                hash ^= 397 * State.GetHashCode();
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetSession_StateQuery_Session_Phases_Phase : global::System.IEquatable<GetSession_StateQuery_Session_Phases_Phase>, IGetSession_StateQuery_Session_Phases_Phase
+    {
+        public GetSession_StateQuery_Session_Phases_Phase(global::System.Int64 height, global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches?>? matches)
+        {
+            Height = height;
+            Matches = matches;
+        }
+
+        public global::System.Int64 Height { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches?>? Matches { get; }
+
+        public virtual global::System.Boolean Equals(GetSession_StateQuery_Session_Phases_Phase? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (global::System.Object.Equals(Height, other.Height)) && global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(Matches, other.Matches);
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetSession_StateQuery_Session_Phases_Phase)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                hash ^= 397 * Height.GetHashCode();
+                if (Matches != null)
+                {
+                    foreach (var Matches_elm in Matches)
+                    {
+                        if (Matches_elm != null)
+                        {
+                            hash ^= 397 * Matches_elm.GetHashCode();
+                        }
+                    }
+                }
+
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetSession_StateQuery_Session_Phases_Matches_Match : global::System.IEquatable<GetSession_StateQuery_Session_Phases_Matches_Match>, IGetSession_StateQuery_Session_Phases_Matches_Match
+    {
+        public GetSession_StateQuery_Session_Phases_Matches_Match(global::System.Int64 startHeight, global::System.Collections.Generic.IReadOnlyList<global::System.Int32>? players, global::HandRoyal.Bot.GraphQL.MatchState state, global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches_Rounds?>? rounds, global::System.Int32 winner)
+        {
+            StartHeight = startHeight;
+            Players = players;
+            State = state;
+            Rounds = rounds;
+            Winner = winner;
+        }
+
+        public global::System.Int64 StartHeight { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::System.Int32>? Players { get; }
+        public global::HandRoyal.Bot.GraphQL.MatchState State { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches_Rounds?>? Rounds { get; }
+        public global::System.Int32 Winner { get; }
+
+        public virtual global::System.Boolean Equals(GetSession_StateQuery_Session_Phases_Matches_Match? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (global::System.Object.Equals(StartHeight, other.StartHeight)) && global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(Players, other.Players) && State.Equals(other.State) && global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(Rounds, other.Rounds) && global::System.Object.Equals(Winner, other.Winner);
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetSession_StateQuery_Session_Phases_Matches_Match)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                hash ^= 397 * StartHeight.GetHashCode();
+                if (Players != null)
+                {
+                    foreach (var Players_elm in Players)
+                    {
+                        hash ^= 397 * Players_elm.GetHashCode();
+                    }
+                }
+
+                hash ^= 397 * State.GetHashCode();
+                if (Rounds != null)
+                {
+                    foreach (var Rounds_elm in Rounds)
+                    {
+                        if (Rounds_elm != null)
+                        {
+                            hash ^= 397 * Rounds_elm.GetHashCode();
+                        }
+                    }
+                }
+
+                hash ^= 397 * Winner.GetHashCode();
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetSession_StateQuery_Session_Phases_Matches_Rounds_Round : global::System.IEquatable<GetSession_StateQuery_Session_Phases_Matches_Rounds_Round>, IGetSession_StateQuery_Session_Phases_Matches_Rounds_Round
+    {
+        public GetSession_StateQuery_Session_Phases_Matches_Rounds_Round(global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition1? condition1, global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition2? condition2, global::System.Int32 winner)
+        {
+            Condition1 = condition1;
+            Condition2 = condition2;
+            Winner = winner;
+        }
+
+        public global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition1? Condition1 { get; }
+        public global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition2? Condition2 { get; }
+        public global::System.Int32 Winner { get; }
+
+        public virtual global::System.Boolean Equals(GetSession_StateQuery_Session_Phases_Matches_Rounds_Round? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (((Condition1 is null && other.Condition1 is null) || Condition1 != null && Condition1.Equals(other.Condition1))) && ((Condition2 is null && other.Condition2 is null) || Condition2 != null && Condition2.Equals(other.Condition2)) && global::System.Object.Equals(Winner, other.Winner);
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetSession_StateQuery_Session_Phases_Matches_Rounds_Round)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                if (Condition1 != null)
+                {
+                    hash ^= 397 * Condition1.GetHashCode();
+                }
+
+                if (Condition2 != null)
+                {
+                    hash ^= 397 * Condition2.GetHashCode();
+                }
+
+                hash ^= 397 * Winner.GetHashCode();
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetSession_StateQuery_Session_Phases_Matches_Rounds_Condition1_Condition : global::System.IEquatable<GetSession_StateQuery_Session_Phases_Matches_Rounds_Condition1_Condition>, IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition1_Condition
+    {
+        public GetSession_StateQuery_Session_Phases_Matches_Rounds_Condition1_Condition(global::System.Int32 healthPoint, global::System.Collections.Generic.IReadOnlyList<global::System.Boolean>? gloveUsed, global::System.Int32 submission)
+        {
+            HealthPoint = healthPoint;
+            GloveUsed = gloveUsed;
+            Submission = submission;
+        }
+
+        public global::System.Int32 HealthPoint { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::System.Boolean>? GloveUsed { get; }
+        public global::System.Int32 Submission { get; }
+
+        public virtual global::System.Boolean Equals(GetSession_StateQuery_Session_Phases_Matches_Rounds_Condition1_Condition? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (global::System.Object.Equals(HealthPoint, other.HealthPoint)) && global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(GloveUsed, other.GloveUsed) && global::System.Object.Equals(Submission, other.Submission);
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetSession_StateQuery_Session_Phases_Matches_Rounds_Condition1_Condition)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                hash ^= 397 * HealthPoint.GetHashCode();
+                if (GloveUsed != null)
+                {
+                    foreach (var GloveUsed_elm in GloveUsed)
+                    {
+                        hash ^= 397 * GloveUsed_elm.GetHashCode();
+                    }
+                }
+
+                hash ^= 397 * Submission.GetHashCode();
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetSession_StateQuery_Session_Phases_Matches_Rounds_Condition2_Condition : global::System.IEquatable<GetSession_StateQuery_Session_Phases_Matches_Rounds_Condition2_Condition>, IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition2_Condition
+    {
+        public GetSession_StateQuery_Session_Phases_Matches_Rounds_Condition2_Condition(global::System.Int32 healthPoint, global::System.Collections.Generic.IReadOnlyList<global::System.Boolean>? gloveUsed, global::System.Int32 submission)
+        {
+            HealthPoint = healthPoint;
+            GloveUsed = gloveUsed;
+            Submission = submission;
+        }
+
+        public global::System.Int32 HealthPoint { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::System.Boolean>? GloveUsed { get; }
+        public global::System.Int32 Submission { get; }
+
+        public virtual global::System.Boolean Equals(GetSession_StateQuery_Session_Phases_Matches_Rounds_Condition2_Condition? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (global::System.Object.Equals(HealthPoint, other.HealthPoint)) && global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(GloveUsed, other.GloveUsed) && global::System.Object.Equals(Submission, other.Submission);
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetSession_StateQuery_Session_Phases_Matches_Rounds_Condition2_Condition)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                hash ^= 397 * HealthPoint.GetHashCode();
+                if (GloveUsed != null)
+                {
+                    foreach (var GloveUsed_elm in GloveUsed)
+                    {
+                        hash ^= 397 * GloveUsed_elm.GetHashCode();
+                    }
+                }
+
+                hash ^= 397 * Submission.GetHashCode();
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSessionResult
+    {
+        public global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery? StateQuery { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSession_StateQuery
+    {
+        public global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session? Session { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSession_StateQuery_Query_StateQuery : IGetSession_StateQuery
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSession_StateQuery_Session
+    {
+        public global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Metadata? Metadata { get; }
+        public global::HandRoyal.Bot.GraphQL.SessionState State { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Players?>? Players { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases?>? Phases { get; }
+        public global::System.Int64 CreationHeight { get; }
+        public global::System.Int64 StartHeight { get; }
+        public global::System.Int64 Height { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSession_StateQuery_Session_Session : IGetSession_StateQuery_Session
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSession_StateQuery_Session_Metadata
+    {
+        public global::Libplanet.Crypto.Address Id { get; }
+        public global::Libplanet.Crypto.Address Organizer { get; }
+        public global::Libplanet.Crypto.Address Prize { get; }
+        public global::System.Int32 MaximumUser { get; }
+        public global::System.Int32 MinimumUser { get; }
+        public global::System.Int32 RemainingUser { get; }
+        public global::System.Int64 StartAfter { get; }
+        public global::System.Int32 MaxRounds { get; }
+        public global::System.Int64 RoundLength { get; }
+        public global::System.Int64 RoundInterval { get; }
+        public global::System.Int32 InitialHealthPoint { get; }
+        public global::System.Int32 NumberOfGloves { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? Users { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSession_StateQuery_Session_Metadata_SessionMetadata : IGetSession_StateQuery_Session_Metadata
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSession_StateQuery_Session_Players
+    {
+        public global::Libplanet.Crypto.Address Id { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? Gloves { get; }
+        public global::HandRoyal.Bot.GraphQL.PlayerState State { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSession_StateQuery_Session_Players_Player : IGetSession_StateQuery_Session_Players
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSession_StateQuery_Session_Phases
+    {
+        public global::System.Int64 Height { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches?>? Matches { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSession_StateQuery_Session_Phases_Phase : IGetSession_StateQuery_Session_Phases
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSession_StateQuery_Session_Phases_Matches
+    {
+        public global::System.Int64 StartHeight { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::System.Int32>? Players { get; }
+        public global::HandRoyal.Bot.GraphQL.MatchState State { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches_Rounds?>? Rounds { get; }
+        public global::System.Int32 Winner { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSession_StateQuery_Session_Phases_Matches_Match : IGetSession_StateQuery_Session_Phases_Matches
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSession_StateQuery_Session_Phases_Matches_Rounds
+    {
+        public global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition1? Condition1 { get; }
+        public global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition2? Condition2 { get; }
+        public global::System.Int32 Winner { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSession_StateQuery_Session_Phases_Matches_Rounds_Round : IGetSession_StateQuery_Session_Phases_Matches_Rounds
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition1
+    {
+        public global::System.Int32 HealthPoint { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::System.Boolean>? GloveUsed { get; }
+        public global::System.Int32 Submission { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition1_Condition : IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition1
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition2
+    {
+        public global::System.Int32 HealthPoint { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::System.Boolean>? GloveUsed { get; }
+        public global::System.Int32 Submission { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition2_Condition : IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition2
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetUserScopedSessionResult : global::System.IEquatable<GetUserScopedSessionResult>, IGetUserScopedSessionResult
+    {
+        public GetUserScopedSessionResult(global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery? stateQuery)
+        {
+            StateQuery = stateQuery;
+        }
+
+        public global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery? StateQuery { get; }
+
+        public virtual global::System.Boolean Equals(GetUserScopedSessionResult? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (((StateQuery is null && other.StateQuery is null) || StateQuery != null && StateQuery.Equals(other.StateQuery)));
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetUserScopedSessionResult)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                if (StateQuery != null)
+                {
+                    hash ^= 397 * StateQuery.GetHashCode();
+                }
+
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetUserScopedSession_StateQuery_Query_StateQuery : global::System.IEquatable<GetUserScopedSession_StateQuery_Query_StateQuery>, IGetUserScopedSession_StateQuery_Query_StateQuery
+    {
+        public GetUserScopedSession_StateQuery_Query_StateQuery(global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession? userScopedSession)
+        {
+            UserScopedSession = userScopedSession;
+        }
+
+        public global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession? UserScopedSession { get; }
+
+        public virtual global::System.Boolean Equals(GetUserScopedSession_StateQuery_Query_StateQuery? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (((UserScopedSession is null && other.UserScopedSession is null) || UserScopedSession != null && UserScopedSession.Equals(other.UserScopedSession)));
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetUserScopedSession_StateQuery_Query_StateQuery)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                if (UserScopedSession != null)
+                {
+                    hash ^= 397 * UserScopedSession.GetHashCode();
+                }
+
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetUserScopedSession_StateQuery_UserScopedSession_SessionEventData : global::System.IEquatable<GetUserScopedSession_StateQuery_UserScopedSession_SessionEventData>, IGetUserScopedSession_StateQuery_UserScopedSession_SessionEventData
+    {
+        public GetUserScopedSession_StateQuery_UserScopedSession_SessionEventData(global::Libplanet.Crypto.Address? sessionId, global::System.Int64 height, global::HandRoyal.Bot.GraphQL.SessionState sessionState, global::Libplanet.Crypto.Address? organizerAddress, global::Libplanet.Crypto.Address? opponentAddress, global::System.Int64 currentInterval, global::System.Boolean isPlayer, global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? myGloves, global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? opponentGloves, global::System.Int32? playersLeft, global::System.Int32? currentPhaseIndex, global::System.Int32? currentUserRoundIndex, global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition? myCondition, global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition? opponentCondition, global::System.String? lastRoundWinner, global::HandRoyal.Bot.GraphQL.MatchState? currentUserMatchState, global::HandRoyal.Bot.GraphQL.PlayerState? playerState, global::System.Int64 intervalEndHeight)
+        {
+            SessionId = sessionId;
+            Height = height;
+            SessionState = sessionState;
+            OrganizerAddress = organizerAddress;
+            OpponentAddress = opponentAddress;
+            CurrentInterval = currentInterval;
+            IsPlayer = isPlayer;
+            MyGloves = myGloves;
+            OpponentGloves = opponentGloves;
+            PlayersLeft = playersLeft;
+            CurrentPhaseIndex = currentPhaseIndex;
+            CurrentUserRoundIndex = currentUserRoundIndex;
+            MyCondition = myCondition;
+            OpponentCondition = opponentCondition;
+            LastRoundWinner = lastRoundWinner;
+            CurrentUserMatchState = currentUserMatchState;
+            PlayerState = playerState;
+            IntervalEndHeight = intervalEndHeight;
+        }
+
+        public global::Libplanet.Crypto.Address? SessionId { get; }
+        public global::System.Int64 Height { get; }
+        public global::HandRoyal.Bot.GraphQL.SessionState SessionState { get; }
+        public global::Libplanet.Crypto.Address? OrganizerAddress { get; }
+        public global::Libplanet.Crypto.Address? OpponentAddress { get; }
+        public global::System.Int64 CurrentInterval { get; }
+        public global::System.Boolean IsPlayer { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? MyGloves { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? OpponentGloves { get; }
+        public global::System.Int32? PlayersLeft { get; }
+        public global::System.Int32? CurrentPhaseIndex { get; }
+        public global::System.Int32? CurrentUserRoundIndex { get; }
+        public global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition? MyCondition { get; }
+        public global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition? OpponentCondition { get; }
+        public global::System.String? LastRoundWinner { get; }
+        public global::HandRoyal.Bot.GraphQL.MatchState? CurrentUserMatchState { get; }
+        public global::HandRoyal.Bot.GraphQL.PlayerState? PlayerState { get; }
+        public global::System.Int64 IntervalEndHeight { get; }
+
+        public virtual global::System.Boolean Equals(GetUserScopedSession_StateQuery_UserScopedSession_SessionEventData? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (((SessionId is null && other.SessionId is null) || SessionId != null && SessionId.Equals(other.SessionId))) && global::System.Object.Equals(Height, other.Height) && SessionState.Equals(other.SessionState) && ((OrganizerAddress is null && other.OrganizerAddress is null) || OrganizerAddress != null && OrganizerAddress.Equals(other.OrganizerAddress)) && ((OpponentAddress is null && other.OpponentAddress is null) || OpponentAddress != null && OpponentAddress.Equals(other.OpponentAddress)) && global::System.Object.Equals(CurrentInterval, other.CurrentInterval) && global::System.Object.Equals(IsPlayer, other.IsPlayer) && global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(MyGloves, other.MyGloves) && global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(OpponentGloves, other.OpponentGloves) && global::System.Object.Equals(PlayersLeft, other.PlayersLeft) && global::System.Object.Equals(CurrentPhaseIndex, other.CurrentPhaseIndex) && global::System.Object.Equals(CurrentUserRoundIndex, other.CurrentUserRoundIndex) && ((MyCondition is null && other.MyCondition is null) || MyCondition != null && MyCondition.Equals(other.MyCondition)) && ((OpponentCondition is null && other.OpponentCondition is null) || OpponentCondition != null && OpponentCondition.Equals(other.OpponentCondition)) && ((LastRoundWinner is null && other.LastRoundWinner is null) || LastRoundWinner != null && LastRoundWinner.Equals(other.LastRoundWinner)) && ((CurrentUserMatchState is null && other.CurrentUserMatchState is null) || CurrentUserMatchState != null && CurrentUserMatchState.Equals(other.CurrentUserMatchState)) && ((PlayerState is null && other.PlayerState is null) || PlayerState != null && PlayerState.Equals(other.PlayerState)) && global::System.Object.Equals(IntervalEndHeight, other.IntervalEndHeight);
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetUserScopedSession_StateQuery_UserScopedSession_SessionEventData)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                if (SessionId != null)
+                {
+                    hash ^= 397 * SessionId.GetHashCode();
+                }
+
+                hash ^= 397 * Height.GetHashCode();
+                hash ^= 397 * SessionState.GetHashCode();
+                if (OrganizerAddress != null)
+                {
+                    hash ^= 397 * OrganizerAddress.GetHashCode();
+                }
+
+                if (OpponentAddress != null)
+                {
+                    hash ^= 397 * OpponentAddress.GetHashCode();
+                }
+
+                hash ^= 397 * CurrentInterval.GetHashCode();
+                hash ^= 397 * IsPlayer.GetHashCode();
+                if (MyGloves != null)
+                {
+                    foreach (var MyGloves_elm in MyGloves)
+                    {
+                        hash ^= 397 * MyGloves_elm.GetHashCode();
+                    }
+                }
+
+                if (OpponentGloves != null)
+                {
+                    foreach (var OpponentGloves_elm in OpponentGloves)
+                    {
+                        hash ^= 397 * OpponentGloves_elm.GetHashCode();
+                    }
+                }
+
+                if (PlayersLeft != null)
+                {
+                    hash ^= 397 * PlayersLeft.GetHashCode();
+                }
+
+                if (CurrentPhaseIndex != null)
+                {
+                    hash ^= 397 * CurrentPhaseIndex.GetHashCode();
+                }
+
+                if (CurrentUserRoundIndex != null)
+                {
+                    hash ^= 397 * CurrentUserRoundIndex.GetHashCode();
+                }
+
+                if (MyCondition != null)
+                {
+                    hash ^= 397 * MyCondition.GetHashCode();
+                }
+
+                if (OpponentCondition != null)
+                {
+                    hash ^= 397 * OpponentCondition.GetHashCode();
+                }
+
+                if (LastRoundWinner != null)
+                {
+                    hash ^= 397 * LastRoundWinner.GetHashCode();
+                }
+
+                if (CurrentUserMatchState != null)
+                {
+                    hash ^= 397 * CurrentUserMatchState.GetHashCode();
+                }
+
+                if (PlayerState != null)
+                {
+                    hash ^= 397 * PlayerState.GetHashCode();
+                }
+
+                hash ^= 397 * IntervalEndHeight.GetHashCode();
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetUserScopedSession_StateQuery_UserScopedSession_MyCondition_Condition : global::System.IEquatable<GetUserScopedSession_StateQuery_UserScopedSession_MyCondition_Condition>, IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_Condition
+    {
+        public GetUserScopedSession_StateQuery_UserScopedSession_MyCondition_Condition(global::System.Int32 healthPoint, global::System.Collections.Generic.IReadOnlyList<global::System.Boolean>? gloveUsed, global::System.Int32 submission, global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData?>? activeEffectData)
+        {
+            HealthPoint = healthPoint;
+            GloveUsed = gloveUsed;
+            Submission = submission;
+            ActiveEffectData = activeEffectData;
+        }
+
+        public global::System.Int32 HealthPoint { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::System.Boolean>? GloveUsed { get; }
+        public global::System.Int32 Submission { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData?>? ActiveEffectData { get; }
+
+        public virtual global::System.Boolean Equals(GetUserScopedSession_StateQuery_UserScopedSession_MyCondition_Condition? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (global::System.Object.Equals(HealthPoint, other.HealthPoint)) && global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(GloveUsed, other.GloveUsed) && global::System.Object.Equals(Submission, other.Submission) && global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(ActiveEffectData, other.ActiveEffectData);
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetUserScopedSession_StateQuery_UserScopedSession_MyCondition_Condition)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                hash ^= 397 * HealthPoint.GetHashCode();
+                if (GloveUsed != null)
+                {
+                    foreach (var GloveUsed_elm in GloveUsed)
+                    {
+                        hash ^= 397 * GloveUsed_elm.GetHashCode();
+                    }
+                }
+
+                hash ^= 397 * Submission.GetHashCode();
+                if (ActiveEffectData != null)
+                {
+                    foreach (var ActiveEffectData_elm in ActiveEffectData)
+                    {
+                        if (ActiveEffectData_elm != null)
+                        {
+                            hash ^= 397 * ActiveEffectData_elm.GetHashCode();
+                        }
+                    }
+                }
+
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_Condition : global::System.IEquatable<GetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_Condition>, IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_Condition
+    {
+        public GetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_Condition(global::System.Int32 healthPoint, global::System.Collections.Generic.IReadOnlyList<global::System.Boolean>? gloveUsed, global::System.Int32 submission, global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData?>? activeEffectData)
+        {
+            HealthPoint = healthPoint;
+            GloveUsed = gloveUsed;
+            Submission = submission;
+            ActiveEffectData = activeEffectData;
+        }
+
+        public global::System.Int32 HealthPoint { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::System.Boolean>? GloveUsed { get; }
+        public global::System.Int32 Submission { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData?>? ActiveEffectData { get; }
+
+        public virtual global::System.Boolean Equals(GetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_Condition? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (global::System.Object.Equals(HealthPoint, other.HealthPoint)) && global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(GloveUsed, other.GloveUsed) && global::System.Object.Equals(Submission, other.Submission) && global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(ActiveEffectData, other.ActiveEffectData);
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_Condition)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                hash ^= 397 * HealthPoint.GetHashCode();
+                if (GloveUsed != null)
+                {
+                    foreach (var GloveUsed_elm in GloveUsed)
+                    {
+                        hash ^= 397 * GloveUsed_elm.GetHashCode();
+                    }
+                }
+
+                hash ^= 397 * Submission.GetHashCode();
+                if (ActiveEffectData != null)
+                {
+                    foreach (var ActiveEffectData_elm in ActiveEffectData)
+                    {
+                        if (ActiveEffectData_elm != null)
+                        {
+                            hash ^= 397 * ActiveEffectData_elm.GetHashCode();
+                        }
+                    }
+                }
+
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData_EffectData : global::System.IEquatable<GetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData_EffectData>, IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData_EffectData
+    {
+        public GetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData_EffectData(global::HandRoyal.Bot.GraphQL.EffectType type, global::System.Int32 duration, global::System.Collections.Generic.IReadOnlyList<global::System.Int32>? parameters)
+        {
+            Type = type;
+            Duration = duration;
+            Parameters = parameters;
+        }
+
+        public global::HandRoyal.Bot.GraphQL.EffectType Type { get; }
+        public global::System.Int32 Duration { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::System.Int32>? Parameters { get; }
+
+        public virtual global::System.Boolean Equals(GetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData_EffectData? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (Type.Equals(other.Type)) && global::System.Object.Equals(Duration, other.Duration) && global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(Parameters, other.Parameters);
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData_EffectData)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                hash ^= 397 * Type.GetHashCode();
+                hash ^= 397 * Duration.GetHashCode();
+                if (Parameters != null)
+                {
+                    foreach (var Parameters_elm in Parameters)
+                    {
+                        hash ^= 397 * Parameters_elm.GetHashCode();
+                    }
+                }
+
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData_EffectData : global::System.IEquatable<GetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData_EffectData>, IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData_EffectData
+    {
+        public GetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData_EffectData(global::HandRoyal.Bot.GraphQL.EffectType type, global::System.Int32 duration, global::System.Collections.Generic.IReadOnlyList<global::System.Int32>? parameters)
+        {
+            Type = type;
+            Duration = duration;
+            Parameters = parameters;
+        }
+
+        public global::HandRoyal.Bot.GraphQL.EffectType Type { get; }
+        public global::System.Int32 Duration { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::System.Int32>? Parameters { get; }
+
+        public virtual global::System.Boolean Equals(GetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData_EffectData? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (Type.Equals(other.Type)) && global::System.Object.Equals(Duration, other.Duration) && global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(Parameters, other.Parameters);
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData_EffectData)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                hash ^= 397 * Type.GetHashCode();
+                hash ^= 397 * Duration.GetHashCode();
+                if (Parameters != null)
+                {
+                    foreach (var Parameters_elm in Parameters)
+                    {
+                        hash ^= 397 * Parameters_elm.GetHashCode();
+                    }
+                }
+
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetUserScopedSessionResult
+    {
+        public global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery? StateQuery { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetUserScopedSession_StateQuery
+    {
+        public global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession? UserScopedSession { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetUserScopedSession_StateQuery_Query_StateQuery : IGetUserScopedSession_StateQuery
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetUserScopedSession_StateQuery_UserScopedSession
+    {
+        public global::Libplanet.Crypto.Address? SessionId { get; }
+        public global::System.Int64 Height { get; }
+        public global::HandRoyal.Bot.GraphQL.SessionState SessionState { get; }
+        public global::Libplanet.Crypto.Address? OrganizerAddress { get; }
+        public global::Libplanet.Crypto.Address? OpponentAddress { get; }
+        public global::System.Int64 CurrentInterval { get; }
+        public global::System.Boolean IsPlayer { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? MyGloves { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? OpponentGloves { get; }
+        public global::System.Int32? PlayersLeft { get; }
+        public global::System.Int32? CurrentPhaseIndex { get; }
+        public global::System.Int32? CurrentUserRoundIndex { get; }
+        public global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition? MyCondition { get; }
+        public global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition? OpponentCondition { get; }
+        public global::System.String? LastRoundWinner { get; }
+        public global::HandRoyal.Bot.GraphQL.MatchState? CurrentUserMatchState { get; }
+        public global::HandRoyal.Bot.GraphQL.PlayerState? PlayerState { get; }
+        public global::System.Int64 IntervalEndHeight { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetUserScopedSession_StateQuery_UserScopedSession_SessionEventData : IGetUserScopedSession_StateQuery_UserScopedSession
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition
+    {
+        public global::System.Int32 HealthPoint { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::System.Boolean>? GloveUsed { get; }
+        public global::System.Int32 Submission { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData?>? ActiveEffectData { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_Condition : IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition
+    {
+        public global::System.Int32 HealthPoint { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::System.Boolean>? GloveUsed { get; }
+        public global::System.Int32 Submission { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData?>? ActiveEffectData { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_Condition : IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData
+    {
+        public global::HandRoyal.Bot.GraphQL.EffectType Type { get; }
+        public global::System.Int32 Duration { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::System.Int32>? Parameters { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData_EffectData : IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData
+    {
+        public global::HandRoyal.Bot.GraphQL.EffectType Type { get; }
+        public global::System.Int32 Duration { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::System.Int32>? Parameters { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData_EffectData : IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
     public partial class StageTransactionResult : global::System.IEquatable<StageTransactionResult>, IStageTransactionResult
     {
         public StageTransactionResult(global::Libplanet.Types.Tx.TxId stageTransaction)
@@ -2200,6 +4002,108 @@ namespace HandRoyal.Bot.GraphQL
                 SessionState.Active => "ACTIVE",
                 SessionState.Ended => "ENDED",
                 _ => throw new global::StrawberryShake.GraphQLClientException($"Enum SessionState value '{runtimeValue}' can't be converted to string")};
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public enum PlayerState
+    {
+        Ready,
+        Playing,
+        Won,
+        Lose
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class PlayerStateSerializer : global::StrawberryShake.Serialization.IInputValueFormatter, global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, PlayerState>
+    {
+        public global::System.String TypeName => "PlayerState";
+
+        public PlayerState Parse(global::System.String serializedValue)
+        {
+            return serializedValue switch
+            {
+                "READY" => PlayerState.Ready,
+                "PLAYING" => PlayerState.Playing,
+                "WON" => PlayerState.Won,
+                "LOSE" => PlayerState.Lose,
+                _ => throw new global::StrawberryShake.GraphQLClientException($"String value '{serializedValue}' can't be converted to enum PlayerState")};
+        }
+
+        public global::System.Object Format(global::System.Object? runtimeValue)
+        {
+            return runtimeValue switch
+            {
+                PlayerState.Ready => "READY",
+                PlayerState.Playing => "PLAYING",
+                PlayerState.Won => "WON",
+                PlayerState.Lose => "LOSE",
+                _ => throw new global::StrawberryShake.GraphQLClientException($"Enum PlayerState value '{runtimeValue}' can't be converted to string")};
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public enum MatchState
+    {
+        None,
+        Active,
+        Break,
+        Ended
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class MatchStateSerializer : global::StrawberryShake.Serialization.IInputValueFormatter, global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, MatchState>
+    {
+        public global::System.String TypeName => "MatchState";
+
+        public MatchState Parse(global::System.String serializedValue)
+        {
+            return serializedValue switch
+            {
+                "NONE" => MatchState.None,
+                "ACTIVE" => MatchState.Active,
+                "BREAK" => MatchState.Break,
+                "ENDED" => MatchState.Ended,
+                _ => throw new global::StrawberryShake.GraphQLClientException($"String value '{serializedValue}' can't be converted to enum MatchState")};
+        }
+
+        public global::System.Object Format(global::System.Object? runtimeValue)
+        {
+            return runtimeValue switch
+            {
+                MatchState.None => "NONE",
+                MatchState.Active => "ACTIVE",
+                MatchState.Break => "BREAK",
+                MatchState.Ended => "ENDED",
+                _ => throw new global::StrawberryShake.GraphQLClientException($"Enum MatchState value '{runtimeValue}' can't be converted to string")};
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public enum EffectType
+    {
+        Burn
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class EffectTypeSerializer : global::StrawberryShake.Serialization.IInputValueFormatter, global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, EffectType>
+    {
+        public global::System.String TypeName => "EffectType";
+
+        public EffectType Parse(global::System.String serializedValue)
+        {
+            return serializedValue switch
+            {
+                "BURN" => EffectType.Burn,
+                _ => throw new global::StrawberryShake.GraphQLClientException($"String value '{serializedValue}' can't be converted to enum EffectType")};
+        }
+
+        public global::System.Object Format(global::System.Object? runtimeValue)
+        {
+            return runtimeValue switch
+            {
+                EffectType.Burn => "BURN",
+                _ => throw new global::StrawberryShake.GraphQLClientException($"Enum EffectType value '{runtimeValue}' can't be converted to string")};
         }
     }
 
@@ -3429,6 +5333,278 @@ namespace HandRoyal.Bot.GraphQL
     {
         global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IJoinSessionResult>> ExecuteAsync(global::Libplanet.Crypto.Address sessionId, global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address> gloves, global::System.Threading.CancellationToken cancellationToken = default);
         global::System.IObservable<global::StrawberryShake.IOperationResult<IJoinSessionResult>> Watch(global::Libplanet.Crypto.Address sessionId, global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address> gloves, global::StrawberryShake.ExecutionStrategy? strategy = null);
+    }
+
+    /// <summary>
+    /// Represents the operation service of the SubmitMove GraphQL operation
+    /// <code>
+    /// query SubmitMove($sessionId: Address!, $gloveIndex: Int!) {
+    ///   actionQuery {
+    ///     __typename
+    ///     submitMove(sessionId: $sessionId, gloveIndex: $gloveIndex)
+    ///   }
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class SubmitMoveQueryDocument : global::StrawberryShake.IDocument
+    {
+        private SubmitMoveQueryDocument()
+        {
+        }
+
+        public static SubmitMoveQueryDocument Instance { get; } = new SubmitMoveQueryDocument();
+        public global::StrawberryShake.OperationKind Kind => global::StrawberryShake.OperationKind.Query;
+        public global::System.ReadOnlySpan<global::System.Byte> Body => new global::System.Byte[]
+        {
+            0x71,
+            0x75,
+            0x65,
+            0x72,
+            0x79,
+            0x20,
+            0x53,
+            0x75,
+            0x62,
+            0x6d,
+            0x69,
+            0x74,
+            0x4d,
+            0x6f,
+            0x76,
+            0x65,
+            0x28,
+            0x24,
+            0x73,
+            0x65,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x49,
+            0x64,
+            0x3a,
+            0x20,
+            0x41,
+            0x64,
+            0x64,
+            0x72,
+            0x65,
+            0x73,
+            0x73,
+            0x21,
+            0x2c,
+            0x20,
+            0x24,
+            0x67,
+            0x6c,
+            0x6f,
+            0x76,
+            0x65,
+            0x49,
+            0x6e,
+            0x64,
+            0x65,
+            0x78,
+            0x3a,
+            0x20,
+            0x49,
+            0x6e,
+            0x74,
+            0x21,
+            0x29,
+            0x20,
+            0x7b,
+            0x20,
+            0x61,
+            0x63,
+            0x74,
+            0x69,
+            0x6f,
+            0x6e,
+            0x51,
+            0x75,
+            0x65,
+            0x72,
+            0x79,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x73,
+            0x75,
+            0x62,
+            0x6d,
+            0x69,
+            0x74,
+            0x4d,
+            0x6f,
+            0x76,
+            0x65,
+            0x28,
+            0x73,
+            0x65,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x49,
+            0x64,
+            0x3a,
+            0x20,
+            0x24,
+            0x73,
+            0x65,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x49,
+            0x64,
+            0x2c,
+            0x20,
+            0x67,
+            0x6c,
+            0x6f,
+            0x76,
+            0x65,
+            0x49,
+            0x6e,
+            0x64,
+            0x65,
+            0x78,
+            0x3a,
+            0x20,
+            0x24,
+            0x67,
+            0x6c,
+            0x6f,
+            0x76,
+            0x65,
+            0x49,
+            0x6e,
+            0x64,
+            0x65,
+            0x78,
+            0x29,
+            0x20,
+            0x7d,
+            0x20,
+            0x7d
+        };
+        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("md5Hash", "45ee0661fec47cc243deed31795ba84f");
+
+        public override global::System.String ToString()
+        {
+#if NETCOREAPP3_1_OR_GREATER
+        return global::System.Text.Encoding.UTF8.GetString(Body);
+#else
+            return global::System.Text.Encoding.UTF8.GetString(Body.ToArray());
+#endif
+        }
+    }
+
+    /// <summary>
+    /// Represents the operation service of the SubmitMove GraphQL operation
+    /// <code>
+    /// query SubmitMove($sessionId: Address!, $gloveIndex: Int!) {
+    ///   actionQuery {
+    ///     __typename
+    ///     submitMove(sessionId: $sessionId, gloveIndex: $gloveIndex)
+    ///   }
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class SubmitMoveQuery : global::HandRoyal.Bot.GraphQL.ISubmitMoveQuery
+    {
+        private readonly global::StrawberryShake.IOperationExecutor<ISubmitMoveResult> _operationExecutor;
+        private readonly global::StrawberryShake.Serialization.IInputValueFormatter _addressFormatter;
+        private readonly global::StrawberryShake.Serialization.IInputValueFormatter _intFormatter;
+        public SubmitMoveQuery(global::StrawberryShake.IOperationExecutor<ISubmitMoveResult> operationExecutor, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
+        {
+            _operationExecutor = operationExecutor ?? throw new global::System.ArgumentNullException(nameof(operationExecutor));
+            _addressFormatter = serializerResolver.GetInputValueFormatter("Address");
+            _intFormatter = serializerResolver.GetInputValueFormatter("Int");
+        }
+
+        global::System.Type global::StrawberryShake.IOperationRequestFactory.ResultType => typeof(ISubmitMoveResult);
+
+        public async global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<ISubmitMoveResult>> ExecuteAsync(global::Libplanet.Crypto.Address sessionId, global::System.Int32 gloveIndex, global::System.Threading.CancellationToken cancellationToken = default)
+        {
+            var request = CreateRequest(sessionId, gloveIndex);
+            return await _operationExecutor.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        public global::System.IObservable<global::StrawberryShake.IOperationResult<ISubmitMoveResult>> Watch(global::Libplanet.Crypto.Address sessionId, global::System.Int32 gloveIndex, global::StrawberryShake.ExecutionStrategy? strategy = null)
+        {
+            var request = CreateRequest(sessionId, gloveIndex);
+            return _operationExecutor.Watch(request, strategy);
+        }
+
+        private global::StrawberryShake.OperationRequest CreateRequest(global::Libplanet.Crypto.Address sessionId, global::System.Int32 gloveIndex)
+        {
+            var variables = new global::System.Collections.Generic.Dictionary<global::System.String, global::System.Object?>();
+            variables.Add("sessionId", FormatSessionId(sessionId));
+            variables.Add("gloveIndex", FormatGloveIndex(gloveIndex));
+            return CreateRequest(variables);
+        }
+
+        private global::StrawberryShake.OperationRequest CreateRequest(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
+        {
+            return new global::StrawberryShake.OperationRequest(id: SubmitMoveQueryDocument.Instance.Hash.Value, name: "SubmitMove", document: SubmitMoveQueryDocument.Instance, strategy: global::StrawberryShake.RequestStrategy.Default, variables: variables);
+        }
+
+        private global::System.Object? FormatSessionId(global::Libplanet.Crypto.Address value)
+        {
+            if (value == null)
+            {
+                throw new global::System.ArgumentNullException(nameof(value));
+            }
+
+            return _addressFormatter.Format(value);
+        }
+
+        private global::System.Object? FormatGloveIndex(global::System.Int32 value)
+        {
+            return _intFormatter.Format(value);
+        }
+
+        global::StrawberryShake.OperationRequest global::StrawberryShake.IOperationRequestFactory.Create(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
+        {
+            return CreateRequest(variables!);
+        }
+    }
+
+    /// <summary>
+    /// Represents the operation service of the SubmitMove GraphQL operation
+    /// <code>
+    /// query SubmitMove($sessionId: Address!, $gloveIndex: Int!) {
+    ///   actionQuery {
+    ///     __typename
+    ///     submitMove(sessionId: $sessionId, gloveIndex: $gloveIndex)
+    ///   }
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface ISubmitMoveQuery : global::StrawberryShake.IOperationRequestFactory
+    {
+        global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<ISubmitMoveResult>> ExecuteAsync(global::Libplanet.Crypto.Address sessionId, global::System.Int32 gloveIndex, global::System.Threading.CancellationToken cancellationToken = default);
+        global::System.IObservable<global::StrawberryShake.IOperationResult<ISubmitMoveResult>> Watch(global::Libplanet.Crypto.Address sessionId, global::System.Int32 gloveIndex, global::StrawberryShake.ExecutionStrategy? strategy = null);
     }
 
     /// <summary>
@@ -5144,6 +7320,1846 @@ namespace HandRoyal.Bot.GraphQL
     }
 
     /// <summary>
+    /// Represents the operation service of the GetSession GraphQL operation
+    /// <code>
+    /// query GetSession($sessionId: Address!) {
+    ///   stateQuery {
+    ///     __typename
+    ///     session(sessionId: $sessionId) {
+    ///       __typename
+    ///       metadata {
+    ///         __typename
+    ///         id
+    ///         organizer
+    ///         prize
+    ///         maximumUser
+    ///         minimumUser
+    ///         remainingUser
+    ///         startAfter
+    ///         maxRounds
+    ///         roundLength
+    ///         roundInterval
+    ///         initialHealthPoint
+    ///         numberOfGloves
+    ///         users
+    ///         ... on SessionMetadata {
+    ///           id
+    ///         }
+    ///       }
+    ///       state
+    ///       players {
+    ///         __typename
+    ///         id
+    ///         gloves
+    ///         state
+    ///         ... on Player {
+    ///           id
+    ///         }
+    ///       }
+    ///       phases {
+    ///         __typename
+    ///         height
+    ///         matches {
+    ///           __typename
+    ///           startHeight
+    ///           players
+    ///           state
+    ///           rounds {
+    ///             __typename
+    ///             condition1 {
+    ///               __typename
+    ///               healthPoint
+    ///               gloveUsed
+    ///               submission
+    ///             }
+    ///             condition2 {
+    ///               __typename
+    ///               healthPoint
+    ///               gloveUsed
+    ///               submission
+    ///             }
+    ///             winner
+    ///           }
+    ///           winner
+    ///         }
+    ///       }
+    ///       creationHeight
+    ///       startHeight
+    ///       height
+    ///     }
+    ///   }
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetSessionQueryDocument : global::StrawberryShake.IDocument
+    {
+        private GetSessionQueryDocument()
+        {
+        }
+
+        public static GetSessionQueryDocument Instance { get; } = new GetSessionQueryDocument();
+        public global::StrawberryShake.OperationKind Kind => global::StrawberryShake.OperationKind.Query;
+        public global::System.ReadOnlySpan<global::System.Byte> Body => new global::System.Byte[]
+        {
+            0x71,
+            0x75,
+            0x65,
+            0x72,
+            0x79,
+            0x20,
+            0x47,
+            0x65,
+            0x74,
+            0x53,
+            0x65,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x28,
+            0x24,
+            0x73,
+            0x65,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x49,
+            0x64,
+            0x3a,
+            0x20,
+            0x41,
+            0x64,
+            0x64,
+            0x72,
+            0x65,
+            0x73,
+            0x73,
+            0x21,
+            0x29,
+            0x20,
+            0x7b,
+            0x20,
+            0x73,
+            0x74,
+            0x61,
+            0x74,
+            0x65,
+            0x51,
+            0x75,
+            0x65,
+            0x72,
+            0x79,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x73,
+            0x65,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x28,
+            0x73,
+            0x65,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x49,
+            0x64,
+            0x3a,
+            0x20,
+            0x24,
+            0x73,
+            0x65,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x49,
+            0x64,
+            0x29,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x6d,
+            0x65,
+            0x74,
+            0x61,
+            0x64,
+            0x61,
+            0x74,
+            0x61,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x69,
+            0x64,
+            0x20,
+            0x6f,
+            0x72,
+            0x67,
+            0x61,
+            0x6e,
+            0x69,
+            0x7a,
+            0x65,
+            0x72,
+            0x20,
+            0x70,
+            0x72,
+            0x69,
+            0x7a,
+            0x65,
+            0x20,
+            0x6d,
+            0x61,
+            0x78,
+            0x69,
+            0x6d,
+            0x75,
+            0x6d,
+            0x55,
+            0x73,
+            0x65,
+            0x72,
+            0x20,
+            0x6d,
+            0x69,
+            0x6e,
+            0x69,
+            0x6d,
+            0x75,
+            0x6d,
+            0x55,
+            0x73,
+            0x65,
+            0x72,
+            0x20,
+            0x72,
+            0x65,
+            0x6d,
+            0x61,
+            0x69,
+            0x6e,
+            0x69,
+            0x6e,
+            0x67,
+            0x55,
+            0x73,
+            0x65,
+            0x72,
+            0x20,
+            0x73,
+            0x74,
+            0x61,
+            0x72,
+            0x74,
+            0x41,
+            0x66,
+            0x74,
+            0x65,
+            0x72,
+            0x20,
+            0x6d,
+            0x61,
+            0x78,
+            0x52,
+            0x6f,
+            0x75,
+            0x6e,
+            0x64,
+            0x73,
+            0x20,
+            0x72,
+            0x6f,
+            0x75,
+            0x6e,
+            0x64,
+            0x4c,
+            0x65,
+            0x6e,
+            0x67,
+            0x74,
+            0x68,
+            0x20,
+            0x72,
+            0x6f,
+            0x75,
+            0x6e,
+            0x64,
+            0x49,
+            0x6e,
+            0x74,
+            0x65,
+            0x72,
+            0x76,
+            0x61,
+            0x6c,
+            0x20,
+            0x69,
+            0x6e,
+            0x69,
+            0x74,
+            0x69,
+            0x61,
+            0x6c,
+            0x48,
+            0x65,
+            0x61,
+            0x6c,
+            0x74,
+            0x68,
+            0x50,
+            0x6f,
+            0x69,
+            0x6e,
+            0x74,
+            0x20,
+            0x6e,
+            0x75,
+            0x6d,
+            0x62,
+            0x65,
+            0x72,
+            0x4f,
+            0x66,
+            0x47,
+            0x6c,
+            0x6f,
+            0x76,
+            0x65,
+            0x73,
+            0x20,
+            0x75,
+            0x73,
+            0x65,
+            0x72,
+            0x73,
+            0x20,
+            0x2e,
+            0x2e,
+            0x2e,
+            0x20,
+            0x6f,
+            0x6e,
+            0x20,
+            0x53,
+            0x65,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x4d,
+            0x65,
+            0x74,
+            0x61,
+            0x64,
+            0x61,
+            0x74,
+            0x61,
+            0x20,
+            0x7b,
+            0x20,
+            0x69,
+            0x64,
+            0x20,
+            0x7d,
+            0x20,
+            0x7d,
+            0x20,
+            0x73,
+            0x74,
+            0x61,
+            0x74,
+            0x65,
+            0x20,
+            0x70,
+            0x6c,
+            0x61,
+            0x79,
+            0x65,
+            0x72,
+            0x73,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x69,
+            0x64,
+            0x20,
+            0x67,
+            0x6c,
+            0x6f,
+            0x76,
+            0x65,
+            0x73,
+            0x20,
+            0x73,
+            0x74,
+            0x61,
+            0x74,
+            0x65,
+            0x20,
+            0x2e,
+            0x2e,
+            0x2e,
+            0x20,
+            0x6f,
+            0x6e,
+            0x20,
+            0x50,
+            0x6c,
+            0x61,
+            0x79,
+            0x65,
+            0x72,
+            0x20,
+            0x7b,
+            0x20,
+            0x69,
+            0x64,
+            0x20,
+            0x7d,
+            0x20,
+            0x7d,
+            0x20,
+            0x70,
+            0x68,
+            0x61,
+            0x73,
+            0x65,
+            0x73,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x68,
+            0x65,
+            0x69,
+            0x67,
+            0x68,
+            0x74,
+            0x20,
+            0x6d,
+            0x61,
+            0x74,
+            0x63,
+            0x68,
+            0x65,
+            0x73,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x73,
+            0x74,
+            0x61,
+            0x72,
+            0x74,
+            0x48,
+            0x65,
+            0x69,
+            0x67,
+            0x68,
+            0x74,
+            0x20,
+            0x70,
+            0x6c,
+            0x61,
+            0x79,
+            0x65,
+            0x72,
+            0x73,
+            0x20,
+            0x73,
+            0x74,
+            0x61,
+            0x74,
+            0x65,
+            0x20,
+            0x72,
+            0x6f,
+            0x75,
+            0x6e,
+            0x64,
+            0x73,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x63,
+            0x6f,
+            0x6e,
+            0x64,
+            0x69,
+            0x74,
+            0x69,
+            0x6f,
+            0x6e,
+            0x31,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x68,
+            0x65,
+            0x61,
+            0x6c,
+            0x74,
+            0x68,
+            0x50,
+            0x6f,
+            0x69,
+            0x6e,
+            0x74,
+            0x20,
+            0x67,
+            0x6c,
+            0x6f,
+            0x76,
+            0x65,
+            0x55,
+            0x73,
+            0x65,
+            0x64,
+            0x20,
+            0x73,
+            0x75,
+            0x62,
+            0x6d,
+            0x69,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x20,
+            0x7d,
+            0x20,
+            0x63,
+            0x6f,
+            0x6e,
+            0x64,
+            0x69,
+            0x74,
+            0x69,
+            0x6f,
+            0x6e,
+            0x32,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x68,
+            0x65,
+            0x61,
+            0x6c,
+            0x74,
+            0x68,
+            0x50,
+            0x6f,
+            0x69,
+            0x6e,
+            0x74,
+            0x20,
+            0x67,
+            0x6c,
+            0x6f,
+            0x76,
+            0x65,
+            0x55,
+            0x73,
+            0x65,
+            0x64,
+            0x20,
+            0x73,
+            0x75,
+            0x62,
+            0x6d,
+            0x69,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x20,
+            0x7d,
+            0x20,
+            0x77,
+            0x69,
+            0x6e,
+            0x6e,
+            0x65,
+            0x72,
+            0x20,
+            0x7d,
+            0x20,
+            0x77,
+            0x69,
+            0x6e,
+            0x6e,
+            0x65,
+            0x72,
+            0x20,
+            0x7d,
+            0x20,
+            0x7d,
+            0x20,
+            0x63,
+            0x72,
+            0x65,
+            0x61,
+            0x74,
+            0x69,
+            0x6f,
+            0x6e,
+            0x48,
+            0x65,
+            0x69,
+            0x67,
+            0x68,
+            0x74,
+            0x20,
+            0x73,
+            0x74,
+            0x61,
+            0x72,
+            0x74,
+            0x48,
+            0x65,
+            0x69,
+            0x67,
+            0x68,
+            0x74,
+            0x20,
+            0x68,
+            0x65,
+            0x69,
+            0x67,
+            0x68,
+            0x74,
+            0x20,
+            0x7d,
+            0x20,
+            0x7d,
+            0x20,
+            0x7d
+        };
+        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("md5Hash", "18a1f25d7b8c297c52e9bf44f5613cab");
+
+        public override global::System.String ToString()
+        {
+#if NETCOREAPP3_1_OR_GREATER
+        return global::System.Text.Encoding.UTF8.GetString(Body);
+#else
+            return global::System.Text.Encoding.UTF8.GetString(Body.ToArray());
+#endif
+        }
+    }
+
+    /// <summary>
+    /// Represents the operation service of the GetSession GraphQL operation
+    /// <code>
+    /// query GetSession($sessionId: Address!) {
+    ///   stateQuery {
+    ///     __typename
+    ///     session(sessionId: $sessionId) {
+    ///       __typename
+    ///       metadata {
+    ///         __typename
+    ///         id
+    ///         organizer
+    ///         prize
+    ///         maximumUser
+    ///         minimumUser
+    ///         remainingUser
+    ///         startAfter
+    ///         maxRounds
+    ///         roundLength
+    ///         roundInterval
+    ///         initialHealthPoint
+    ///         numberOfGloves
+    ///         users
+    ///         ... on SessionMetadata {
+    ///           id
+    ///         }
+    ///       }
+    ///       state
+    ///       players {
+    ///         __typename
+    ///         id
+    ///         gloves
+    ///         state
+    ///         ... on Player {
+    ///           id
+    ///         }
+    ///       }
+    ///       phases {
+    ///         __typename
+    ///         height
+    ///         matches {
+    ///           __typename
+    ///           startHeight
+    ///           players
+    ///           state
+    ///           rounds {
+    ///             __typename
+    ///             condition1 {
+    ///               __typename
+    ///               healthPoint
+    ///               gloveUsed
+    ///               submission
+    ///             }
+    ///             condition2 {
+    ///               __typename
+    ///               healthPoint
+    ///               gloveUsed
+    ///               submission
+    ///             }
+    ///             winner
+    ///           }
+    ///           winner
+    ///         }
+    ///       }
+    ///       creationHeight
+    ///       startHeight
+    ///       height
+    ///     }
+    ///   }
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetSessionQuery : global::HandRoyal.Bot.GraphQL.IGetSessionQuery
+    {
+        private readonly global::StrawberryShake.IOperationExecutor<IGetSessionResult> _operationExecutor;
+        private readonly global::StrawberryShake.Serialization.IInputValueFormatter _addressFormatter;
+        public GetSessionQuery(global::StrawberryShake.IOperationExecutor<IGetSessionResult> operationExecutor, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
+        {
+            _operationExecutor = operationExecutor ?? throw new global::System.ArgumentNullException(nameof(operationExecutor));
+            _addressFormatter = serializerResolver.GetInputValueFormatter("Address");
+        }
+
+        global::System.Type global::StrawberryShake.IOperationRequestFactory.ResultType => typeof(IGetSessionResult);
+
+        public async global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetSessionResult>> ExecuteAsync(global::Libplanet.Crypto.Address sessionId, global::System.Threading.CancellationToken cancellationToken = default)
+        {
+            var request = CreateRequest(sessionId);
+            return await _operationExecutor.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        public global::System.IObservable<global::StrawberryShake.IOperationResult<IGetSessionResult>> Watch(global::Libplanet.Crypto.Address sessionId, global::StrawberryShake.ExecutionStrategy? strategy = null)
+        {
+            var request = CreateRequest(sessionId);
+            return _operationExecutor.Watch(request, strategy);
+        }
+
+        private global::StrawberryShake.OperationRequest CreateRequest(global::Libplanet.Crypto.Address sessionId)
+        {
+            var variables = new global::System.Collections.Generic.Dictionary<global::System.String, global::System.Object?>();
+            variables.Add("sessionId", FormatSessionId(sessionId));
+            return CreateRequest(variables);
+        }
+
+        private global::StrawberryShake.OperationRequest CreateRequest(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
+        {
+            return new global::StrawberryShake.OperationRequest(id: GetSessionQueryDocument.Instance.Hash.Value, name: "GetSession", document: GetSessionQueryDocument.Instance, strategy: global::StrawberryShake.RequestStrategy.Default, variables: variables);
+        }
+
+        private global::System.Object? FormatSessionId(global::Libplanet.Crypto.Address value)
+        {
+            if (value == null)
+            {
+                throw new global::System.ArgumentNullException(nameof(value));
+            }
+
+            return _addressFormatter.Format(value);
+        }
+
+        global::StrawberryShake.OperationRequest global::StrawberryShake.IOperationRequestFactory.Create(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
+        {
+            return CreateRequest(variables!);
+        }
+    }
+
+    /// <summary>
+    /// Represents the operation service of the GetSession GraphQL operation
+    /// <code>
+    /// query GetSession($sessionId: Address!) {
+    ///   stateQuery {
+    ///     __typename
+    ///     session(sessionId: $sessionId) {
+    ///       __typename
+    ///       metadata {
+    ///         __typename
+    ///         id
+    ///         organizer
+    ///         prize
+    ///         maximumUser
+    ///         minimumUser
+    ///         remainingUser
+    ///         startAfter
+    ///         maxRounds
+    ///         roundLength
+    ///         roundInterval
+    ///         initialHealthPoint
+    ///         numberOfGloves
+    ///         users
+    ///         ... on SessionMetadata {
+    ///           id
+    ///         }
+    ///       }
+    ///       state
+    ///       players {
+    ///         __typename
+    ///         id
+    ///         gloves
+    ///         state
+    ///         ... on Player {
+    ///           id
+    ///         }
+    ///       }
+    ///       phases {
+    ///         __typename
+    ///         height
+    ///         matches {
+    ///           __typename
+    ///           startHeight
+    ///           players
+    ///           state
+    ///           rounds {
+    ///             __typename
+    ///             condition1 {
+    ///               __typename
+    ///               healthPoint
+    ///               gloveUsed
+    ///               submission
+    ///             }
+    ///             condition2 {
+    ///               __typename
+    ///               healthPoint
+    ///               gloveUsed
+    ///               submission
+    ///             }
+    ///             winner
+    ///           }
+    ///           winner
+    ///         }
+    ///       }
+    ///       creationHeight
+    ///       startHeight
+    ///       height
+    ///     }
+    ///   }
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetSessionQuery : global::StrawberryShake.IOperationRequestFactory
+    {
+        global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetSessionResult>> ExecuteAsync(global::Libplanet.Crypto.Address sessionId, global::System.Threading.CancellationToken cancellationToken = default);
+        global::System.IObservable<global::StrawberryShake.IOperationResult<IGetSessionResult>> Watch(global::Libplanet.Crypto.Address sessionId, global::StrawberryShake.ExecutionStrategy? strategy = null);
+    }
+
+    /// <summary>
+    /// Represents the operation service of the GetUserScopedSession GraphQL operation
+    /// <code>
+    /// query GetUserScopedSession($sessionId: Address!, $userId: Address!) {
+    ///   stateQuery {
+    ///     __typename
+    ///     userScopedSession(sessionId: $sessionId, userId: $userId) {
+    ///       __typename
+    ///       sessionId
+    ///       height
+    ///       sessionState
+    ///       organizerAddress
+    ///       opponentAddress
+    ///       currentInterval
+    ///       isPlayer
+    ///       myGloves
+    ///       opponentGloves
+    ///       playersLeft
+    ///       currentPhaseIndex
+    ///       currentUserRoundIndex
+    ///       myCondition {
+    ///         __typename
+    ///         healthPoint
+    ///         gloveUsed
+    ///         submission
+    ///         activeEffectData {
+    ///           __typename
+    ///           type
+    ///           duration
+    ///           parameters
+    ///         }
+    ///       }
+    ///       opponentCondition {
+    ///         __typename
+    ///         healthPoint
+    ///         gloveUsed
+    ///         submission
+    ///         activeEffectData {
+    ///           __typename
+    ///           type
+    ///           duration
+    ///           parameters
+    ///         }
+    ///       }
+    ///       lastRoundWinner
+    ///       currentUserMatchState
+    ///       playerState
+    ///       intervalEndHeight
+    ///     }
+    ///   }
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetUserScopedSessionQueryDocument : global::StrawberryShake.IDocument
+    {
+        private GetUserScopedSessionQueryDocument()
+        {
+        }
+
+        public static GetUserScopedSessionQueryDocument Instance { get; } = new GetUserScopedSessionQueryDocument();
+        public global::StrawberryShake.OperationKind Kind => global::StrawberryShake.OperationKind.Query;
+        public global::System.ReadOnlySpan<global::System.Byte> Body => new global::System.Byte[]
+        {
+            0x71,
+            0x75,
+            0x65,
+            0x72,
+            0x79,
+            0x20,
+            0x47,
+            0x65,
+            0x74,
+            0x55,
+            0x73,
+            0x65,
+            0x72,
+            0x53,
+            0x63,
+            0x6f,
+            0x70,
+            0x65,
+            0x64,
+            0x53,
+            0x65,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x28,
+            0x24,
+            0x73,
+            0x65,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x49,
+            0x64,
+            0x3a,
+            0x20,
+            0x41,
+            0x64,
+            0x64,
+            0x72,
+            0x65,
+            0x73,
+            0x73,
+            0x21,
+            0x2c,
+            0x20,
+            0x24,
+            0x75,
+            0x73,
+            0x65,
+            0x72,
+            0x49,
+            0x64,
+            0x3a,
+            0x20,
+            0x41,
+            0x64,
+            0x64,
+            0x72,
+            0x65,
+            0x73,
+            0x73,
+            0x21,
+            0x29,
+            0x20,
+            0x7b,
+            0x20,
+            0x73,
+            0x74,
+            0x61,
+            0x74,
+            0x65,
+            0x51,
+            0x75,
+            0x65,
+            0x72,
+            0x79,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x75,
+            0x73,
+            0x65,
+            0x72,
+            0x53,
+            0x63,
+            0x6f,
+            0x70,
+            0x65,
+            0x64,
+            0x53,
+            0x65,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x28,
+            0x73,
+            0x65,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x49,
+            0x64,
+            0x3a,
+            0x20,
+            0x24,
+            0x73,
+            0x65,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x49,
+            0x64,
+            0x2c,
+            0x20,
+            0x75,
+            0x73,
+            0x65,
+            0x72,
+            0x49,
+            0x64,
+            0x3a,
+            0x20,
+            0x24,
+            0x75,
+            0x73,
+            0x65,
+            0x72,
+            0x49,
+            0x64,
+            0x29,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x73,
+            0x65,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x49,
+            0x64,
+            0x20,
+            0x68,
+            0x65,
+            0x69,
+            0x67,
+            0x68,
+            0x74,
+            0x20,
+            0x73,
+            0x65,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x53,
+            0x74,
+            0x61,
+            0x74,
+            0x65,
+            0x20,
+            0x6f,
+            0x72,
+            0x67,
+            0x61,
+            0x6e,
+            0x69,
+            0x7a,
+            0x65,
+            0x72,
+            0x41,
+            0x64,
+            0x64,
+            0x72,
+            0x65,
+            0x73,
+            0x73,
+            0x20,
+            0x6f,
+            0x70,
+            0x70,
+            0x6f,
+            0x6e,
+            0x65,
+            0x6e,
+            0x74,
+            0x41,
+            0x64,
+            0x64,
+            0x72,
+            0x65,
+            0x73,
+            0x73,
+            0x20,
+            0x63,
+            0x75,
+            0x72,
+            0x72,
+            0x65,
+            0x6e,
+            0x74,
+            0x49,
+            0x6e,
+            0x74,
+            0x65,
+            0x72,
+            0x76,
+            0x61,
+            0x6c,
+            0x20,
+            0x69,
+            0x73,
+            0x50,
+            0x6c,
+            0x61,
+            0x79,
+            0x65,
+            0x72,
+            0x20,
+            0x6d,
+            0x79,
+            0x47,
+            0x6c,
+            0x6f,
+            0x76,
+            0x65,
+            0x73,
+            0x20,
+            0x6f,
+            0x70,
+            0x70,
+            0x6f,
+            0x6e,
+            0x65,
+            0x6e,
+            0x74,
+            0x47,
+            0x6c,
+            0x6f,
+            0x76,
+            0x65,
+            0x73,
+            0x20,
+            0x70,
+            0x6c,
+            0x61,
+            0x79,
+            0x65,
+            0x72,
+            0x73,
+            0x4c,
+            0x65,
+            0x66,
+            0x74,
+            0x20,
+            0x63,
+            0x75,
+            0x72,
+            0x72,
+            0x65,
+            0x6e,
+            0x74,
+            0x50,
+            0x68,
+            0x61,
+            0x73,
+            0x65,
+            0x49,
+            0x6e,
+            0x64,
+            0x65,
+            0x78,
+            0x20,
+            0x63,
+            0x75,
+            0x72,
+            0x72,
+            0x65,
+            0x6e,
+            0x74,
+            0x55,
+            0x73,
+            0x65,
+            0x72,
+            0x52,
+            0x6f,
+            0x75,
+            0x6e,
+            0x64,
+            0x49,
+            0x6e,
+            0x64,
+            0x65,
+            0x78,
+            0x20,
+            0x6d,
+            0x79,
+            0x43,
+            0x6f,
+            0x6e,
+            0x64,
+            0x69,
+            0x74,
+            0x69,
+            0x6f,
+            0x6e,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x68,
+            0x65,
+            0x61,
+            0x6c,
+            0x74,
+            0x68,
+            0x50,
+            0x6f,
+            0x69,
+            0x6e,
+            0x74,
+            0x20,
+            0x67,
+            0x6c,
+            0x6f,
+            0x76,
+            0x65,
+            0x55,
+            0x73,
+            0x65,
+            0x64,
+            0x20,
+            0x73,
+            0x75,
+            0x62,
+            0x6d,
+            0x69,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x20,
+            0x61,
+            0x63,
+            0x74,
+            0x69,
+            0x76,
+            0x65,
+            0x45,
+            0x66,
+            0x66,
+            0x65,
+            0x63,
+            0x74,
+            0x44,
+            0x61,
+            0x74,
+            0x61,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x20,
+            0x64,
+            0x75,
+            0x72,
+            0x61,
+            0x74,
+            0x69,
+            0x6f,
+            0x6e,
+            0x20,
+            0x70,
+            0x61,
+            0x72,
+            0x61,
+            0x6d,
+            0x65,
+            0x74,
+            0x65,
+            0x72,
+            0x73,
+            0x20,
+            0x7d,
+            0x20,
+            0x7d,
+            0x20,
+            0x6f,
+            0x70,
+            0x70,
+            0x6f,
+            0x6e,
+            0x65,
+            0x6e,
+            0x74,
+            0x43,
+            0x6f,
+            0x6e,
+            0x64,
+            0x69,
+            0x74,
+            0x69,
+            0x6f,
+            0x6e,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x68,
+            0x65,
+            0x61,
+            0x6c,
+            0x74,
+            0x68,
+            0x50,
+            0x6f,
+            0x69,
+            0x6e,
+            0x74,
+            0x20,
+            0x67,
+            0x6c,
+            0x6f,
+            0x76,
+            0x65,
+            0x55,
+            0x73,
+            0x65,
+            0x64,
+            0x20,
+            0x73,
+            0x75,
+            0x62,
+            0x6d,
+            0x69,
+            0x73,
+            0x73,
+            0x69,
+            0x6f,
+            0x6e,
+            0x20,
+            0x61,
+            0x63,
+            0x74,
+            0x69,
+            0x76,
+            0x65,
+            0x45,
+            0x66,
+            0x66,
+            0x65,
+            0x63,
+            0x74,
+            0x44,
+            0x61,
+            0x74,
+            0x61,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x20,
+            0x64,
+            0x75,
+            0x72,
+            0x61,
+            0x74,
+            0x69,
+            0x6f,
+            0x6e,
+            0x20,
+            0x70,
+            0x61,
+            0x72,
+            0x61,
+            0x6d,
+            0x65,
+            0x74,
+            0x65,
+            0x72,
+            0x73,
+            0x20,
+            0x7d,
+            0x20,
+            0x7d,
+            0x20,
+            0x6c,
+            0x61,
+            0x73,
+            0x74,
+            0x52,
+            0x6f,
+            0x75,
+            0x6e,
+            0x64,
+            0x57,
+            0x69,
+            0x6e,
+            0x6e,
+            0x65,
+            0x72,
+            0x20,
+            0x63,
+            0x75,
+            0x72,
+            0x72,
+            0x65,
+            0x6e,
+            0x74,
+            0x55,
+            0x73,
+            0x65,
+            0x72,
+            0x4d,
+            0x61,
+            0x74,
+            0x63,
+            0x68,
+            0x53,
+            0x74,
+            0x61,
+            0x74,
+            0x65,
+            0x20,
+            0x70,
+            0x6c,
+            0x61,
+            0x79,
+            0x65,
+            0x72,
+            0x53,
+            0x74,
+            0x61,
+            0x74,
+            0x65,
+            0x20,
+            0x69,
+            0x6e,
+            0x74,
+            0x65,
+            0x72,
+            0x76,
+            0x61,
+            0x6c,
+            0x45,
+            0x6e,
+            0x64,
+            0x48,
+            0x65,
+            0x69,
+            0x67,
+            0x68,
+            0x74,
+            0x20,
+            0x7d,
+            0x20,
+            0x7d,
+            0x20,
+            0x7d
+        };
+        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("md5Hash", "ae6b1ffefc07b9272d419fda2cd3f10f");
+
+        public override global::System.String ToString()
+        {
+#if NETCOREAPP3_1_OR_GREATER
+        return global::System.Text.Encoding.UTF8.GetString(Body);
+#else
+            return global::System.Text.Encoding.UTF8.GetString(Body.ToArray());
+#endif
+        }
+    }
+
+    /// <summary>
+    /// Represents the operation service of the GetUserScopedSession GraphQL operation
+    /// <code>
+    /// query GetUserScopedSession($sessionId: Address!, $userId: Address!) {
+    ///   stateQuery {
+    ///     __typename
+    ///     userScopedSession(sessionId: $sessionId, userId: $userId) {
+    ///       __typename
+    ///       sessionId
+    ///       height
+    ///       sessionState
+    ///       organizerAddress
+    ///       opponentAddress
+    ///       currentInterval
+    ///       isPlayer
+    ///       myGloves
+    ///       opponentGloves
+    ///       playersLeft
+    ///       currentPhaseIndex
+    ///       currentUserRoundIndex
+    ///       myCondition {
+    ///         __typename
+    ///         healthPoint
+    ///         gloveUsed
+    ///         submission
+    ///         activeEffectData {
+    ///           __typename
+    ///           type
+    ///           duration
+    ///           parameters
+    ///         }
+    ///       }
+    ///       opponentCondition {
+    ///         __typename
+    ///         healthPoint
+    ///         gloveUsed
+    ///         submission
+    ///         activeEffectData {
+    ///           __typename
+    ///           type
+    ///           duration
+    ///           parameters
+    ///         }
+    ///       }
+    ///       lastRoundWinner
+    ///       currentUserMatchState
+    ///       playerState
+    ///       intervalEndHeight
+    ///     }
+    ///   }
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetUserScopedSessionQuery : global::HandRoyal.Bot.GraphQL.IGetUserScopedSessionQuery
+    {
+        private readonly global::StrawberryShake.IOperationExecutor<IGetUserScopedSessionResult> _operationExecutor;
+        private readonly global::StrawberryShake.Serialization.IInputValueFormatter _addressFormatter;
+        public GetUserScopedSessionQuery(global::StrawberryShake.IOperationExecutor<IGetUserScopedSessionResult> operationExecutor, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
+        {
+            _operationExecutor = operationExecutor ?? throw new global::System.ArgumentNullException(nameof(operationExecutor));
+            _addressFormatter = serializerResolver.GetInputValueFormatter("Address");
+        }
+
+        global::System.Type global::StrawberryShake.IOperationRequestFactory.ResultType => typeof(IGetUserScopedSessionResult);
+
+        public async global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetUserScopedSessionResult>> ExecuteAsync(global::Libplanet.Crypto.Address sessionId, global::Libplanet.Crypto.Address userId, global::System.Threading.CancellationToken cancellationToken = default)
+        {
+            var request = CreateRequest(sessionId, userId);
+            return await _operationExecutor.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        public global::System.IObservable<global::StrawberryShake.IOperationResult<IGetUserScopedSessionResult>> Watch(global::Libplanet.Crypto.Address sessionId, global::Libplanet.Crypto.Address userId, global::StrawberryShake.ExecutionStrategy? strategy = null)
+        {
+            var request = CreateRequest(sessionId, userId);
+            return _operationExecutor.Watch(request, strategy);
+        }
+
+        private global::StrawberryShake.OperationRequest CreateRequest(global::Libplanet.Crypto.Address sessionId, global::Libplanet.Crypto.Address userId)
+        {
+            var variables = new global::System.Collections.Generic.Dictionary<global::System.String, global::System.Object?>();
+            variables.Add("sessionId", FormatSessionId(sessionId));
+            variables.Add("userId", FormatUserId(userId));
+            return CreateRequest(variables);
+        }
+
+        private global::StrawberryShake.OperationRequest CreateRequest(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
+        {
+            return new global::StrawberryShake.OperationRequest(id: GetUserScopedSessionQueryDocument.Instance.Hash.Value, name: "GetUserScopedSession", document: GetUserScopedSessionQueryDocument.Instance, strategy: global::StrawberryShake.RequestStrategy.Default, variables: variables);
+        }
+
+        private global::System.Object? FormatSessionId(global::Libplanet.Crypto.Address value)
+        {
+            if (value == null)
+            {
+                throw new global::System.ArgumentNullException(nameof(value));
+            }
+
+            return _addressFormatter.Format(value);
+        }
+
+        private global::System.Object? FormatUserId(global::Libplanet.Crypto.Address value)
+        {
+            if (value == null)
+            {
+                throw new global::System.ArgumentNullException(nameof(value));
+            }
+
+            return _addressFormatter.Format(value);
+        }
+
+        global::StrawberryShake.OperationRequest global::StrawberryShake.IOperationRequestFactory.Create(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
+        {
+            return CreateRequest(variables!);
+        }
+    }
+
+    /// <summary>
+    /// Represents the operation service of the GetUserScopedSession GraphQL operation
+    /// <code>
+    /// query GetUserScopedSession($sessionId: Address!, $userId: Address!) {
+    ///   stateQuery {
+    ///     __typename
+    ///     userScopedSession(sessionId: $sessionId, userId: $userId) {
+    ///       __typename
+    ///       sessionId
+    ///       height
+    ///       sessionState
+    ///       organizerAddress
+    ///       opponentAddress
+    ///       currentInterval
+    ///       isPlayer
+    ///       myGloves
+    ///       opponentGloves
+    ///       playersLeft
+    ///       currentPhaseIndex
+    ///       currentUserRoundIndex
+    ///       myCondition {
+    ///         __typename
+    ///         healthPoint
+    ///         gloveUsed
+    ///         submission
+    ///         activeEffectData {
+    ///           __typename
+    ///           type
+    ///           duration
+    ///           parameters
+    ///         }
+    ///       }
+    ///       opponentCondition {
+    ///         __typename
+    ///         healthPoint
+    ///         gloveUsed
+    ///         submission
+    ///         activeEffectData {
+    ///           __typename
+    ///           type
+    ///           duration
+    ///           parameters
+    ///         }
+    ///       }
+    ///       lastRoundWinner
+    ///       currentUserMatchState
+    ///       playerState
+    ///       intervalEndHeight
+    ///     }
+    ///   }
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial interface IGetUserScopedSessionQuery : global::StrawberryShake.IOperationRequestFactory
+    {
+        global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetUserScopedSessionResult>> ExecuteAsync(global::Libplanet.Crypto.Address sessionId, global::Libplanet.Crypto.Address userId, global::System.Threading.CancellationToken cancellationToken = default);
+        global::System.IObservable<global::StrawberryShake.IOperationResult<IGetUserScopedSessionResult>> Watch(global::Libplanet.Crypto.Address sessionId, global::Libplanet.Crypto.Address userId, global::StrawberryShake.ExecutionStrategy? strategy = null);
+    }
+
+    /// <summary>
     /// Represents the operation service of the StageTransaction GraphQL operation
     /// <code>
     /// mutation StageTransaction($unsignedTransaction: Hex!, $signature: Hex!) {
@@ -5890,6 +9906,7 @@ namespace HandRoyal.Bot.GraphQL
         private readonly global::HandRoyal.Bot.GraphQL.ICreateUserQuery _createUser;
         private readonly global::HandRoyal.Bot.GraphQL.ICreateSessionQuery _createSession;
         private readonly global::HandRoyal.Bot.GraphQL.IJoinSessionQuery _joinSession;
+        private readonly global::HandRoyal.Bot.GraphQL.ISubmitMoveQuery _submitMove;
         private readonly global::HandRoyal.Bot.GraphQL.IPickUpQuery _pickUp;
         private readonly global::HandRoyal.Bot.GraphQL.IPickUpManyQuery _pickUpMany;
         private readonly global::HandRoyal.Bot.GraphQL.IRegisterMatchingQuery _registerMatching;
@@ -5897,14 +9914,17 @@ namespace HandRoyal.Bot.GraphQL
         private readonly global::HandRoyal.Bot.GraphQL.IGetUserDataQuery _getUserData;
         private readonly global::HandRoyal.Bot.GraphQL.ITransactionResultQuery _transactionResult;
         private readonly global::HandRoyal.Bot.GraphQL.IUnsignedTransactionQuery _unsignedTransaction;
+        private readonly global::HandRoyal.Bot.GraphQL.IGetSessionQuery _getSession;
+        private readonly global::HandRoyal.Bot.GraphQL.IGetUserScopedSessionQuery _getUserScopedSession;
         private readonly global::HandRoyal.Bot.GraphQL.IStageTransactionMutation _stageTransaction;
         private readonly global::HandRoyal.Bot.GraphQL.IOnTipChangedSubscription _onTipChanged;
         private readonly global::HandRoyal.Bot.GraphQL.IOnSessionChangedSubscription _onSessionChanged;
-        public GraphQLClient(global::HandRoyal.Bot.GraphQL.ICreateUserQuery createUser, global::HandRoyal.Bot.GraphQL.ICreateSessionQuery createSession, global::HandRoyal.Bot.GraphQL.IJoinSessionQuery joinSession, global::HandRoyal.Bot.GraphQL.IPickUpQuery pickUp, global::HandRoyal.Bot.GraphQL.IPickUpManyQuery pickUpMany, global::HandRoyal.Bot.GraphQL.IRegisterMatchingQuery registerMatching, global::HandRoyal.Bot.GraphQL.ICancelMatchingQuery cancelMatching, global::HandRoyal.Bot.GraphQL.IGetUserDataQuery getUserData, global::HandRoyal.Bot.GraphQL.ITransactionResultQuery transactionResult, global::HandRoyal.Bot.GraphQL.IUnsignedTransactionQuery unsignedTransaction, global::HandRoyal.Bot.GraphQL.IStageTransactionMutation stageTransaction, global::HandRoyal.Bot.GraphQL.IOnTipChangedSubscription onTipChanged, global::HandRoyal.Bot.GraphQL.IOnSessionChangedSubscription onSessionChanged)
+        public GraphQLClient(global::HandRoyal.Bot.GraphQL.ICreateUserQuery createUser, global::HandRoyal.Bot.GraphQL.ICreateSessionQuery createSession, global::HandRoyal.Bot.GraphQL.IJoinSessionQuery joinSession, global::HandRoyal.Bot.GraphQL.ISubmitMoveQuery submitMove, global::HandRoyal.Bot.GraphQL.IPickUpQuery pickUp, global::HandRoyal.Bot.GraphQL.IPickUpManyQuery pickUpMany, global::HandRoyal.Bot.GraphQL.IRegisterMatchingQuery registerMatching, global::HandRoyal.Bot.GraphQL.ICancelMatchingQuery cancelMatching, global::HandRoyal.Bot.GraphQL.IGetUserDataQuery getUserData, global::HandRoyal.Bot.GraphQL.ITransactionResultQuery transactionResult, global::HandRoyal.Bot.GraphQL.IUnsignedTransactionQuery unsignedTransaction, global::HandRoyal.Bot.GraphQL.IGetSessionQuery getSession, global::HandRoyal.Bot.GraphQL.IGetUserScopedSessionQuery getUserScopedSession, global::HandRoyal.Bot.GraphQL.IStageTransactionMutation stageTransaction, global::HandRoyal.Bot.GraphQL.IOnTipChangedSubscription onTipChanged, global::HandRoyal.Bot.GraphQL.IOnSessionChangedSubscription onSessionChanged)
         {
             _createUser = createUser ?? throw new global::System.ArgumentNullException(nameof(createUser));
             _createSession = createSession ?? throw new global::System.ArgumentNullException(nameof(createSession));
             _joinSession = joinSession ?? throw new global::System.ArgumentNullException(nameof(joinSession));
+            _submitMove = submitMove ?? throw new global::System.ArgumentNullException(nameof(submitMove));
             _pickUp = pickUp ?? throw new global::System.ArgumentNullException(nameof(pickUp));
             _pickUpMany = pickUpMany ?? throw new global::System.ArgumentNullException(nameof(pickUpMany));
             _registerMatching = registerMatching ?? throw new global::System.ArgumentNullException(nameof(registerMatching));
@@ -5912,6 +9932,8 @@ namespace HandRoyal.Bot.GraphQL
             _getUserData = getUserData ?? throw new global::System.ArgumentNullException(nameof(getUserData));
             _transactionResult = transactionResult ?? throw new global::System.ArgumentNullException(nameof(transactionResult));
             _unsignedTransaction = unsignedTransaction ?? throw new global::System.ArgumentNullException(nameof(unsignedTransaction));
+            _getSession = getSession ?? throw new global::System.ArgumentNullException(nameof(getSession));
+            _getUserScopedSession = getUserScopedSession ?? throw new global::System.ArgumentNullException(nameof(getUserScopedSession));
             _stageTransaction = stageTransaction ?? throw new global::System.ArgumentNullException(nameof(stageTransaction));
             _onTipChanged = onTipChanged ?? throw new global::System.ArgumentNullException(nameof(onTipChanged));
             _onSessionChanged = onSessionChanged ?? throw new global::System.ArgumentNullException(nameof(onSessionChanged));
@@ -5921,6 +9943,7 @@ namespace HandRoyal.Bot.GraphQL
         public global::HandRoyal.Bot.GraphQL.ICreateUserQuery CreateUser => _createUser;
         public global::HandRoyal.Bot.GraphQL.ICreateSessionQuery CreateSession => _createSession;
         public global::HandRoyal.Bot.GraphQL.IJoinSessionQuery JoinSession => _joinSession;
+        public global::HandRoyal.Bot.GraphQL.ISubmitMoveQuery SubmitMove => _submitMove;
         public global::HandRoyal.Bot.GraphQL.IPickUpQuery PickUp => _pickUp;
         public global::HandRoyal.Bot.GraphQL.IPickUpManyQuery PickUpMany => _pickUpMany;
         public global::HandRoyal.Bot.GraphQL.IRegisterMatchingQuery RegisterMatching => _registerMatching;
@@ -5928,6 +9951,8 @@ namespace HandRoyal.Bot.GraphQL
         public global::HandRoyal.Bot.GraphQL.IGetUserDataQuery GetUserData => _getUserData;
         public global::HandRoyal.Bot.GraphQL.ITransactionResultQuery TransactionResult => _transactionResult;
         public global::HandRoyal.Bot.GraphQL.IUnsignedTransactionQuery UnsignedTransaction => _unsignedTransaction;
+        public global::HandRoyal.Bot.GraphQL.IGetSessionQuery GetSession => _getSession;
+        public global::HandRoyal.Bot.GraphQL.IGetUserScopedSessionQuery GetUserScopedSession => _getUserScopedSession;
         public global::HandRoyal.Bot.GraphQL.IStageTransactionMutation StageTransaction => _stageTransaction;
         public global::HandRoyal.Bot.GraphQL.IOnTipChangedSubscription OnTipChanged => _onTipChanged;
         public global::HandRoyal.Bot.GraphQL.IOnSessionChangedSubscription OnSessionChanged => _onSessionChanged;
@@ -5945,6 +9970,8 @@ namespace HandRoyal.Bot.GraphQL
 
         global::HandRoyal.Bot.GraphQL.IJoinSessionQuery JoinSession { get; }
 
+        global::HandRoyal.Bot.GraphQL.ISubmitMoveQuery SubmitMove { get; }
+
         global::HandRoyal.Bot.GraphQL.IPickUpQuery PickUp { get; }
 
         global::HandRoyal.Bot.GraphQL.IPickUpManyQuery PickUpMany { get; }
@@ -5958,6 +9985,10 @@ namespace HandRoyal.Bot.GraphQL
         global::HandRoyal.Bot.GraphQL.ITransactionResultQuery TransactionResult { get; }
 
         global::HandRoyal.Bot.GraphQL.IUnsignedTransactionQuery UnsignedTransaction { get; }
+
+        global::HandRoyal.Bot.GraphQL.IGetSessionQuery GetSession { get; }
+
+        global::HandRoyal.Bot.GraphQL.IGetUserScopedSessionQuery GetUserScopedSession { get; }
 
         global::HandRoyal.Bot.GraphQL.IStageTransactionMutation StageTransaction { get; }
 
@@ -6003,6 +10034,56 @@ namespace HandRoyal.Bot.GraphQL.State
 
         public global::Libplanet.Crypto.Address Id { get; }
         public global::System.Int32 Count { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class SessionMetadataEntity
+    {
+        public SessionMetadataEntity(global::Libplanet.Crypto.Address id = default !, global::Libplanet.Crypto.Address organizer = default !, global::Libplanet.Crypto.Address prize = default !, global::System.Int32 maximumUser = default !, global::System.Int32 minimumUser = default !, global::System.Int32 remainingUser = default !, global::System.Int64 startAfter = default !, global::System.Int32 maxRounds = default !, global::System.Int64 roundLength = default !, global::System.Int64 roundInterval = default !, global::System.Int32 initialHealthPoint = default !, global::System.Int32 numberOfGloves = default !, global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? users = default !)
+        {
+            Id = id;
+            Organizer = organizer;
+            Prize = prize;
+            MaximumUser = maximumUser;
+            MinimumUser = minimumUser;
+            RemainingUser = remainingUser;
+            StartAfter = startAfter;
+            MaxRounds = maxRounds;
+            RoundLength = roundLength;
+            RoundInterval = roundInterval;
+            InitialHealthPoint = initialHealthPoint;
+            NumberOfGloves = numberOfGloves;
+            Users = users;
+        }
+
+        public global::Libplanet.Crypto.Address Id { get; }
+        public global::Libplanet.Crypto.Address Organizer { get; }
+        public global::Libplanet.Crypto.Address Prize { get; }
+        public global::System.Int32 MaximumUser { get; }
+        public global::System.Int32 MinimumUser { get; }
+        public global::System.Int32 RemainingUser { get; }
+        public global::System.Int64 StartAfter { get; }
+        public global::System.Int32 MaxRounds { get; }
+        public global::System.Int64 RoundLength { get; }
+        public global::System.Int64 RoundInterval { get; }
+        public global::System.Int32 InitialHealthPoint { get; }
+        public global::System.Int32 NumberOfGloves { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? Users { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class PlayerEntity
+    {
+        public PlayerEntity(global::Libplanet.Crypto.Address id = default !, global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? gloves = default !, global::HandRoyal.Bot.GraphQL.PlayerState state = default !)
+        {
+            Id = id;
+            Gloves = gloves;
+            State = state;
+        }
+
+        public global::Libplanet.Crypto.Address Id { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? Gloves { get; }
+        public global::HandRoyal.Bot.GraphQL.PlayerState State { get; }
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
@@ -6224,6 +10305,80 @@ namespace HandRoyal.Bot.GraphQL.State
         public global::StrawberryShake.IOperationResultDataInfo WithVersion(global::System.UInt64 version)
         {
             return new JoinSessionResultInfo(ActionQuery, _entityIds, version);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class SubmitMoveResultFactory : global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.SubmitMoveResult>
+    {
+        private readonly global::StrawberryShake.IEntityStore _entityStore;
+        public SubmitMoveResultFactory(global::StrawberryShake.IEntityStore entityStore)
+        {
+            _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+        }
+
+        global::System.Type global::StrawberryShake.IOperationResultDataFactory.ResultType => typeof(global::HandRoyal.Bot.GraphQL.ISubmitMoveResult);
+
+        public SubmitMoveResult Create(global::StrawberryShake.IOperationResultDataInfo dataInfo, global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
+        {
+            if (snapshot is null)
+            {
+                snapshot = _entityStore.CurrentSnapshot;
+            }
+
+            if (dataInfo is SubmitMoveResultInfo info)
+            {
+                return new SubmitMoveResult(MapISubmitMove_ActionQuery(info.ActionQuery, snapshot));
+            }
+
+            throw new global::System.ArgumentException("SubmitMoveResultInfo expected.");
+        }
+
+        private global::HandRoyal.Bot.GraphQL.ISubmitMove_ActionQuery? MapISubmitMove_ActionQuery(global::HandRoyal.Bot.GraphQL.State.Query_ActionQueryData? data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (data is null)
+            {
+                return null;
+            }
+
+            ISubmitMove_ActionQuery returnValue = default !;
+            if (data?.__typename.Equals("Query_ActionQuery", global::System.StringComparison.Ordinal) ?? false)
+            {
+                returnValue = new SubmitMove_ActionQuery_Query_ActionQuery(data.SubmitMove);
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        global::System.Object global::StrawberryShake.IOperationResultDataFactory.Create(global::StrawberryShake.IOperationResultDataInfo dataInfo, global::StrawberryShake.IEntityStoreSnapshot? snapshot)
+        {
+            return Create(dataInfo, snapshot);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class SubmitMoveResultInfo : global::StrawberryShake.IOperationResultDataInfo
+    {
+        private readonly global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> _entityIds;
+        private readonly global::System.UInt64 _version;
+        public SubmitMoveResultInfo(global::HandRoyal.Bot.GraphQL.State.Query_ActionQueryData? actionQuery, global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> entityIds, global::System.UInt64 version)
+        {
+            ActionQuery = actionQuery;
+            _entityIds = entityIds ?? throw new global::System.ArgumentNullException(nameof(entityIds));
+            _version = version;
+        }
+
+        public global::HandRoyal.Bot.GraphQL.State.Query_ActionQueryData? ActionQuery { get; }
+        public global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> EntityIds => _entityIds;
+        public global::System.UInt64 Version => _version;
+
+        public global::StrawberryShake.IOperationResultDataInfo WithVersion(global::System.UInt64 version)
+        {
+            return new SubmitMoveResultInfo(ActionQuery, _entityIds, version);
         }
     }
 
@@ -6816,6 +10971,504 @@ namespace HandRoyal.Bot.GraphQL.State
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetSessionResultFactory : global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.GetSessionResult>
+    {
+        private readonly global::StrawberryShake.IEntityStore _entityStore;
+        private readonly global::StrawberryShake.IEntityMapper<global::HandRoyal.Bot.GraphQL.State.SessionMetadataEntity, GetSession_StateQuery_Session_Metadata_SessionMetadata> _getSession_StateQuery_Session_Metadata_SessionMetadataFromSessionMetadataEntityMapper;
+        private readonly global::StrawberryShake.IEntityMapper<global::HandRoyal.Bot.GraphQL.State.PlayerEntity, GetSession_StateQuery_Session_Players_Player> _getSession_StateQuery_Session_Players_PlayerFromPlayerEntityMapper;
+        public GetSessionResultFactory(global::StrawberryShake.IEntityStore entityStore, global::StrawberryShake.IEntityMapper<global::HandRoyal.Bot.GraphQL.State.SessionMetadataEntity, GetSession_StateQuery_Session_Metadata_SessionMetadata> getSession_StateQuery_Session_Metadata_SessionMetadataFromSessionMetadataEntityMapper, global::StrawberryShake.IEntityMapper<global::HandRoyal.Bot.GraphQL.State.PlayerEntity, GetSession_StateQuery_Session_Players_Player> getSession_StateQuery_Session_Players_PlayerFromPlayerEntityMapper)
+        {
+            _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+            _getSession_StateQuery_Session_Metadata_SessionMetadataFromSessionMetadataEntityMapper = getSession_StateQuery_Session_Metadata_SessionMetadataFromSessionMetadataEntityMapper ?? throw new global::System.ArgumentNullException(nameof(getSession_StateQuery_Session_Metadata_SessionMetadataFromSessionMetadataEntityMapper));
+            _getSession_StateQuery_Session_Players_PlayerFromPlayerEntityMapper = getSession_StateQuery_Session_Players_PlayerFromPlayerEntityMapper ?? throw new global::System.ArgumentNullException(nameof(getSession_StateQuery_Session_Players_PlayerFromPlayerEntityMapper));
+        }
+
+        global::System.Type global::StrawberryShake.IOperationResultDataFactory.ResultType => typeof(global::HandRoyal.Bot.GraphQL.IGetSessionResult);
+
+        public GetSessionResult Create(global::StrawberryShake.IOperationResultDataInfo dataInfo, global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
+        {
+            if (snapshot is null)
+            {
+                snapshot = _entityStore.CurrentSnapshot;
+            }
+
+            if (dataInfo is GetSessionResultInfo info)
+            {
+                return new GetSessionResult(MapIGetSession_StateQuery(info.StateQuery, snapshot));
+            }
+
+            throw new global::System.ArgumentException("GetSessionResultInfo expected.");
+        }
+
+        private global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery? MapIGetSession_StateQuery(global::HandRoyal.Bot.GraphQL.State.Query_StateQueryData? data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (data is null)
+            {
+                return null;
+            }
+
+            IGetSession_StateQuery returnValue = default !;
+            if (data?.__typename.Equals("Query_StateQuery", global::System.StringComparison.Ordinal) ?? false)
+            {
+                returnValue = new GetSession_StateQuery_Query_StateQuery(MapIGetSession_StateQuery_Session(data.Session, snapshot));
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session? MapIGetSession_StateQuery_Session(global::HandRoyal.Bot.GraphQL.State.SessionData? data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (data is null)
+            {
+                return null;
+            }
+
+            IGetSession_StateQuery_Session returnValue = default !;
+            if (data?.__typename.Equals("Session", global::System.StringComparison.Ordinal) ?? false)
+            {
+                returnValue = new GetSession_StateQuery_Session_Session(MapIGetSession_StateQuery_Session_Metadata(data.Metadata, snapshot), data.State ?? throw new global::System.ArgumentNullException(), MapIGetSession_StateQuery_Session_PlayersArray(data.Players, snapshot), MapIGetSession_StateQuery_Session_PhasesArray(data.Phases, snapshot), data.CreationHeight ?? throw new global::System.ArgumentNullException(), data.StartHeight ?? throw new global::System.ArgumentNullException(), data.Height ?? throw new global::System.ArgumentNullException());
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Metadata? MapIGetSession_StateQuery_Session_Metadata(global::StrawberryShake.EntityId? entityId, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (entityId is null)
+            {
+                return null;
+            }
+
+            if (entityId.Value.Name.Equals("SessionMetadata", global::System.StringComparison.Ordinal))
+            {
+                return _getSession_StateQuery_Session_Metadata_SessionMetadataFromSessionMetadataEntityMapper.Map(snapshot.GetEntity<global::HandRoyal.Bot.GraphQL.State.SessionMetadataEntity>(entityId.Value) ?? throw new global::StrawberryShake.GraphQLClientException());
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Players?>? MapIGetSession_StateQuery_Session_PlayersArray(global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.EntityId?>? list, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (list is null)
+            {
+                return null;
+            }
+
+            var players = new global::System.Collections.Generic.List<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Players?>();
+            foreach (global::StrawberryShake.EntityId? child in list)
+            {
+                players.Add(MapIGetSession_StateQuery_Session_Players(child, snapshot));
+            }
+
+            return players;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Players? MapIGetSession_StateQuery_Session_Players(global::StrawberryShake.EntityId? entityId, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (entityId is null)
+            {
+                return null;
+            }
+
+            if (entityId.Value.Name.Equals("Player", global::System.StringComparison.Ordinal))
+            {
+                return _getSession_StateQuery_Session_Players_PlayerFromPlayerEntityMapper.Map(snapshot.GetEntity<global::HandRoyal.Bot.GraphQL.State.PlayerEntity>(entityId.Value) ?? throw new global::StrawberryShake.GraphQLClientException());
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases?>? MapIGetSession_StateQuery_Session_PhasesArray(global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.State.PhaseData?>? list, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (list is null)
+            {
+                return null;
+            }
+
+            var phases = new global::System.Collections.Generic.List<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases?>();
+            foreach (global::HandRoyal.Bot.GraphQL.State.PhaseData? child in list)
+            {
+                phases.Add(MapIGetSession_StateQuery_Session_Phases(child, snapshot));
+            }
+
+            return phases;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases? MapIGetSession_StateQuery_Session_Phases(global::HandRoyal.Bot.GraphQL.State.PhaseData? data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (data is null)
+            {
+                return null;
+            }
+
+            IGetSession_StateQuery_Session_Phases returnValue = default !;
+            if (data?.__typename.Equals("Phase", global::System.StringComparison.Ordinal) ?? false)
+            {
+                returnValue = new GetSession_StateQuery_Session_Phases_Phase(data.Height ?? throw new global::System.ArgumentNullException(), MapIGetSession_StateQuery_Session_Phases_MatchesArray(data.Matches, snapshot));
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches?>? MapIGetSession_StateQuery_Session_Phases_MatchesArray(global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.State.MatchData?>? list, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (list is null)
+            {
+                return null;
+            }
+
+            var matchs = new global::System.Collections.Generic.List<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches?>();
+            foreach (global::HandRoyal.Bot.GraphQL.State.MatchData? child in list)
+            {
+                matchs.Add(MapIGetSession_StateQuery_Session_Phases_Matches(child, snapshot));
+            }
+
+            return matchs;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches? MapIGetSession_StateQuery_Session_Phases_Matches(global::HandRoyal.Bot.GraphQL.State.MatchData? data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (data is null)
+            {
+                return null;
+            }
+
+            IGetSession_StateQuery_Session_Phases_Matches returnValue = default !;
+            if (data?.__typename.Equals("Match", global::System.StringComparison.Ordinal) ?? false)
+            {
+                returnValue = new GetSession_StateQuery_Session_Phases_Matches_Match(data.StartHeight ?? throw new global::System.ArgumentNullException(), data.Players, data.State ?? throw new global::System.ArgumentNullException(), MapIGetSession_StateQuery_Session_Phases_Matches_RoundsArray(data.Rounds, snapshot), data.Winner ?? throw new global::System.ArgumentNullException());
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches_Rounds?>? MapIGetSession_StateQuery_Session_Phases_Matches_RoundsArray(global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.State.RoundData?>? list, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (list is null)
+            {
+                return null;
+            }
+
+            var rounds = new global::System.Collections.Generic.List<global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches_Rounds?>();
+            foreach (global::HandRoyal.Bot.GraphQL.State.RoundData? child in list)
+            {
+                rounds.Add(MapIGetSession_StateQuery_Session_Phases_Matches_Rounds(child, snapshot));
+            }
+
+            return rounds;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches_Rounds? MapIGetSession_StateQuery_Session_Phases_Matches_Rounds(global::HandRoyal.Bot.GraphQL.State.RoundData? data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (data is null)
+            {
+                return null;
+            }
+
+            IGetSession_StateQuery_Session_Phases_Matches_Rounds returnValue = default !;
+            if (data?.__typename.Equals("Round", global::System.StringComparison.Ordinal) ?? false)
+            {
+                returnValue = new GetSession_StateQuery_Session_Phases_Matches_Rounds_Round(MapIGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition1(data.Condition1, snapshot), MapIGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition2(data.Condition2, snapshot), data.Winner ?? throw new global::System.ArgumentNullException());
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition1? MapIGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition1(global::HandRoyal.Bot.GraphQL.State.ConditionData? data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (data is null)
+            {
+                return null;
+            }
+
+            IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition1 returnValue = default !;
+            if (data?.__typename.Equals("Condition", global::System.StringComparison.Ordinal) ?? false)
+            {
+                returnValue = new GetSession_StateQuery_Session_Phases_Matches_Rounds_Condition1_Condition(data.HealthPoint ?? throw new global::System.ArgumentNullException(), data.GloveUsed, data.Submission ?? throw new global::System.ArgumentNullException());
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition2? MapIGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition2(global::HandRoyal.Bot.GraphQL.State.ConditionData? data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (data is null)
+            {
+                return null;
+            }
+
+            IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition2 returnValue = default !;
+            if (data?.__typename.Equals("Condition", global::System.StringComparison.Ordinal) ?? false)
+            {
+                returnValue = new GetSession_StateQuery_Session_Phases_Matches_Rounds_Condition2_Condition(data.HealthPoint ?? throw new global::System.ArgumentNullException(), data.GloveUsed, data.Submission ?? throw new global::System.ArgumentNullException());
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        global::System.Object global::StrawberryShake.IOperationResultDataFactory.Create(global::StrawberryShake.IOperationResultDataInfo dataInfo, global::StrawberryShake.IEntityStoreSnapshot? snapshot)
+        {
+            return Create(dataInfo, snapshot);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetSessionResultInfo : global::StrawberryShake.IOperationResultDataInfo
+    {
+        private readonly global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> _entityIds;
+        private readonly global::System.UInt64 _version;
+        public GetSessionResultInfo(global::HandRoyal.Bot.GraphQL.State.Query_StateQueryData? stateQuery, global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> entityIds, global::System.UInt64 version)
+        {
+            StateQuery = stateQuery;
+            _entityIds = entityIds ?? throw new global::System.ArgumentNullException(nameof(entityIds));
+            _version = version;
+        }
+
+        public global::HandRoyal.Bot.GraphQL.State.Query_StateQueryData? StateQuery { get; }
+        public global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> EntityIds => _entityIds;
+        public global::System.UInt64 Version => _version;
+
+        public global::StrawberryShake.IOperationResultDataInfo WithVersion(global::System.UInt64 version)
+        {
+            return new GetSessionResultInfo(StateQuery, _entityIds, version);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetUserScopedSessionResultFactory : global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.GetUserScopedSessionResult>
+    {
+        private readonly global::StrawberryShake.IEntityStore _entityStore;
+        public GetUserScopedSessionResultFactory(global::StrawberryShake.IEntityStore entityStore)
+        {
+            _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+        }
+
+        global::System.Type global::StrawberryShake.IOperationResultDataFactory.ResultType => typeof(global::HandRoyal.Bot.GraphQL.IGetUserScopedSessionResult);
+
+        public GetUserScopedSessionResult Create(global::StrawberryShake.IOperationResultDataInfo dataInfo, global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
+        {
+            if (snapshot is null)
+            {
+                snapshot = _entityStore.CurrentSnapshot;
+            }
+
+            if (dataInfo is GetUserScopedSessionResultInfo info)
+            {
+                return new GetUserScopedSessionResult(MapIGetUserScopedSession_StateQuery(info.StateQuery, snapshot));
+            }
+
+            throw new global::System.ArgumentException("GetUserScopedSessionResultInfo expected.");
+        }
+
+        private global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery? MapIGetUserScopedSession_StateQuery(global::HandRoyal.Bot.GraphQL.State.Query_StateQueryData? data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (data is null)
+            {
+                return null;
+            }
+
+            IGetUserScopedSession_StateQuery returnValue = default !;
+            if (data?.__typename.Equals("Query_StateQuery", global::System.StringComparison.Ordinal) ?? false)
+            {
+                returnValue = new GetUserScopedSession_StateQuery_Query_StateQuery(MapIGetUserScopedSession_StateQuery_UserScopedSession(data.UserScopedSession, snapshot));
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession? MapIGetUserScopedSession_StateQuery_UserScopedSession(global::HandRoyal.Bot.GraphQL.State.SessionEventDataData? data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (data is null)
+            {
+                return null;
+            }
+
+            IGetUserScopedSession_StateQuery_UserScopedSession returnValue = default !;
+            if (data?.__typename.Equals("SessionEventData", global::System.StringComparison.Ordinal) ?? false)
+            {
+                returnValue = new GetUserScopedSession_StateQuery_UserScopedSession_SessionEventData(data.SessionId, data.Height ?? throw new global::System.ArgumentNullException(), data.SessionState ?? throw new global::System.ArgumentNullException(), data.OrganizerAddress, data.OpponentAddress, data.CurrentInterval ?? throw new global::System.ArgumentNullException(), data.IsPlayer ?? throw new global::System.ArgumentNullException(), data.MyGloves, data.OpponentGloves, data.PlayersLeft, data.CurrentPhaseIndex, data.CurrentUserRoundIndex, MapIGetUserScopedSession_StateQuery_UserScopedSession_MyCondition(data.MyCondition, snapshot), MapIGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition(data.OpponentCondition, snapshot), data.LastRoundWinner, data.CurrentUserMatchState, data.PlayerState, data.IntervalEndHeight ?? throw new global::System.ArgumentNullException());
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition? MapIGetUserScopedSession_StateQuery_UserScopedSession_MyCondition(global::HandRoyal.Bot.GraphQL.State.ConditionData? data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (data is null)
+            {
+                return null;
+            }
+
+            IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition returnValue = default !;
+            if (data?.__typename.Equals("Condition", global::System.StringComparison.Ordinal) ?? false)
+            {
+                returnValue = new GetUserScopedSession_StateQuery_UserScopedSession_MyCondition_Condition(data.HealthPoint ?? throw new global::System.ArgumentNullException(), data.GloveUsed, data.Submission ?? throw new global::System.ArgumentNullException(), MapIGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectDataArray(data.ActiveEffectData, snapshot));
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData?>? MapIGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectDataArray(global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.State.EffectDataData?>? list, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (list is null)
+            {
+                return null;
+            }
+
+            var effectDatas = new global::System.Collections.Generic.List<global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData?>();
+            foreach (global::HandRoyal.Bot.GraphQL.State.EffectDataData? child in list)
+            {
+                effectDatas.Add(MapIGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData(child, snapshot));
+            }
+
+            return effectDatas;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData? MapIGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData(global::HandRoyal.Bot.GraphQL.State.EffectDataData? data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (data is null)
+            {
+                return null;
+            }
+
+            IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData returnValue = default !;
+            if (data?.__typename.Equals("EffectData", global::System.StringComparison.Ordinal) ?? false)
+            {
+                returnValue = new GetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData_EffectData(data.Type ?? throw new global::System.ArgumentNullException(), data.Duration ?? throw new global::System.ArgumentNullException(), data.Parameters);
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition? MapIGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition(global::HandRoyal.Bot.GraphQL.State.ConditionData? data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (data is null)
+            {
+                return null;
+            }
+
+            IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition returnValue = default !;
+            if (data?.__typename.Equals("Condition", global::System.StringComparison.Ordinal) ?? false)
+            {
+                returnValue = new GetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_Condition(data.HealthPoint ?? throw new global::System.ArgumentNullException(), data.GloveUsed, data.Submission ?? throw new global::System.ArgumentNullException(), MapIGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectDataArray(data.ActiveEffectData, snapshot));
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData?>? MapIGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectDataArray(global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.State.EffectDataData?>? list, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (list is null)
+            {
+                return null;
+            }
+
+            var effectDatas = new global::System.Collections.Generic.List<global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData?>();
+            foreach (global::HandRoyal.Bot.GraphQL.State.EffectDataData? child in list)
+            {
+                effectDatas.Add(MapIGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData(child, snapshot));
+            }
+
+            return effectDatas;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData? MapIGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData(global::HandRoyal.Bot.GraphQL.State.EffectDataData? data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (data is null)
+            {
+                return null;
+            }
+
+            IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData returnValue = default !;
+            if (data?.__typename.Equals("EffectData", global::System.StringComparison.Ordinal) ?? false)
+            {
+                returnValue = new GetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData_EffectData(data.Type ?? throw new global::System.ArgumentNullException(), data.Duration ?? throw new global::System.ArgumentNullException(), data.Parameters);
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        global::System.Object global::StrawberryShake.IOperationResultDataFactory.Create(global::StrawberryShake.IOperationResultDataInfo dataInfo, global::StrawberryShake.IEntityStoreSnapshot? snapshot)
+        {
+            return Create(dataInfo, snapshot);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetUserScopedSessionResultInfo : global::StrawberryShake.IOperationResultDataInfo
+    {
+        private readonly global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> _entityIds;
+        private readonly global::System.UInt64 _version;
+        public GetUserScopedSessionResultInfo(global::HandRoyal.Bot.GraphQL.State.Query_StateQueryData? stateQuery, global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> entityIds, global::System.UInt64 version)
+        {
+            StateQuery = stateQuery;
+            _entityIds = entityIds ?? throw new global::System.ArgumentNullException(nameof(entityIds));
+            _version = version;
+        }
+
+        public global::HandRoyal.Bot.GraphQL.State.Query_StateQueryData? StateQuery { get; }
+        public global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> EntityIds => _entityIds;
+        public global::System.UInt64 Version => _version;
+
+        public global::StrawberryShake.IOperationResultDataInfo WithVersion(global::System.UInt64 version)
+        {
+            return new GetUserScopedSessionResultInfo(StateQuery, _entityIds, version);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
     public partial class StageTransactionResultFactory : global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.StageTransactionResult>
     {
         private readonly global::StrawberryShake.IEntityStore _entityStore;
@@ -7196,6 +11849,74 @@ namespace HandRoyal.Bot.GraphQL.State
             if (typename?.Equals("Query_ActionQuery", global::System.StringComparison.Ordinal) ?? false)
             {
                 return new global::HandRoyal.Bot.GraphQL.State.Query_ActionQueryData(typename, joinSession: Deserialize_String(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "joinSession")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::System.String? Deserialize_String(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            return _hexParser.Parse(obj.Value.GetString()!);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class SubmitMoveBuilder : global::StrawberryShake.OperationResultBuilder<global::HandRoyal.Bot.GraphQL.ISubmitMoveResult>
+    {
+        private readonly global::StrawberryShake.IEntityStore _entityStore;
+        private readonly global::StrawberryShake.IEntityIdSerializer _idSerializer;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::Libplanet.Crypto.Address> _addressParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.Int32, global::System.Int32> _intParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _hexParser;
+        public SubmitMoveBuilder(global::StrawberryShake.IEntityStore entityStore, global::StrawberryShake.IEntityIdSerializer idSerializer, global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.ISubmitMoveResult> resultDataFactory, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
+        {
+            _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+            _idSerializer = idSerializer ?? throw new global::System.ArgumentNullException(nameof(idSerializer));
+            ResultDataFactory = resultDataFactory ?? throw new global::System.ArgumentNullException(nameof(resultDataFactory));
+            _addressParser = serializerResolver.GetLeafValueParser<global::System.String, global::Libplanet.Crypto.Address>("Address") ?? throw new global::System.ArgumentException("No serializer for type `Address` found.");
+            _intParser = serializerResolver.GetLeafValueParser<global::System.Int32, global::System.Int32>("Int") ?? throw new global::System.ArgumentException("No serializer for type `Int` found.");
+            _hexParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("Hex") ?? throw new global::System.ArgumentException("No serializer for type `Hex` found.");
+        }
+
+        protected override global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.ISubmitMoveResult> ResultDataFactory { get; }
+
+        protected override global::StrawberryShake.IOperationResultDataInfo BuildData(global::System.Text.Json.JsonElement obj)
+        {
+            var entityIds = new global::System.Collections.Generic.HashSet<global::StrawberryShake.EntityId>();
+            global::StrawberryShake.IEntityStoreSnapshot snapshot = default !;
+            _entityStore.Update(session =>
+            {
+                snapshot = session.CurrentSnapshot;
+            });
+            return new SubmitMoveResultInfo(Deserialize_ISubmitMove_ActionQuery(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "actionQuery")), entityIds, snapshot.Version);
+        }
+
+        private global::HandRoyal.Bot.GraphQL.State.Query_ActionQueryData? Deserialize_ISubmitMove_ActionQuery(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("Query_ActionQuery", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::HandRoyal.Bot.GraphQL.State.Query_ActionQueryData(typename, submitMove: Deserialize_String(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "submitMove")));
             }
 
             throw new global::System.NotSupportedException();
@@ -7905,6 +12626,949 @@ namespace HandRoyal.Bot.GraphQL.State
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetSessionBuilder : global::StrawberryShake.OperationResultBuilder<global::HandRoyal.Bot.GraphQL.IGetSessionResult>
+    {
+        private readonly global::StrawberryShake.IEntityStore _entityStore;
+        private readonly global::StrawberryShake.IEntityIdSerializer _idSerializer;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::HandRoyal.Bot.GraphQL.SessionState> _sessionStateParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::HandRoyal.Bot.GraphQL.PlayerState> _playerStateParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::HandRoyal.Bot.GraphQL.MatchState> _matchStateParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::Libplanet.Crypto.Address> _addressParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.Int64, global::System.Int64> _longParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.Int32, global::System.Int32> _intParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.Boolean, global::System.Boolean> _booleanParser;
+        public GetSessionBuilder(global::StrawberryShake.IEntityStore entityStore, global::StrawberryShake.IEntityIdSerializer idSerializer, global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.IGetSessionResult> resultDataFactory, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
+        {
+            _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+            _idSerializer = idSerializer ?? throw new global::System.ArgumentNullException(nameof(idSerializer));
+            ResultDataFactory = resultDataFactory ?? throw new global::System.ArgumentNullException(nameof(resultDataFactory));
+            _sessionStateParser = serializerResolver.GetLeafValueParser<global::System.String, global::HandRoyal.Bot.GraphQL.SessionState>("SessionState") ?? throw new global::System.ArgumentException("No serializer for type `SessionState` found.");
+            _playerStateParser = serializerResolver.GetLeafValueParser<global::System.String, global::HandRoyal.Bot.GraphQL.PlayerState>("PlayerState") ?? throw new global::System.ArgumentException("No serializer for type `PlayerState` found.");
+            _matchStateParser = serializerResolver.GetLeafValueParser<global::System.String, global::HandRoyal.Bot.GraphQL.MatchState>("MatchState") ?? throw new global::System.ArgumentException("No serializer for type `MatchState` found.");
+            _addressParser = serializerResolver.GetLeafValueParser<global::System.String, global::Libplanet.Crypto.Address>("Address") ?? throw new global::System.ArgumentException("No serializer for type `Address` found.");
+            _longParser = serializerResolver.GetLeafValueParser<global::System.Int64, global::System.Int64>("Long") ?? throw new global::System.ArgumentException("No serializer for type `Long` found.");
+            _intParser = serializerResolver.GetLeafValueParser<global::System.Int32, global::System.Int32>("Int") ?? throw new global::System.ArgumentException("No serializer for type `Int` found.");
+            _booleanParser = serializerResolver.GetLeafValueParser<global::System.Boolean, global::System.Boolean>("Boolean") ?? throw new global::System.ArgumentException("No serializer for type `Boolean` found.");
+        }
+
+        protected override global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.IGetSessionResult> ResultDataFactory { get; }
+
+        protected override global::StrawberryShake.IOperationResultDataInfo BuildData(global::System.Text.Json.JsonElement obj)
+        {
+            var entityIds = new global::System.Collections.Generic.HashSet<global::StrawberryShake.EntityId>();
+            global::StrawberryShake.IEntityStoreSnapshot snapshot = default !;
+            global::HandRoyal.Bot.GraphQL.State.Query_StateQueryData? stateQueryId = default !;
+            _entityStore.Update(session =>
+            {
+                stateQueryId = Deserialize_IGetSession_StateQuery(session, global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "stateQuery"), entityIds);
+                snapshot = session.CurrentSnapshot;
+            });
+            return new GetSessionResultInfo(stateQueryId, entityIds, snapshot.Version);
+        }
+
+        private global::HandRoyal.Bot.GraphQL.State.Query_StateQueryData? Deserialize_IGetSession_StateQuery(global::StrawberryShake.IEntityStoreUpdateSession session, global::System.Text.Json.JsonElement? obj, global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("Query_StateQuery", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::HandRoyal.Bot.GraphQL.State.Query_StateQueryData(typename, session: Deserialize_IGetSession_StateQuery_Session(session, global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "session"), entityIds));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::HandRoyal.Bot.GraphQL.State.SessionData? Deserialize_IGetSession_StateQuery_Session(global::StrawberryShake.IEntityStoreUpdateSession session, global::System.Text.Json.JsonElement? obj, global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("Session", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::HandRoyal.Bot.GraphQL.State.SessionData(typename, metadata: Update_IGetSession_StateQuery_Session_MetadataEntity(session, global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "metadata"), entityIds), state: Deserialize_NonNullableSessionState(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "state")), players: Update_IGetSession_StateQuery_Session_PlayersEntityArray(session, global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "players"), entityIds), phases: Deserialize_IGetSession_StateQuery_Session_PhasesArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "phases")), creationHeight: Deserialize_NonNullableInt64(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "creationHeight")), startHeight: Deserialize_NonNullableInt64(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "startHeight")), height: Deserialize_NonNullableInt64(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "height")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::StrawberryShake.EntityId? Update_IGetSession_StateQuery_Session_MetadataEntity(global::StrawberryShake.IEntityStoreUpdateSession session, global::System.Text.Json.JsonElement? obj, global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            global::StrawberryShake.EntityId entityId = _idSerializer.Parse(obj.Value);
+            entityIds.Add(entityId);
+            if (entityId.Name.Equals("SessionMetadata", global::System.StringComparison.Ordinal))
+            {
+                if (session.CurrentSnapshot.TryGetEntity(entityId, out global::HandRoyal.Bot.GraphQL.State.SessionMetadataEntity? entity))
+                {
+                    session.SetEntity(entityId, new global::HandRoyal.Bot.GraphQL.State.SessionMetadataEntity(Deserialize_NonNullableAddress(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "id")), Deserialize_NonNullableAddress(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "organizer")), Deserialize_NonNullableAddress(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "prize")), Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "maximumUser")), Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "minimumUser")), Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "remainingUser")), Deserialize_NonNullableInt64(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "startAfter")), Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "maxRounds")), Deserialize_NonNullableInt64(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "roundLength")), Deserialize_NonNullableInt64(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "roundInterval")), Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "initialHealthPoint")), Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "numberOfGloves")), Deserialize_AddressNonNullableArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "users"))));
+                }
+                else
+                {
+                    session.SetEntity(entityId, new global::HandRoyal.Bot.GraphQL.State.SessionMetadataEntity(Deserialize_NonNullableAddress(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "id")), Deserialize_NonNullableAddress(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "organizer")), Deserialize_NonNullableAddress(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "prize")), Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "maximumUser")), Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "minimumUser")), Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "remainingUser")), Deserialize_NonNullableInt64(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "startAfter")), Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "maxRounds")), Deserialize_NonNullableInt64(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "roundLength")), Deserialize_NonNullableInt64(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "roundInterval")), Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "initialHealthPoint")), Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "numberOfGloves")), Deserialize_AddressNonNullableArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "users"))));
+                }
+
+                return entityId;
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::Libplanet.Crypto.Address Deserialize_NonNullableAddress(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            return _addressParser.Parse(obj.Value.GetString()!);
+        }
+
+        private global::System.Int32 Deserialize_NonNullableInt32(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            return _intParser.Parse(obj.Value.GetInt32()!);
+        }
+
+        private global::System.Int64 Deserialize_NonNullableInt64(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            return _longParser.Parse(obj.Value.GetInt64()!);
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? Deserialize_AddressNonNullableArray(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var addresss = new global::System.Collections.Generic.List<global::Libplanet.Crypto.Address>();
+            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
+            {
+                addresss.Add(Deserialize_NonNullableAddress(child));
+            }
+
+            return addresss;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.SessionState Deserialize_NonNullableSessionState(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            return _sessionStateParser.Parse(obj.Value.GetString()!);
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.EntityId?>? Update_IGetSession_StateQuery_Session_PlayersEntityArray(global::StrawberryShake.IEntityStoreUpdateSession session, global::System.Text.Json.JsonElement? obj, global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var players = new global::System.Collections.Generic.List<global::StrawberryShake.EntityId?>();
+            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
+            {
+                players.Add(Update_IGetSession_StateQuery_Session_PlayersEntity(session, child, entityIds));
+            }
+
+            return players;
+        }
+
+        private global::StrawberryShake.EntityId? Update_IGetSession_StateQuery_Session_PlayersEntity(global::StrawberryShake.IEntityStoreUpdateSession session, global::System.Text.Json.JsonElement? obj, global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            global::StrawberryShake.EntityId entityId = _idSerializer.Parse(obj.Value);
+            entityIds.Add(entityId);
+            if (entityId.Name.Equals("Player", global::System.StringComparison.Ordinal))
+            {
+                if (session.CurrentSnapshot.TryGetEntity(entityId, out global::HandRoyal.Bot.GraphQL.State.PlayerEntity? entity))
+                {
+                    session.SetEntity(entityId, new global::HandRoyal.Bot.GraphQL.State.PlayerEntity(Deserialize_NonNullableAddress(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "id")), Deserialize_AddressNonNullableArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "gloves")), Deserialize_NonNullablePlayerState(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "state"))));
+                }
+                else
+                {
+                    session.SetEntity(entityId, new global::HandRoyal.Bot.GraphQL.State.PlayerEntity(Deserialize_NonNullableAddress(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "id")), Deserialize_AddressNonNullableArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "gloves")), Deserialize_NonNullablePlayerState(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "state"))));
+                }
+
+                return entityId;
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::HandRoyal.Bot.GraphQL.PlayerState Deserialize_NonNullablePlayerState(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            return _playerStateParser.Parse(obj.Value.GetString()!);
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.State.PhaseData?>? Deserialize_IGetSession_StateQuery_Session_PhasesArray(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var phases = new global::System.Collections.Generic.List<global::HandRoyal.Bot.GraphQL.State.PhaseData?>();
+            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
+            {
+                phases.Add(Deserialize_IGetSession_StateQuery_Session_Phases(child));
+            }
+
+            return phases;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.State.PhaseData? Deserialize_IGetSession_StateQuery_Session_Phases(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("Phase", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::HandRoyal.Bot.GraphQL.State.PhaseData(typename, height: Deserialize_NonNullableInt64(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "height")), matches: Deserialize_IGetSession_StateQuery_Session_Phases_MatchesArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "matches")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.State.MatchData?>? Deserialize_IGetSession_StateQuery_Session_Phases_MatchesArray(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var matchs = new global::System.Collections.Generic.List<global::HandRoyal.Bot.GraphQL.State.MatchData?>();
+            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
+            {
+                matchs.Add(Deserialize_IGetSession_StateQuery_Session_Phases_Matches(child));
+            }
+
+            return matchs;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.State.MatchData? Deserialize_IGetSession_StateQuery_Session_Phases_Matches(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("Match", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::HandRoyal.Bot.GraphQL.State.MatchData(typename, startHeight: Deserialize_NonNullableInt64(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "startHeight")), players: Deserialize_Int32NonNullableArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "players")), state: Deserialize_NonNullableMatchState(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "state")), rounds: Deserialize_IGetSession_StateQuery_Session_Phases_Matches_RoundsArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "rounds")), winner: Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "winner")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::System.Int32>? Deserialize_Int32NonNullableArray(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var @ints = new global::System.Collections.Generic.List<global::System.Int32>();
+            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
+            {
+                @ints.Add(Deserialize_NonNullableInt32(child));
+            }
+
+            return @ints;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.MatchState Deserialize_NonNullableMatchState(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            return _matchStateParser.Parse(obj.Value.GetString()!);
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.State.RoundData?>? Deserialize_IGetSession_StateQuery_Session_Phases_Matches_RoundsArray(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var rounds = new global::System.Collections.Generic.List<global::HandRoyal.Bot.GraphQL.State.RoundData?>();
+            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
+            {
+                rounds.Add(Deserialize_IGetSession_StateQuery_Session_Phases_Matches_Rounds(child));
+            }
+
+            return rounds;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.State.RoundData? Deserialize_IGetSession_StateQuery_Session_Phases_Matches_Rounds(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("Round", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::HandRoyal.Bot.GraphQL.State.RoundData(typename, condition1: Deserialize_IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition1(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "condition1")), condition2: Deserialize_IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition2(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "condition2")), winner: Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "winner")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::HandRoyal.Bot.GraphQL.State.ConditionData? Deserialize_IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition1(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("Condition", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::HandRoyal.Bot.GraphQL.State.ConditionData(typename, healthPoint: Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "healthPoint")), gloveUsed: Deserialize_BooleanNonNullableArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "gloveUsed")), submission: Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "submission")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::System.Boolean>? Deserialize_BooleanNonNullableArray(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var booleans = new global::System.Collections.Generic.List<global::System.Boolean>();
+            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
+            {
+                booleans.Add(Deserialize_NonNullableBoolean(child));
+            }
+
+            return booleans;
+        }
+
+        private global::System.Boolean Deserialize_NonNullableBoolean(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            return _booleanParser.Parse(obj.Value.GetBoolean()!);
+        }
+
+        private global::HandRoyal.Bot.GraphQL.State.ConditionData? Deserialize_IGetSession_StateQuery_Session_Phases_Matches_Rounds_Condition2(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("Condition", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::HandRoyal.Bot.GraphQL.State.ConditionData(typename, healthPoint: Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "healthPoint")), gloveUsed: Deserialize_BooleanNonNullableArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "gloveUsed")), submission: Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "submission")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetUserScopedSessionBuilder : global::StrawberryShake.OperationResultBuilder<global::HandRoyal.Bot.GraphQL.IGetUserScopedSessionResult>
+    {
+        private readonly global::StrawberryShake.IEntityStore _entityStore;
+        private readonly global::StrawberryShake.IEntityIdSerializer _idSerializer;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::HandRoyal.Bot.GraphQL.SessionState> _sessionStateParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::HandRoyal.Bot.GraphQL.EffectType> _effectTypeParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::HandRoyal.Bot.GraphQL.MatchState> _matchStateParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::HandRoyal.Bot.GraphQL.PlayerState> _playerStateParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::Libplanet.Crypto.Address> _addressParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.Int64, global::System.Int64> _longParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.Boolean, global::System.Boolean> _booleanParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.Int32, global::System.Int32> _intParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _stringParser;
+        public GetUserScopedSessionBuilder(global::StrawberryShake.IEntityStore entityStore, global::StrawberryShake.IEntityIdSerializer idSerializer, global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.IGetUserScopedSessionResult> resultDataFactory, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
+        {
+            _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+            _idSerializer = idSerializer ?? throw new global::System.ArgumentNullException(nameof(idSerializer));
+            ResultDataFactory = resultDataFactory ?? throw new global::System.ArgumentNullException(nameof(resultDataFactory));
+            _sessionStateParser = serializerResolver.GetLeafValueParser<global::System.String, global::HandRoyal.Bot.GraphQL.SessionState>("SessionState") ?? throw new global::System.ArgumentException("No serializer for type `SessionState` found.");
+            _effectTypeParser = serializerResolver.GetLeafValueParser<global::System.String, global::HandRoyal.Bot.GraphQL.EffectType>("EffectType") ?? throw new global::System.ArgumentException("No serializer for type `EffectType` found.");
+            _matchStateParser = serializerResolver.GetLeafValueParser<global::System.String, global::HandRoyal.Bot.GraphQL.MatchState>("MatchState") ?? throw new global::System.ArgumentException("No serializer for type `MatchState` found.");
+            _playerStateParser = serializerResolver.GetLeafValueParser<global::System.String, global::HandRoyal.Bot.GraphQL.PlayerState>("PlayerState") ?? throw new global::System.ArgumentException("No serializer for type `PlayerState` found.");
+            _addressParser = serializerResolver.GetLeafValueParser<global::System.String, global::Libplanet.Crypto.Address>("Address") ?? throw new global::System.ArgumentException("No serializer for type `Address` found.");
+            _longParser = serializerResolver.GetLeafValueParser<global::System.Int64, global::System.Int64>("Long") ?? throw new global::System.ArgumentException("No serializer for type `Long` found.");
+            _booleanParser = serializerResolver.GetLeafValueParser<global::System.Boolean, global::System.Boolean>("Boolean") ?? throw new global::System.ArgumentException("No serializer for type `Boolean` found.");
+            _intParser = serializerResolver.GetLeafValueParser<global::System.Int32, global::System.Int32>("Int") ?? throw new global::System.ArgumentException("No serializer for type `Int` found.");
+            _stringParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("String") ?? throw new global::System.ArgumentException("No serializer for type `String` found.");
+        }
+
+        protected override global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.IGetUserScopedSessionResult> ResultDataFactory { get; }
+
+        protected override global::StrawberryShake.IOperationResultDataInfo BuildData(global::System.Text.Json.JsonElement obj)
+        {
+            var entityIds = new global::System.Collections.Generic.HashSet<global::StrawberryShake.EntityId>();
+            global::StrawberryShake.IEntityStoreSnapshot snapshot = default !;
+            _entityStore.Update(session =>
+            {
+                snapshot = session.CurrentSnapshot;
+            });
+            return new GetUserScopedSessionResultInfo(Deserialize_IGetUserScopedSession_StateQuery(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "stateQuery")), entityIds, snapshot.Version);
+        }
+
+        private global::HandRoyal.Bot.GraphQL.State.Query_StateQueryData? Deserialize_IGetUserScopedSession_StateQuery(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("Query_StateQuery", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::HandRoyal.Bot.GraphQL.State.Query_StateQueryData(typename, userScopedSession: Deserialize_IGetUserScopedSession_StateQuery_UserScopedSession(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "userScopedSession")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::HandRoyal.Bot.GraphQL.State.SessionEventDataData? Deserialize_IGetUserScopedSession_StateQuery_UserScopedSession(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("SessionEventData", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::HandRoyal.Bot.GraphQL.State.SessionEventDataData(typename, sessionId: Deserialize_Address(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "sessionId")), height: Deserialize_NonNullableInt64(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "height")), sessionState: Deserialize_NonNullableSessionState(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "sessionState")), organizerAddress: Deserialize_Address(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "organizerAddress")), opponentAddress: Deserialize_Address(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "opponentAddress")), currentInterval: Deserialize_NonNullableInt64(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "currentInterval")), isPlayer: Deserialize_NonNullableBoolean(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "isPlayer")), myGloves: Deserialize_AddressNonNullableArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "myGloves")), opponentGloves: Deserialize_AddressNonNullableArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "opponentGloves")), playersLeft: Deserialize_Int32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "playersLeft")), currentPhaseIndex: Deserialize_Int32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "currentPhaseIndex")), currentUserRoundIndex: Deserialize_Int32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "currentUserRoundIndex")), myCondition: Deserialize_IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "myCondition")), opponentCondition: Deserialize_IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "opponentCondition")), lastRoundWinner: Deserialize_String(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "lastRoundWinner")), currentUserMatchState: Deserialize_MatchState(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "currentUserMatchState")), playerState: Deserialize_PlayerState(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "playerState")), intervalEndHeight: Deserialize_NonNullableInt64(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "intervalEndHeight")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::Libplanet.Crypto.Address? Deserialize_Address(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            return _addressParser.Parse(obj.Value.GetString()!);
+        }
+
+        private global::System.Int64 Deserialize_NonNullableInt64(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            return _longParser.Parse(obj.Value.GetInt64()!);
+        }
+
+        private global::HandRoyal.Bot.GraphQL.SessionState Deserialize_NonNullableSessionState(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            return _sessionStateParser.Parse(obj.Value.GetString()!);
+        }
+
+        private global::System.Boolean Deserialize_NonNullableBoolean(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            return _booleanParser.Parse(obj.Value.GetBoolean()!);
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? Deserialize_AddressNonNullableArray(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var addresss = new global::System.Collections.Generic.List<global::Libplanet.Crypto.Address>();
+            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
+            {
+                addresss.Add(Deserialize_NonNullableAddress(child));
+            }
+
+            return addresss;
+        }
+
+        private global::Libplanet.Crypto.Address Deserialize_NonNullableAddress(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            return _addressParser.Parse(obj.Value.GetString()!);
+        }
+
+        private global::System.Int32? Deserialize_Int32(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            return _intParser.Parse(obj.Value.GetInt32()!);
+        }
+
+        private global::HandRoyal.Bot.GraphQL.State.ConditionData? Deserialize_IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("Condition", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::HandRoyal.Bot.GraphQL.State.ConditionData(typename, healthPoint: Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "healthPoint")), gloveUsed: Deserialize_BooleanNonNullableArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "gloveUsed")), submission: Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "submission")), activeEffectData: Deserialize_IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectDataArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "activeEffectData")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::System.Int32 Deserialize_NonNullableInt32(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            return _intParser.Parse(obj.Value.GetInt32()!);
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::System.Boolean>? Deserialize_BooleanNonNullableArray(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var booleans = new global::System.Collections.Generic.List<global::System.Boolean>();
+            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
+            {
+                booleans.Add(Deserialize_NonNullableBoolean(child));
+            }
+
+            return booleans;
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.State.EffectDataData?>? Deserialize_IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectDataArray(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var effectDatas = new global::System.Collections.Generic.List<global::HandRoyal.Bot.GraphQL.State.EffectDataData?>();
+            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
+            {
+                effectDatas.Add(Deserialize_IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData(child));
+            }
+
+            return effectDatas;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.State.EffectDataData? Deserialize_IGetUserScopedSession_StateQuery_UserScopedSession_MyCondition_ActiveEffectData(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("EffectData", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::HandRoyal.Bot.GraphQL.State.EffectDataData(typename, type: Deserialize_NonNullableEffectType(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "type")), duration: Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "duration")), parameters: Deserialize_Int32NonNullableArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "parameters")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::HandRoyal.Bot.GraphQL.EffectType Deserialize_NonNullableEffectType(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            return _effectTypeParser.Parse(obj.Value.GetString()!);
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::System.Int32>? Deserialize_Int32NonNullableArray(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var @ints = new global::System.Collections.Generic.List<global::System.Int32>();
+            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
+            {
+                @ints.Add(Deserialize_NonNullableInt32(child));
+            }
+
+            return @ints;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.State.ConditionData? Deserialize_IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("Condition", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::HandRoyal.Bot.GraphQL.State.ConditionData(typename, healthPoint: Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "healthPoint")), gloveUsed: Deserialize_BooleanNonNullableArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "gloveUsed")), submission: Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "submission")), activeEffectData: Deserialize_IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectDataArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "activeEffectData")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.State.EffectDataData?>? Deserialize_IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectDataArray(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var effectDatas = new global::System.Collections.Generic.List<global::HandRoyal.Bot.GraphQL.State.EffectDataData?>();
+            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
+            {
+                effectDatas.Add(Deserialize_IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData(child));
+            }
+
+            return effectDatas;
+        }
+
+        private global::HandRoyal.Bot.GraphQL.State.EffectDataData? Deserialize_IGetUserScopedSession_StateQuery_UserScopedSession_OpponentCondition_ActiveEffectData(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("EffectData", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::HandRoyal.Bot.GraphQL.State.EffectDataData(typename, type: Deserialize_NonNullableEffectType(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "type")), duration: Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "duration")), parameters: Deserialize_Int32NonNullableArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "parameters")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::System.String? Deserialize_String(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            return _stringParser.Parse(obj.Value.GetString()!);
+        }
+
+        private global::HandRoyal.Bot.GraphQL.MatchState? Deserialize_MatchState(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            return _matchStateParser.Parse(obj.Value.GetString()!);
+        }
+
+        private global::HandRoyal.Bot.GraphQL.PlayerState? Deserialize_PlayerState(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            return _playerStateParser.Parse(obj.Value.GetString()!);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
     public partial class StageTransactionBuilder : global::StrawberryShake.OperationResultBuilder<global::HandRoyal.Bot.GraphQL.IStageTransactionResult>
     {
         private readonly global::StrawberryShake.IEntityStore _entityStore;
@@ -8114,12 +13778,13 @@ namespace HandRoyal.Bot.GraphQL.State
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
     public partial class Query_ActionQueryData
     {
-        public Query_ActionQueryData(global::System.String __typename, global::System.String? createUser = default !, global::System.String? createSession = default !, global::System.String? joinSession = default !, global::System.String? pickUp = default !, global::System.String? pickUpMany = default !, global::System.String? registerMatching = default !, global::System.String? cancelMatching = default !)
+        public Query_ActionQueryData(global::System.String __typename, global::System.String? createUser = default !, global::System.String? createSession = default !, global::System.String? joinSession = default !, global::System.String? submitMove = default !, global::System.String? pickUp = default !, global::System.String? pickUpMany = default !, global::System.String? registerMatching = default !, global::System.String? cancelMatching = default !)
         {
             this.__typename = __typename ?? throw new global::System.ArgumentNullException(nameof(__typename));
             CreateUser = createUser;
             CreateSession = createSession;
             JoinSession = joinSession;
+            SubmitMove = submitMove;
             PickUp = pickUp;
             PickUpMany = pickUpMany;
             RegisterMatching = registerMatching;
@@ -8130,6 +13795,7 @@ namespace HandRoyal.Bot.GraphQL.State
         public global::System.String? CreateUser { get; }
         public global::System.String? CreateSession { get; }
         public global::System.String? JoinSession { get; }
+        public global::System.String? SubmitMove { get; }
         public global::System.String? PickUp { get; }
         public global::System.String? PickUpMany { get; }
         public global::System.String? RegisterMatching { get; }
@@ -8139,14 +13805,18 @@ namespace HandRoyal.Bot.GraphQL.State
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
     public partial class Query_StateQueryData
     {
-        public Query_StateQueryData(global::System.String __typename, global::StrawberryShake.EntityId? getUserData = default !)
+        public Query_StateQueryData(global::System.String __typename, global::StrawberryShake.EntityId? getUserData = default !, global::HandRoyal.Bot.GraphQL.State.SessionData? session = default !, global::HandRoyal.Bot.GraphQL.State.SessionEventDataData? userScopedSession = default !)
         {
             this.__typename = __typename ?? throw new global::System.ArgumentNullException(nameof(__typename));
             GetUserData = getUserData;
+            Session = session;
+            UserScopedSession = userScopedSession;
         }
 
         public global::System.String __typename { get; }
         public global::StrawberryShake.EntityId? GetUserData { get; }
+        public global::HandRoyal.Bot.GraphQL.State.SessionData? Session { get; }
+        public global::HandRoyal.Bot.GraphQL.State.SessionEventDataData? UserScopedSession { get; }
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
@@ -8182,6 +13852,167 @@ namespace HandRoyal.Bot.GraphQL.State
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class SessionData
+    {
+        public SessionData(global::System.String __typename, global::StrawberryShake.EntityId? metadata = default !, global::HandRoyal.Bot.GraphQL.SessionState? state = default !, global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.EntityId?>? players = default !, global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.State.PhaseData?>? phases = default !, global::System.Int64? creationHeight = default !, global::System.Int64? startHeight = default !, global::System.Int64? height = default !)
+        {
+            this.__typename = __typename ?? throw new global::System.ArgumentNullException(nameof(__typename));
+            Metadata = metadata;
+            State = state;
+            Players = players;
+            Phases = phases;
+            CreationHeight = creationHeight;
+            StartHeight = startHeight;
+            Height = height;
+        }
+
+        public global::System.String __typename { get; }
+        public global::StrawberryShake.EntityId? Metadata { get; }
+        public global::HandRoyal.Bot.GraphQL.SessionState? State { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.EntityId?>? Players { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.State.PhaseData?>? Phases { get; }
+        public global::System.Int64? CreationHeight { get; }
+        public global::System.Int64? StartHeight { get; }
+        public global::System.Int64? Height { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class PhaseData
+    {
+        public PhaseData(global::System.String __typename, global::System.Int64? height = default !, global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.State.MatchData?>? matches = default !)
+        {
+            this.__typename = __typename ?? throw new global::System.ArgumentNullException(nameof(__typename));
+            Height = height;
+            Matches = matches;
+        }
+
+        public global::System.String __typename { get; }
+        public global::System.Int64? Height { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.State.MatchData?>? Matches { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class MatchData
+    {
+        public MatchData(global::System.String __typename, global::System.Int64? startHeight = default !, global::System.Collections.Generic.IReadOnlyList<global::System.Int32>? players = default !, global::HandRoyal.Bot.GraphQL.MatchState? state = default !, global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.State.RoundData?>? rounds = default !, global::System.Int32? winner = default !)
+        {
+            this.__typename = __typename ?? throw new global::System.ArgumentNullException(nameof(__typename));
+            StartHeight = startHeight;
+            Players = players;
+            State = state;
+            Rounds = rounds;
+            Winner = winner;
+        }
+
+        public global::System.String __typename { get; }
+        public global::System.Int64? StartHeight { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::System.Int32>? Players { get; }
+        public global::HandRoyal.Bot.GraphQL.MatchState? State { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.State.RoundData?>? Rounds { get; }
+        public global::System.Int32? Winner { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class RoundData
+    {
+        public RoundData(global::System.String __typename, global::HandRoyal.Bot.GraphQL.State.ConditionData? condition1 = default !, global::HandRoyal.Bot.GraphQL.State.ConditionData? condition2 = default !, global::System.Int32? winner = default !)
+        {
+            this.__typename = __typename ?? throw new global::System.ArgumentNullException(nameof(__typename));
+            Condition1 = condition1;
+            Condition2 = condition2;
+            Winner = winner;
+        }
+
+        public global::System.String __typename { get; }
+        public global::HandRoyal.Bot.GraphQL.State.ConditionData? Condition1 { get; }
+        public global::HandRoyal.Bot.GraphQL.State.ConditionData? Condition2 { get; }
+        public global::System.Int32? Winner { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class ConditionData
+    {
+        public ConditionData(global::System.String __typename, global::System.Int32? healthPoint = default !, global::System.Collections.Generic.IReadOnlyList<global::System.Boolean>? gloveUsed = default !, global::System.Int32? submission = default !, global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.State.EffectDataData?>? activeEffectData = default !)
+        {
+            this.__typename = __typename ?? throw new global::System.ArgumentNullException(nameof(__typename));
+            HealthPoint = healthPoint;
+            GloveUsed = gloveUsed;
+            Submission = submission;
+            ActiveEffectData = activeEffectData;
+        }
+
+        public global::System.String __typename { get; }
+        public global::System.Int32? HealthPoint { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::System.Boolean>? GloveUsed { get; }
+        public global::System.Int32? Submission { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::HandRoyal.Bot.GraphQL.State.EffectDataData?>? ActiveEffectData { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class SessionEventDataData
+    {
+        public SessionEventDataData(global::System.String __typename, global::Libplanet.Crypto.Address? sessionId = default !, global::System.Int64? height = default !, global::HandRoyal.Bot.GraphQL.SessionState? sessionState = default !, global::Libplanet.Crypto.Address? organizerAddress = default !, global::Libplanet.Crypto.Address? opponentAddress = default !, global::System.Int64? currentInterval = default !, global::System.Boolean? isPlayer = default !, global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? myGloves = default !, global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? opponentGloves = default !, global::System.Int32? playersLeft = default !, global::System.Int32? currentPhaseIndex = default !, global::System.Int32? currentUserRoundIndex = default !, global::HandRoyal.Bot.GraphQL.State.ConditionData? myCondition = default !, global::HandRoyal.Bot.GraphQL.State.ConditionData? opponentCondition = default !, global::System.String? lastRoundWinner = default !, global::HandRoyal.Bot.GraphQL.MatchState? currentUserMatchState = default !, global::HandRoyal.Bot.GraphQL.PlayerState? playerState = default !, global::System.Int64? intervalEndHeight = default !)
+        {
+            this.__typename = __typename ?? throw new global::System.ArgumentNullException(nameof(__typename));
+            SessionId = sessionId;
+            Height = height;
+            SessionState = sessionState;
+            OrganizerAddress = organizerAddress;
+            OpponentAddress = opponentAddress;
+            CurrentInterval = currentInterval;
+            IsPlayer = isPlayer;
+            MyGloves = myGloves;
+            OpponentGloves = opponentGloves;
+            PlayersLeft = playersLeft;
+            CurrentPhaseIndex = currentPhaseIndex;
+            CurrentUserRoundIndex = currentUserRoundIndex;
+            MyCondition = myCondition;
+            OpponentCondition = opponentCondition;
+            LastRoundWinner = lastRoundWinner;
+            CurrentUserMatchState = currentUserMatchState;
+            PlayerState = playerState;
+            IntervalEndHeight = intervalEndHeight;
+        }
+
+        public global::System.String __typename { get; }
+        public global::Libplanet.Crypto.Address? SessionId { get; }
+        public global::System.Int64? Height { get; }
+        public global::HandRoyal.Bot.GraphQL.SessionState? SessionState { get; }
+        public global::Libplanet.Crypto.Address? OrganizerAddress { get; }
+        public global::Libplanet.Crypto.Address? OpponentAddress { get; }
+        public global::System.Int64? CurrentInterval { get; }
+        public global::System.Boolean? IsPlayer { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? MyGloves { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::Libplanet.Crypto.Address>? OpponentGloves { get; }
+        public global::System.Int32? PlayersLeft { get; }
+        public global::System.Int32? CurrentPhaseIndex { get; }
+        public global::System.Int32? CurrentUserRoundIndex { get; }
+        public global::HandRoyal.Bot.GraphQL.State.ConditionData? MyCondition { get; }
+        public global::HandRoyal.Bot.GraphQL.State.ConditionData? OpponentCondition { get; }
+        public global::System.String? LastRoundWinner { get; }
+        public global::HandRoyal.Bot.GraphQL.MatchState? CurrentUserMatchState { get; }
+        public global::HandRoyal.Bot.GraphQL.PlayerState? PlayerState { get; }
+        public global::System.Int64? IntervalEndHeight { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class EffectDataData
+    {
+        public EffectDataData(global::System.String __typename, global::HandRoyal.Bot.GraphQL.EffectType? type = default !, global::System.Int32? duration = default !, global::System.Collections.Generic.IReadOnlyList<global::System.Int32>? parameters = default !)
+        {
+            this.__typename = __typename ?? throw new global::System.ArgumentNullException(nameof(__typename));
+            Type = type;
+            Duration = duration;
+            Parameters = parameters;
+        }
+
+        public global::System.String __typename { get; }
+        public global::HandRoyal.Bot.GraphQL.EffectType? Type { get; }
+        public global::System.Int32? Duration { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::System.Int32>? Parameters { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
     public partial class TipEventDataData
     {
         public TipEventDataData(global::System.String __typename, global::System.Int64? height = default !, global::System.String? hash = default !)
@@ -8194,21 +14025,6 @@ namespace HandRoyal.Bot.GraphQL.State
         public global::System.String __typename { get; }
         public global::System.Int64? Height { get; }
         public global::System.String? Hash { get; }
-    }
-
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
-    public partial class SessionEventDataData
-    {
-        public SessionEventDataData(global::System.String __typename, global::HandRoyal.Bot.GraphQL.SessionState? sessionState = default !, global::Libplanet.Crypto.Address? sessionId = default !)
-        {
-            this.__typename = __typename ?? throw new global::System.ArgumentNullException(nameof(__typename));
-            SessionState = sessionState;
-            SessionId = sessionId;
-        }
-
-        public global::System.String __typename { get; }
-        public global::HandRoyal.Bot.GraphQL.SessionState? SessionState { get; }
-        public global::Libplanet.Crypto.Address? SessionId { get; }
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
@@ -8285,6 +14101,46 @@ namespace HandRoyal.Bot.GraphQL.State
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetSession_StateQuery_Session_Metadata_SessionMetadataFromSessionMetadataEntityMapper : global::StrawberryShake.IEntityMapper<global::HandRoyal.Bot.GraphQL.State.SessionMetadataEntity, GetSession_StateQuery_Session_Metadata_SessionMetadata>
+    {
+        private readonly global::StrawberryShake.IEntityStore _entityStore;
+        public GetSession_StateQuery_Session_Metadata_SessionMetadataFromSessionMetadataEntityMapper(global::StrawberryShake.IEntityStore entityStore)
+        {
+            _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+        }
+
+        public GetSession_StateQuery_Session_Metadata_SessionMetadata Map(global::HandRoyal.Bot.GraphQL.State.SessionMetadataEntity entity, global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
+        {
+            if (snapshot is null)
+            {
+                snapshot = _entityStore.CurrentSnapshot;
+            }
+
+            return new GetSession_StateQuery_Session_Metadata_SessionMetadata(entity.Id, entity.Organizer, entity.Prize, entity.MaximumUser, entity.MinimumUser, entity.RemainingUser, entity.StartAfter, entity.MaxRounds, entity.RoundLength, entity.RoundInterval, entity.InitialHealthPoint, entity.NumberOfGloves, entity.Users);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
+    public partial class GetSession_StateQuery_Session_Players_PlayerFromPlayerEntityMapper : global::StrawberryShake.IEntityMapper<global::HandRoyal.Bot.GraphQL.State.PlayerEntity, GetSession_StateQuery_Session_Players_Player>
+    {
+        private readonly global::StrawberryShake.IEntityStore _entityStore;
+        public GetSession_StateQuery_Session_Players_PlayerFromPlayerEntityMapper(global::StrawberryShake.IEntityStore entityStore)
+        {
+            _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+        }
+
+        public GetSession_StateQuery_Session_Players_Player Map(global::HandRoyal.Bot.GraphQL.State.PlayerEntity entity, global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
+        {
+            if (snapshot is null)
+            {
+                snapshot = _entityStore.CurrentSnapshot;
+            }
+
+            return new GetSession_StateQuery_Session_Players_Player(entity.Id, entity.Gloves, entity.State);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.3.0")]
     public partial class GraphQLClientEntityIdFactory : global::StrawberryShake.IEntityIdSerializer
     {
         private static readonly global::System.Text.Json.JsonWriterOptions _options = new global::System.Text.Json.JsonWriterOptions()
@@ -8298,6 +14154,8 @@ namespace HandRoyal.Bot.GraphQL.State
             {
                 "UserData" => ParseUserDataEntityId(obj, __typename),
                 "GloveInfo" => ParseGloveInfoEntityId(obj, __typename),
+                "SessionMetadata" => ParseSessionMetadataEntityId(obj, __typename),
+                "Player" => ParsePlayerEntityId(obj, __typename),
                 _ => throw new global::System.NotSupportedException()};
         }
 
@@ -8307,6 +14165,8 @@ namespace HandRoyal.Bot.GraphQL.State
             {
                 "UserData" => FormatUserDataEntityId(entityId),
                 "GloveInfo" => FormatGloveInfoEntityId(entityId),
+                "SessionMetadata" => FormatSessionMetadataEntityId(entityId),
+                "Player" => FormatPlayerEntityId(entityId),
                 _ => throw new global::System.NotSupportedException()};
         }
 
@@ -8333,6 +14193,40 @@ namespace HandRoyal.Bot.GraphQL.State
         }
 
         private global::System.String FormatGloveInfoEntityId(global::StrawberryShake.EntityId entityId)
+        {
+            using var writer = new global::StrawberryShake.Internal.ArrayWriter();
+            using var jsonWriter = new global::System.Text.Json.Utf8JsonWriter(writer, _options);
+            jsonWriter.WriteStartObject();
+            jsonWriter.WriteString("__typename", entityId.Name);
+            jsonWriter.WriteString("id", (global::System.String)entityId.Value);
+            jsonWriter.WriteEndObject();
+            jsonWriter.Flush();
+            return global::System.Text.Encoding.UTF8.GetString(writer.GetInternalBuffer(), 0, writer.Length);
+        }
+
+        private global::StrawberryShake.EntityId ParseSessionMetadataEntityId(global::System.Text.Json.JsonElement obj, global::System.String type)
+        {
+            return new global::StrawberryShake.EntityId(type, obj.GetProperty("id").GetString()!);
+        }
+
+        private global::System.String FormatSessionMetadataEntityId(global::StrawberryShake.EntityId entityId)
+        {
+            using var writer = new global::StrawberryShake.Internal.ArrayWriter();
+            using var jsonWriter = new global::System.Text.Json.Utf8JsonWriter(writer, _options);
+            jsonWriter.WriteStartObject();
+            jsonWriter.WriteString("__typename", entityId.Name);
+            jsonWriter.WriteString("id", (global::System.String)entityId.Value);
+            jsonWriter.WriteEndObject();
+            jsonWriter.Flush();
+            return global::System.Text.Encoding.UTF8.GetString(writer.GetInternalBuffer(), 0, writer.Length);
+        }
+
+        private global::StrawberryShake.EntityId ParsePlayerEntityId(global::System.Text.Json.JsonElement obj, global::System.String type)
+        {
+            return new global::StrawberryShake.EntityId(type, obj.GetProperty("id").GetString()!);
+        }
+
+        private global::System.String FormatPlayerEntityId(global::StrawberryShake.EntityId entityId)
         {
             using var writer = new global::StrawberryShake.Internal.ArrayWriter();
             using var jsonWriter = new global::System.Text.Json.Utf8JsonWriter(writer, _options);
@@ -8371,6 +14265,7 @@ namespace Microsoft.Extensions.DependencyInjection
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.CreateUserQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.CreateSessionQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.JoinSessionQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.SubmitMoveQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.PickUpQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.PickUpManyQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.RegisterMatchingQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
@@ -8378,6 +14273,8 @@ namespace Microsoft.Extensions.DependencyInjection
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.GetUserDataQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.TransactionResultQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.UnsignedTransactionQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.GetSessionQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.GetUserScopedSessionQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.StageTransactionMutation>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.OnTipChangedSubscription>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.OnSessionChangedSubscription>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
@@ -8402,8 +14299,13 @@ namespace Microsoft.Extensions.DependencyInjection
             });
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::HandRoyal.Bot.GraphQL.State.UserDataEntity, global::HandRoyal.Bot.GraphQL.GetUserData_StateQuery_GetUserData_UserData>, global::HandRoyal.Bot.GraphQL.State.GetUserData_StateQuery_GetUserData_UserDataFromUserDataEntityMapper>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::HandRoyal.Bot.GraphQL.State.GloveInfoEntity, global::HandRoyal.Bot.GraphQL.GetUserData_StateQuery_GetUserData_OwnedGloves_GloveInfo>, global::HandRoyal.Bot.GraphQL.State.GetUserData_StateQuery_GetUserData_OwnedGloves_GloveInfoFromGloveInfoEntityMapper>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::HandRoyal.Bot.GraphQL.State.SessionMetadataEntity, global::HandRoyal.Bot.GraphQL.GetSession_StateQuery_Session_Metadata_SessionMetadata>, global::HandRoyal.Bot.GraphQL.State.GetSession_StateQuery_Session_Metadata_SessionMetadataFromSessionMetadataEntityMapper>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::HandRoyal.Bot.GraphQL.State.PlayerEntity, global::HandRoyal.Bot.GraphQL.GetSession_StateQuery_Session_Players_Player>, global::HandRoyal.Bot.GraphQL.State.GetSession_StateQuery_Session_Players_PlayerFromPlayerEntityMapper>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::HandRoyal.Bot.GraphQL.TxStatusSerializer>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::HandRoyal.Bot.GraphQL.SessionStateSerializer>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::HandRoyal.Bot.GraphQL.PlayerStateSerializer>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::HandRoyal.Bot.GraphQL.MatchStateSerializer>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::HandRoyal.Bot.GraphQL.EffectTypeSerializer>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::StrawberryShake.Serialization.StringSerializer>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::StrawberryShake.Serialization.BooleanSerializer>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::StrawberryShake.Serialization.ByteSerializer>(services);
@@ -8450,6 +14352,14 @@ namespace Microsoft.Extensions.DependencyInjection
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IResultPatcher<global::System.Text.Json.JsonDocument>, global::StrawberryShake.Json.JsonResultPatcher>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::HandRoyal.Bot.GraphQL.JoinSessionQuery>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::HandRoyal.Bot.GraphQL.IJoinSessionQuery>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.JoinSessionQuery>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.ISubmitMoveResult>, global::HandRoyal.Bot.GraphQL.State.SubmitMoveResultFactory>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.ISubmitMoveResult>>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationRequestFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.ISubmitMoveQuery>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::HandRoyal.Bot.GraphQL.ISubmitMoveResult>, global::HandRoyal.Bot.GraphQL.State.SubmitMoveBuilder>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationExecutor<global::HandRoyal.Bot.GraphQL.ISubmitMoveResult>>(services, sp => new global::StrawberryShake.OperationExecutor<global::System.Text.Json.JsonDocument, global::HandRoyal.Bot.GraphQL.ISubmitMoveResult>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.Transport.Http.IHttpConnection>(sp), () => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::HandRoyal.Bot.GraphQL.ISubmitMoveResult>>(sp), () => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IResultPatcher<global::System.Text.Json.JsonDocument>>(sp), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationStore>(sp), strategy));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IResultPatcher<global::System.Text.Json.JsonDocument>, global::StrawberryShake.Json.JsonResultPatcher>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::HandRoyal.Bot.GraphQL.SubmitMoveQuery>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::HandRoyal.Bot.GraphQL.ISubmitMoveQuery>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.SubmitMoveQuery>(sp));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.IPickUpResult>, global::HandRoyal.Bot.GraphQL.State.PickUpResultFactory>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.IPickUpResult>>(sp));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationRequestFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.IPickUpQuery>(sp));
@@ -8506,6 +14416,22 @@ namespace Microsoft.Extensions.DependencyInjection
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IResultPatcher<global::System.Text.Json.JsonDocument>, global::StrawberryShake.Json.JsonResultPatcher>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::HandRoyal.Bot.GraphQL.UnsignedTransactionQuery>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::HandRoyal.Bot.GraphQL.IUnsignedTransactionQuery>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.UnsignedTransactionQuery>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.IGetSessionResult>, global::HandRoyal.Bot.GraphQL.State.GetSessionResultFactory>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.IGetSessionResult>>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationRequestFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.IGetSessionQuery>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::HandRoyal.Bot.GraphQL.IGetSessionResult>, global::HandRoyal.Bot.GraphQL.State.GetSessionBuilder>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationExecutor<global::HandRoyal.Bot.GraphQL.IGetSessionResult>>(services, sp => new global::StrawberryShake.OperationExecutor<global::System.Text.Json.JsonDocument, global::HandRoyal.Bot.GraphQL.IGetSessionResult>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.Transport.Http.IHttpConnection>(sp), () => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::HandRoyal.Bot.GraphQL.IGetSessionResult>>(sp), () => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IResultPatcher<global::System.Text.Json.JsonDocument>>(sp), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationStore>(sp), strategy));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IResultPatcher<global::System.Text.Json.JsonDocument>, global::StrawberryShake.Json.JsonResultPatcher>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::HandRoyal.Bot.GraphQL.GetSessionQuery>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::HandRoyal.Bot.GraphQL.IGetSessionQuery>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.GetSessionQuery>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.IGetUserScopedSessionResult>, global::HandRoyal.Bot.GraphQL.State.GetUserScopedSessionResultFactory>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.IGetUserScopedSessionResult>>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationRequestFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.IGetUserScopedSessionQuery>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::HandRoyal.Bot.GraphQL.IGetUserScopedSessionResult>, global::HandRoyal.Bot.GraphQL.State.GetUserScopedSessionBuilder>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationExecutor<global::HandRoyal.Bot.GraphQL.IGetUserScopedSessionResult>>(services, sp => new global::StrawberryShake.OperationExecutor<global::System.Text.Json.JsonDocument, global::HandRoyal.Bot.GraphQL.IGetUserScopedSessionResult>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.Transport.Http.IHttpConnection>(sp), () => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::HandRoyal.Bot.GraphQL.IGetUserScopedSessionResult>>(sp), () => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IResultPatcher<global::System.Text.Json.JsonDocument>>(sp), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationStore>(sp), strategy));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IResultPatcher<global::System.Text.Json.JsonDocument>, global::StrawberryShake.Json.JsonResultPatcher>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::HandRoyal.Bot.GraphQL.GetUserScopedSessionQuery>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::HandRoyal.Bot.GraphQL.IGetUserScopedSessionQuery>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.GetUserScopedSessionQuery>(sp));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.IStageTransactionResult>, global::HandRoyal.Bot.GraphQL.State.StageTransactionResultFactory>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultDataFactory<global::HandRoyal.Bot.GraphQL.IStageTransactionResult>>(sp));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationRequestFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::HandRoyal.Bot.GraphQL.IStageTransactionMutation>(sp));

@@ -42,7 +42,7 @@ internal sealed class TransactionController(
             maxGasPrice: null);
         var metaData = new TxSigningMetadata(address, nonce);
         var unsignedTransaction = new UnsignedTx(invoice, metaData);
-        var json = unsignedTransaction.SerializeUnsignedTxToJson();
+        var json = unsignedTransaction.SerializeUnsignedTx();
         return Encoding.UTF8.GetBytes(json);
     }
 

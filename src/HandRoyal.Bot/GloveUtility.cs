@@ -1,5 +1,3 @@
-using System.Collections.Immutable;
-using HandRoyal.States;
 using Libplanet.Crypto;
 
 namespace HandRoyal.Bot;
@@ -12,7 +10,28 @@ public static class GloveUtility
 
     public static bool IsScissors(this Address gloveId) => gloveId.ToString().StartsWith("0x2");
 
-    public static Address[] GetRandomGloves(ImmutableArray<GloveInfo> gloveInfos, int count)
+    public static string GetType(Address gloveId)
+    {
+        if (gloveId.IsRock())
+        {
+            return "Rock";
+        }
+
+        if (gloveId.IsPaper())
+        {
+            return "Paper";
+        }
+
+        if (gloveId.IsScissors())
+        {
+            return "Scissors";
+        }
+
+        return "Unknown";
+    }
+
+    public static Address[] GetRandomGloves(
+        IEnumerable<(Address Id, int Count)> gloveInfos, int count)
         => GetRandomGloves([.. GetGloves(gloveInfos)], count);
 
     public static Address[] GetRandomGloves(Address[] gloveIds, int count)
@@ -46,7 +65,7 @@ public static class GloveUtility
         return [.. gloveList];
     }
 
-    public static IEnumerable<Address> GetGloves(ImmutableArray<GloveInfo> gloveInfos)
+    public static IEnumerable<Address> GetGloves(IEnumerable<(Address Id, int Count)> gloveInfos)
     {
         foreach (var gloveInfo in gloveInfos)
         {

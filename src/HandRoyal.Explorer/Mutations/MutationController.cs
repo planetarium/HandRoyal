@@ -139,7 +139,7 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
     [MutationRoot("RegisterMatching")]
     public TxId RegisterMatching(PrivateKey privateKey, IEnumerable<Address> gloves)
     {
-        var registerMatching = new RegisterMatching { Gloves = [..gloves] };
+        var registerMatching = new RegisterMatching { Gloves = [.. gloves] };
         var txSettings = new TxSettings
         {
             PrivateKey = privateKey,
@@ -164,7 +164,7 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
     public TxId StageTransaction(HexValue unsignedTransaction, HexValue signature)
     {
         var json = Encoding.UTF8.GetString((byte[])unsignedTransaction);
-        var unsignedTx = TxMarshaler.DeserializeUnsignedTxFromJson(json);
+        var unsignedTx = TxMarshaler.DeserializeUnsignedTx(json);
         var tx = new Transaction(unsignedTx, signature.ToImmutableArray());
         var blockChain = blockChainService.BlockChain;
         if (!blockChain.StageTransaction(tx))

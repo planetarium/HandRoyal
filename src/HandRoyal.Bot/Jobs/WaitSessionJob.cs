@@ -1,6 +1,4 @@
 using HandRoyal.Bot.GraphQL;
-using HandRoyal.Bot.Properties;
-using HandRoyal.States;
 using Microsoft.Extensions.Logging;
 
 namespace HandRoyal.Bot.Jobs;
@@ -10,7 +8,7 @@ public sealed class WaitSessionJob(ILogger<WaitSessionJob> logger)
 {
     protected override void Verify(IBot bot)
     {
-        if (!bot.Properties.TryGetValue<User>(out var user))
+        if (!bot.Properties.TryGetValue<UserData>(out var user))
         {
             throw new InvalidOperationException("User not set");
         }
@@ -33,7 +31,7 @@ public sealed class WaitSessionJob(ILogger<WaitSessionJob> logger)
 
     protected override async Task OnExecuteAsync(IBot bot, CancellationToken cancellationToken)
     {
-        var user = (User)bot.Properties[typeof(User)];
+        var user = (UserData)bot.Properties[typeof(UserData)];
         var options = (Options)bot.Properties[typeof(Options)];
         await foreach (var item in bot.OnSessionChangedAsync(user.SessionId, cancellationToken))
         {

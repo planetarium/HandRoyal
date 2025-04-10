@@ -1,4 +1,3 @@
-using HandRoyal.States;
 using Microsoft.Extensions.Logging;
 
 namespace HandRoyal.Bot.Jobs;
@@ -13,7 +12,7 @@ public sealed class UpdateUserJob(ILogger<UpdateUserJob> logger)
             return;
         }
 
-        bot.Properties[typeof(User)] = await bot.GetUserDataAsync(cancellationToken);
+        bot.Properties[typeof(UserData)] = await bot.GetUserDataAsync(cancellationToken);
         bot.Properties.Remove(typeof(Options));
         logger.LogInformation("User data updated");
     }

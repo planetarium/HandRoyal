@@ -1,10 +1,10 @@
 using System.Collections.Immutable;
 using HandRoyal.Bot.GraphQL;
-using HandRoyal.States;
 using Libplanet.Common;
 using Libplanet.Crypto;
 using Libplanet.Types.Tx;
 using Microsoft.Extensions.DependencyInjection;
+using static HandRoyal.Bot.EnumerableUtility;
 
 namespace HandRoyal.Bot;
 
@@ -49,8 +49,9 @@ public static class IBotExtensions
         this IBot @this, Address sessionId, CancellationToken cancellationToken)
     {
         var client = @this.GetRequiredService<IGraphQLClient>();
-        var user = (User)@this.Properties[typeof(User)];
-        var gloves = GloveUtility.GetRandomGloves(user.OwnedGloves, 5);
+        var user = (UserData)@this.Properties[typeof(UserData)];
+        var ownedGloves = SelectMany(user.OwnedGloves, item => (item.Id, item.Count));
+        var gloves = GloveUtility.GetRandomGloves(ownedGloves, 5);
         var plainValue = await client.JoinSession.ExecuteAsync(
             sessionId: sessionId,
             gloves: gloves,
@@ -84,8 +85,9 @@ public static class IBotExtensions
         this IBot @this, CancellationToken cancellationToken)
     {
         var client = @this.GetRequiredService<IGraphQLClient>();
-        var user = (User)@this.Properties[typeof(User)];
-        var gloves = GloveUtility.GetRandomGloves(user.OwnedGloves, 5);
+        var user = (UserData)@this.Properties[typeof(UserData)];
+        var ownedGloves = SelectMany(user.OwnedGloves, item => (item.Id, item.Count));
+        var gloves = GloveUtility.GetRandomGloves(ownedGloves, 5);
         var plainValue = await client.RegisterMatching.ExecuteAsync(gloves, cancellationToken)
             .ResolveAsync(item => item.ActionQuery?.RegisterMatching);
         var txId = await ExecuteTransactionAsync(@this, plainValue, cancellationToken);
@@ -98,6 +100,17 @@ public static class IBotExtensions
         var client = @this.GetRequiredService<IGraphQLClient>();
         var plainValue = await client.CancelMatching.ExecuteAsync(cancellationToken)
             .ResolveAsync(item => item.ActionQuery?.CancelMatching);
+        var txId = await ExecuteTransactionAsync(@this, plainValue, cancellationToken);
+        await PollTransactionAsync(@this, txId, cancellationToken);
+    }
+
+    public static async Task SubmitMoveAsync(
+        this IBot @this, Address sessionId, int gloveIndex, CancellationToken cancellationToken)
+    {
+        var client = @this.GetRequiredService<IGraphQLClient>();
+        var plainValue = await client.SubmitMove.ExecuteAsync(
+            sessionId, gloveIndex, cancellationToken)
+            .ResolveAsync(item => item.ActionQuery?.SubmitMove);
         var txId = await ExecuteTransactionAsync(@this, plainValue, cancellationToken);
         await PollTransactionAsync(@this, txId, cancellationToken);
     }
@@ -121,85 +134,54 @@ public static class IBotExtensions
     public static Task<Address[]> GetSessionsAsync(
         this IBot @this, CancellationToken cancellationToken)
     {
-        // var client = new GraphQLClient(@this.EndPoint);
-        // return client.GetSessionsAsync(cancellationToken);
         throw new NotImplementedException();
     }
 
-    public static async Task<User> UpdateUserDataAsync(
+    public static async Task<SessionData> GetSessionAsync(
+        this IBot @this, Address sessionId, CancellationToken cancellationToken)
+    {
+        var client = @this.GetRequiredService<IGraphQLClient>();
+        var session = await client.GetSession.ExecuteAsync(sessionId, cancellationToken)
+            .ResolveAsync(item => item.StateQuery?.Session);
+        return session;
+    }
+
+    public static async Task<UserScopedSessionData> UpdateUserScopedSessionAsync(
+        this IBot @this, CancellationToken cancellationToken)
+    {
+        var userData = (UserData)@this.Properties[typeof(UserData)];
+        var session = await GetUserScopedSessionAsync(@this, userData.SessionId, cancellationToken);
+        @this.Properties[typeof(UserScopedSessionData)] = session;
+        return session;
+    }
+
+    public static async Task<UserScopedSessionData> GetUserScopedSessionAsync(
+        this IBot @this, Address sessionId, CancellationToken cancellationToken)
+    {
+        var client = @this.GetRequiredService<IGraphQLClient>();
+        var userId = @this.Address;
+        var session = await client.GetUserScopedSession.ExecuteAsync(
+            sessionId, userId, cancellationToken)
+            .ResolveAsync(item => item.StateQuery?.UserScopedSession);
+        return session;
+    }
+
+    public static async Task<UserData> UpdateUserDataAsync(
         this IBot @this, CancellationToken cancellationToken)
     {
         var user = await GetUserDataAsync(@this, cancellationToken);
-        @this.Properties[typeof(User)] = user;
+        @this.Properties[typeof(UserData)] = user;
         return user;
     }
 
-    public static async Task<User> GetUserDataAsync(
+    public static async Task<UserData> GetUserDataAsync(
         this IBot @this, CancellationToken cancellationToken)
     {
         var client = @this.GetRequiredService<IGraphQLClient>();
         var userId = @this.Address;
         var userData = await client.GetUserData.ExecuteAsync(userId, cancellationToken)
             .ResolveAsync(item => item.StateQuery?.GetUserData);
-        return new User
-        {
-            Id = userData.Id,
-            Name = userData.Name ?? string.Empty,
-            RegisteredGloves = SelectMany(userData.RegisteredGloves),
-            OwnedGloves = SelectMany(userData.OwnedGloves, item =>
-            {
-                return new GloveInfo
-                {
-                    Id = item.Id,
-                    Count = item.Count,
-                };
-            }),
-            SessionId = userData.SessionId,
-            EquippedGlove = userData.EquippedGlove,
-        };
-    }
-
-    private static ImmutableArray<T> SelectMany<T>(IReadOnlyList<T>? source)
-    {
-        if (source is null)
-        {
-            return [];
-        }
-
-        var builder = ImmutableArray.CreateBuilder<T>(source.Count);
-        foreach (var item in source)
-        {
-            if (item is null)
-            {
-                continue;
-            }
-
-            builder.Add(item);
-        }
-
-        return builder.ToImmutable();
-    }
-
-    private static ImmutableArray<T> SelectMany<TSource, T>(
-        IReadOnlyList<TSource?>? source, Func<TSource, T> selector)
-    {
-        if (source is null)
-        {
-            return [];
-        }
-
-        var builder = ImmutableArray.CreateBuilder<T>(source.Count);
-        foreach (var item in source)
-        {
-            if (item is null)
-            {
-                continue;
-            }
-
-            builder.Add(selector(item));
-        }
-
-        return builder.ToImmutable();
+        return userData;
     }
 
     private static string Sign(IBot bot, string hex)

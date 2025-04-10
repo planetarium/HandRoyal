@@ -5,26 +5,38 @@ namespace HandRoyal.Bot;
 public sealed class UserBot(BotOptions options)
     : BotBase(options)
 {
-    private static readonly SortedDictionary<Type, Type> _jobByOptions = new()
-    {
-        { typeof(IdleJob.Options), typeof(IdleJob) },
-        { typeof(UpdateUserJob.Options), typeof(UpdateUserJob) },
-        { typeof(WaitMatchingJob.Options), typeof(WaitMatchingJob) },
-        { typeof(CancelMatchingJob.Options), typeof(CancelMatchingJob) },
-        { typeof(WaitSessionJob.Options), typeof(WaitSessionJob) },
-        { typeof(SubmitJob.Options), typeof(SubmitJob) },
-    };
-
     private bool _isCreated;
 
     protected override async Task<Type> SelectJobAsync(CancellationToken cancellationToken)
     {
-        foreach (var (option, job) in _jobByOptions)
+        if (Properties.Contains(typeof(IdleJob.Options)))
         {
-            if (Properties.Contains(option))
-            {
-                return job;
-            }
+            return typeof(IdleJob);
+        }
+
+        if (Properties.Contains(typeof(UpdateUserJob.Options)))
+        {
+            return typeof(UpdateUserJob);
+        }
+
+        if (Properties.Contains(typeof(WaitMatchingJob.Options)))
+        {
+            return typeof(WaitMatchingJob);
+        }
+
+        if (Properties.Contains(typeof(CancelMatchingJob.Options)))
+        {
+            return typeof(CancelMatchingJob);
+        }
+
+        if (Properties.Contains(typeof(WaitSessionJob.Options)))
+        {
+            return typeof(WaitSessionJob);
+        }
+
+        if (Properties.Contains(typeof(SubmitJob.Options)))
+        {
+            return typeof(SubmitJob);
         }
 
         if (!_isCreated)
@@ -42,7 +54,7 @@ public sealed class UserBot(BotOptions options)
         {
             return typeof(PickUpManyJob);
         }
-        else if (n < 20)
+        else if (n < 80)
         {
             Properties[typeof(RegisterMatchingJob.Options)] = new RegisterMatchingJob.Options();
             return typeof(RegisterMatchingJob);

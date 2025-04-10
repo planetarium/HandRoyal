@@ -27,7 +27,7 @@ public sealed partial class BotPropertyCollection
 
         set
         {
-            if (value.GetType() != type)
+            if (!type.IsInstanceOfType(value))
             {
                 throw new ArgumentException(
                     $"Value type {value.GetType()} does not match key type {type}.", nameof(value));
