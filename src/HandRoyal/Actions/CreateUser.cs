@@ -51,6 +51,8 @@ public sealed record class CreateUser : ActionBase
                     },
                 ]
             ],
+            ActionPoint = User.MaxRefillActionPoint,
+            LastClaimedAt = context.BlockIndex,
         };
     }
 }

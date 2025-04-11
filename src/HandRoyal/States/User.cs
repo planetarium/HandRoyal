@@ -10,6 +10,9 @@ namespace HandRoyal.States;
 [Model(Version = 1)]
 public sealed record class User : IEquatable<User>
 {
+    public const int MaxRefillActionPoint = 15;
+    public const int ClaimInterval = 10_000;
+
     [Property(0)]
     public required Address Id { get; init; }
 
@@ -27,6 +30,12 @@ public sealed record class User : IEquatable<User>
 
     [Property(5)]
     public Address SessionId { get; init; }
+
+    [Property(6)]
+    public int ActionPoint { get; init; }
+
+    [Property(7)]
+    public long LastClaimedAt { get; init; }
 
     public static User GetUser(IWorldContext world, Address userId)
         => (User)world[Addresses.Users, userId];
@@ -69,6 +78,50 @@ public sealed record class User : IEquatable<User>
             OwnedGloves = OwnedGloves
                 .RemoveAt(index)
                 .Add(new GloveInfo { Id = glove, Count = nextCount }),
+        };
+    }
+
+    [Pure]
+    public User RefillActionPoint(long blockIndex)
+    {
+        if (blockIndex - (blockIndex % ClaimInterval) <= LastClaimedAt)
+        {
+            throw new InvalidOperationException("Cannot refill action point yet.");
+        }
+
+        if (ActionPoint >= MaxRefillActionPoint)
+        {
+            throw new InvalidOperationException("Action point already full.");
+        }
+
+        return this with
+        {
+            ActionPoint = MaxRefillActionPoint,
+            LastClaimedAt = blockIndex,
+        };
+    }
+
+    [Pure]
+    public User DecreaseActionPoint(int amount)
+    {
+        if (ActionPoint < amount)
+        {
+            throw new InvalidOperationException(
+                "Amount of action point usage cannot exceed current action point.");
+        }
+
+        return this with
+        {
+            ActionPoint = ActionPoint - amount,
+        };
+    }
+
+    [Pure]
+    public User IncreaseActionPoint(int amount)
+    {
+        return this with
+        {
+            ActionPoint = ActionPoint + amount,
         };
     }
 

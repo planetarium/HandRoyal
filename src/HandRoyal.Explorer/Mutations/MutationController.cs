@@ -159,6 +159,18 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
         return txSettings.StageTo(blockChainService.BlockChain);
     }
 
+    [MutationRoot("RefillActionPoint")]
+    public TxId RefillActionPoint(PrivateKey privateKey)
+    {
+        var refillActionPoint = new RefillActionPoint();
+        var txSettings = new TxSettings
+        {
+            PrivateKey = privateKey,
+            Actions = [refillActionPoint],
+        };
+        return txSettings.StageTo(blockChainService.BlockChain);
+    }
+
     [MutationRoot("StageTransaction")]
     public TxId StageTransaction(HexValue unsignedTransaction, HexValue signature)
     {

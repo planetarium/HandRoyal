@@ -14,7 +14,7 @@ public sealed record class CancelMatching : ActionBase
     protected override void OnExecute(IWorldContext world, IActionContext context)
     {
         var signer = context.Signer;
-        if (!world.TryGetValue<User>(Addresses.Users, signer, out _))
+        if (!world.TryGetValue<User>(Addresses.Users, signer, out var user))
         {
             throw new CancelMatchingException($"User of id {signer} does not exist.");
         }
@@ -30,6 +30,7 @@ public sealed record class CancelMatching : ActionBase
         }
 
         matchPool = matchPool.Remove(matchPool.First(info => info.UserId.Equals(signer)));
+        world[Addresses.Users, signer] = user.IncreaseActionPoint(1);
         world[Addresses.MatchPool, Addresses.MatchPool] = matchPool;
     }
 }

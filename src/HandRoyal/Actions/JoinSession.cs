@@ -56,6 +56,7 @@ public sealed record class JoinSession : ActionBase, IEquatable<JoinSession>
         var height = context.BlockIndex;
 
         world.TransferAsset(Currencies.SinkAddress, context.Signer, Currencies.Royal * JoinReward);
+        user = user.DecreaseActionPoint(1);
         world[Addresses.Users, signer] = user with { SessionId = SessionId };
         world[Addresses.Sessions, SessionId] = session.Join(height, user, gloves);
     }

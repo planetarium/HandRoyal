@@ -27,5 +27,11 @@ public class UserData(User user, FungibleAssetValue balance)
     public Address SessionId => user.SessionId;
 
     [Property(6)]
+    public int ActionPoint => user.ActionPoint;
+
+    [Property(7)]
+    public long LastClaimedAt => user.LastClaimedAt;
+
+    [Property(8)]
     public long Balance => (long)balance.MajorUnit;
 }
