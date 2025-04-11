@@ -165,4 +165,12 @@ internal sealed class ActionController(
 
         return await StageAction(cancelMatching);
     }
+
+    [MutationRoot("RefillActionPointByWallet")]
+    public async Task<TxId> RefillActionPoint()
+    {
+        var refillActionPoint = new RefillActionPoint();
+
+        return await StageAction(refillActionPoint);
+    }
 }

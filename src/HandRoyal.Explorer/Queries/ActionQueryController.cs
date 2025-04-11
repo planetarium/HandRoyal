@@ -114,5 +114,12 @@ internal sealed class ActionQueryController : GraphController
         return Encode(cancelMatching);
     }
 
+    [Query("RefillActionPoint")]
+    public HexValue RefillActionPoint()
+    {
+        var refillActionPoint = new RefillActionPoint();
+        return Encode(refillActionPoint);
+    }
+
     private static HexValue Encode(IAction action) => _codec.Encode(action.PlainValue);
 }
