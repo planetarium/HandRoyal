@@ -68,6 +68,7 @@ public sealed record class RegisterMatching : ActionBase, IEquatable<RegisterMat
                 Gloves = gloves,
                 RegisteredHeight = context.BlockIndex,
             });
+        world[Addresses.Users, signer] = user.DecreaseActionPoint(1);
         world[Addresses.MatchPool, Addresses.MatchPool] = matchPool;
     }
 }

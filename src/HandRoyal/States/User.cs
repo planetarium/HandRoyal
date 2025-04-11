@@ -10,7 +10,7 @@ namespace HandRoyal.States;
 [Model(Version = 1)]
 public sealed record class User : IEquatable<User>
 {
-    public const int MaxRefillAp = 15;
+    public const int MaxRefillActionPoint = 15;
     public const int ClaimInterval = 10_000;
 
     [Property(0)]
@@ -84,16 +84,45 @@ public sealed record class User : IEquatable<User>
     [Pure]
     public User RefillActionPoint(long blockIndex)
     {
-        if (blockIndex - (blockIndex % ClaimInterval) > LastClaimedAt)
+        if (blockIndex - (blockIndex % ClaimInterval) <= LastClaimedAt)
         {
-            return this with
-            {
-                ActionPoint = MaxRefillAp,
-                LastClaimedAt = blockIndex,
-            };
+            throw new InvalidOperationException("Cannot refill action point yet.");
         }
 
-        return this;
+        if (ActionPoint >= MaxRefillActionPoint)
+        {
+            throw new InvalidOperationException("Action point already full.");
+        }
+
+        return this with
+        {
+            ActionPoint = MaxRefillActionPoint,
+            LastClaimedAt = blockIndex,
+        };
+    }
+
+    [Pure]
+    public User DecreaseActionPoint(int amount)
+    {
+        if (ActionPoint < amount)
+        {
+            throw new InvalidOperationException(
+                "Amount of action point usage cannot exceed current action point.");
+        }
+
+        return this with
+        {
+            ActionPoint = ActionPoint - amount,
+        };
+    }
+
+    [Pure]
+    public User IncreaseActionPoint(int amount)
+    {
+        return this with
+        {
+            ActionPoint = ActionPoint + amount,
+        };
     }
 
     public bool Equals(User? other) => ModelUtility.Equals(this, other);
