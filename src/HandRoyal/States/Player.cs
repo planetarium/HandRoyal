@@ -12,9 +12,12 @@ public sealed record class Player : IEquatable<Player>
     public required Address Id { get; init; }
 
     [Property(1)]
-    public ImmutableArray<Address> Gloves { get; init; }
+    public ImmutableArray<Address> InitialGloves { get; init; }
 
     [Property(2)]
+    public ImmutableArray<Address> ActiveGloves { get; init; }
+
+    [Property(3)]
     public PlayerState State { get; set; }
 
     public static ImmutableArray<Player> SetState(

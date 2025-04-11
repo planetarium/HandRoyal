@@ -32,7 +32,7 @@ public sealed record class Session : IEquatable<Session>
     [Property(6)]
     public long Height { get; init; }
 
-    public Session Join(long blockHeight, User user, ImmutableArray<Address> gloves)
+    public Session Join(long blockHeight, User user, ImmutableArray<Address> initialGloves)
     {
         if (State != SessionState.Ready)
         {
@@ -67,7 +67,8 @@ public sealed record class Session : IEquatable<Session>
             throw new InvalidOperationException("User is already in a session.");
         }
 
-        var player = new Player { Id = user.Id, Gloves = gloves };
+        var player = new Player
+            { Id = user.Id, InitialGloves = initialGloves, ActiveGloves = [] };
         var players = Players.Add(player);
         return this with
         {
@@ -192,6 +193,17 @@ public sealed record class Session : IEquatable<Session>
             };
         }
 
+        var nextPlayers = new List<Player>();
+        foreach (var player in Players)
+        {
+            nextPlayers.Add(player with
+            {
+                State = PlayerState.Playing,
+                ActiveGloves =
+                [..random.Shuffle(player.InitialGloves).Take(Metadata.NumberOfActiveGloves)],
+            });
+        }
+
         var playerIndexes = random.Shuffle(indexes).ToImmutableArray();
         var matches = Match.Create(height, playerIndexes);
         var phase = new Phase
@@ -205,7 +217,7 @@ public sealed record class Session : IEquatable<Session>
             State = SessionState.Active,
             StartHeight = height,
             Height = height,
-            Players = Player.SetState(Players, playerIndexes, PlayerState.Playing),
+            Players = [..nextPlayers],
             Phases = Phases.Add(phase),
         };
     }

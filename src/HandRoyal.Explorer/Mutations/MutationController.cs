@@ -40,7 +40,8 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
         long roundLength,
         long roundInterval,
         int initialHealthPoint,
-        int numberOfGloves)
+        int numberOfInitialGloves,
+        int numberOfActiveGloves)
     {
         var createSession = new CreateSession
         {
@@ -54,7 +55,8 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
             RoundLength = roundLength,
             RoundInterval = roundInterval,
             InitialHealthPoint = initialHealthPoint,
-            NumberOfGloves = numberOfGloves,
+            NumberOfInitialGloves = numberOfInitialGloves,
+            NumberOfActiveGloves = numberOfActiveGloves,
         };
         var txSettings = new TxSettings
         {

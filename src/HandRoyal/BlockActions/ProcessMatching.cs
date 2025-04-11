@@ -22,8 +22,8 @@ internal sealed class ProcessMatching : BlockActionBase
         // 앞에서부터 둘씩 짝지어서 세션 생성
         while (matching.Length > 1)
         {
-            var player1 = new Player { Id = matching[0].UserId, Gloves = matching[0].Gloves };
-            var player2 = new Player { Id = matching[1].UserId, Gloves = matching[1].Gloves };
+            var player1 = new Player { Id = matching[0].UserId, InitialGloves = matching[0].Gloves };
+            var player2 = new Player { Id = matching[1].UserId, InitialGloves = matching[1].Gloves };
             CreateSession(world, context.GetRandom(), player1, player2);
             matching = matching.RemoveRange(0, 2);
         }
