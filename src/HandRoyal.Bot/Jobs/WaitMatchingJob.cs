@@ -30,7 +30,7 @@ public sealed class WaitMatchingJob(ILogger<WaitMatchingJob> logger)
                 {
                     State = SessionState.Active,
                 };
-                bot.Properties[typeof(SubmitJob.Options)] = new SubmitJob.Options();
+                bot.Properties[typeof(SubmitMoveJob.Options)] = new SubmitMoveJob.Options();
                 break;
             }
 

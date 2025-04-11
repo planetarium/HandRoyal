@@ -34,9 +34,9 @@ public sealed class UserBot(BotOptions options)
             return typeof(WaitSessionJob);
         }
 
-        if (Properties.Contains(typeof(SubmitJob.Options)))
+        if (Properties.Contains(typeof(SubmitMoveJob.Options)))
         {
-            return typeof(SubmitJob);
+            return typeof(SubmitMoveJob);
         }
 
         if (!_isCreated)

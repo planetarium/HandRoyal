@@ -28,7 +28,7 @@ public static class ServiceCollectionExtensions
         services.AddJob<PickUpManyJob>();
         services.AddJob<RegisterMatchingJob>();
         services.AddJob<SessionJob>();
-        services.AddJob<SubmitJob>();
+        services.AddJob<SubmitMoveJob>();
         services.AddJob<UpdateUserJob>();
         services.AddJob<WaitBlockJob>();
         services.AddJob<WaitMatchingJob>();
