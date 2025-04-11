@@ -51,9 +51,9 @@ internal sealed class PostProcessSession : BlockActionBase
                 continue;
             }
 
-            if (winnerIds.Contains(userId))
+            if (winnerIds.Contains(userId) && prize is { } prizeNotNull)
             {
-                user = user.ObtainGlove(prize, 1);
+                user = user.ObtainGlove(prizeNotNull, 1);
             }
 
             usersAccount[userId] = user with

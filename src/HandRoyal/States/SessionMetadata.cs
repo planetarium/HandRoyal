@@ -12,7 +12,7 @@ public sealed record class SessionMetadata : IEquatable<SessionMetadata>
     {
         Id = default,
         Organizer = default,
-        Prize = default,
+        Prize = null,
     };
 
     [Required]
@@ -25,7 +25,7 @@ public sealed record class SessionMetadata : IEquatable<SessionMetadata>
 
     [Required]
     [Property(2)]
-    public required Address Prize { get; init; }
+    public required Address? Prize { get; init; }
 
     [Property(3)]
     public int MaximumUser { get; set; } = 8;
