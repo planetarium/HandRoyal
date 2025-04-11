@@ -24,8 +24,7 @@ internal sealed class ActionController(
     {
         if (!httpContextAccessor.IsValidToken(jwtValidator))
         {
-            await Task.FromException(
-                new UnauthorizedAccessException("Invalid or missing authentication token"));
+            throw new UnauthorizedAccessException("Invalid or missing authentication token");
         }
 
         var userId = httpContextAccessor.UserId();
