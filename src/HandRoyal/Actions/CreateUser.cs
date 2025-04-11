@@ -37,17 +37,17 @@ public sealed record class CreateUser : ActionBase
                     new GloveInfo
                     {
                         Id = new Address("0x0000000000000000000000000000000000000000"),
-                        Count = 2,
+                        Count = 3,
                     },
                     new GloveInfo
                     {
                         Id = new Address("0x1000000000000000000000000000000000000000"),
-                        Count = 2,
+                        Count = 3,
                     },
                     new GloveInfo
                     {
                         Id = new Address("0x2000000000000000000000000000000000000000"),
-                        Count = 2,
+                        Count = 3,
                     },
                 ]
             ],
