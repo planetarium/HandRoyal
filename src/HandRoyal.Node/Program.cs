@@ -1,4 +1,5 @@
 using HandRoyal.Explorer;
+using HandRoyal.Explorer.Jwt;
 using HandRoyal.Node;
 using HandRoyal.Node.Logging;
 using Libplanet.Node.Extensions;
@@ -24,16 +25,16 @@ if (builder.Environment.IsDevelopment())
         options.ListenLocalhost(5260, o => o.Protocols =
             HttpProtocols.Http2);
     });
-
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddAuthorization();
-    builder.Services.AddAuthentication("Bearer").AddJwtBearer();
 }
 
 if (Environment.GetEnvironmentVariable("APPSETTINGS_PATH") is { } appSettingsPath)
 {
     builder.Configuration.AddJsonFile(appSettingsPath, optional: false, reloadOnChange: true);
 }
+
+// Register Supabase options
+builder.Services.Configure<SupabaseOptions>(
+    builder.Configuration.GetSection("Supabase"));
 
 builder.Services.AddCors(options =>
 {
@@ -48,9 +49,11 @@ builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
 builder.Services.AddLibplanetNode(builder.Configuration);
 builder.Services.AddExplorer();
+builder.Services.AddExplorerServices();
 builder.Services.AddHostedService<BlockChainRendererTracer>();
 builder.Services.AddControllers();
 builder.Services.AddDirectoryBrowser(); // Optional: Enable directory browsing for static files
+builder.Services.AddHttpContextAccessor();
 
 var handlerMessage = """
     Communication with gRPC endpoints must be made through a gRPC client. To learn how to

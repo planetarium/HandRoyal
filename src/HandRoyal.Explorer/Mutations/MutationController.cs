@@ -6,7 +6,6 @@ using HandRoyal.Actions;
 using HandRoyal.Explorer.Types;
 using Libplanet.Crypto;
 using Libplanet.Node.Services;
-using Libplanet.Types.Assets;
 using Libplanet.Types.Tx;
 
 namespace HandRoyal.Explorer.Mutations;
