@@ -46,7 +46,7 @@ internal sealed class ProcessMatching : BlockActionBase
         {
             Id = sessionId,
             Organizer = player1.Id,
-            Prize = default,
+            Prize = null,
             MaximumUser = 2,
         };
         var userAccount = world[Addresses.Users];
