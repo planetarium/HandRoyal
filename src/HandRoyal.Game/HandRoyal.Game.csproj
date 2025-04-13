@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- $(LibplanetDirectory) exists. -->
+  <ItemGroup Condition="Exists('$(LibplanetDirectory)')">
+    <ProjectReference Include="$(LibplanetDirectory)src\Libplanet\Libplanet.csproj" />
+    <ProjectReference Include="$(LibplanetDirectory)src\Libplanet.Action\Libplanet.Action.csproj" />
+    <ProjectReference Include="$(LibplanetDirectory)sdk\node\Libplanet.Node\Libplanet.Node.csproj" />
+  </ItemGroup>
+
+  <!-- $(LibplanetDirectory) does not exist. -->
+  <ItemGroup Condition="!Exists('$(LibplanetDirectory)')">
+    <PackageReference Include="Libplanet" Version="$(LibplanetVersion)" />
+    <PackageReference Include="Libplanet.Action" Version="$(LibplanetVersion)" />
+    <PackageReference Include="Libplanet.Node" Version="$(LibplanetVersion)" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Gloves\Data\gloves.json" />
+  </ItemGroup>
+
+</Project>
