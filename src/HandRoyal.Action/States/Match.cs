@@ -1,10 +1,12 @@
 ﻿using System.Collections.Immutable;
 using HandRoyal.Enums;
 using HandRoyal.Extensions;
+using HandRoyal.Game.RoundRules;
 using HandRoyal.Game.Simulation;
 using HandRoyal.Loader;
 using HandRoyal.Serialization;
 using Libplanet.Action;
+using Libplanet.Crypto;
 
 namespace HandRoyal.States;
 
@@ -111,6 +113,8 @@ public sealed record class Match
                 throw new InvalidOperationException("Cannot reuse glove.");
             }
 
+            CheckSubmissionByRoundRule(MatchPlayers[0].ActiveGloves[gloveIndex]);
+
             var nextRound = round with
             {
                 Condition1 = round.Condition1 with { Submission = gloveIndex },
@@ -132,6 +136,8 @@ public sealed record class Match
             {
                 throw new InvalidOperationException("Cannot reuse glove.");
             }
+
+            CheckSubmissionByRoundRule(MatchPlayers[1].ActiveGloves[gloveIndex]);
 
             var nextRound = round with
             {
@@ -193,6 +199,11 @@ public sealed record class Match
                         GloveUsed = [..Enumerable.Range(0, metadata.MaxRounds).Select(_ => false)],
                         Submission = -1,
                     },
+                    RoundRuleData = new RoundRuleData
+                    {
+                        Type = RoundRuleType.None,
+                        Parameters = ImmutableArray<string>.Empty,
+                    },
                     Winner = -2,
                 }
             ],
@@ -239,6 +250,8 @@ public sealed record class Match
         var battleContext = new BattleContext
         {
             RoundIndex = Rounds.Length - 1,
+            RoundRules =
+                [..Rounds.Select(r => RoundRuleLoader.CreateRoundRule(r.RoundRuleData))],
             Random = random,
         };
 
@@ -266,6 +279,7 @@ public sealed record class Match
                 HealthPoint = nextPlayerContext2.HealthPoint,
                 ActiveEffectData = [..nextPlayerContext2.Effects.Select(EffectLoader.ToEffectData)],
             },
+            RoundRuleData = RoundRuleLoader.GenerateRandomRoundRuleData(random),
             Winner = winner,
         };
         return this with
@@ -315,5 +329,19 @@ public sealed record class Match
             State = MatchState.Active,
             Rounds = Rounds.Add(round),
         };
+    }
+
+    private void CheckSubmissionByRoundRule(Address submission)
+    {
+        var glove = GloveLoader.LoadGlove(submission);
+        foreach (var rule in Rounds.Select(r => RoundRuleLoader.CreateRoundRule(r.RoundRuleData)))
+        {
+            if (rule is BanGloveTypeRule banGloveTypeRule &&
+                glove.Type == banGloveTypeRule.BannedGloveType)
+            {
+                throw new InvalidOperationException(
+                    $"Cannot submit banned glove type: {glove.Type}");
+            }
+        }
     }
 }
