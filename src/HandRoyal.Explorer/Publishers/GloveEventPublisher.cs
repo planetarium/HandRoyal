@@ -2,7 +2,7 @@ using Bencodex.Types;
 using HandRoyal.Actions;
 using HandRoyal.Explorer.Subscriptions;
 using HandRoyal.Explorer.Types;
-using HandRoyal.Gloves;
+using HandRoyal.Game.Gloves;
 using Libplanet.Action;
 using Libplanet.Node.Services;
 

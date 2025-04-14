@@ -1,6 +1,5 @@
 using GraphQL.AspNet.Attributes;
-using HandRoyal.Enums;
-using HandRoyal.Gloves;
+using HandRoyal.Game.Gloves;
 using Libplanet.Crypto;
 
 namespace HandRoyal.Explorer.Types;

@@ -19,7 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HandRoyal\HandRoyal.csproj" />
+    <ProjectReference Include="..\HandRoyal.Action\HandRoyal.Action.csproj" />
+    <ProjectReference Include="..\HandRoyal.Game\HandRoyal.Game.csproj" />
     <ProjectReference Include="..\HandRoyal.Wallet\HandRoyal.Wallet.csproj" />
   </ItemGroup>
 
