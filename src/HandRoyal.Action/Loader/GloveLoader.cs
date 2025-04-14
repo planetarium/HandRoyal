@@ -1,5 +1,4 @@
 ﻿#pragma warning disable S3877 // Exceptions should not be thrown from unexpected methods
-using System.Reflection;
 using HandRoyal.Game.Gloves;
 using Libplanet.Action;
 using Libplanet.Crypto;
@@ -12,18 +11,7 @@ public static class GloveLoader
 
     static GloveLoader()
     {
-        var assembly = Assembly.GetExecutingAssembly();
-        using var stream =
-            assembly.GetManifestResourceStream("HandRoyal.Action.Gloves.Data.gloves.json");
-        if (stream == null)
-        {
-            throw new InvalidOperationException("Embedded resource 'gloves.json' not found.");
-        }
-
-        using var bufferedStream = new BufferedStream(stream);
-        using var reader = new StreamReader(bufferedStream);
-        var jsonContent = reader.ReadToEnd();
-        _factory = new GloveFactory(jsonContent);
+        _factory = new GloveFactory();
     }
 
     public static IGlove LoadGlove(Address id)

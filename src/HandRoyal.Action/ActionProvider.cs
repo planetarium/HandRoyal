@@ -47,7 +47,9 @@ public sealed class ActionProvider : IActionProvider
                     $"{nameof(Initialize)} action can be executed only genesis block.");
             }
 
-            world.MintAsset(Currency.Uncapped("Royal", 18, null) * 10000000);
+            var amount = Currencies.Royal * 10_0000_000;
+            world.MintAsset(amount);
+            world.TransferAsset(context.Signer, Currencies.SinkAddress, amount);
         }
     }
 }
