@@ -46,9 +46,13 @@ public sealed record class CreateSession : ActionBase, IEquatable<CreateSession>
     public int InitialHealthPoint { get; init; } = SessionMetadata.Default.InitialHealthPoint;
 
     [Property(10)]
-    public int NumberOfGloves { get; init; } = SessionMetadata.Default.NumberOfGloves;
+    public int NumberOfInitialGloves { get; init; } = SessionMetadata.Default.NumberOfInitialGloves;
 
     [Property(11)]
+    public int NumberOfActiveGloves { get; init; } =
+        SessionMetadata.Default.NumberOfActiveGloves;
+
+    [Property(12)]
     public ImmutableArray<Address> Users { get; init; } = SessionMetadata.Default.Users;
 
     public bool Equals(CreateSession? other) => ModelUtility.Equals(this, other);
@@ -62,9 +66,16 @@ public sealed record class CreateSession : ActionBase, IEquatable<CreateSession>
             throw new CreateSessionException("Session id is not set");
         }
 
-        if (NumberOfGloves < MaxRounds)
+        if (NumberOfInitialGloves < NumberOfActiveGloves)
         {
-            throw new CreateSessionException("NumberOfGloves must be greater than MaxRounds.");
+            throw new CreateSessionException(
+                "NumberOfInitialGloves must be greater or equal than NumberOfActiveGloves.");
+        }
+
+        if (NumberOfActiveGloves < MaxRounds)
+        {
+            throw new CreateSessionException(
+                "NumberOfActiveGloves must be greater or equal than MaxRounds.");
         }
 
         if (world.Contains(Addresses.Sessions, SessionId))
@@ -96,7 +107,8 @@ public sealed record class CreateSession : ActionBase, IEquatable<CreateSession>
             RoundLength = RoundLength,
             RoundInterval = RoundInterval,
             InitialHealthPoint = InitialHealthPoint,
-            NumberOfGloves = NumberOfGloves,
+            NumberOfInitialGloves = NumberOfInitialGloves,
+            NumberOfActiveGloves = NumberOfActiveGloves,
             Users = Users,
         };
         var sessionList = world.GetValue(Addresses.Sessions, Addresses.Sessions, List.Empty);

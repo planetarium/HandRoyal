@@ -79,6 +79,8 @@ internal sealed class ActionController(
         long roundLength,
         long roundInterval,
         int initialHealthPoint,
+        int numberOfInitialGloves,
+        int numberOfActiveGloves,
         IEnumerable<Address> users)
     {
         var createSession = new CreateSession
@@ -93,6 +95,8 @@ internal sealed class ActionController(
             RoundLength = roundLength,
             RoundInterval = roundInterval,
             InitialHealthPoint = initialHealthPoint,
+            NumberOfInitialGloves = numberOfInitialGloves,
+            NumberOfActiveGloves = numberOfActiveGloves,
             Users = [.. users],
         };
 

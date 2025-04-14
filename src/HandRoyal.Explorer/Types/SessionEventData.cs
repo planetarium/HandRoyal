@@ -69,7 +69,7 @@ internal sealed class SessionEventData(Session session)
 
     public Address[]? MyGloves
         => UserPlayerIndex is { } upi
-            ? Session.Players[upi].Gloves.ToArray()
+            ? Session.Players[upi].ActiveGloves.ToArray()
             : null;
 
     public Address[]? OpponentGloves
@@ -81,7 +81,7 @@ internal sealed class SessionEventData(Session session)
                 return null;
             }
 
-            return opi == -1 ? null : Session.Players[opi].Gloves.ToArray();
+            return opi == -1 ? null : Session.Players[opi].ActiveGloves.ToArray();
         }
     }
 

@@ -39,7 +39,7 @@ public sealed record class RegisterMatching : ActionBase, IEquatable<RegisterMat
         }
 
         var gloves = Gloves;
-        if (gloves.Length != SessionMetadata.Default.NumberOfGloves)
+        if (gloves.Length != SessionMetadata.Default.NumberOfInitialGloves)
         {
             throw new RegisterMatchingException("Gloves number mismatch.");
         }

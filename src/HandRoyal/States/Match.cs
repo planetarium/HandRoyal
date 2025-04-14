@@ -202,8 +202,8 @@ public sealed record class Match
             Simulator.Simulate(
                 condition1,
                 condition2,
-                players[Players[0]].Gloves,
-                players[Players[1]].Gloves,
+                players[Players[0]].ActiveGloves,
+                players[Players[1]].ActiveGloves,
                 Rounds.Length - 1,
                 random);
         var winner = winnerRaw switch

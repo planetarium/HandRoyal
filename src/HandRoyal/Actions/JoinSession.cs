@@ -32,7 +32,7 @@ public sealed record class JoinSession : ActionBase, IEquatable<JoinSession>
         var user = (User)world[Addresses.Users, signer];
         var gloves = Gloves;
 
-        if (gloves.Length != session.Metadata.NumberOfGloves)
+        if (gloves.Length != session.Metadata.NumberOfInitialGloves)
         {
             throw new JoinSessionException("Gloves must have same number of rounds.");
         }

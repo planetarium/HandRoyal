@@ -12,7 +12,7 @@ public sealed record class SessionMetadata : IEquatable<SessionMetadata>
     {
         Id = default,
         Organizer = default,
-        Prize = default,
+        Prize = null,
     };
 
     [Required]
@@ -25,7 +25,7 @@ public sealed record class SessionMetadata : IEquatable<SessionMetadata>
 
     [Required]
     [Property(2)]
-    public required Address Prize { get; init; }
+    public required Address? Prize { get; init; }
 
     [Property(3)]
     public int MaximumUser { get; set; } = 8;
@@ -52,9 +52,12 @@ public sealed record class SessionMetadata : IEquatable<SessionMetadata>
     public int InitialHealthPoint { get; set; } = 100;
 
     [Property(11)]
-    public int NumberOfGloves { get; set; } = 5;
+    public int NumberOfInitialGloves { get; set; } = 8;
 
     [Property(12)]
+    public int NumberOfActiveGloves { get; set; } = 5;
+
+    [Property(13)]
     public ImmutableArray<Address> Users { get; set; } = [];
 
     public override int GetHashCode() => ModelUtility.GetHashCode(this);
