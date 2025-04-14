@@ -25,38 +25,54 @@ public static class Simulator
         var gunAddress = new Address("0x3400000000000000000000000000000000000000");
         if (glove1 is not null)
         {
-            var isAttackerWin = glove1.Id.Equals(gunAddress) || winner == 0;
+            var battleResult = winner switch
+            {
+                -2 => BattleResult.Lose,
+                -1 => BattleResult.Draw,
+                0 => BattleResult.Win,
+                1 => BattleResult.Lose,
+                _ => BattleResult.Lose,
+            };
+            battleResult = glove1.Id.Equals(gunAddress) ? BattleResult.Win : battleResult;
             (nextContext1, nextContext2) =
                 glove1.AttackBehavior.Execute(
                     nextContext1,
                     nextContext2,
-                    isAttackerWin,
+                    battleResult,
                     battleContext);
             foreach (var ability in glove1.Abilities)
             {
                 (nextContext1, nextContext2) = ability.Apply(
                     nextContext1,
                     nextContext2,
-                    isAttackerWin,
+                    battleResult,
                     battleContext);
             }
         }
 
         if (glove2 is not null)
         {
-            var isAttackerWin = glove2.Id.Equals(gunAddress) || winner == 1;
+            var battleResult = winner switch
+            {
+                -2 => BattleResult.Lose,
+                -1 => BattleResult.Draw,
+                0 => BattleResult.Lose,
+                1 => BattleResult.Win,
+                _ => BattleResult.Lose,
+            };
+            battleResult = glove2.Id.Equals(gunAddress) ? BattleResult.Win : battleResult;
             (nextContext2, nextContext1) =
                 glove2.AttackBehavior.Execute(
                     nextContext2,
                     nextContext1,
-                    isAttackerWin,
+                    battleResult,
                     battleContext);
             foreach (var ability in glove2.Abilities)
             {
                 (nextContext2, nextContext1) = ability.Apply(
                     nextContext2,
                     nextContext1,
-                    isAttackerWin,
+                    battleResult,
                     battleContext);
             }
         }

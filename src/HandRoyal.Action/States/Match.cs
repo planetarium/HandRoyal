@@ -217,7 +217,7 @@ public sealed record class Match
             : GloveLoader.LoadGlove(players[Players[0]].ActiveGloves[condition1.Submission]));
         var playerContext2 = condition2.ToPlayerContext(condition2.Submission == -1
             ? null
-            : GloveLoader.LoadGlove(players[Players[0]].ActiveGloves[condition2.Submission]));
+            : GloveLoader.LoadGlove(players[Players[1]].ActiveGloves[condition2.Submission]));
         var battleContext = new BattleContext
         {
             RoundIndex = Rounds.Length - 1,

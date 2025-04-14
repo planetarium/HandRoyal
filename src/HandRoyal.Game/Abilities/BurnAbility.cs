@@ -12,7 +12,7 @@ public class BurnAbility(int damage) : IAbility
     public (PlayerContext AttackerContext, PlayerContext DefenderContext) Apply(
         PlayerContext attackerContext,
         PlayerContext defenderContext,
-        bool isAttackerWin,
+        BattleResult battleResult,
         BattleContext context)
     {
         var nextDefenderContext = defenderContext;

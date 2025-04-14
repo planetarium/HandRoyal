@@ -7,10 +7,10 @@ public class BasicAttackBehavior : IAttackBehavior
     public (PlayerContext NextAttackerContext, PlayerContext NextDefenderContext) Execute(
         PlayerContext attackerContext,
         PlayerContext defenderContext,
-        bool isAttackerWin,
+        BattleResult battleResult,
         BattleContext battleContext)
     {
-        if (!isAttackerWin)
+        if (battleResult != BattleResult.Win)
         {
             return (attackerContext, defenderContext);
         }

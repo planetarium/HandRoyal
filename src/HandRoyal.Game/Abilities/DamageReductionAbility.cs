@@ -12,7 +12,7 @@ public class DamageReductionAbility(int reductionAmount) : IAbility
     public (PlayerContext AttackerContext, PlayerContext DefenderContext) Apply(
         PlayerContext attackerContext,
         PlayerContext defenderContext,
-        bool isAttackerWin,
+        BattleResult battleResult,
         BattleContext context) =>
         (attackerContext, defenderContext);
 }

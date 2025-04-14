@@ -7,6 +7,6 @@ public interface IAttackBehavior
     (PlayerContext NextAttackerContext, PlayerContext NextDefenderContext) Execute(
         PlayerContext attackerContext,
         PlayerContext defenderContext,
-        bool isAttackerWin,
+        BattleResult battleResult,
         BattleContext battleContext);
 }
