@@ -14,7 +14,7 @@ public sealed record class Phase : IEquatable<Phase>
     [Property(1)]
     public ImmutableArray<Match> Matches { get; set; } = [];
 
-    public ImmutableArray<int> GetWinners(IRandom random)
+    public ImmutableArray<int> GetWinnerIndices(IRandom random)
     {
         var matches = Matches;
         var capacity = Matches.Length * 2;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using HandRoyal.Enums;
+using HandRoyal.Extensions;
 using HandRoyal.Game.Simulation;
 using HandRoyal.Loader;
 using HandRoyal.Serialization;
@@ -14,7 +15,7 @@ public sealed record class Match
     public long StartHeight { get; init; }
 
     [Property(1)]
-    public ImmutableArray<int> Players { get; init; }
+    public ImmutableArray<MatchPlayer> MatchPlayers { get; init; }
 
     [Property(2)]
     public MatchState State { get; init; }
@@ -31,10 +32,10 @@ public sealed record class Match
                 return -2;
             }
 
-            if (Players[1] == -1)
+            if (MatchPlayers[1].PlayerIndex == -1)
             {
                 // 부전승
-                return Players[0];
+                return MatchPlayers[0].PlayerIndex;
             }
 
             var round = Rounds[^1];
@@ -47,12 +48,16 @@ public sealed record class Match
 
             // 남은 체력이 많은 사람이 승리 (0이하인 경우도 포함)
             return round.Condition1.HealthPoint > round.Condition2.HealthPoint
-                ? Players[0]
-                : Players[1];
+                ? MatchPlayers[0].PlayerIndex
+                : MatchPlayers[1].PlayerIndex;
         }
     }
 
-    public static ImmutableArray<Match> Create(long blockIndex, in ImmutableArray<int> players)
+    public static ImmutableArray<Match> Create(
+        long blockIndex,
+        in ImmutableArray<Player> players,
+        SessionMetadata metadata,
+        IRandom random)
     {
         var segmentation = 2;
         var count = (int)Math.Ceiling((double)players.Length / segmentation);
@@ -61,13 +66,28 @@ public sealed record class Match
         {
             var start = i * segmentation;
             var end = Math.Min((i + 1) * segmentation, players.Length);
-            var playerIndex1 = players[start];
-            var playerIndex2 = end - start == segmentation ? players[start + 1] : -1;
+            var playerIndex1 = players[start].PlayerIndex;
+            var playerIndex2 = end - start == segmentation ? players[start + 1].PlayerIndex : -1;
             var match = new Match
             {
                 StartHeight = blockIndex,
                 State = MatchState.None,
-                Players = [playerIndex1, playerIndex2],
+                MatchPlayers = [
+                    new MatchPlayer
+                    {
+                        PlayerIndex = playerIndex1,
+                        ActiveGloves = [..random.Shuffle(players[playerIndex1].InitialGloves)
+                            .Take(metadata.NumberOfActiveGloves)],
+                    },
+                    new MatchPlayer
+                    {
+                        PlayerIndex = playerIndex2,
+                        ActiveGloves = playerIndex2 == -1
+                            ? []
+                            : [..random.Shuffle(players[playerIndex2].InitialGloves)
+                                .Take(metadata.NumberOfActiveGloves)],
+                    }
+                ],
                 Rounds = [],
             };
             builder.Add(match);
@@ -78,7 +98,7 @@ public sealed record class Match
 
     public Match? Submit(int playerIndex, int gloveIndex)
     {
-        if (Players[0] == playerIndex)
+        if (MatchPlayers[0].PlayerIndex == playerIndex)
         {
             if (State != MatchState.Active || !Rounds.Any())
             {
@@ -100,7 +120,7 @@ public sealed record class Match
                 Rounds = Rounds.SetItem(Rounds.Length - 1, nextRound),
             };
         }
-        else if (Players[1] == playerIndex)
+        else if (MatchPlayers[1].PlayerIndex == playerIndex)
         {
             if (State != MatchState.Active || !Rounds.Any())
             {
@@ -128,12 +148,11 @@ public sealed record class Match
 
     public Match? Process(
         SessionMetadata metadata,
-        ImmutableArray<Player> players,
         long blockIndex,
         IRandom random) => State switch
     {
         MatchState.None => Start(metadata, blockIndex),
-        MatchState.Active => Play(metadata, players, blockIndex, random),
+        MatchState.Active => Play(metadata, blockIndex, random),
         MatchState.Break => Break(metadata, blockIndex),
         MatchState.Ended => null,
         _ => throw new InvalidOperationException($"Invalid match state: {State}"),
@@ -145,7 +164,7 @@ public sealed record class Match
 
     private Match Start(SessionMetadata metadata, long blockIndex)
     {
-        if (Players[1] == -1)
+        if (MatchPlayers[1].PlayerIndex == -1)
         {
             return this with
             {
@@ -182,7 +201,6 @@ public sealed record class Match
 
     private Match? Play(
         SessionMetadata metadata,
-        ImmutableArray<Player> players,
         long height,
         IRandom random)
     {
@@ -214,10 +232,10 @@ public sealed record class Match
 
         var playerContext1 = condition1.ToPlayerContext(condition1.Submission == -1
             ? null
-            : GloveLoader.LoadGlove(players[Players[0]].ActiveGloves[condition1.Submission]));
+            : GloveLoader.LoadGlove(MatchPlayers[0].ActiveGloves[condition1.Submission]));
         var playerContext2 = condition2.ToPlayerContext(condition2.Submission == -1
             ? null
-            : GloveLoader.LoadGlove(players[Players[1]].ActiveGloves[condition2.Submission]));
+            : GloveLoader.LoadGlove(MatchPlayers[1].ActiveGloves[condition2.Submission]));
         var battleContext = new BattleContext
         {
             RoundIndex = Rounds.Length - 1,
@@ -232,8 +250,8 @@ public sealed record class Match
         var winner = winnerRaw switch
         {
             -2 or -1 => -1,
-            0 => Players[0],
-            1 => Players[1],
+            0 => MatchPlayers[0].PlayerIndex,
+            1 => MatchPlayers[1].PlayerIndex,
             _ => throw new InvalidOperationException($"Invalid winner: {winnerRaw}"),
         };
         round = round with

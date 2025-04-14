@@ -68,7 +68,7 @@ public sealed record class Session : IEquatable<Session>
         }
 
         var player = new Player
-            { Id = user.Id, InitialGloves = initialGloves, ActiveGloves = [] };
+            { Id = user.Id, InitialGloves = initialGloves, PlayerIndex = Players.Length };
         var players = Players.Add(player);
         return this with
         {
@@ -199,13 +199,11 @@ public sealed record class Session : IEquatable<Session>
             nextPlayers.Add(player with
             {
                 State = PlayerState.Playing,
-                ActiveGloves =
-                [..random.Shuffle(player.InitialGloves).Take(Metadata.NumberOfActiveGloves)],
             });
         }
 
-        var playerIndexes = random.Shuffle(indexes).ToImmutableArray();
-        var matches = Match.Create(height, playerIndexes);
+        var shuffledPlayers = random.Shuffle(Players).ToImmutableArray();
+        var matches = Match.Create(height, shuffledPlayers, Metadata, random);
         var phase = new Phase
         {
             Height = height,
@@ -231,7 +229,7 @@ public sealed record class Session : IEquatable<Session>
             Height = blockIndex,
             Matches = [
                 ..phase.Matches
-                    .Select(match => match.Process(Metadata, Players, blockIndex, random) ?? match)
+                    .Select(match => match.Process(Metadata, blockIndex, random) ?? match)
             ],
         };
         if (!phase.Matches.All(match => match.State == MatchState.Ended))
@@ -242,26 +240,27 @@ public sealed record class Session : IEquatable<Session>
             };
         }
 
-        var winners = phase.GetWinners(random);
-        var losers = Enumerable.Range(0, Players.Length).Except(winners).ToImmutableArray();
+        var winnerIndices = phase.GetWinnerIndices(random);
+        var losers = Enumerable.Range(0, Players.Length).Except(winnerIndices).ToImmutableArray();
         var players = Player.SetState(Players, losers, PlayerState.Lose);
+        var winners = winnerIndices.Select(index => Players[index]).ToImmutableArray();
 
         if (winners.Length <= remainingUser)
         {
             return this with
             {
-                Players = Player.SetState(players, winners, PlayerState.Won),
+                Players = Player.SetState(players, winnerIndices, PlayerState.Won),
                 State = SessionState.Ended,
                 Height = blockIndex,
                 Phases = Phases[..^1].Add(phase),
             };
         }
 
-        var playerIndexes = random.Shuffle(winners).ToImmutableArray();
+        winners = random.Shuffle(winners).ToImmutableArray();
         var nextPhase = new Phase
         {
             Height = blockIndex,
-            Matches = Match.Create(blockIndex, playerIndexes),
+            Matches = Match.Create(blockIndex, winners, Metadata, random),
         };
         return this with
         {

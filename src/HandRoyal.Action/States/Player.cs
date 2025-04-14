@@ -12,21 +12,23 @@ public sealed record class Player : IEquatable<Player>
     public required Address Id { get; init; }
 
     [Property(1)]
-    public required ImmutableArray<Address> InitialGloves { get; init; }
+    public required int PlayerIndex { get; init; }
 
     [Property(2)]
-    public required ImmutableArray<Address> ActiveGloves { get; init; }
+    public required ImmutableArray<Address> InitialGloves { get; init; }
 
     [Property(3)]
     public PlayerState State { get; set; }
 
     public static ImmutableArray<Player> SetState(
-        ImmutableArray<Player> players, in ImmutableArray<int> winners, PlayerState playerState)
+        ImmutableArray<Player> players,
+        in ImmutableArray<int> winnerIndices,
+        PlayerState playerState)
     {
         for (var i = 0; i < players.Length; i++)
         {
             var player = players[i];
-            if (winners.Contains(i))
+            if (winnerIndices.Contains(i))
             {
                 players = players.SetItem(i, player with { State = playerState });
             }

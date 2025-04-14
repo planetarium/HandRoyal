@@ -18,7 +18,7 @@ internal sealed class SessionEventData(Session session)
 
     [GraphSkip]
     public Match? CurrentUserMatch => UserPlayerIndex is { } upi
-        ? CurrentPhase?.Matches.FirstOrDefault(m => m.Players.Contains(upi))
+        ? CurrentPhase?.Matches.FirstOrDefault(m => m.MatchPlayers.Any(p => p.PlayerIndex == upi))
         : null;
 
     public Address? SessionId => session.Metadata.Id;
@@ -34,7 +34,7 @@ internal sealed class SessionEventData(Session session)
 
     [GraphSkip]
     public int? OpponentPlayerIndex => UserPlayerIndex is { } upi && CurrentUserMatch is not null
-        ? CurrentUserMatch.Players.FirstOrDefault(p => p != upi)
+        ? CurrentUserMatch.MatchPlayers.FirstOrDefault(p => p.PlayerIndex != upi)?.PlayerIndex
         : null;
 
     public Address? OrganizerAddress => session.Metadata.Organizer;
@@ -68,9 +68,23 @@ internal sealed class SessionEventData(Session session)
     public bool IsPlayer => UserPlayerIndex is not null;
 
     public Address[]? MyGloves
-        => UserPlayerIndex is { } upi
-            ? Session.Players[upi].ActiveGloves.ToArray()
-            : null;
+    {
+        get
+        {
+            if (UserPlayerIndex is not { } upi)
+            {
+                return null;
+            }
+
+            if (CurrentUserMatch is not { } currentUserMatch)
+            {
+                return null;
+            }
+
+            return currentUserMatch.MatchPlayers.FirstOrDefault(
+                p => p.PlayerIndex == upi)?.ActiveGloves.ToArray();
+        }
+    }
 
     public Address[]? OpponentGloves
     {
@@ -81,7 +95,18 @@ internal sealed class SessionEventData(Session session)
                 return null;
             }
 
-            return opi == -1 ? null : Session.Players[opi].ActiveGloves.ToArray();
+            if (opi == -1)
+            {
+                return null;
+            }
+
+            if (CurrentUserMatch is not { } currentUserMatch)
+            {
+                return null;
+            }
+
+            return currentUserMatch.MatchPlayers.FirstOrDefault(
+                p => p.PlayerIndex == opi)?.ActiveGloves.ToArray();
         }
     }
 
@@ -92,13 +117,15 @@ internal sealed class SessionEventData(Session session)
 
     public int? CurrentUserRoundIndex => CurrentUserMatch?.Rounds.Length - 1;
 
-    public Condition? MyCondition => CurrentUserMatch?.Players[0] == UserPlayerIndex
-        ? CurrentUserRound?.Condition1
-        : CurrentUserRound?.Condition2;
+    public Condition? MyCondition
+        => CurrentUserMatch?.MatchPlayers[0].PlayerIndex == UserPlayerIndex
+            ? CurrentUserRound?.Condition1
+            : CurrentUserRound?.Condition2;
 
-    public Condition? OpponentCondition => CurrentUserMatch?.Players[0] == UserPlayerIndex
-        ? CurrentUserRound?.Condition2
-        : CurrentUserRound?.Condition1;
+    public Condition? OpponentCondition
+        => CurrentUserMatch?.MatchPlayers[0].PlayerIndex == UserPlayerIndex
+            ? CurrentUserRound?.Condition2
+            : CurrentUserRound?.Condition1;
 
     public string LastRoundWinner => CurrentUserRound?.Winner switch
     {
