@@ -26,13 +26,13 @@ internal sealed class ProcessMatching : BlockActionBase
             {
                 Id = matching[0].UserId,
                 InitialGloves = matching[0].Gloves,
-                ActiveGloves = ImmutableArray<Address>.Empty,
+                PlayerIndex = 0,
             };
             var player2 = new Player
             {
                 Id = matching[1].UserId,
                 InitialGloves = matching[1].Gloves,
-                ActiveGloves = ImmutableArray<Address>.Empty,
+                PlayerIndex = 1,
             };
             CreateSession(world, context.GetRandom(), player1, player2);
             matching = matching.RemoveRange(0, 2);
