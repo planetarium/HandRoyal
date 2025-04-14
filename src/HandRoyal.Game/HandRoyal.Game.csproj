@@ -1,6 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <!-- $(LibplanetDirectory) exists. -->
+  <PropertyGroup>
+    <RootNamespace>HandRoyal.Game</RootNamespace>
+  </PropertyGroup>
+  
   <ItemGroup Condition="Exists('$(LibplanetDirectory)')">
     <ProjectReference Include="$(LibplanetDirectory)src\Libplanet\Libplanet.csproj" />
     <ProjectReference Include="$(LibplanetDirectory)src\Libplanet.Action\Libplanet.Action.csproj" />
@@ -13,6 +17,7 @@
     <PackageReference Include="Libplanet.Action" Version="$(LibplanetVersion)" />
     <PackageReference Include="Libplanet.Node" Version="$(LibplanetVersion)" />
   </ItemGroup>
+  
   <ItemGroup>
     <EmbeddedResource Include="Gloves\Data\gloves.json" />
   </ItemGroup>

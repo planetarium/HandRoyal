@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text.Json;
 using HandRoyal.Game.Abilities;
 using HandRoyal.Game.Gloves.Behaviors;
@@ -15,8 +16,19 @@ public class GloveFactory
     private readonly Dictionary<string, GloveData> _gloveData;
     private readonly Dictionary<string, Type> _behaviorTypes;
 
-    public GloveFactory(string jsonContent)
+    public GloveFactory()
     {
+        var assembly = Assembly.GetExecutingAssembly();
+        using var stream =
+            assembly.GetManifestResourceStream("HandRoyal.Game.Gloves.Data.gloves.json");
+        if (stream == null)
+        {
+            throw new InvalidOperationException("Embedded resource 'gloves.json' not found.");
+        }
+
+        using var bufferedStream = new BufferedStream(stream);
+        using var reader = new StreamReader(bufferedStream);
+        var jsonContent = reader.ReadToEnd();
         var gloveDataList =
             JsonSerializer.Deserialize<GloveDataList>(jsonContent, _jsonOptions);
         _gloveData = gloveDataList.Gloves.ToDictionary(d => d.Id);

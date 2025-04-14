@@ -10,5 +10,5 @@ public static class Currencies
     public static readonly Currency Gas = Currency.Uncapped("Gas", 18, null);
 
     public static Address SinkAddress { get; } =
-        new Address("0x2c3B8CC04639456Dc886FeA10cd6dAba4117349B");
+        new Address("0xfaaEe5D8cd17f9835673C2666a65Af36e431e152");
 }

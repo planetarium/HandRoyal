@@ -23,9 +23,17 @@ internal sealed class ProcessMatching : BlockActionBase
         while (matching.Length > 1)
         {
             var player1 = new Player
-                { Id = matching[0].UserId, InitialGloves = matching[0].Gloves };
+            {
+                Id = matching[0].UserId,
+                InitialGloves = matching[0].Gloves,
+                ActiveGloves = ImmutableArray<Address>.Empty,
+            };
             var player2 = new Player
-                { Id = matching[1].UserId, InitialGloves = matching[1].Gloves };
+            {
+                Id = matching[1].UserId,
+                InitialGloves = matching[1].Gloves,
+                ActiveGloves = ImmutableArray<Address>.Empty,
+            };
             CreateSession(world, context.GetRandom(), player1, player2);
             matching = matching.RemoveRange(0, 2);
         }
