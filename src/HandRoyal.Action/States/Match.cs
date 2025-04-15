@@ -159,7 +159,7 @@ public sealed record class Match
     {
         MatchState.None => Start(metadata, blockIndex),
         MatchState.Active => Play(metadata, blockIndex, random),
-        MatchState.Break => Break(metadata, blockIndex),
+        MatchState.Break => Break(metadata, blockIndex, random),
         MatchState.Ended => null,
         _ => throw new InvalidOperationException($"Invalid match state: {State}"),
     };
@@ -247,9 +247,10 @@ public sealed record class Match
         var playerContext2 = condition2.ToPlayerContext(condition2.Submission == -1
             ? null
             : GloveLoader.LoadGlove(MatchPlayers[1].ActiveGloves[condition2.Submission]));
+        int roundIndex = Rounds.Length - 1;
         var battleContext = new BattleContext
         {
-            RoundIndex = Rounds.Length - 1,
+            RoundIndex = roundIndex,
             RoundRules =
                 [..Rounds.Select(r => RoundRuleLoader.CreateRoundRule(r.RoundRuleData))],
             Random = random,
@@ -279,17 +280,16 @@ public sealed record class Match
                 HealthPoint = nextPlayerContext2.HealthPoint,
                 ActiveEffectData = [..nextPlayerContext2.Effects.Select(EffectLoader.ToEffectData)],
             },
-            RoundRuleData = RoundRuleLoader.GenerateRandomRoundRuleData(random),
             Winner = winner,
         };
         return this with
         {
             State = MatchState.Break,
-            Rounds = Rounds.SetItem(Rounds.Length - 1, round),
+            Rounds = Rounds.SetItem(roundIndex, round),
         };
     }
 
-    private Match? Break(SessionMetadata metadata, long height)
+    private Match? Break(SessionMetadata metadata, long height, IRandom random)
     {
         var maxRounds = metadata.MaxRounds;
         var roundLength = metadata.RoundLength;
@@ -310,12 +310,6 @@ public sealed record class Match
         }
 
         var round = Rounds[^1];
-        round = round with
-        {
-            Winner = -2,
-            Condition1 = round.Condition1 with { Submission = -1 },
-            Condition2 = round.Condition2 with { Submission = -1 },
-        };
         if (round.Condition1.HealthPoint <= 0 || round.Condition2.HealthPoint <= 0)
         {
             return this with
@@ -323,6 +317,19 @@ public sealed record class Match
                 State = MatchState.Ended,
             };
         }
+
+        round = round with
+        {
+            Winner = -2,
+            Condition1 = round.Condition1 with { Submission = -1 },
+            Condition2 = round.Condition2 with { Submission = -1 },
+
+            // Generate Round rule in round 3, 5
+            RoundRuleData = (Rounds.Length % 2 == 1) ?
+                RoundRuleLoader.GenerateRandomRoundRuleData(random) :
+                new RoundRuleData
+                    { Type = RoundRuleType.None, Parameters = ImmutableArray<string>.Empty },
+        };
 
         return this with
         {
