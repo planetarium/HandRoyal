@@ -17,7 +17,7 @@ public sealed record class Match
     public long StartHeight { get; init; }
 
     [Property(1)]
-    public ImmutableArray<MatchPlayer> MatchPlayers { get; init; }
+    public ImmutableArray<int> UserEntryIndices { get; init; }
 
     [Property(2)]
     public MatchState State { get; init; }
@@ -34,62 +34,45 @@ public sealed record class Match
                 return -2;
             }
 
-            if (MatchPlayers[1].PlayerIndex == -1)
+            if (UserEntryIndices[1] == -1)
             {
                 // 부전승
-                return MatchPlayers[0].PlayerIndex;
+                return UserEntryIndices[0];
             }
 
             var round = Rounds[^1];
-            if ((round.Condition1.HealthPoint <= 0 && round.Condition2.HealthPoint <= 0) ||
-                round.Condition1.HealthPoint == round.Condition2.HealthPoint)
+            if ((round.Player1.HealthPoint <= 0 && round.Player2.HealthPoint <= 0) ||
+                round.Player1.HealthPoint == round.Player2.HealthPoint)
             {
                 // 둘 다 0 이하거나 체력이 같으면 무승부
                 return -1;
             }
 
             // 남은 체력이 많은 사람이 승리 (0이하인 경우도 포함)
-            return round.Condition1.HealthPoint > round.Condition2.HealthPoint
-                ? MatchPlayers[0].PlayerIndex
-                : MatchPlayers[1].PlayerIndex;
+            return round.Player1.HealthPoint > round.Player2.HealthPoint
+                ? UserEntryIndices[0]
+                : UserEntryIndices[1];
         }
     }
 
     public static ImmutableArray<Match> Create(
         long blockIndex,
-        in ImmutableArray<Player> players,
-        SessionMetadata metadata,
-        IRandom random)
+        in ImmutableArray<int> userEntryIndices)
     {
         var segmentation = 2;
-        var count = (int)Math.Ceiling((double)players.Length / segmentation);
+        var count = (int)Math.Ceiling((double)userEntryIndices.Length / segmentation);
         var builder = ImmutableArray.CreateBuilder<Match>(count);
         for (var i = 0; i < count; i++)
         {
             var start = i * segmentation;
-            var end = Math.Min((i + 1) * segmentation, players.Length);
-            var playerIndex1 = players[start].PlayerIndex;
-            var playerIndex2 = end - start == segmentation ? players[start + 1].PlayerIndex : -1;
+            var end = Math.Min((i + 1) * segmentation, userEntryIndices.Length);
+            var userEntryIndex1 = userEntryIndices[start];
+            var userEntryIndex2 = end - start == segmentation ? userEntryIndices[start + 1] : -1;
             var match = new Match
             {
                 StartHeight = blockIndex,
                 State = MatchState.None,
-                MatchPlayers = [
-                    new MatchPlayer
-                    {
-                        PlayerIndex = playerIndex1,
-                        ActiveGloves = [..random.Shuffle(players[playerIndex1].InitialGloves)
-                            .Take(metadata.NumberOfActiveGloves)],
-                    },
-                    new MatchPlayer
-                    {
-                        PlayerIndex = playerIndex2,
-                        ActiveGloves = playerIndex2 == -1
-                            ? []
-                            : [..random.Shuffle(players[playerIndex2].InitialGloves)
-                                .Take(metadata.NumberOfActiveGloves)],
-                    }
-                ],
+                UserEntryIndices = [userEntryIndex1, userEntryIndex2],
                 Rounds = [],
             };
             builder.Add(match);
@@ -98,9 +81,9 @@ public sealed record class Match
         return builder.ToImmutable();
     }
 
-    public Match? Submit(int playerIndex, int gloveIndex)
+    public Match? Submit(int userEntryIndex, int gloveIndex)
     {
-        if (MatchPlayers[0].PlayerIndex == playerIndex)
+        if (UserEntryIndices[0] == userEntryIndex)
         {
             if (State != MatchState.Active || !Rounds.Any())
             {
@@ -108,23 +91,23 @@ public sealed record class Match
             }
 
             var round = Rounds[^1];
-            if (round.Condition1.GloveUsed[gloveIndex])
+            if (round.Player1.GloveUsed[gloveIndex])
             {
                 throw new InvalidOperationException("Cannot reuse glove.");
             }
 
-            CheckSubmissionByRoundRule(MatchPlayers[0].ActiveGloves[gloveIndex]);
+            CheckSubmissionByRoundRule(round.Player1.InitialGloves[gloveIndex]);
 
             var nextRound = round with
             {
-                Condition1 = round.Condition1 with { Submission = gloveIndex },
+                Player1 = round.Player1 with { Submission = gloveIndex },
             };
             return this with
             {
                 Rounds = Rounds.SetItem(Rounds.Length - 1, nextRound),
             };
         }
-        else if (MatchPlayers[1].PlayerIndex == playerIndex)
+        else if (UserEntryIndices[1] == userEntryIndex)
         {
             if (State != MatchState.Active || !Rounds.Any())
             {
@@ -132,16 +115,16 @@ public sealed record class Match
             }
 
             var round = Rounds[^1];
-            if (round.Condition2.GloveUsed[gloveIndex])
+            if (round.Player2.GloveUsed[gloveIndex])
             {
                 throw new InvalidOperationException("Cannot reuse glove.");
             }
 
-            CheckSubmissionByRoundRule(MatchPlayers[1].ActiveGloves[gloveIndex]);
+            CheckSubmissionByRoundRule(round.Player2.InitialGloves[round.Player2.Submission]);
 
             var nextRound = round with
             {
-                Condition2 = round.Condition2 with { Submission = gloveIndex },
+                Player2 = round.Player2 with { Submission = gloveIndex },
             };
             return this with
             {
@@ -154,10 +137,11 @@ public sealed record class Match
 
     public Match? Process(
         SessionMetadata metadata,
+        in ImmutableArray<UserEntry> userEntries,
         long blockIndex,
         IRandom random) => State switch
     {
-        MatchState.None => Start(metadata, blockIndex),
+        MatchState.None => Start(metadata, userEntries, blockIndex, random),
         MatchState.Active => Play(metadata, blockIndex, random),
         MatchState.Break => Break(metadata, blockIndex, random),
         MatchState.Ended => null,
@@ -168,9 +152,13 @@ public sealed record class Match
 
     public bool Equals(Match? other) => ModelUtility.Equals(this, other);
 
-    private Match Start(SessionMetadata metadata, long blockIndex)
+    private Match Start(
+        SessionMetadata metadata,
+        ImmutableArray<UserEntry> userEntries,
+        long blockIndex,
+        IRandom random)
     {
-        if (MatchPlayers[1].PlayerIndex == -1)
+        if (UserEntryIndices[1] == -1)
         {
             return this with
             {
@@ -187,16 +175,31 @@ public sealed record class Match
             [
                 new Round
                 {
-                    Condition1 = new Condition
+                    Player1 = new Player
                     {
+                        Address = userEntries[UserEntryIndices[0]].Id,
                         HealthPoint = metadata.InitialHealthPoint,
-                        GloveUsed = [..Enumerable.Range(0, metadata.MaxRounds).Select(_ => false)],
+                        InitialGloves = userEntries[UserEntryIndices[0]].InitialGloves,
+                        GloveInactive = [
+                            ..random.Shuffle(
+                                Enumerable.Range(0, metadata.NumberOfInitialGloves))
+                                .Select(i => i < metadata.NumberOfActiveGloves)],
+                        GloveUsed = [
+                            ..Enumerable.Range(0, metadata.NumberOfInitialGloves)
+                            .Select(_ => false)],
                         Submission = -1,
                     },
-                    Condition2 = new Condition
+                    Player2 = new Player
                     {
+                        Address = userEntries[UserEntryIndices[1]].Id,
                         HealthPoint = metadata.InitialHealthPoint,
-                        GloveUsed = [..Enumerable.Range(0, metadata.MaxRounds).Select(_ => false)],
+                        InitialGloves = userEntries[UserEntryIndices[1]].InitialGloves,
+                        GloveInactive = [
+                            ..random.Shuffle(
+                                Enumerable.Range(0, metadata.NumberOfInitialGloves))
+                                .Select(i => i < metadata.NumberOfActiveGloves)],
+                        GloveUsed = [..Enumerable.Range(0, metadata.NumberOfInitialGloves)
+                            .Select(_ => false)],
                         Submission = -1,
                     },
                     RoundRuleData = new RoundRuleData
@@ -226,8 +229,8 @@ public sealed record class Match
         }
 
         var round = Rounds[^1];
-        var condition1 = round.Condition1;
-        var condition2 = round.Condition2;
+        var condition1 = round.Player1;
+        var condition2 = round.Player2;
         condition1 = condition1 with
         {
             GloveUsed = condition1.Submission == -1
@@ -243,10 +246,10 @@ public sealed record class Match
 
         var playerContext1 = condition1.ToPlayerContext(condition1.Submission == -1
             ? null
-            : GloveLoader.LoadGlove(MatchPlayers[0].ActiveGloves[condition1.Submission]));
+            : GloveLoader.LoadGlove(round.Player1.InitialGloves[condition1.Submission]));
         var playerContext2 = condition2.ToPlayerContext(condition2.Submission == -1
             ? null
-            : GloveLoader.LoadGlove(MatchPlayers[1].ActiveGloves[condition2.Submission]));
+            : GloveLoader.LoadGlove(round.Player2.InitialGloves[condition2.Submission]));
         int roundIndex = Rounds.Length - 1;
         var battleContext = new BattleContext
         {
@@ -264,18 +267,18 @@ public sealed record class Match
         var winner = winnerRaw switch
         {
             -2 or -1 => -1,
-            0 => MatchPlayers[0].PlayerIndex,
-            1 => MatchPlayers[1].PlayerIndex,
+            0 => UserEntryIndices[0],
+            1 => UserEntryIndices[1],
             _ => throw new InvalidOperationException($"Invalid winner: {winnerRaw}"),
         };
         round = round with
         {
-            Condition1 = condition1 with
+            Player1 = condition1 with
             {
                 HealthPoint = nextPlayerContext1.HealthPoint,
                 ActiveEffectData = [..nextPlayerContext1.Effects.Select(EffectLoader.ToEffectData)],
             },
-            Condition2 = condition2 with
+            Player2 = condition2 with
             {
                 HealthPoint = nextPlayerContext2.HealthPoint,
                 ActiveEffectData = [..nextPlayerContext2.Effects.Select(EffectLoader.ToEffectData)],
@@ -310,7 +313,13 @@ public sealed record class Match
         }
 
         var round = Rounds[^1];
-        if (round.Condition1.HealthPoint <= 0 || round.Condition2.HealthPoint <= 0)
+        round = round with
+        {
+            Winner = -2,
+            Player1 = round.Player1 with { Submission = -1 },
+            Player2 = round.Player2 with { Submission = -1 },
+        };
+        if (round.Player1.HealthPoint <= 0 || round.Player2.HealthPoint <= 0)
         {
             return this with
             {
@@ -321,8 +330,8 @@ public sealed record class Match
         round = round with
         {
             Winner = -2,
-            Condition1 = round.Condition1 with { Submission = -1 },
-            Condition2 = round.Condition2 with { Submission = -1 },
+            Player1 = round.Player1 with { Submission = -1 },
+            Player2 = round.Player2 with { Submission = -1 },
 
             // Generate Round rule in round 3, 5
             RoundRuleData = (Rounds.Length % 2 == 1) ?

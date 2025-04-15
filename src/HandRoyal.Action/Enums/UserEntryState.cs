@@ -1,6 +1,6 @@
 ﻿namespace HandRoyal.Enums;
 
-public enum PlayerState
+public enum UserEntryState
 {
     Ready,
 

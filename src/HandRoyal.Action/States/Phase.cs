@@ -34,19 +34,19 @@ public sealed record class Phase : IEquatable<Phase>
         return builder.ToImmutable();
     }
 
-    public Phase Submit(int playerIndex, int gloveIndex)
+    public Phase Submit(int userEntryIndex, int gloveIndex)
     {
         var matches = Matches;
         for (var i = 0; i < matches.Length; i++)
         {
-            var match = matches[i].Submit(playerIndex, gloveIndex);
+            var match = matches[i].Submit(userEntryIndex, gloveIndex);
             if (match is not null)
             {
                 return this with { Matches = matches.SetItem(i, match) };
             }
         }
 
-        throw new ArgumentException($"Player {playerIndex} is not in this phase.");
+        throw new ArgumentException($"User Entry {userEntryIndex} is not in this phase.");
     }
 
     public bool Equals(Phase? other) => ModelUtility.Equals(this, other);
