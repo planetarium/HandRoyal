@@ -135,7 +135,7 @@ public sealed record class Match
         return null;
     }
 
-    public Match? Process(
+    internal Match? Process(
         SessionMetadata metadata,
         in ImmutableArray<UserEntry> userEntries,
         long blockIndex,
