@@ -1,6 +1,7 @@
 ﻿using System.Collections.Immutable;
 using HandRoyal.Game.Effects;
 using HandRoyal.Game.Gloves;
+using HandRoyal.Game.RoundRules;
 using HandRoyal.Game.Simulation;
 using HandRoyal.Loader;
 using HandRoyal.Serialization;
@@ -33,28 +34,30 @@ public sealed record class Player : IEquatable<Player>
     public ImmutableArray<EffectData> ActiveEffectData { get; init; } =
         ImmutableArray<EffectData>.Empty;
 
-    internal ImmutableArray<Address> InactiveGloves =>
-        InitialGloves.Where((_, i) => GloveInactive[i]).ToImmutableArray();
+    public ImmutableArray<bool> GetDisabledGloves(Match match)
+    {
+        var roundRules = match.GetRoundRules();
+        var disabledGloves = Enumerable.Range(0, InitialGloves.Length).Select(_ => false);
+        foreach (var rule in roundRules)
+        {
+            if (rule is BanGloveTypeRule bgtr)
+            {
+                var temp = disabledGloves.ToArray();
+                var nextDisabledGloves = InitialGloves.Select((g, index) =>
+                    g.GetGloveType() == bgtr.BannedGloveType || temp[index]);
+                disabledGloves = nextDisabledGloves;
+            }
+        }
 
-    internal ImmutableArray<Address> ActiveGloves =>
-        InitialGloves.Where((_, i) => !GloveInactive[i]).ToImmutableArray();
-
-    internal ImmutableArray<Address> UsedGloves =>
-        InitialGloves.Where((_, i) => GloveUsed[i]).ToImmutableArray();
-
-    internal ImmutableArray<Address> AvailableGloves =>
-        InitialGloves.Where(
-            (_, i) => !GloveInactive[i] && !GloveUsed[i]).ToImmutableArray();
-
-    internal ImmutableArray<IEffect> ActiveEffects =>
-        [..ActiveEffectData.Select(EffectLoader.CreateEffect)];
+        return [..disabledGloves];
+    }
 
     public PlayerContext ToPlayerContext(IGlove? glove)
     {
         return new PlayerContext
         {
             HealthPoint = HealthPoint,
-            Effects = ActiveEffects,
+            Effects = [..ActiveEffectData.Select(EffectLoader.CreateEffect)],
             Glove = glove,
         };
     }

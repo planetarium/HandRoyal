@@ -1,5 +1,6 @@
 using GraphQL.AspNet.Attributes;
 using HandRoyal.Enums;
+using HandRoyal.Game.RoundRules;
 using HandRoyal.States;
 using Libplanet.Crypto;
 
@@ -79,10 +80,20 @@ internal sealed class SessionEventData(Session session)
             ? CurrentUserRound?.Player1
             : CurrentUserRound?.Player2;
 
+    public bool[] MyDisabledGloves =>
+        MyPlayer is not null && CurrentUserMatch is not null
+            ? MyPlayer.GetDisabledGloves(CurrentUserMatch).ToArray()
+            : [];
+
     public Player? OpponentPlayer
         => CurrentUserMatch?.UserEntryIndices[0] == UserPlayerIndex
             ? CurrentUserRound?.Player2
             : CurrentUserRound?.Player1;
+
+    public bool[] OpponentDisabledGloves =>
+        OpponentPlayer is not null && CurrentUserMatch is not null
+            ? OpponentPlayer.GetDisabledGloves(CurrentUserMatch).ToArray()
+            : [];
 
     public string LastRoundWinner => CurrentUserRound?.Winner switch
     {
@@ -137,5 +148,24 @@ internal sealed class SessionEventData(Session session)
 
             return currentUserMatch.StartHeight;
         }
+    }
+
+    public RoundRuleValue[] RoundRules => GetRoundRuleValues();
+
+    private RoundRuleValue[] GetRoundRuleValues()
+    {
+        if (CurrentUserMatch is not { } currentUserMatch)
+        {
+            return [];
+        }
+
+        return currentUserMatch.Rounds
+            .Where(round => round.RoundRuleData.Type != RoundRuleType.None)
+            .Select((round, index) => new RoundRuleValue
+            {
+                Type = round.RoundRuleData.Type,
+                Parameters = round.RoundRuleData.Parameters.ToArray(),
+                AppliedAt = index,
+            }).ToArray();
     }
 }
