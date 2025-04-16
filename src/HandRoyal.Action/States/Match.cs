@@ -120,7 +120,7 @@ public sealed record class Match
                 throw new InvalidOperationException("Cannot reuse glove.");
             }
 
-            CheckSubmissionByRoundRule(round.Player2.InitialGloves[round.Player2.Submission]);
+            CheckSubmissionByRoundRule(round.Player2.InitialGloves[gloveIndex]);
 
             var nextRound = round with
             {
