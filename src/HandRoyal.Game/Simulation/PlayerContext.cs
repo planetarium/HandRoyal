@@ -2,6 +2,7 @@
 using HandRoyal.Game.Abilities;
 using HandRoyal.Game.Effects;
 using HandRoyal.Game.Gloves;
+using HandRoyal.Game.RoundRules;
 
 namespace HandRoyal.Game.Simulation;
 
@@ -25,6 +26,14 @@ public record PlayerContext
                 {
                     calculatedDamage = Math.Max(0, calculatedDamage - dre.ReductionAmount);
                 }
+            }
+        }
+
+        foreach (var roundRule in battleContext.RoundRules)
+        {
+            if (roundRule is DamageAmplificationRule dar)
+            {
+                calculatedDamage = dar.CalculateDamage(calculatedDamage);
             }
         }
 
