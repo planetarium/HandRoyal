@@ -183,7 +183,7 @@ public sealed record class Match
                         GloveInactive = [
                             ..random.Shuffle(
                                 Enumerable.Range(0, metadata.NumberOfInitialGloves))
-                                .Select(i => i < metadata.NumberOfActiveGloves)],
+                                .Select(i => i >= metadata.NumberOfActiveGloves)],
                         GloveUsed = [
                             ..Enumerable.Range(0, metadata.NumberOfInitialGloves)
                             .Select(_ => false)],
@@ -197,7 +197,7 @@ public sealed record class Match
                         GloveInactive = [
                             ..random.Shuffle(
                                 Enumerable.Range(0, metadata.NumberOfInitialGloves))
-                                .Select(i => i < metadata.NumberOfActiveGloves)],
+                                .Select(i => i >= metadata.NumberOfActiveGloves)],
                         GloveUsed = [..Enumerable.Range(0, metadata.NumberOfInitialGloves)
                             .Select(_ => false)],
                         Submission = -1,

@@ -67,18 +67,6 @@ internal sealed class SessionEventData(Session session)
 
     public bool IsPlayer => UserPlayerIndex is not null;
 
-    public Address[]? MyGloves
-#pragma warning disable S2365 // Properties should not make collection or array copies
-        => MyPlayer?.InitialGloves.Where(
-            (g, i) => !MyPlayer.GloveInactive[i]).ToArray();
-#pragma warning restore S2365 // Properties should not make collection or array copies
-
-    public Address[]? OpponentGloves
-#pragma warning disable S2365 // Properties should not make collection or array copies
-        => OpponentPlayer?.InitialGloves.Where(
-            (g, i) => !OpponentPlayer.GloveInactive[i]).ToArray();
-#pragma warning restore S2365 // Properties should not make collection or array copies
-
     public int? PlayersLeft =>
         Session.UserEntries.Count(p => p.State == Enums.UserEntryState.Playing);
 
@@ -112,7 +100,7 @@ internal sealed class SessionEventData(Session session)
     public MatchState? CurrentUserMatchState
         => CurrentUserMatch?.State ?? MatchState.None;
 
-    public UserEntryState? PlayerState
+    public UserEntryState? UserEntryState
         => UserPlayerIndex is { } upi
             ? Session.UserEntries[upi].State
             : null;
