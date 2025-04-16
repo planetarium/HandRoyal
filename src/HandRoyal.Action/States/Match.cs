@@ -135,6 +135,10 @@ public sealed record class Match
         return null;
     }
 
+    public override int GetHashCode() => ModelUtility.GetHashCode(this);
+
+    public bool Equals(Match? other) => ModelUtility.Equals(this, other);
+
     internal Match? Process(
         SessionMetadata metadata,
         in ImmutableArray<UserEntry> userEntries,
@@ -147,10 +151,6 @@ public sealed record class Match
         MatchState.Ended => null,
         _ => throw new InvalidOperationException($"Invalid match state: {State}"),
     };
-
-    public override int GetHashCode() => ModelUtility.GetHashCode(this);
-
-    public bool Equals(Match? other) => ModelUtility.Equals(this, other);
 
     private Match Start(
         SessionMetadata metadata,
