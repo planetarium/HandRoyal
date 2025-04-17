@@ -1,10 +1,16 @@
+using HandRoyal.Bot;
+using HandRoyal.Bot.Pages;
 using HandRoyal.Executable;
+using HandRoyal.Executable.Data;
 using HandRoyal.Executable.Logging;
+using HandRoyal.Executable.Pages;
 using HandRoyal.Explorer;
 using HandRoyal.Explorer.Jwt;
+using HandRoyal.Pages;
 using Libplanet.Node.Extensions;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using MudBlazor.Services;
 using Serilog;
 using Serilog.Core;
 
@@ -36,6 +42,21 @@ if (Environment.GetEnvironmentVariable("APPSETTINGS_PATH") is { } appSettingsPat
 builder.Services.Configure<SupabaseOptions>(
     builder.Configuration.GetSection("Supabase"));
 
+builder.Services.AddBotPages(builder.Configuration);
+builder.Services.AddMudServices();
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
+builder.Services.AddSingleton<ThemeService>()
+    .AddSingleton<IThemeService>(s => s.GetRequiredService<ThemeService>());
+
+builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddSingleton<SettingsSchemaService>();
+builder.Services.AddSingleton<IPage, SchemaPage>();
+builder.Services.AddSingleton<IPage, CounterPage>();
+builder.Services.AddSingleton<IPage, WeatherPage>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", new CorsPolicyBuilder()
@@ -54,29 +75,31 @@ builder.Services.AddHostedService<BlockChainRendererTracer>();
 builder.Services.AddControllers();
 builder.Services.AddDirectoryBrowser(); // Optional: Enable directory browsing for static files
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddBot(builder.Configuration);
 
-var handlerMessage = """
-    Communication with gRPC endpoints must be made through a gRPC client. To learn how to
-    create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909
-    """;
-using var app = builder.Build();
+var app = builder.Build();
 
-// Serve static files from the wwwroot folder
-app.UseStaticFiles();
-app.UseDirectoryBrowser(); // Optional: Enable directory browsing
-
-app.MapGet("/", () => handlerMessage);
 if (builder.Environment.IsDevelopment())
 {
     app.MapGrpcReflectionService().AllowAnonymous();
 }
 
-// Use GraphQL middleware
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    app.UseHsts();
+}
+
 app.UseCors("AllowAll");
 app.UseExplorer();
-
-app.MapSchemaBuilder("/v1/schema");
-app.MapGet("/schema", context => Task.Run(() => context.Response.Redirect("/v1/schema")));
 app.MapControllers();
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+
+// Map Blazor endpoints
+app.MapBlazorHub();
+app.MapFallbackToPage("/_Host");
 
 await app.RunAsync();

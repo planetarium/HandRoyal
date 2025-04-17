@@ -1,0 +1,69 @@
+@page "/counter"
+@using HandRoyal.Pages
+@inject PersistentComponentState ApplicationState
+@implements IDisposable
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @(_currentCount)</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int _currentCount = 0;
+    private PersistingComponentStateSubscription _persistingSubscription;
+
+    void IDisposable.Dispose()
+    {
+        // Ensure subscription is disposed
+        _persistingSubscription.Dispose();
+    }
+
+    protected override void OnInitialized()
+    {
+        try
+        {
+            // Register PersistData for state persistence
+            _persistingSubscription = ApplicationState.RegisterOnPersisting(PersistData);
+
+            // Attempt to restore _currentCount from ApplicationState
+            if (!ApplicationState.TryTakeFromJson<int>("Counter", out var value))
+            {
+                Console.WriteLine("No data found in ApplicationState for 'Counter'. Initializing to 0.");
+                value = 0; // Default value
+            }
+            else
+            {
+                Console.WriteLine($"Data retrieved from ApplicationState: {value}");
+            }
+
+            _currentCount = value; // Restore the count
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error during OnInitialized: {ex.Message}");
+        }
+    }
+
+    private Task PersistData()
+    {
+        try
+        {
+            // Persist _currentCount to ApplicationState
+            ApplicationState.PersistAsJson("Counter", _currentCount);
+            Console.WriteLine($"Data persisted to ApplicationState: {_currentCount}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error during PersistData: {ex.Message}");
+        }
+        return Task.CompletedTask;
+    }
+
+    private void IncrementCount()
+    {
+        _currentCount++; // Increment the count
+    }
+}

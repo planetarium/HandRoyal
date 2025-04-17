@@ -140,7 +140,7 @@ internal sealed class MutationController(IBlockChainService blockChainService) :
     [MutationRoot("RegisterMatching")]
     public TxId RegisterMatching(PrivateKey privateKey, IEnumerable<Address> gloves)
     {
-        var registerMatching = new RegisterMatching { Gloves = [..gloves] };
+        var registerMatching = new RegisterMatching { Gloves = [.. gloves] };
         var txSettings = new TxSettings
         {
             PrivateKey = privateKey,

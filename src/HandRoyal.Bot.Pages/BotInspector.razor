@@ -1,0 +1,21 @@
+@namespace HandRoyal.Bot.Pages
+@using HandRoyal.Pages
+
+<style>
+    .inspector {
+        height: 100%;
+        width: 100%;
+    }
+    .panel {
+        height: 100%;
+    }
+</style>
+
+<MudTabs Elevation="2" @ref="_tabs" Rounded="true" ApplyEffectsToContainer="true" Style="height: 100%;" PanelClass="panel">
+    <MudTabPanel Text="Logs">
+        <LogMonitor LogSource="Bot" />
+    </MudTabPanel>
+    <MudTabPanel Text="Inspect">
+        <StandaloneCodeEditor @ref="_inspector" CssClass="inspector" ConstructionOptions="EditorConstructionOptions" />
+    </MudTabPanel>
+</MudTabs>
