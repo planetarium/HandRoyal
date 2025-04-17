@@ -5,9 +5,15 @@ using HandRoyal.Serialization;
 namespace HandRoyal.States;
 
 [Model(Version = 1)]
-public record RoundRuleData
+public sealed record RoundRuleData : IEquatable<RoundRuleData>
 {
-    public required RoundRuleType Type { get; set; }
+    [Property(0)]
+    public required RoundRuleType Type { get; init; }
 
-    public required ImmutableArray<string> Parameters { get; set; }
+    [Property(1)]
+    public required ImmutableArray<string> Parameters { get; init; }
+
+    public override int GetHashCode() => ModelUtility.GetHashCode(this);
+
+    public bool Equals(RoundRuleData? other) => ModelUtility.Equals(this, other);
 }

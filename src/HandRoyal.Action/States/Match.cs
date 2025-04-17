@@ -11,7 +11,7 @@ using Libplanet.Crypto;
 namespace HandRoyal.States;
 
 [Model(Version = 1)]
-public sealed record class Match
+public sealed record class Match : IEquatable<Match>
 {
     [Property(0)]
     public long StartHeight { get; init; }
@@ -338,8 +338,7 @@ public sealed record class Match
             Player2 = round.Player2 with { Submission = -1 },
 
             // Generate Round rule in round 3, 5
-            // Todo: Prevent duplicated round rule?
-            RoundRuleData = (Rounds.Length % 2 == 1) ?
+            RoundRuleData = (Rounds.Length == 2 || Rounds.Length == 4) ?
                 RoundRuleLoader.GenerateRandomRoundRuleData(random) :
                 new RoundRuleData
                     { Type = RoundRuleType.None, Parameters = ImmutableArray<string>.Empty },

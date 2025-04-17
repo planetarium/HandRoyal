@@ -30,7 +30,7 @@ public static class RoundRuleLoader
     public static RoundRuleData GenerateRandomRoundRuleData(IRandom random)
     {
         var type =
-            (RoundRuleType)random.Next(0, System.Enum.GetValues(typeof(RoundRuleType)).Length);
+            (RoundRuleType)random.Next(1, System.Enum.GetValues(typeof(RoundRuleType)).Length);
         var data = new RoundRuleData
         {
             Type = type,
