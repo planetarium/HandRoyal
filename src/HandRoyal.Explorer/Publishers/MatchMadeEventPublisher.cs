@@ -39,7 +39,7 @@ internal sealed class MatchMadeEventPublisher(
 
             var eventData = new MatchMadeEventData(
                 session.Metadata.Id,
-                session.Players.Select(player => player.Id).ToArray());
+                session.UserEntries.Select(player => player.Id).ToArray());
             var eventName = SubscriptionController.MatchMadeEventName;
             RaisePublishedEvent(eventData, eventName);
         }

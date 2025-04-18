@@ -12,11 +12,11 @@ internal sealed class SessionResultEventData(Session session)
 
     public Address? SessionId => session.Metadata.Id;
 
-    public Address[] WinnerIds => [.. session.Players
-        .Where(item => item.State == PlayerState.Won)
+    public Address[] WinnerIds => [.. session.UserEntries
+        .Where(item => item.State == UserEntryState.Won)
         .Select(item => item.Id)];
 
-    public Address[] LoserIds => [.. session.Players
-        .Where(item => item.State == PlayerState.Lose)
+    public Address[] LoserIds => [.. session.UserEntries
+        .Where(item => item.State == UserEntryState.Lose)
         .Select(item => item.Id)];
 }

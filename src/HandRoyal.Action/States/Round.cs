@@ -6,10 +6,10 @@ namespace HandRoyal.States;
 public sealed record class Round
 {
     [Property(0)]
-    public required Condition Condition1 { get; set; }
+    public required Player Player1 { get; set; }
 
     [Property(1)]
-    public required Condition Condition2 { get; set; }
+    public required Player Player2 { get; set; }
 
     [Property(2)]
     public required RoundRuleData RoundRuleData { get; set; }

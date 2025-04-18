@@ -18,7 +18,7 @@ public sealed record class Session : IEquatable<Session>
     public SessionState State { get; init; }
 
     [Property(2)]
-    public ImmutableArray<Player> Players { get; init; } = [];
+    public ImmutableArray<UserEntry> UserEntries { get; init; } = [];
 
     [Property(3)]
     public ImmutableArray<Phase> Phases { get; init; } = [];
@@ -48,7 +48,7 @@ public sealed record class Session : IEquatable<Session>
             throw new InvalidOperationException(message);
         }
 
-        if (Players.Length >= Metadata.MaximumUser)
+        if (UserEntries.Length >= Metadata.MaximumUser)
         {
             var message =
                 $"Participant registration of session of id {Metadata.Id} is closed " +
@@ -56,7 +56,7 @@ public sealed record class Session : IEquatable<Session>
             throw new InvalidOperationException(message);
         }
 
-        if (FindPlayer(user.Id) != -1)
+        if (FindUserEntry(user.Id) != -1)
         {
             var message = $"Duplicated participation is prohibited. ({user.Id})";
             throw new InvalidOperationException(message);
@@ -67,12 +67,12 @@ public sealed record class Session : IEquatable<Session>
             throw new InvalidOperationException("User is already in a session.");
         }
 
-        var player = new Player
-            { Id = user.Id, InitialGloves = initialGloves, PlayerIndex = Players.Length };
-        var players = Players.Add(player);
+        var userEntry = new UserEntry
+            { Id = user.Id, InitialGloves = initialGloves };
+        var userEntries = UserEntries.Add(userEntry);
         return this with
         {
-            Players = players,
+            UserEntries = userEntries,
             Height = blockHeight,
         };
     }
@@ -87,16 +87,16 @@ public sealed record class Session : IEquatable<Session>
             throw new InvalidOperationException(message);
         }
 
-        var playerIndex = FindPlayer(userId);
-        if (playerIndex == -1)
+        var userEntryIndex = FindUserEntry(userId);
+        if (userEntryIndex == -1)
         {
-            var message = $"Player is not part of the session. ({userId})";
+            var message = $"UserEntry is not part of the session. ({userId})";
             throw new InvalidOperationException(message);
         }
 
         var phases = Phases;
         var phase = phases[^1];
-        phase = phase.Submit(playerIndex, gloveIndex);
+        phase = phase.Submit(userEntryIndex, gloveIndex);
         return this with
         {
             Phases = phases.SetItem(phases.Length - 1, phase),
@@ -104,11 +104,11 @@ public sealed record class Session : IEquatable<Session>
         };
     }
 
-    public int FindPlayer(Address useId)
+    public int FindUserEntry(Address useId)
     {
-        for (var i = 0; i < Players.Length; i++)
+        for (var i = 0; i < UserEntries.Length; i++)
         {
-            if (Players[i].Id == useId)
+            if (UserEntries[i].Id == useId)
             {
                 return i;
             }
@@ -183,8 +183,8 @@ public sealed record class Session : IEquatable<Session>
             return null;
         }
 
-        var indexes = Enumerable.Range(0, Players.Length).ToArray();
-        if (indexes.Length < minimumUser)
+        var indices = Enumerable.Range(0, UserEntries.Length).ToArray();
+        if (indices.Length < minimumUser)
         {
             return this with
             {
@@ -193,17 +193,17 @@ public sealed record class Session : IEquatable<Session>
             };
         }
 
-        var nextPlayers = new List<Player>();
-        foreach (var player in Players)
+        var nextUserEntries = new List<UserEntry>();
+        foreach (var userEntry in UserEntries)
         {
-            nextPlayers.Add(player with
+            nextUserEntries.Add(userEntry with
             {
-                State = PlayerState.Playing,
+                State = UserEntryState.Playing,
             });
         }
 
-        var shuffledPlayers = random.Shuffle(Players).ToImmutableArray();
-        var matches = Match.Create(height, shuffledPlayers, Metadata, random);
+        var shuffledUserEntryIndices = random.Shuffle(indices).ToImmutableArray();
+        var matches = Match.Create(height, shuffledUserEntryIndices);
         var phase = new Phase
         {
             Height = height,
@@ -215,7 +215,7 @@ public sealed record class Session : IEquatable<Session>
             State = SessionState.Active,
             StartHeight = height,
             Height = height,
-            Players = [..nextPlayers],
+            UserEntries = [..nextUserEntries],
             Phases = Phases.Add(phase),
         };
     }
@@ -229,7 +229,8 @@ public sealed record class Session : IEquatable<Session>
             Height = blockIndex,
             Matches = [
                 ..phase.Matches
-                    .Select(match => match.Process(Metadata, blockIndex, random) ?? match)
+                    .Select(match => match.Process(Metadata, UserEntries, blockIndex, random)
+                    ?? match)
             ],
         };
         if (!phase.Matches.All(match => match.State == MatchState.Ended))
@@ -241,30 +242,29 @@ public sealed record class Session : IEquatable<Session>
         }
 
         var winnerIndices = phase.GetWinnerIndices(random);
-        var losers = Enumerable.Range(0, Players.Length).Except(winnerIndices).ToImmutableArray();
-        var players = Player.SetState(Players, losers, PlayerState.Lose);
-        var winners = winnerIndices.Select(index => Players[index]).ToImmutableArray();
+        var losers = Enumerable.Range(0, UserEntries.Length)
+            .Except(winnerIndices).ToImmutableArray();
+        var userEntries = UserEntry.SetState(UserEntries, losers, UserEntryState.Lose);
 
-        if (winners.Length <= remainingUser)
+        if (winnerIndices.Length <= remainingUser)
         {
             return this with
             {
-                Players = Player.SetState(players, winnerIndices, PlayerState.Won),
+                UserEntries = UserEntry.SetState(userEntries, winnerIndices, UserEntryState.Won),
                 State = SessionState.Ended,
                 Height = blockIndex,
                 Phases = Phases[..^1].Add(phase),
             };
         }
 
-        winners = random.Shuffle(winners).ToImmutableArray();
         var nextPhase = new Phase
         {
             Height = blockIndex,
-            Matches = Match.Create(blockIndex, winners, Metadata, random),
+            Matches = Match.Create(blockIndex, winnerIndices),
         };
         return this with
         {
-            Players = players,
+            UserEntries = userEntries,
             Height = blockIndex,
             Phases = Phases[..^1].Add(phase).Add(nextPhase),
         };

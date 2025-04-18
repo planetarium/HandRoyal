@@ -37,13 +37,13 @@ internal sealed class PostProcessSession : BlockActionBase
 
     private static void UpdateUsersStates(IWorldContext world, Session session)
     {
-        var winnerIds = session.Players
-            .Where(item => item.State == PlayerState.Won)
+        var winnerIds = session.UserEntries
+            .Where(item => item.State == UserEntryState.Won)
             .Select(item => item.Id)
             .ToArray();
         var prize = session.Metadata.Prize;
         var usersAccount = world[Addresses.Users];
-        var userIds = session.Players.Select(player => player.Id).ToArray();
+        var userIds = session.UserEntries.Select(player => player.Id).ToArray();
         foreach (var userId in userIds)
         {
             if (!usersAccount.TryGetValue<User>(userId, out var user))

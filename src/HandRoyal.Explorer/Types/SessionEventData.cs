@@ -18,7 +18,7 @@ internal sealed class SessionEventData(Session session)
 
     [GraphSkip]
     public Match? CurrentUserMatch => UserPlayerIndex is { } upi
-        ? CurrentPhase?.Matches.FirstOrDefault(m => m.MatchPlayers.Any(p => p.PlayerIndex == upi))
+        ? CurrentPhase?.Matches.FirstOrDefault(m => m.UserEntryIndices.Contains(upi))
         : null;
 
     public Address? SessionId => session.Metadata.Id;
@@ -28,13 +28,13 @@ internal sealed class SessionEventData(Session session)
     public SessionState SessionState => session.State;
 
     [GraphSkip]
-    public int? UserPlayerIndex => Session.Players
+    public int? UserPlayerIndex => Session.UserEntries
         .Select((p, i) => new { Index = i, Player = p })
         .FirstOrDefault(p => p.Player.Id.Equals(UserId))?.Index;
 
     [GraphSkip]
     public int? OpponentPlayerIndex => UserPlayerIndex is { } upi && CurrentUserMatch is not null
-        ? CurrentUserMatch.MatchPlayers.FirstOrDefault(p => p.PlayerIndex != upi)?.PlayerIndex
+        ? CurrentUserMatch.UserEntryIndices.FirstOrDefault(p => p != upi)
         : null;
 
     public Address? OrganizerAddress => session.Metadata.Organizer;
@@ -48,7 +48,7 @@ internal sealed class SessionEventData(Session session)
                 return null;
             }
 
-            return opi == -1 ? null : Session.Players[opi].Id;
+            return opi == -1 ? null : Session.UserEntries[opi].Id;
         }
     }
 
@@ -67,65 +67,22 @@ internal sealed class SessionEventData(Session session)
 
     public bool IsPlayer => UserPlayerIndex is not null;
 
-    public Address[]? MyGloves
-    {
-        get
-        {
-            if (UserPlayerIndex is not { } upi)
-            {
-                return null;
-            }
-
-            if (CurrentUserMatch is not { } currentUserMatch)
-            {
-                return null;
-            }
-
-            return currentUserMatch.MatchPlayers.FirstOrDefault(
-                p => p.PlayerIndex == upi)?.ActiveGloves.ToArray();
-        }
-    }
-
-    public Address[]? OpponentGloves
-    {
-        get
-        {
-            if (OpponentPlayerIndex is not { } opi)
-            {
-                return null;
-            }
-
-            if (opi == -1)
-            {
-                return null;
-            }
-
-            if (CurrentUserMatch is not { } currentUserMatch)
-            {
-                return null;
-            }
-
-            return currentUserMatch.MatchPlayers.FirstOrDefault(
-                p => p.PlayerIndex == opi)?.ActiveGloves.ToArray();
-        }
-    }
-
     public int? PlayersLeft =>
-        Session.Players.Count(p => p.State == Enums.PlayerState.Playing);
+        Session.UserEntries.Count(p => p.State == Enums.UserEntryState.Playing);
 
     public int? CurrentPhaseIndex => Session.Phases.Length - 1;
 
     public int? CurrentUserRoundIndex => CurrentUserMatch?.Rounds.Length - 1;
 
-    public Condition? MyCondition
-        => CurrentUserMatch?.MatchPlayers[0].PlayerIndex == UserPlayerIndex
-            ? CurrentUserRound?.Condition1
-            : CurrentUserRound?.Condition2;
+    public Player? MyPlayer
+        => CurrentUserMatch?.UserEntryIndices[0] == UserPlayerIndex
+            ? CurrentUserRound?.Player1
+            : CurrentUserRound?.Player2;
 
-    public Condition? OpponentCondition
-        => CurrentUserMatch?.MatchPlayers[0].PlayerIndex == UserPlayerIndex
-            ? CurrentUserRound?.Condition2
-            : CurrentUserRound?.Condition1;
+    public Player? OpponentPlayer
+        => CurrentUserMatch?.UserEntryIndices[0] == UserPlayerIndex
+            ? CurrentUserRound?.Player2
+            : CurrentUserRound?.Player1;
 
     public string LastRoundWinner => CurrentUserRound?.Winner switch
     {
@@ -143,9 +100,9 @@ internal sealed class SessionEventData(Session session)
     public MatchState? CurrentUserMatchState
         => CurrentUserMatch?.State ?? MatchState.None;
 
-    public PlayerState? PlayerState
+    public UserEntryState? UserEntryState
         => UserPlayerIndex is { } upi
-            ? Session.Players[upi].State
+            ? Session.UserEntries[upi].State
             : null;
 
     public long IntervalEndHeight
