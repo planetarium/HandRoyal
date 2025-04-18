@@ -11,7 +11,7 @@ using Libplanet.Crypto;
 namespace HandRoyal.States;
 
 [Model(Version = 1)]
-public sealed record class Match
+public sealed record class Match : IEquatable<Match>
 {
     [Property(0)]
     public long StartHeight { get; init; }
@@ -139,6 +139,11 @@ public sealed record class Match
 
     public bool Equals(Match? other) => ModelUtility.Equals(this, other);
 
+    internal ImmutableArray<IRoundRule> GetRoundRules()
+    {
+        return [..Rounds.Select(r => RoundRuleLoader.CreateRoundRule(r.RoundRuleData))];
+    }
+
     internal Match? Process(
         SessionMetadata metadata,
         in ImmutableArray<UserEntry> userEntries,
@@ -254,8 +259,7 @@ public sealed record class Match
         var battleContext = new BattleContext
         {
             RoundIndex = roundIndex,
-            RoundRules =
-                [..Rounds.Select(r => RoundRuleLoader.CreateRoundRule(r.RoundRuleData))],
+            RoundRules = GetRoundRules(),
             Random = random,
         };
 
@@ -334,7 +338,7 @@ public sealed record class Match
             Player2 = round.Player2 with { Submission = -1 },
 
             // Generate Round rule in round 3, 5
-            RoundRuleData = (Rounds.Length % 2 == 1) ?
+            RoundRuleData = (Rounds.Length == 2 || Rounds.Length == 4) ?
                 RoundRuleLoader.GenerateRandomRoundRuleData(random) :
                 new RoundRuleData
                     { Type = RoundRuleType.None, Parameters = ImmutableArray<string>.Empty },
@@ -350,7 +354,7 @@ public sealed record class Match
     private void CheckSubmissionByRoundRule(Address submission)
     {
         var glove = GloveLoader.LoadGlove(submission);
-        foreach (var rule in Rounds.Select(r => RoundRuleLoader.CreateRoundRule(r.RoundRuleData)))
+        foreach (var rule in GetRoundRules())
         {
             if (rule is BanGloveTypeRule banGloveTypeRule &&
                 glove.Type == banGloveTypeRule.BannedGloveType)
