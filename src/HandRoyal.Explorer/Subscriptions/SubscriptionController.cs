@@ -48,6 +48,11 @@ internal sealed class SubscriptionController(IBlockChainService blockChainServic
         if (session.Metadata.Id == sessionId)
         {
             eventData.UserId = userId;
+            if (session.State == Enums.SessionState.Ended)
+            {
+                return this.OkAndComplete(eventData);
+            }
+
             return Ok(eventData);
         }
 

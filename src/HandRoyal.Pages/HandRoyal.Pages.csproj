@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="MudBlazor" Version="8.5.*" />
+    <PackageReference Include="XtermBlazor" Version="2.1.2" />
+  </ItemGroup>
+
+</Project>

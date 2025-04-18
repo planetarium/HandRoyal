@@ -1,0 +1,195 @@
+@page "/bot"
+@using HandRoyal.Bot
+@using HandRoyal.Pages
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@using System.ComponentModel
+@using System.Diagnostics.CodeAnalysis
+@inject BotPageViewModel ViewModel
+@inject IThemeService ThemeService
+@namespace HandRoyal.Bot.Pages
+@implements IDisposable
+
+<PageTitle>Bot</PageTitle>
+
+@if (_currentBot != null)
+{
+    <MudStack Row="true" AlignItems="@AlignItems.Center" Class="bot-header">
+        <MudIconButton Icon="@Icons.Material.Filled.ArrowBack" OnClick="ResetBot" />
+        <MudText Typo="Typo.h5" Class="ml-3">Bot: @(_currentBot.Name)</MudText>
+    </MudStack>
+
+    <div style="height: calc(100vh - 136px)">
+        <BotInspector Bot="_currentBot" />
+    </div>
+}
+else
+{
+    <style>
+        .mud-table-root .mud-table-body .mud-table-cell {
+            padding: 8px 16px;
+        }
+    </style>
+
+    <MudGrid>
+        <MudItem xs="6">
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary"
+                OnClick="AddBot">Add Bot</MudButton>
+        </MudItem>
+        <MudItem xs="6" Class="d-flex justify-end">
+            @if (_selectedBots.Any())
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="DeleteManyBots">Delete</MudButton>
+            }
+        </MudItem>
+    </MudGrid>
+
+    <MudTable Items="ViewModel.Bots" T="BotViewModel" MultiSelection="true" FixedHeader="true" Height="calc(100vh - 180px)" @bind-SelectedItems="SelectedBots">
+        <HeaderContent>
+            <MudTh>Name</MudTh>
+            <MudTh>Type</MudTh>
+            <MudTh>Job Name</MudTh>
+            <MudTh>Job State</MudTh>
+            <MudTh>Job Started At</MudTh>
+            <MudTh>Job Finished At</MudTh>
+            <MudTh>Actions</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.Name</MudTd>
+            <MudTd>@context.Type</MudTd>
+            <MudTd>@context.JobName</MudTd>
+            <MudTd>@context.JobState</MudTd>
+            <MudTd>@context.JobStartTime</MudTd>
+            <MudTd>@context.JobFinishTime</MudTd>
+            <MudTd>
+                <MudButtonGroup Size="Size.Small">
+                    @if (!@context.IsRunning)
+                    {
+                        <MudIconButton Icon="@Icons.Material.Filled.PlayArrow" Disabled="@(!context.CanStart)"
+                            OnClick="async () => await context.StartAsync()" />
+                    }
+                    else
+                    {
+                        <MudIconButton Icon="@Icons.Material.Filled.Stop" Disabled="@(!context.CanStop)"
+                            OnClick="async () => await context.StopAsync()" />
+                    }
+                    <MudIconButton Icon="@Icons.Material.Filled.Info" OnClick="@(() => ViewBot(@context))" />
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="@(() => DeleteBot(@context))" />
+                </MudButtonGroup>
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+        </PagerContent>
+    </MudTable>
+}
+
+@code {
+    private HashSet<BotViewModel> _selectedBots = [];
+    private DateTimeOffset _lastUpdateTime = DateTimeOffset.MinValue;
+    private BotViewModel? _currentBot;
+
+    public HashSet<BotViewModel> SelectedBots
+    {
+        get => _selectedBots;
+        set
+        {
+            foreach (var bot in _selectedBots)
+            {
+                DetachHandlers(bot);
+                bot.IsChecked = false;
+                AttachHandlers(bot);
+            }
+
+            _selectedBots = value;
+
+            foreach (var bot in _selectedBots)
+            {
+                DetachHandlers(bot);
+                bot.IsChecked = true;
+                AttachHandlers(bot);
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+    }
+
+    protected override void OnInitialized()
+    {
+        foreach (var bot in ViewModel.Bots)
+        {
+            AttachHandlers(bot);
+        }
+
+        _lastUpdateTime = DateTimeOffset.UtcNow;
+    }
+
+    private async void Bot_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void Bot_JobUpdated(object? sender, EventArgs e)
+    {
+        var dateTime = DateTimeOffset.UtcNow;
+        var delta = dateTime - _lastUpdateTime;
+        if (delta.TotalSeconds < 2)
+        {
+            return;
+        }
+
+        InvokeAsync(StateHasChanged);
+        _lastUpdateTime = dateTime;
+    }
+
+    private void ResetBot()
+    {
+        _currentBot = null;
+        StateHasChanged();
+    }
+
+    private void ViewBot(BotViewModel bot)
+    {
+        _currentBot = bot;
+        StateHasChanged();
+    }
+
+    private void DeleteBot(BotViewModel bot)
+    {
+        DetachHandlers(bot);
+        _selectedBots.Remove(bot);
+        bot.Dispose();
+    }
+
+    private void AddBot()
+    {
+        var bot = ViewModel.AddNew();
+        AttachHandlers(bot);
+    }
+
+    private void DeleteManyBots()
+    {
+        var checkedBots = _selectedBots.ToArray();
+        for (var i = checkedBots.Length - 1; i >= 0; i--)
+        {
+            var bot = checkedBots[i];
+            DetachHandlers(bot);
+            _selectedBots.Remove(bot);
+            bot.Dispose();
+        }
+    }
+
+    private void AttachHandlers(BotViewModel bot)
+    {
+        bot.PropertyChanged += Bot_PropertyChanged;
+        bot.JobUpdated += Bot_JobUpdated;
+    }
+
+    private void DetachHandlers(BotViewModel bot)
+    {
+        bot.PropertyChanged -= Bot_PropertyChanged;
+        bot.JobUpdated -= Bot_JobUpdated;
+    }
+}

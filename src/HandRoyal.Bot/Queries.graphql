@@ -1,0 +1,232 @@
+query CreateUser {
+  actionQuery {
+    createUser
+  }
+}
+
+query CreateSession(
+  $sessionId: Address!
+  $prize: Address!
+  $maximumUser: Int!
+  $minimumUser: Int!
+  $remainingUser: Int!
+  $startAfter: Long!
+  $maxRounds: Int!
+  $roundLength: Long!
+  $roundInterval: Long!
+  $initialHealthPoint: Int!
+  $users: [Address!]
+) {
+  actionQuery {
+    createSession(
+      sessionId: $sessionId
+      prize: $prize
+      maximumUser: $maximumUser
+      minimumUser: $minimumUser
+      remainingUser: $remainingUser
+      startAfter: $startAfter
+      maxRounds: $maxRounds
+      roundLength: $roundLength
+      roundInterval: $roundInterval
+      initialHealthPoint: $initialHealthPoint
+      users: $users
+    )
+  }
+}
+
+query joinSession($sessionId: Address!, $gloves: [Address!]!) {
+  actionQuery {
+    joinSession(sessionId: $sessionId, gloves: $gloves)
+  }
+}
+
+query SubmitMove($sessionId: Address!, $gloveIndex: Int!) {
+  actionQuery {
+    submitMove(sessionId: $sessionId, gloveIndex: $gloveIndex)
+  }
+}
+
+query PickUp {
+  actionQuery {
+    pickUp
+  }
+}
+
+query PickUpMany {
+  actionQuery {
+    pickUpMany
+  }
+}
+
+query RegisterMatching($gloves: [Address!]!) {
+  actionQuery {
+    registerMatching(gloves: $gloves)
+  }
+}
+
+query CancelMatching {
+  actionQuery {
+    cancelMatching
+  }
+}
+
+query GetUserData($useId: Address!) {
+  stateQuery {
+    getUserData(userId: $useId) {
+      id
+      name
+      registeredGloves
+      equippedGlove
+      sessionId
+      balance
+      ownedGloves {
+        id
+        count
+      }
+    }
+  }
+}
+
+query TransactionResult($txId: TxId!) {
+  transaction {
+    transactionResult(txId: $txId) {
+      txStatus
+      blockIndex
+      exceptionNames
+    }
+  }
+}
+
+query UnsignedTransaction($address: Address!, $plainValue: Hex!) {
+  transaction {
+    unsignedTransaction(address: $address, plainValue: $plainValue)
+  }
+}
+
+query GetSession($sessionId: Address!) {
+  stateQuery {
+    session(sessionId: $sessionId) {
+      metadata {
+        id
+        organizer
+        prize
+        maximumUser
+        minimumUser
+        remainingUser
+        startAfter
+        maxRounds
+        roundLength
+        roundInterval
+        initialHealthPoint
+        numberOfGloves
+        users
+      }
+      state
+      players {
+        id
+        gloves
+        state
+      }
+      phases {
+        height
+        matches {
+          startHeight
+          players
+          state
+          rounds {
+            condition1 {
+              healthPoint
+              gloveUsed
+              submission
+            }
+            condition2 {
+              healthPoint
+              gloveUsed
+              submission
+            }
+            winner
+          }
+          winner
+        }
+      }
+      creationHeight
+      startHeight
+      height
+    }
+  }
+}
+
+query GetUserScopedSession($sessionId: Address!, $userId: Address!) {
+  stateQuery {
+    userScopedSession(sessionId: $sessionId, userId: $userId) {
+      sessionId
+      height
+      sessionState
+      organizerAddress
+      opponentAddress
+      currentInterval
+      isPlayer
+      myGloves
+      opponentGloves
+      playersLeft
+      currentPhaseIndex
+      currentUserRoundIndex
+      myCondition {
+        healthPoint
+        gloveUsed
+        submission
+        activeEffectData {
+          type
+          duration
+          parameters
+        }
+      }
+      opponentCondition {
+        healthPoint
+        gloveUsed
+        submission
+        activeEffectData {
+          type
+          duration
+          parameters
+        }
+      }
+      lastRoundWinner
+      currentUserMatchState
+      playerState
+      intervalEndHeight
+    }
+  }
+}
+
+query GetJoinableSessions {
+  stateQuery {
+    sessions {
+      metadata {
+        id
+      }
+    state
+    }
+  }
+}
+
+mutation StageTransaction($unsignedTransaction: Hex!, $signature: Hex!) {
+  stageTransaction(
+    unsignedTransaction: $unsignedTransaction
+    signature: $signature
+  )
+}
+
+subscription OnTipChanged {
+  onTipChanged {
+    height
+    hash
+  }
+}
+
+subscription OnSessionChanged($sessionId: Address!, $userId: Address!) {
+  onSessionChanged(sessionId: $sessionId, userId: $userId) {
+    sessionState
+    sessionId
+  }
+}

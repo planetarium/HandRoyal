@@ -1,0 +1,14 @@
+@using HandRoyal.Pages
+@inject IEnumerable<IPage> Pages
+
+<MudNavMenu>
+    @foreach (var page in Pages)
+    {
+        if (page.IsEnabled)
+        {
+            <MudNavLink Class="my-3" Href="@(page.Url)" Match="NavLinkMatch.All" Icon="@(page.Icon)">
+                @(page.Title)
+            </MudNavLink>
+        }
+    }
+</MudNavMenu>

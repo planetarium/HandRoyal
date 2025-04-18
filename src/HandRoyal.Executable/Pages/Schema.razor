@@ -1,0 +1,25 @@
+@page "/schema"
+@namespace HandRoyal.Executable.Pages
+
+<style>
+    .inspector {
+        height: calc(100vh - 152px);
+        width: 100%;
+    }
+</style>
+
+@if (_schema == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <MudToolBar>
+        <MudSpacer />
+        <MudTooltip Text="Copy to clipboard">
+            <MudIconButton Icon="@Icons.Material.Filled.CopyAll" OnClick="CopyToClipboard" />
+        </MudTooltip>
+    </MudToolBar>
+
+    <StandaloneCodeEditor @ref="_editor" CssClass="inspector" ConstructionOptions="EditorConstructionOptions" />
+}

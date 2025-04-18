@@ -4,6 +4,11 @@
       100
     ]
   },
+  "[aspnetcorerazor]": {
+    "editor.rulers": [
+      100
+    ]
+  },
   "[markdown]": {
     "editor.rulers": [
       80
@@ -16,6 +21,6 @@
   "search.exclude": {
     "**/bin": true,
     "**/obj": true,
-    "**/*.code-search": true,
+    "**/*.code-search": true
   }
 }

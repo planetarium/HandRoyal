@@ -6,9 +6,11 @@
   "configurations": [
     {
       "name": "C#: Node",
-      "type": "dotnet",
+      "type": "coreclr",
       "request": "launch",
-      "projectPath": "${workspaceFolder}/src/HandRoyal.Executable/HandRoyal.Executable.csproj"
+      "program": "${workspaceFolder}/src/HandRoyal.Executable/bin/Debug/net8.0/HandRoyal.Executable.dll",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/src/HandRoyal.Executable"
     }
   ]
 }

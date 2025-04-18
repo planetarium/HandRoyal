@@ -1,0 +1,31 @@
+@using HandRoyal.Pages
+@using Microsoft.AspNetCore.Components.Routing
+@using System.Reflection
+@inject IServiceProvider ServiceProvider
+
+<Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="@_additionalAssemblies">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p role="alert">Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+@code {
+    private Assembly[]? _additionalAssemblies;
+
+    protected override  void OnInitialized()
+    {
+        base.OnInitialized();
+
+        _additionalAssemblies = ServiceProvider.GetServices<IPage>()
+            .Select(item => item.GetType().Assembly)
+            .Distinct()
+            .ToArray();
+    }
+}

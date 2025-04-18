@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.15" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="MudBlazor" Version="8.5.*" />
+    <PackageReference Include="XtermBlazor" Version="2.1.2" />
+    <PackageReference Include="BlazorMonaco" Version="3.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../HandRoyal.Bot/HandRoyal.Bot.csproj" />
+    <ProjectReference Include="../HandRoyal.Pages/HandRoyal.Pages.csproj" />
+  </ItemGroup>
+
+</Project>
