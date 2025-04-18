@@ -62,6 +62,9 @@ public sealed class BotViewModel : INotifyPropertyChanged, IDisposable, ILogSour
 
     public string JobFinishTime => GetDateTime(_bot.JobInfo.FinishTime);
 
+    public string JobDuration
+        => DateTimeOffset.Now.Subtract(_bot.JobInfo.StartTime).ToString(@"hh\:mm\:ss");
+
     public bool IsRunning => _bot.IsRunning;
 
     public bool CanStart => !IsRunning && !_isRequsting;

@@ -48,10 +48,10 @@ else
         <HeaderContent>
             <MudTh>Name</MudTh>
             <MudTh>Type</MudTh>
-            <MudTh>Job Name</MudTh>
-            <MudTh>Job State</MudTh>
-            <MudTh>Job Started At</MudTh>
-            <MudTh>Job Finished At</MudTh>
+            <MudTh>Job</MudTh>
+            <MudTh>State</MudTh>
+            <MudTh>Started At</MudTh>
+            <MudTh>Duration</MudTh>
             <MudTh>Actions</MudTh>
         </HeaderContent>
         <RowTemplate>
@@ -60,7 +60,7 @@ else
             <MudTd>@context.JobName</MudTd>
             <MudTd>@context.JobState</MudTd>
             <MudTd>@context.JobStartTime</MudTd>
-            <MudTd>@context.JobFinishTime</MudTd>
+            <MudTd>@context.JobDuration</MudTd>
             <MudTd>
                 <MudButtonGroup Size="Size.Small">
                     @if (!@context.IsRunning)
@@ -135,7 +135,7 @@ else
     {
         var dateTime = DateTimeOffset.UtcNow;
         var delta = dateTime - _lastUpdateTime;
-        if (delta.TotalSeconds < 2)
+        if (delta.TotalSeconds < 1)
         {
             return;
         }
