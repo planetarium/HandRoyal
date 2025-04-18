@@ -11,14 +11,14 @@ COPY ./.submodules/Libplanet ./HandRoyal/.submodules/Libplanet
 ENV DOTNET_NUGET_SIGNATURE_VERIFICATION=false
 RUN dotnet restore \
     --arch $TARGETARCH \
-    ./HandRoyal/src/HandRoyal.Node/HandRoyal.Node.csproj
+    ./HandRoyal/src/HandRoyal.Executable/HandRoyal.Executable.csproj
 
 RUN dotnet publish \
     --no-restore \
     --configuration Release \
     --output /out \
     --arch $TARGETARCH \
-    ./HandRoyal/src/HandRoyal.Node/HandRoyal.Node.csproj
+    ./HandRoyal/src/HandRoyal.Executable/HandRoyal.Executable.csproj
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
@@ -30,4 +30,4 @@ VOLUME /app/.store
 
 EXPOSE 8080
 
-ENTRYPOINT ["dotnet", "HandRoyal.Node.dll"]
+ENTRYPOINT ["dotnet", "HandRoyal.Executable.dll"]
